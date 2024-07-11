@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Fincompare.Application.Repositories;
+using Fincompare.Application.Services;
+using Fincompare.Domain.Entities;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Fincompare.Application
@@ -9,7 +12,7 @@ namespace Fincompare.Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-
+            services.AddTransient<ICountryServices, CountryServices>();
             return services;
         }
     }
