@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     /// <inheritdoc />
-    public partial class first : Migration
+    public partial class RaviFirst : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -74,9 +74,9 @@ namespace Fincompare.Persitence.Migrations
                     CurrencyIso = table.Column<string>(type: "text", nullable: true),
                     Decimal = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
+                    Volatility_Range = table.Column<int>(type: "integer", nullable: false),
                     Created_Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Updated_Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Volatility_Range = table.Column<int>(type: "integer", nullable: false)
+                    Updated_Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -250,9 +250,9 @@ namespace Fincompare.Persitence.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     State_Name = table.Column<int>(type: "integer", maxLength: 40, nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
+                    Country_3_iso = table.Column<string>(type: "character varying", nullable: false),
                     Created_Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Updated_Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Country_3_iso = table.Column<string>(type: "character varying", nullable: false)
+                    Updated_Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -459,10 +459,10 @@ namespace Fincompare.Persitence.Migrations
                     Merchant_EM2 = table.Column<string>(type: "character varying", maxLength: 50, nullable: true),
                     Routing_Parameters = table.Column<string>(type: "character varying", maxLength: 200, nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
-                    Created_Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Updated_Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Web_Url = table.Column<string>(type: "character varying", maxLength: 300, nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false)
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Created_Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Updated_Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -675,9 +675,9 @@ namespace Fincompare.Persitence.Migrations
                     Send_Currency_Id = table.Column<int>(type: "integer", nullable: false),
                     Receive_Currency_Id = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
+                    Service_Levels = table.Column<string>(type: "character varying", maxLength: 6, nullable: false),
                     Created_Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Updated_Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Service_Levels = table.Column<string>(type: "character varying", maxLength: 6, nullable: false)
+                    Updated_Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -999,8 +999,8 @@ namespace Fincompare.Persitence.Migrations
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "Email", "FirstName", "LastName", "PasswordHash", "Phone", "StatusId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 7, 11, 10, 46, 22, 834, DateTimeKind.Utc).AddTicks(7452), null, "aarya.garg@moreyeahs.com", "Aarya", "Garg", new byte[] { 174, 37, 40, 78, 61, 77, 69, 19, 80, 223, 202, 222, 187, 5, 98, 239, 4, 250, 125, 131, 152, 224, 149, 111, 155, 248, 50, 77, 228, 16, 121, 219 }, "1234567890", 1 },
-                    { 2, new DateTime(2024, 7, 11, 10, 46, 22, 834, DateTimeKind.Utc).AddTicks(7470), null, "vishal.pawar@moreyeahs.com", "Vishal", "Pawar", new byte[] { 191, 77, 99, 205, 83, 55, 86, 113, 215, 255, 103, 106, 200, 175, 114, 38, 28, 185, 72, 18, 181, 201, 106, 152, 78, 60, 123, 188, 38, 184, 208, 240 }, "9876543216", 1 }
+                    { 1, new DateTime(2024, 7, 11, 17, 48, 39, 142, DateTimeKind.Utc).AddTicks(2226), null, "aarya.garg@moreyeahs.com", "Aarya", "Garg", new byte[] { 174, 37, 40, 78, 61, 77, 69, 19, 80, 223, 202, 222, 187, 5, 98, 239, 4, 250, 125, 131, 152, 224, 149, 111, 155, 248, 50, 77, 228, 16, 121, 219 }, "1234567890", 1 },
+                    { 2, new DateTime(2024, 7, 11, 17, 48, 39, 142, DateTimeKind.Utc).AddTicks(2236), null, "vishal.pawar@moreyeahs.com", "Vishal", "Pawar", new byte[] { 191, 77, 99, 205, 83, 55, 86, 113, 215, 255, 103, 106, 200, 175, 114, 38, 28, 185, 72, 18, 181, 201, 106, 152, 78, 60, 123, 188, 38, 184, 208, 240 }, "9876543216", 1 }
                 });
 
             migrationBuilder.InsertData(

@@ -88,14 +88,14 @@ namespace Fincompare.Application.Services
                 if (getData.Count > 0)
                     return new ApiResponse<IEnumerable<GetAllCurrencyResponse>>()
                     {
-                        Status = false,
-                        Message = "Currency Not Found !",
+                        Status = true,
+                        Message = "Currency Found !",
                         Data = getData
                     };
                 return new ApiResponse<IEnumerable<GetAllCurrencyResponse>>()
                 {
-                    Status = true,
-                    Message = "Currency Found !",
+                    Status = false,
+                    Message = "Currency Not Found !",
                     Data = getData
                 };
             }

@@ -1610,7 +1610,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 7, 11, 10, 46, 22, 834, DateTimeKind.Local).AddTicks(7452),
+                            CreatedAt = new DateTime(2024, 7, 11, 17, 48, 39, 142, DateTimeKind.Local).AddTicks(2226),
                             Email = "aarya.garg@moreyeahs.com",
                             FirstName = "Aarya",
                             LastName = "Garg",
@@ -1621,7 +1621,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 7, 11, 10, 46, 22, 834, DateTimeKind.Local).AddTicks(7470),
+                            CreatedAt = new DateTime(2024, 7, 11, 17, 48, 39, 142, DateTimeKind.Local).AddTicks(2236),
                             Email = "vishal.pawar@moreyeahs.com",
                             FirstName = "Vishal",
                             LastName = "Pawar",
