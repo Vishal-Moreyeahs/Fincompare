@@ -54,7 +54,7 @@ namespace Fincompare.Application.Services
 
                     var res = new ApiResponse<List<GetCountryDto>>()
                     {
-                        Status = true,
+                        Status = false,
                         Message = "Countries not found"
                     };
                     return res;
