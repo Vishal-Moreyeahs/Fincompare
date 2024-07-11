@@ -2875,26 +2875,31 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\visha\\.nuget\\packages\\": {}
+    "C:\\Users\\ravi.vyas\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\visha\\source\\repos\\Fincompare_Backend\\Fincompare\\Fincompare.Persitence\\Fincompare.Persitence.csproj",
+      "projectUniqueName": "C:\\Users\\ravi.vyas\\Desktop\\FinCompare\\Fincompare\\Fincompare.Persitence\\Fincompare.Persitence.csproj",
       "projectName": "Fincompare.Persitence",
-      "projectPath": "C:\\Users\\visha\\source\\repos\\Fincompare_Backend\\Fincompare\\Fincompare.Persitence\\Fincompare.Persitence.csproj",
-      "packagesPath": "C:\\Users\\visha\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\visha\\source\\repos\\Fincompare_Backend\\Fincompare\\Fincompare.Persitence\\obj\\",
+      "projectPath": "C:\\Users\\ravi.vyas\\Desktop\\FinCompare\\Fincompare\\Fincompare.Persitence\\Fincompare.Persitence.csproj",
+      "packagesPath": "C:\\Users\\ravi.vyas\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ravi.vyas\\Desktop\\FinCompare\\Fincompare\\Fincompare.Persitence\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\visha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ravi.vyas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\Packages": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
@@ -2902,11 +2907,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\visha\\source\\repos\\Fincompare_Backend\\Fincompare\\Fincompare.Application\\Fincompare.Application.csproj": {
-              "projectPath": "C:\\Users\\visha\\source\\repos\\Fincompare_Backend\\Fincompare\\Fincompare.Application\\Fincompare.Application.csproj"
+            "C:\\Users\\ravi.vyas\\Desktop\\FinCompare\\Fincompare\\Fincompare.Application\\Fincompare.Application.csproj": {
+              "projectPath": "C:\\Users\\ravi.vyas\\Desktop\\FinCompare\\Fincompare\\Fincompare.Application\\Fincompare.Application.csproj"
             },
-            "C:\\Users\\visha\\source\\repos\\Fincompare_Backend\\Fincompare\\Fincompare.Infrastructure\\Fincompare.Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\visha\\source\\repos\\Fincompare_Backend\\Fincompare\\Fincompare.Infrastructure\\Fincompare.Infrastructure.csproj"
+            "C:\\Users\\ravi.vyas\\Desktop\\FinCompare\\Fincompare\\Fincompare.Infrastructure\\Fincompare.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\ravi.vyas\\Desktop\\FinCompare\\Fincompare\\Fincompare.Infrastructure\\Fincompare.Infrastructure.csproj"
             }
           }
         }
@@ -2961,7 +2966,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
