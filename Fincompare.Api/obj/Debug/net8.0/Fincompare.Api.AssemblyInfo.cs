@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Fincompare.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e90650b47a49253b704106410cd74a45e50893ed")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+14382191a3c57f3c22c51371d71fbb70f84ecaa2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Fincompare.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Fincompare.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

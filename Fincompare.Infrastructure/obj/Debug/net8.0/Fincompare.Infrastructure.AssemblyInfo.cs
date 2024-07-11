@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Fincompare.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e90650b47a49253b704106410cd74a45e50893ed")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7aafe4ccc128472e5d8d5c6b34adcbda7cc10f89")]
 [assembly: System.Reflection.AssemblyProductAttribute("Fincompare.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Fincompare.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
