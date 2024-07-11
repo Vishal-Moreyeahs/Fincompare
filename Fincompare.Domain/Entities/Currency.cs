@@ -12,7 +12,7 @@ namespace Fincompare.Domain.Entities
 
         public int Decimal { get; set; }
 
-        public bool Status { get; set; }
+        public bool Status { get; set; } 
 
         public int VolatilityRange { get; set; }
 

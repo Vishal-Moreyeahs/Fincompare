@@ -13,6 +13,8 @@ namespace Fincompare.Application
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddTransient<ICountryServices, CountryServices>();
+            services.AddTransient<ICurrencyServices, CurrencyServices>();
+
             return services;
         }
     }
