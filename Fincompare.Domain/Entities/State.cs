@@ -6,7 +6,7 @@ namespace Fincompare.Domain.Entities
     {
         public int Id { get; set; }
 
-        public int StateName { get; set; }
+        public string StateName { get; set; }
 
         public bool Status { get; set; }
 

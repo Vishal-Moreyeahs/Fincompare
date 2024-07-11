@@ -1,0 +1,70 @@
+﻿using Fincompare.Application.Repositories;
+using Fincompare.Application.Request.CityRequest;
+using Fincompare.Application.Request.StateRequest;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fincompare.Api.Controllers.Admin
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CityController : ControllerBase
+    {
+        private readonly ICityServices _cityServices;
+
+        public CityController(ICityServices cityServices)
+        {
+            _cityServices = cityServices;
+        }
+
+        [HttpPost]
+        [Route("add-city")]
+        public async Task<IActionResult> AddCity(AddCityRequest model)
+        {
+            var response = await _cityServices.AddCity(model);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("update-city")]
+        public async Task<IActionResult> UpdateCity(UpdateCityRequest model)
+        {
+            var response = await _cityServices.UpdateCity(model);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("get-all-cities")]
+        public async Task<IActionResult> GetAllCity()
+        {
+            var response = await _cityServices.GetAllCity();
+            return Ok(response);
+        }
+
+
+        [HttpGet]
+        [Route("get-city-by-stateid")]
+        public async Task<IActionResult> GetCityByStateId(int stateId)
+        {
+            var response = await _cityServices.GetCityByStateId(stateId);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("get-by-cityid")]
+        public async Task<IActionResult> GetByCityId(int cityId)
+        {
+            var response = await _cityServices.GetCityByStateId(cityId);
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        [Route("delete-city")]
+        public async Task<IActionResult> DeleteCity(int cityId)
+        {
+            var response = await _cityServices.DeleteCity(cityId);
+            return Ok(response);
+        }
+
+    }
+}
