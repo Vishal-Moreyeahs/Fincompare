@@ -115,7 +115,9 @@ namespace Fincompare.Application.Services
                 var country = countryList.Where(x => x.Country3Iso == country3Iso).FirstOrDefault();
                 if (country != null)
                 {
-                    await _unitOfWork.GetRepository<Country>().Delete(country);
+                    country.Status = false;
+                    country.UpdatedDate = DateTime.UtcNow;
+                    await _unitOfWork.GetRepository<Country>().Upsert(country);
                     await _unitOfWork.SaveChangesAsync();
                     var response = new ApiResponse<string>()
                     {
