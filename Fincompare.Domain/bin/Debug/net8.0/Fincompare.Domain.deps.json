@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Fincompare.Domain/1.0.0": {
+        "runtime": {
+          "Fincompare.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Fincompare.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
