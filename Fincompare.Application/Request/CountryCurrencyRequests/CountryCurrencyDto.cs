@@ -17,6 +17,7 @@ namespace Fincompare.Application.Request.CountryCurrencyRequests
         public bool IsPrimaryCur { get; set; }
 
         public int? CountryCurrencyCategoryId { get; set; }
+        public bool Status { get; set; }
 
     }
 }

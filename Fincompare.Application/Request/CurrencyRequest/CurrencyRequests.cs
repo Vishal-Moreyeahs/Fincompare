@@ -8,11 +8,13 @@
             public string? CurrencyIso { get; set; }
             public int Decimal { get; set; }
             public int VolatilityRange { get; set; }
+            public bool Status { get; set; } = true;
         }
 
         public class UpdateCurrencyRequests : AddCurrencyRequests
         {
             public int Id { get; set; }
+            
         }
 
     }

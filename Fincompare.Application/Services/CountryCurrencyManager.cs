@@ -43,8 +43,8 @@ namespace Fincompare.Application.Services
                                                 CurrencyName = cc.Currency.CurrencyName,
                                                 CurrencyIso = cc.Currency.CurrencyIso,
                                                 Decimal = cc.Currency.Decimal,
-                                                VolatilityRange = cc.Currency.VolatilityRange
-                                                
+                                                VolatilityRange = cc.Currency.VolatilityRange,
+                                                Status = cc.Currency.Status
                                             })
                                             .ToList();
                 }
@@ -59,6 +59,7 @@ namespace Fincompare.Application.Services
                                                     CurrencyIso = cc.Currency.CurrencyIso,
                                                     Decimal = cc.Currency.Decimal,
                                                     VolatilityRange = cc.Currency.VolatilityRange,
+                                                    Status = cc.Currency.Status
                                                 })
                                                 .ToList();
 
