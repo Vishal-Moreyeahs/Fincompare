@@ -23,6 +23,8 @@ namespace Fincompare.Application.Services
         {
             try
             {
+                if (model == null)
+                    return new ApiResponse<string>() { Status = false, Message = "Currency Creation Failed !" };
                 var currency = _mapper.Map<Currency>(model);
                 await _unitOfWork.GetRepository<Currency>().Add(currency);
                 await _unitOfWork.SaveChangesAsync();
@@ -30,7 +32,7 @@ namespace Fincompare.Application.Services
                 return new ApiResponse<string>()
                 {
                     Status = true,
-                    Message = "Currency Added Successfully !",
+                    Message = "Currency Created Successfully !",
                 };
             }
             catch (Exception ex)
@@ -66,7 +68,6 @@ namespace Fincompare.Application.Services
 
                 throw ex;
             }
-
         }
 
         public async Task<ApiResponse<IEnumerable<GetAllCurrencyResponse>>> GetAllCurrency()
@@ -141,7 +142,6 @@ namespace Fincompare.Application.Services
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
