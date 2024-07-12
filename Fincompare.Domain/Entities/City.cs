@@ -10,7 +10,7 @@ namespace Fincompare.Domain.Entities
 
         public int StateId { get; set; }
 
-        public bool Status { get; set; }
+        public bool Status { get; set; } = true;
 
 
         public virtual State State { get; set; } = null!;

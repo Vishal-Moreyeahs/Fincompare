@@ -12,7 +12,7 @@ namespace Fincompare.Domain.Entities
 
         public string? WebLink { get; set; }
 
-        public bool Status { get; set; }
+        public bool Status { get; set; } = true;
 
         public virtual ICollection<ActiveAsset> ActiveAssets { get; set; } = new List<ActiveAsset>();
 

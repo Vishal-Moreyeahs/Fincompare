@@ -7,7 +7,6 @@
             public string CurrencyName { get; set; } = string.Empty;
             public string? CurrencyIso { get; set; }
             public int Decimal { get; set; }
-            public bool Status { get; set; } = true;
             public int VolatilityRange { get; set; }
         }
 

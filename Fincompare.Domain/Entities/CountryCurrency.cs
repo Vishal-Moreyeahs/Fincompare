@@ -14,7 +14,7 @@ namespace Fincompare.Domain.Entities
 
         public int? CountryCurrencyCategoryId { get; set; }
 
-        public bool Status { get; set; }
+        public bool Status { get; set; } = true;
 
         public virtual Country Country3IsoNavigation { get; set; } = null!;
 

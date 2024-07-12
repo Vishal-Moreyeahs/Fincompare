@@ -13,7 +13,6 @@ namespace Fincompare.Application.Request.CountryRequest
         public string CountryName { get; set; } = null!;
 
         public string? WebLink { get; set; }
-        public bool Status { get; set; } = true;
 
     }
 }

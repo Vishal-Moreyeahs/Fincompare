@@ -8,7 +8,7 @@ namespace Fincompare.Domain.Entities
 
         public string StateName { get; set; }
 
-        public bool Status { get; set; }
+        public bool Status { get; set; } = true;
 
         public string Country3Iso { get; set; } = null!;
 
