@@ -12,7 +12,7 @@ namespace Fincompare.Application.Repositories
     public interface ICountryCurrencyManager
     {
         Task<ApiResponse<string>> UpdateCountryWithMultipleCurrencies(UpdateCountryWithMultipleCurrencyRequest model);
-        Task<ApiResponse<List<GetCurrencyResponse>>> GetCurrenciesbyCountry3Iso(string country3Iso);
+        Task<ApiResponse<List<GetCurrencyResponse>>> GetCurrenciesbyCountry3Iso(string country3Iso, int? categoryId);
 
     }
 }
