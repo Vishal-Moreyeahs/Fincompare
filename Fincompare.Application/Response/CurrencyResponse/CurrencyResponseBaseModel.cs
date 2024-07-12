@@ -10,7 +10,6 @@ namespace Fincompare.Application.Response.CurrencyResponse
             public string CurrencyName { get; set; } = null!;
             public string? CurrencyIso { get; set; }
             public int Decimal { get; set; }
-            public bool Status { get; set; }
             public int VolatilityRange { get; set; }
         }
 

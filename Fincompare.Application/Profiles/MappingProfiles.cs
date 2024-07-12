@@ -28,7 +28,6 @@ namespace Fincompare.Application.Profiles
             CreateMap<CityDto, City>().ReverseMap();
             CreateMap<AddCityRequest, City>().ReverseMap();
             CreateMap<UpdateCityRequest, City>().ReverseMap();
-            CreateMap<AddCountryCurrencyRequest, CountryCurrency>().ReverseMap();
             CreateMap<UpdateCountryCurrencyRequest, CountryCurrency>().ReverseMap();
             CreateMap<CountryCurrencyDto, CountryCurrency>().ReverseMap();
 

@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Fincompare.Application.Response.CurrencyResponse.CurrencyResponseBaseModel;
 
 namespace Fincompare.Application.Repositories
 {
     public interface ICountryCurrencyManager
     {
-        Task<ApiResponse<string>> AddCountryWithCurrencies(AddCountryCurrencyRequest model);
+        Task<ApiResponse<string>> UpdateCountryWithMultipleCurrencies(UpdateCountryWithMultipleCurrencyRequest model);
+        Task<ApiResponse<List<GetCurrencyResponse>>> GetCurrenciesbyCountry3Iso(string country3Iso);
+
     }
 }

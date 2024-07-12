@@ -58,7 +58,18 @@ namespace Fincompare.Persitence.Repositories
                 return false;
             }
         }
-
+        public virtual bool RemoveRange(IEnumerable<T> entities)
+        {
+            try
+            {
+                dbSet.RemoveRange(entities);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
 
         public virtual async Task<bool> Delete(T entity)
         {

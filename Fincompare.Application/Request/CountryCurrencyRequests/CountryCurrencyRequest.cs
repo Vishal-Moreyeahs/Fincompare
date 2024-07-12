@@ -11,15 +11,20 @@ namespace Fincompare.Application.Request.CountryCurrencyRequests
 
         public string Country3Iso { get; set; } = null!;
 
-        public int CurrencyId { get; set; }
+    }
 
+
+    public class MultipleCurrencyRequest
+    { 
+        public int Id { get; set; }
         public bool IsPrimaryCur { get; set; } = false;
-
         public int? CountryCurrencyCategoryId { get; set; }
 
     }
 
-    public class AddCountryCurrencyRequest : CountryCurrencyRequest { }
+    public class UpdateCountryWithMultipleCurrencyRequest : CountryCurrencyRequest { 
+        public List<MultipleCurrencyRequest> Currencies { get; set;}
+    }
 
     public class  UpdateCountryCurrencyRequest : CountryCurrencyRequest
     {

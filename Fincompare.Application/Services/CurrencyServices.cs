@@ -81,7 +81,6 @@ namespace Fincompare.Application.Services
                         CurrencyName = x.CurrencyName,
                         CurrencyIso = x.CurrencyIso,
                         Decimal = x.Decimal,
-                        Status = x.Status,
                         VolatilityRange = x.VolatilityRange,
                     }).ToList();
 
