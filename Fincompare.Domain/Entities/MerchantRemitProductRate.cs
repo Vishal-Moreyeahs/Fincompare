@@ -16,9 +16,9 @@ namespace Fincompare.Domain.Entities
 
         public string ReceiveCountry3Iso { get; set; } = null!;
 
-        public int SendCur { get; set; }
+        public string SendCur { get; set; }
 
-        public int ReceiveCur { get; set; }
+        public string ReceiveCur { get; set; }
 
         public int SendMinLimit { get; set; }
 

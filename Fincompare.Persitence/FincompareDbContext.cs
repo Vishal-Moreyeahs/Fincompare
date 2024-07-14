@@ -200,7 +200,7 @@ namespace Fincompare.Persitence
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("timestamp with time zone")
                     .HasColumnName("Created_Date");
-                entity.Property(e => e.CurrencyId).HasColumnName("Currency_Id");
+                entity.Property(e => e.CurrencyIso).HasColumnName("Currency_3_iso");
                 entity.Property(e => e.IsPrimaryCur).HasColumnName("IsPrimary_Cur");
                 entity.Property(e => e.UpdatedDate)
                     .HasColumnType("timestamp with time zone")
@@ -217,9 +217,9 @@ namespace Fincompare.Persitence
                     .HasConstraintName("CountryCurrency_CountryCurrencyCategory_id_fkey");
 
                 entity.HasOne(d => d.Currency).WithMany(p => p.CountryCurrencies)
-                    .HasForeignKey(d => d.CurrencyId)
+                    .HasForeignKey(d => d.CurrencyIso)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("CountryCurrency_Currency_Id_fkey");
+                    .HasConstraintName("CountryCurrency_Currency_3_iso_fkey");
             });
 
             modelBuilder.Entity<CountryCurrencyCategory>(entity =>
@@ -259,7 +259,7 @@ namespace Fincompare.Persitence
 
             modelBuilder.Entity<Currency>(entity =>
             {
-                entity.HasKey(e => e.Id).HasName("Currency_pkey");
+                entity.HasKey(e => e.CurrencyIso).HasName("Currency_pkey");
 
                 entity.ToTable("Currency");
 

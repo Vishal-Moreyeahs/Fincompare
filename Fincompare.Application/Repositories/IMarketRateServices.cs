@@ -12,12 +12,14 @@ namespace Fincompare.Application.Repositories
     {
         Task<ApiResponse<string>> AddMarketRate(AddMarketRate model);
 
-        Task<ApiResponse<string>> UpdateMarketRate(UpdateMarketRate model);
+        //Task<ApiResponse<string>> UpdateMarketRate(UpdateMarketRate model);
 
         Task<ApiResponse<IEnumerable<MarketRateDto>>> GetAllMarketRates();
 
         Task<ApiResponse<MarketRateDto>> GetMarketRateById(int id);
-        Task<ApiResponse<string>> GetMarketRateBySourceAndDestCurr(string sourceCurr, string destCurr);
+        Task<ApiResponse<MarketRateDto>> GetMarketRateBySourceAndDestCurr(string sourceCurr, string destCurr);
+
+        Task<ApiResponse<List<MarketRateDto>>> GetMarketRateBySendCurr(string sendCurr);
 
     }
 }

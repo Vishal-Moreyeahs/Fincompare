@@ -8,15 +8,15 @@ namespace Fincompare.Application.Request.MarketRateRequest
 {
     public class MarketRateRequests
     {
-        public int SendCur { get; set; }
+        public string SendCur { get; set; }
 
-        public int ReceiveCur { get; set; }
+        public string ReceiveCur { get; set; }
 
         public double Rate { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.UtcNow;
 
-        public string RateSource { get; set; } = null!;
+        public string RateSource { get; set; } = "Capture";
     }
 
     public class AddMarketRate : MarketRateRequests { }

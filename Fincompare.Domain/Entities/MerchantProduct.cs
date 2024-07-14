@@ -18,9 +18,9 @@ namespace Fincompare.Domain.Entities
 
         public string? ReceiveCountry3Iso { get; set; }
 
-        public int SendCurrencyId { get; set; }
+        public string SendCurrencyId { get; set; }
 
-        public int ReceiveCurrencyId { get; set; }
+        public string ReceiveCurrencyId { get; set; }
 
         public bool Status { get; set; }
 

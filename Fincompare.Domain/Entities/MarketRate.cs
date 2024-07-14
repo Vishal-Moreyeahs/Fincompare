@@ -4,9 +4,9 @@
     {
         public int Id { get; set; }
 
-        public int SendCur { get; set; }
+        public string SendCur { get; set; }
 
-        public int ReceiveCur { get; set; }
+        public string ReceiveCur { get; set; }
 
         public double Rate { get; set; }
 

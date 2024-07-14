@@ -44,17 +44,17 @@ namespace Fincompare.Api.Controllers.Admin
 
         [HttpGet]
         [Route("get-by-currencyid")]
-        public async Task<IActionResult> GetByCurrencyId(int id)
+        public async Task<IActionResult> GetByCurrencyId(string currency3Iso)
         {
-            var response = await _currencyServices.GetByCurrencyId(id);
+            var response = await _currencyServices.GetByCurrencyId(currency3Iso);
             return Ok(response);
         }
 
         [HttpDelete]
         [Route("delete-currency")]
-        public async Task<IActionResult> DeleteCurrency(int id)
+        public async Task<IActionResult> DeleteCurrency(string currency3Iso)
         {
-            var response = await _currencyServices.DeleteCurrency(id);
+            var response = await _currencyServices.DeleteCurrency(currency3Iso);
             return Ok(response);
         }
     }

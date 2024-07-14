@@ -39,7 +39,6 @@ namespace Fincompare.Application.Services
                                             .Where(cc => cc.Country3Iso == country3Iso && cc.Status && cc.Currency.Status)
                                             .Select(cc => new GetCurrencyResponse
                                             {
-                                                Id = cc.Currency.Id,
                                                 CurrencyName = cc.Currency.CurrencyName,
                                                 CurrencyIso = cc.Currency.CurrencyIso,
                                                 Decimal = cc.Currency.Decimal,
@@ -54,7 +53,6 @@ namespace Fincompare.Application.Services
                                                 .Where(cc => cc.Country3Iso == country3Iso && cc.Status && cc.Currency.Status && cc.CountryCurrencyCategoryId == categoryId)
                                                 .Select(cc => new GetCurrencyResponse
                                                 {
-                                                    Id = cc.Currency.Id,
                                                     CurrencyName = cc.Currency.CurrencyName,
                                                     CurrencyIso = cc.Currency.CurrencyIso,
                                                     Decimal = cc.Currency.Decimal,
@@ -95,7 +93,8 @@ namespace Fincompare.Application.Services
                 var newCountryCurrencies = model.Currencies.Select(c => new CountryCurrency
                 {
                     Country3Iso = model.Country3Iso,
-                    CurrencyId = c.Id,
+                    //CurrencyId = c.Id,
+                    CurrencyIso = c.CurrencyIso,
                     IsPrimaryCur = c.IsPrimaryCur,
                     CountryCurrencyCategoryId = c.CountryCurrencyCategoryId,
                     UpdatedDate = DateTime.UtcNow,

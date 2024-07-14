@@ -44,7 +44,7 @@ namespace Fincompare.Application.Services
         {
             try
             {
-                var checkCurrency = await _unitOfWork.GetRepository<Currency>().GetById(model.Id);
+                var checkCurrency = await _unitOfWork.GetRepository<Currency>().GetByStringId(model.CurrencyIso);
                 if (checkCurrency == null)
                     return new ApiResponse<string>()
                     {
@@ -77,7 +77,6 @@ namespace Fincompare.Application.Services
                 var getData = getAllCurrency
                     .Select(x => new GetAllCurrencyResponse
                     {
-                        Id = x.Id,
                         CurrencyName = x.CurrencyName,
                         CurrencyIso = x.CurrencyIso,
                         Decimal = x.Decimal,
@@ -106,9 +105,9 @@ namespace Fincompare.Application.Services
 
         }
 
-        public async Task<ApiResponse<GetCurrencyResponse>> GetByCurrencyId(int id)
+        public async Task<ApiResponse<GetCurrencyResponse>> GetByCurrencyId(string id)
         {
-            var getAllCurrency = await _unitOfWork.GetRepository<Currency>().GetById(id);
+            var getAllCurrency = await _unitOfWork.GetRepository<Currency>().GetByStringId(id);
 
             if (getAllCurrency == null)
                 return new ApiResponse<GetCurrencyResponse>()
@@ -125,11 +124,11 @@ namespace Fincompare.Application.Services
             };
         }
 
-        public async Task<ApiResponse<string>> DeleteCurrency(int id)
+        public async Task<ApiResponse<string>> DeleteCurrency(string id)
         {
             try
             {
-                var checkCurrency = await _unitOfWork.GetRepository<Currency>().GetById(id);
+                var checkCurrency = await _unitOfWork.GetRepository<Currency>().GetByStringId(id);
                 if (checkCurrency == null)
                     return new ApiResponse<string>() { Status = false, Message = "Currency Not Found !" };
 

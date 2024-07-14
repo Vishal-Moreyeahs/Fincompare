@@ -8,7 +8,7 @@ namespace Fincompare.Domain.Entities
 
         public string Country3Iso { get; set; } = null!;
 
-        public int CurrencyId { get; set; }
+        public string? CurrencyIso { get; set; }
 
         public bool IsPrimaryCur { get; set; }
 
