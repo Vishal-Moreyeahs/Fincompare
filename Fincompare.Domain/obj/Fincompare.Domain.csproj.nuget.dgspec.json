@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ravi.vyas\\Desktop\\FinCompare\\Fincompare\\Fincompare.Domain\\Fincompare.Domain.csproj": {}
+    "C:\\Users\\ravi.vyas\\Desktop\\NewFincompareProject\\Fincompare\\Fincompare.Domain\\Fincompare.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ravi.vyas\\Desktop\\FinCompare\\Fincompare\\Fincompare.Domain\\Fincompare.Domain.csproj": {
+    "C:\\Users\\ravi.vyas\\Desktop\\NewFincompareProject\\Fincompare\\Fincompare.Domain\\Fincompare.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ravi.vyas\\Desktop\\FinCompare\\Fincompare\\Fincompare.Domain\\Fincompare.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\ravi.vyas\\Desktop\\NewFincompareProject\\Fincompare\\Fincompare.Domain\\Fincompare.Domain.csproj",
         "projectName": "Fincompare.Domain",
-        "projectPath": "C:\\Users\\ravi.vyas\\Desktop\\FinCompare\\Fincompare\\Fincompare.Domain\\Fincompare.Domain.csproj",
+        "projectPath": "C:\\Users\\ravi.vyas\\Desktop\\NewFincompareProject\\Fincompare\\Fincompare.Domain\\Fincompare.Domain.csproj",
         "packagesPath": "C:\\Users\\ravi.vyas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ravi.vyas\\Desktop\\FinCompare\\Fincompare\\Fincompare.Domain\\obj\\",
+        "outputPath": "C:\\Users\\ravi.vyas\\Desktop\\NewFincompareProject\\Fincompare\\Fincompare.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

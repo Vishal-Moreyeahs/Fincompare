@@ -14,7 +14,6 @@ namespace Fincompare.Application
 
             services.AddTransient<ICountryServices, CountryServices>();
             services.AddTransient<ICurrencyServices, CurrencyServices>();
-            services.AddTransient<ICountryCurrencyService, CountryCurrencyService>();
 
             return services;
         }

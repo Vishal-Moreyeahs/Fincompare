@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Fincompare.Persitence")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+619fb38b9b1d8c7c0b35ea7aca8f70905862dc4e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+127a908fd99991e91d09b741f2c69198513a55e2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Fincompare.Persitence")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Fincompare.Persitence")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

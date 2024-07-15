@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cnGt7HxGkbczU+kk/lXyfCjQ4b9AJlBqZuYruR7JTjGq4RG4FKxWFhwNJYrF8kFyf26N6ioL/6E1sI1FNbi6ZQ==",
+  "dgSpecHash": "pJRTnzutjDLQhOKD7jrjnYFqtLmi8s0RKBnvFsiUv1aODTENYifoXjT0DF4DcrOKJlN49Z3S6CxTMSWFvn5eEg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ravi.vyas\\Desktop\\FinCompare\\Fincompare\\Fincompare.Api\\Fincompare.Api.csproj",
+  "projectFilePath": "C:\\Users\\ravi.vyas\\Desktop\\NewFincompareProject\\Fincompare\\Fincompare.Api\\Fincompare.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ravi.vyas\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\ravi.vyas\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
