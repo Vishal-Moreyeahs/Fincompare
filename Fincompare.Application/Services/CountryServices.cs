@@ -4,11 +4,6 @@ using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.CountryRequest;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fincompare.Application.Services
 {
@@ -18,7 +13,7 @@ namespace Fincompare.Application.Services
         private readonly IMapper _mapper;
 
         public CountryServices(IUnitOfWork unitOfWork, IMapper mapper)
-        { 
+        {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -28,8 +23,8 @@ namespace Fincompare.Application.Services
             try
             {
                 var country = _mapper.Map<Country>(addCountry);
-                country.CreatedDate = DateTime.UtcNow;
-                country.UpdatedDate = DateTime.UtcNow;
+                //country.CreatedDate = DateTime.UtcNow;
+                //country.UpdatedDate = DateTime.UtcNow;
                 await _unitOfWork.GetRepository<Country>().Add(country);
                 await _unitOfWork.SaveChangesAsync();
                 var response = new ApiResponse<string>()
@@ -39,7 +34,8 @@ namespace Fincompare.Application.Services
                 };
                 return response;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw new ApplicationException("Country not created");
             }
 
@@ -50,7 +46,8 @@ namespace Fincompare.Application.Services
             try
             {
                 var countries = await _unitOfWork.GetRepository<Country>().GetAll();
-                if (countries == null) {
+                if (countries == null)
+                {
 
                     var res = new ApiResponse<List<GetCountryDto>>()
                     {
@@ -115,8 +112,9 @@ namespace Fincompare.Application.Services
                 var country = countryList.Where(x => x.Country3Iso == country3Iso).FirstOrDefault();
                 if (country != null)
                 {
-                    country.Status = false;
-                    country.UpdatedDate = DateTime.UtcNow;
+                    //country.Status = false;
+                    country.IsDeleted = true;
+                    //country.UpdatedDate = DateTime.UtcNow;
                     await _unitOfWork.GetRepository<Country>().Upsert(country);
                     await _unitOfWork.SaveChangesAsync();
                     var response = new ApiResponse<string>()
@@ -137,7 +135,7 @@ namespace Fincompare.Application.Services
                 }
             }
             catch (Exception ex)
-            { 
+            {
                 throw new ApplicationException($"{ex.Message}");
             }
 
@@ -147,10 +145,15 @@ namespace Fincompare.Application.Services
         {
             try
             {
-
-                var country = _mapper.Map<Country>(request);
-                country.UpdatedDate = DateTime.UtcNow;
-                await _unitOfWork.GetRepository<Country>().Upsert(country);
+                var countryData = await _unitOfWork.GetRepository<Country>().GetById(request.Country3Iso);
+                if (countryData == null)
+                    return new ApiResponse<string>()
+                    {
+                        Status = false,
+                        Message = "Country Updated Successfully"
+                    };
+                var country = _mapper.Map(request , countryData) ;
+                await _unitOfWork.GetRepository<Country>().Upsert(countryData);
                 await _unitOfWork.SaveChangesAsync();
                 var response = new ApiResponse<string>()
                 {
@@ -161,7 +164,7 @@ namespace Fincompare.Application.Services
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Country not created");
+                throw new ApplicationException("Country not created" + ex.Message);
             }
         }
     }

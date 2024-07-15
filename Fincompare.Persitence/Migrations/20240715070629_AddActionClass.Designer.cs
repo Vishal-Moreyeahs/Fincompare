@@ -3,6 +3,7 @@ using System;
 using Fincompare.Persitence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-    partial class FincompareDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240715070629_AddActionClass")]
+    partial class AddActionClass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

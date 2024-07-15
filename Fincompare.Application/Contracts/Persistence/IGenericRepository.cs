@@ -1,12 +1,14 @@
-﻿namespace Fincompare.Application.Contracts.Persistence
+﻿using Fincompare.Domain.Entities.Common;
+
+namespace Fincompare.Application.Contracts.Persistence
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGenericRepository<T> where T : ActionBase
     {
         Task<IEnumerable<T>> GetAll();
         Task<T> GetById(int id);
 
         Task<bool> Add(T entity);
-        Task<T> GetByStringId(string id);
+        Task<T> GetById(string id);
         Task<bool> AddRange(IEnumerable<T> entities);
         bool RemoveRange(IEnumerable<T> entities);
         Task<bool> Delete(T id);

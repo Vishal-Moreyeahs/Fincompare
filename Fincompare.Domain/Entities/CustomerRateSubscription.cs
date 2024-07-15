@@ -1,6 +1,8 @@
-﻿namespace Fincompare.Domain.Entities
+﻿using Fincompare.Domain.Entities.Common;
+
+namespace Fincompare.Domain.Entities
 {
-    public partial class CustomerRateSubscription
+    public partial class CustomerRateSubscription : ActionBase
     {
         public int Id { get; set; }
 

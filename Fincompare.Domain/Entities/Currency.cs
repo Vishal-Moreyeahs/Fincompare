@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Fincompare.Domain.Entities
 {
-    public partial class Currency : Base
+    public partial class Currency : DateBase
     {
         //public int Id { get; set; }
         [Key]

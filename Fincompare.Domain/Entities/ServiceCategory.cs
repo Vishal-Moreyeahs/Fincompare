@@ -2,7 +2,7 @@
 
 namespace Fincompare.Domain.Entities
 {
-    public partial class ServiceCategory : Base
+    public partial class ServiceCategory : DateBase
     {
         public int Id { get; set; }
 

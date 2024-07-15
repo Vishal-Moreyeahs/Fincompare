@@ -46,7 +46,7 @@ namespace Fincompare.Application.Services
         {
             try
             {
-                var checkCurrency = await _unitOfWork.GetRepository<Currency>().GetByStringId(model.CurrencyIso);
+                var checkCurrency = await _unitOfWork.GetRepository<Currency>().GetById(model.CurrencyIso);
                 if (checkCurrency == null)
                     return new ApiResponse<string>()
                     {
@@ -108,7 +108,7 @@ namespace Fincompare.Application.Services
 
         public async Task<ApiResponse<GetCurrencyResponse>> GetByCurrencyId(string id)
         {
-            var getAllCurrency = await _unitOfWork.GetRepository<Currency>().GetByStringId(id);
+            var getAllCurrency = await _unitOfWork.GetRepository<Currency>().GetById(id);
 
             if (getAllCurrency == null)
                 return new ApiResponse<GetCurrencyResponse>()
@@ -129,11 +129,12 @@ namespace Fincompare.Application.Services
         {
             try
             {
-                var checkCurrency = await _unitOfWork.GetRepository<Currency>().GetByStringId(id);
+                var checkCurrency = await _unitOfWork.GetRepository<Currency>().GetById(id);
                 if (checkCurrency == null)
                     return new ApiResponse<string>() { Status = false, Message = "Currency Not Found !" };
 
-                checkCurrency.Status = false;
+                //checkCurrency.Status = false;
+                checkCurrency.IsDeleted = true;
                 await _unitOfWork.GetRepository<Currency>().Upsert(checkCurrency);
                 await _unitOfWork.SaveChangesAsync();
                 return new ApiResponse<string>() { Status = true, Message = "Currency Deleted Successfully !" };

@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace Fincompare.Domain.Entities.Common
 {
-    public class Base
+    public class DateBase : ActionBase
     {
         public DateTime CreatedDate { get; set; } 
         public DateTime UpdatedDate { get; set; }
     }
+
+    public class ActionBase
+    { 
+        public bool IsDeleted { get; set; }  = false;
+    }    
 }

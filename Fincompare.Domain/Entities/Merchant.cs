@@ -3,7 +3,7 @@ using Fincompare.Domain.Entities.UserManagementEntities;
 
 namespace Fincompare.Domain.Entities
 {
-    public partial class Merchant : Base
+    public partial class Merchant : DateBase
     {
         public int Id { get; set; }
 
