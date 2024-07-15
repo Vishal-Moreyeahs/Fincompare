@@ -28,8 +28,8 @@ namespace Fincompare.Application.Services
             try
             {
                 var city = _mapper.Map<City>(model);
-                city.CreatedDate = DateTime.UtcNow;
-                city.UpdatedDate = DateTime.UtcNow;
+                //city.CreatedDate = DateTime.UtcNow;
+                //city.UpdatedDate = DateTime.UtcNow;
                 await _unitOfWork.GetRepository<City>().Add(city);
                 await _unitOfWork.SaveChangesAsync();
 
@@ -52,8 +52,9 @@ namespace Fincompare.Application.Services
                 var city = await _unitOfWork.GetRepository<City>().GetById(cityId);
                 if (city != null)
                 {
-                    city.Status = false;
-                    city.UpdatedDate = DateTime.UtcNow;
+                    city.IsDeleted = true;
+                    //city.Status = false;
+                    //city.UpdatedDate = DateTime.UtcNow;
                     await _unitOfWork.GetRepository<City>().Upsert(city);
                     await _unitOfWork.SaveChangesAsync();
                     var response = new ApiResponse<string>()
@@ -188,7 +189,7 @@ namespace Fincompare.Application.Services
                     };
 
                 var updateCity = _mapper.Map(model, checkCity);
-                updateCity.UpdatedDate = DateTime.UtcNow;
+                //updateCity.UpdatedDate = DateTime.UtcNow;
                 await _unitOfWork.GetRepository<City>().Upsert(updateCity);
                 await _unitOfWork.SaveChangesAsync();
                 return new ApiResponse<string>()

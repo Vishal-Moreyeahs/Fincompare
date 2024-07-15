@@ -1,10 +1,9 @@
 ﻿using Fincompare.Domain.Entities;
+using Fincompare.Domain.Entities.Common;
 using Fincompare.Domain.Entities.UserManagementEntities;
 using Fincompare.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Newtonsoft.Json;
-using RestSharp;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -160,7 +159,7 @@ namespace Fincompare.Persitence
 
             modelBuilder.Entity<Country>(entity =>
             {
-                
+
 
                 entity.HasKey(e => e.Country3Iso).HasName("Country_pkey");
 
@@ -1068,7 +1067,18 @@ namespace Fincompare.Persitence
             return sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
         }
 
-        
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            foreach (var entry in ChangeTracker.Entries<DateBase>())
+            {
+                var currentDateTime = DateTime.UtcNow;
+
+                entry.Entity.CreatedDate = entry.State == EntityState.Added ? currentDateTime : entry.Entity.CreatedDate;
+                entry.Entity.UpdatedDate = currentDateTime;
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
+        }
     }
 
 }

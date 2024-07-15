@@ -1,6 +1,8 @@
-﻿namespace Fincompare.Domain.Entities
+﻿using Fincompare.Domain.Entities.Common;
+
+namespace Fincompare.Domain.Entities
 {
-    public partial class AssetsMaster
+    public partial class AssetsMaster : ActionBase
     {
         public int Id { get; set; }
 

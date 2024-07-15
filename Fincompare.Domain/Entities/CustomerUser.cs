@@ -1,8 +1,9 @@
-﻿using Fincompare.Domain.Entities.UserManagementEntities;
+﻿using Fincompare.Domain.Entities.Common;
+using Fincompare.Domain.Entities.UserManagementEntities;
 
 namespace Fincompare.Domain.Entities
 {
-    public partial class CustomerUser
+    public partial class CustomerUser : ActionBase
     {
         public int Id { get; set; }
 

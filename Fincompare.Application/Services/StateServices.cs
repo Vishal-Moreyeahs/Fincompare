@@ -31,8 +31,8 @@ namespace Fincompare.Application.Services
             try
             {
                 var state = _mapper.Map<State>(model);
-                state.CreatedDate = DateTime.UtcNow;
-                state.UpdatedDate = DateTime.UtcNow;
+                //state.CreatedDate = DateTime.UtcNow;
+                //state.UpdatedDate = DateTime.UtcNow;
                 await _unitOfWork.GetRepository<State>().Add(state);
                 await _unitOfWork.SaveChangesAsync();
 
@@ -55,8 +55,9 @@ namespace Fincompare.Application.Services
                 var state = await _unitOfWork.GetRepository<State>().GetById(id);
                 if (state != null)
                 {
-                    state.Status = false;
-                    state.UpdatedDate = DateTime.UtcNow;
+                    //state.Status = false;
+                    //state.UpdatedDate = DateTime.UtcNow;
+                    state.IsDeleted = true;
                     await _unitOfWork.GetRepository<State>().Upsert(state);
                     await _unitOfWork.SaveChangesAsync();
                     var response = new ApiResponse<string>()
@@ -193,7 +194,7 @@ namespace Fincompare.Application.Services
                     };
 
                 var updateState = _mapper.Map(model, checkState);
-                updateState.UpdatedDate = DateTime.UtcNow;
+                //updateState.UpdatedDate = DateTime.UtcNow;
                 await _unitOfWork.GetRepository<State>().Upsert(updateState);
                 await _unitOfWork.SaveChangesAsync();
                 return new ApiResponse<string>()

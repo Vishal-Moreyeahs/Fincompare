@@ -2,7 +2,7 @@
 
 namespace Fincompare.Domain.Entities
 {
-    public partial class Instrument : Base
+    public partial class Instrument : DateBase
     {
         public int Id { get; set; }
 

@@ -1,4 +1,8 @@
 ﻿using Fincompare.Application.Contracts.Persistence;
+using Fincompare.Application.Repositories;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore;
+using Fincompare.Domain.Entities.Common;
 
 namespace Fincompare.Persitence.Repositories
 {
@@ -16,9 +20,13 @@ namespace Fincompare.Persitence.Repositories
             return await _dbContext.SaveChangesAsync();
         }
 
-        public IGenericRepository<T> GetRepository<T>() where T : class
+        public IGenericRepository<T> GetRepository<T>() where T : ActionBase
         {
             return new GenericRepository<T>(_dbContext);
         }
+
+
+
+
     }
 }

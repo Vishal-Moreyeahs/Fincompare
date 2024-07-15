@@ -1,6 +1,8 @@
-﻿namespace Fincompare.Domain.Entities
+﻿using Fincompare.Domain.Entities.Common;
+
+namespace Fincompare.Domain.Entities
 {
-    public partial class MarketRate
+    public partial class MarketRate : ActionBase
     {
         public int Id { get; set; }
 

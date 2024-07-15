@@ -2,7 +2,7 @@
 
 namespace Fincompare.Domain.Entities
 {
-    public partial class City : Base
+    public partial class City : DateBase
     {
         public int Id { get; set; }
 

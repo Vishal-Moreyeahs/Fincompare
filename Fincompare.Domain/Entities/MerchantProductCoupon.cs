@@ -2,7 +2,7 @@
 
 namespace Fincompare.Domain.Entities
 {
-    public partial class MerchantProductCoupon : Base
+    public partial class MerchantProductCoupon : DateBase
     {
         public int Id { get; set; }
 

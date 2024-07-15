@@ -2,7 +2,7 @@
 
 namespace Fincompare.Domain.Entities
 {
-    public partial class Country : Base
+    public partial class Country : DateBase
     {
         public string Country3Iso { get; set; } = null!;
 

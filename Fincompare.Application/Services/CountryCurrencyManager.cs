@@ -97,8 +97,8 @@ namespace Fincompare.Application.Services
                     CurrencyIso = c.CurrencyIso,
                     IsPrimaryCur = c.IsPrimaryCur,
                     CountryCurrencyCategoryId = c.CountryCurrencyCategoryId,
-                    UpdatedDate = DateTime.UtcNow,
-                    CreatedDate = DateTime.UtcNow
+                    //UpdatedDate = DateTime.UtcNow,
+                    //CreatedDate = DateTime.UtcNow
                 }).ToList();
 
                 await _unitOfWork.GetRepository<CountryCurrency>().AddRange(newCountryCurrencies);

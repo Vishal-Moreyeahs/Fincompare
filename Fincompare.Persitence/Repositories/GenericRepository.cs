@@ -1,9 +1,10 @@
 ﻿using Fincompare.Application.Contracts.Persistence;
+using Fincompare.Domain.Entities.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fincompare.Persitence.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : ActionBase
     {
         private readonly FincompareDbContext _context;
         private readonly DbSet<T> dbSet;
@@ -18,14 +19,15 @@ namespace Fincompare.Persitence.Repositories
 
         public virtual async Task<IEnumerable<T>> GetAll()
         {
-            return await dbSet.ToListAsync();
+            return await dbSet.Where(x=> !x.IsDeleted).ToListAsync();
         }
 
-        public async Task<T> GetByStringId(string id)
+        public async Task<T> GetById(string id)
         {
             try
             {
-                return await dbSet.FindAsync(id);
+                var entity =  await dbSet.FindAsync(id);
+                return  (entity == null || entity.IsDeleted) ? null : entity;
             }
             catch (Exception e)
             {
@@ -37,7 +39,8 @@ namespace Fincompare.Persitence.Repositories
         {
             try
             {
-                return await dbSet.FindAsync(id);
+                var entity = await dbSet.FindAsync(id);
+                return (entity == null || entity.IsDeleted) ? null : entity;
             }
             catch (Exception e)
             {
@@ -110,7 +113,8 @@ namespace Fincompare.Persitence.Repositories
             {
                 if (entity != null)
                 {
-                    dbSet.Update(entity);
+                    dbSet.Entry(entity).State = EntityState.Modified;
+                    //dbSet.Update(entity);
                     return true;
                 }
                 else

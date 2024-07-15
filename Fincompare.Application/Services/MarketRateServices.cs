@@ -46,14 +46,14 @@ namespace Fincompare.Application.Services
             }
 
             // Validate foreign keys
-            var sendCurrency = await _unitOfWork.GetRepository<Currency>().GetByStringId(model.SendCur);
+            var sendCurrency = await _unitOfWork.GetRepository<Currency>().GetById(model.SendCur);
 
             if (sendCurrency == null)
             {
                 throw new ArgumentException("Invalid Send Currency.");
             }
 
-            var receiveCurrency = await _unitOfWork.GetRepository<Currency>().GetByStringId(model.ReceiveCur);
+            var receiveCurrency = await _unitOfWork.GetRepository<Currency>().GetById(model.ReceiveCur);
             if (receiveCurrency == null)
             {
                 throw new ArgumentException("Invalid Receive Currency.");

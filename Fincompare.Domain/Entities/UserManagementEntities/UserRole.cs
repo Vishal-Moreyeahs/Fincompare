@@ -1,6 +1,8 @@
-﻿namespace Fincompare.Domain.Entities.UserManagementEntities
+﻿using Fincompare.Domain.Entities.Common;
+
+namespace Fincompare.Domain.Entities.UserManagementEntities
 {
-    public class UserRole
+    public class UserRole : ActionBase
     {
         public int UserId { get; set; }
         public User User { get; set; }
