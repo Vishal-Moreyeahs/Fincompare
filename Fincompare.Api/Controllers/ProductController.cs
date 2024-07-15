@@ -1,0 +1,50 @@
+﻿using Fincompare.Application.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using static Fincompare.Application.Request.ProductRequests.ProductRequestViewModel;
+
+namespace Fincompare.Api.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ProductController : ControllerBase
+    {
+        private readonly IProductService _productService;
+
+        public ProductController(IProductService productService)
+        {
+            _productService = productService;
+        }
+
+        [HttpPost]
+        [Route("add-product")]
+        public async Task<IActionResult> CreateProduct(CreateProductRequest model)
+        {
+            var response = await _productService.CreateProduct(model);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("update-product")]
+        public async Task<IActionResult> UpdateProduct(UpdateProductRequest model)
+        {
+            var response = await _productService.UpdateProduct(model);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("getall-product")]
+        public async Task<IActionResult> GetAllProduct()
+        {
+            var response = await _productService.GetAllProduct();
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("getby-id-product")]
+        public async Task<IActionResult> GetProductById(int id)
+        {
+            var response = await _productService.GetProductById(id);
+            return Ok(response);
+        }
+    }
+}

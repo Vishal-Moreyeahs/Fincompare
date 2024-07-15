@@ -10,8 +10,12 @@ using Fincompare.Domain.Entities;
 using Fincompare.Domain.Entities.UserManagementEntities;
 using static Fincompare.Application.Request.CurrencyRequest.CurrencyRequests;
 using static Fincompare.Application.Request.GroupMerchantRequest.GroupMerchantBaseModel;
+using static Fincompare.Application.Request.InstrumentRequest.InstrumentRequestBaseModel;
+using static Fincompare.Application.Request.ProductRequests.ProductRequestViewModel;
 using static Fincompare.Application.Response.CurrencyResponse.CurrencyResponseBaseModel;
 using static Fincompare.Application.Response.GroupMerchantResponse.GroupMerchantViewResponse;
+using static Fincompare.Application.Response.InstrumentResponse.InstrumentResponseBaseClass;
+using static Fincompare.Application.Response.ProductResponse.ProductResponseBaseClass;
 
 namespace Fincompare.Application.Profiles
 {
@@ -41,7 +45,14 @@ namespace Fincompare.Application.Profiles
             CreateMap<MerchantDto, Merchant>().ReverseMap();
             CreateMap<AddMerchantRequest, Merchant>().ReverseMap();
             CreateMap<UpdateMerchantRequest, Merchant>().ReverseMap();
+            CreateMap<CreateInstrumentRequest, Instrument>().ReverseMap();
+            CreateMap<UpdateInstrumentRequest, Instrument>().ReverseMap();
+            CreateMap<GetAllInstrumentResponse, Instrument>().ReverseMap();
 
+            CreateMap<CreateProductRequest, Product>().ReverseMap();
+            CreateMap<UpdateProductRequest, Product>().ReverseMap();
+            CreateMap<GetAllProductResponse, Product>().ReverseMap();
+            CreateMap<GetAllProductResponse, Product>().ReverseMap();
         }
     }
 }
