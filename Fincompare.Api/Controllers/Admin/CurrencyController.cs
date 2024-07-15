@@ -26,7 +26,7 @@ namespace Fincompare.Api.Controllers.Admin
         }
 
 
-        [HttpPost]
+        [HttpPut]
         [Route("update-currency")]
         public async Task<IActionResult> UpdateCurrency(UpdateCurrencyRequests model)
         {
