@@ -5,6 +5,7 @@ using Fincompare.Application.Request.CountryCurrencyRequests;
 using Fincompare.Application.Request.CountryRequest;
 using Fincompare.Application.Request.CurrencyRequest;
 using Fincompare.Application.Request.MarketRateRequest;
+using Fincompare.Application.Request.MerchantRequests;
 using Fincompare.Application.Request.StateRequest;
 using Fincompare.Domain.Entities;
 using Fincompare.Domain.Entities.UserManagementEntities;
@@ -34,6 +35,9 @@ namespace Fincompare.Application.Profiles
             CreateMap<AddMarketRate, MarketRate>().ReverseMap();
             CreateMap<UpdateMarketRate, MarketRate>().ReverseMap();
             CreateMap<MarketRateDto, MarketRate>().ReverseMap();
+            CreateMap<MerchantDto, Merchant>().ReverseMap();
+            CreateMap<AddMerchantRequest, Merchant>().ReverseMap();
+            CreateMap<UpdateMerchantRequest, Merchant>().ReverseMap();
 
         }
     }
