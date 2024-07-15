@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "7EC72HkbIojcdO90fxNvL00gO3wp6WxbVeq3/CVXRd/faq4loaP083wjR2CwHSRDyCSqWiJGv/KIR9lI+W18YQ==",
+  "dgSpecHash": "MrZ0LVNUGHsWLcV3pWH0xPIG7QVgT8+aTFh9sGmfmsk0mmjTzW6cjOswifLNrSWniYwqqIjnHJhtXbo73RWrmw==",
   "success": true,
   "projectFilePath": "C:\\Users\\ravi.vyas\\Desktop\\NewFincompareProject\\Fincompare\\Fincompare.Application\\Fincompare.Application.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "C:\\Users\\ravi.vyas\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\ravi.vyas\\.nuget\\packages\\microsoft.extensions.options\\6.0.0\\microsoft.extensions.options.6.0.0.nupkg.sha512",
     "C:\\Users\\ravi.vyas\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.0\\microsoft.extensions.primitives.6.0.0.nupkg.sha512",
+    "C:\\Users\\ravi.vyas\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\ravi.vyas\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
   ],
   "logs": []

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Fincompare.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+127a908fd99991e91d09b741f2c69198513a55e2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+105701effe84298430d75324efdbaddf384bef70")]
 [assembly: System.Reflection.AssemblyProductAttribute("Fincompare.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Fincompare.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

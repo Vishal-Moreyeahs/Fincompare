@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0J1I3HpgR+J3DASw11qUj3bAyesMiA+FehinYrHN98qpqjb+rBAgeaOefjdF0WnNbD4TmwADHrYgcnatXI09nw==",
+  "dgSpecHash": "o0W2rH2PoN0/Szv0RILxXtH7GuR5/a+0Zuk4Et8Wlb4HFNj0jXJPa54hy9u34Bji6npaqrwBamAmutzszamljg==",
   "success": true,
   "projectFilePath": "C:\\Users\\ravi.vyas\\Desktop\\NewFincompareProject\\Fincompare\\Fincompare.Infrastructure\\Fincompare.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -17,6 +17,7 @@
     "C:\\Users\\ravi.vyas\\.nuget\\packages\\microsoft.identitymodel.protocols\\7.1.2\\microsoft.identitymodel.protocols.7.1.2.nupkg.sha512",
     "C:\\Users\\ravi.vyas\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\7.1.2\\microsoft.identitymodel.protocols.openidconnect.7.1.2.nupkg.sha512",
     "C:\\Users\\ravi.vyas\\.nuget\\packages\\microsoft.identitymodel.tokens\\7.1.2\\microsoft.identitymodel.tokens.7.1.2.nupkg.sha512",
+    "C:\\Users\\ravi.vyas\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\ravi.vyas\\.nuget\\packages\\system.identitymodel.tokens.jwt\\7.1.2\\system.identitymodel.tokens.jwt.7.1.2.nupkg.sha512",
     "C:\\Users\\ravi.vyas\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
   ],
