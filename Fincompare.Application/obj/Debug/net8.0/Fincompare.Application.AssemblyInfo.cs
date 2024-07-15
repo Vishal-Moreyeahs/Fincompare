@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Fincompare.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+45a27d58a0ace36baf193615bfc07c07431572f7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3149526081646e4ec3bb47f405efacb014ee2ded")]
 [assembly: System.Reflection.AssemblyProductAttribute("Fincompare.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Fincompare.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
