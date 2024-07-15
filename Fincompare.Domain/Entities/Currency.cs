@@ -7,13 +7,13 @@ namespace Fincompare.Domain.Entities
     {
         //public int Id { get; set; }
         [Key]
-        public string CurrencyIso { get; set; } 
+        public string CurrencyIso { get; set; }
 
         public string CurrencyName { get; set; } = null!;
 
         public int Decimal { get; set; }
 
-        public bool Status { get; set; } 
+        public bool Status { get; set; }
 
         public int VolatilityRange { get; set; }
 

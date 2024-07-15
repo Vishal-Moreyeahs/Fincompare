@@ -1,9 +1,6 @@
 ﻿using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.StateRequest;
-using Fincompare.Application.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static Fincompare.Application.Request.CurrencyRequest.CurrencyRequests;
 
 namespace Fincompare.Api.Controllers.Admin
 {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Fincompare.Application.Request.MarketRateRequest
+﻿namespace Fincompare.Application.Request.MarketRateRequest
 {
     public class MarketRateRequests
     {
@@ -21,7 +15,8 @@ namespace Fincompare.Application.Request.MarketRateRequest
 
     public class AddMarketRate : MarketRateRequests { }
 
-    public class UpdateMarketRate : MarketRateRequests { 
+    public class UpdateMarketRate : MarketRateRequests
+    {
         public int Id { get; set; }
     }
 

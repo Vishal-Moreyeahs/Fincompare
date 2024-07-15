@@ -3,7 +3,7 @@
 namespace Fincompare.Domain.Entities
 {
     public partial class CustomerReview : ActionBase
-    { 
+    {
         public int Id { get; set; }
 
         public int MerchantId { get; set; }

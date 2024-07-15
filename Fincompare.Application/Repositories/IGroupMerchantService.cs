@@ -1,10 +1,4 @@
-﻿using Fincompare.Application.Request.CountryCurrencyRequests;
-using Fincompare.Application.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Fincompare.Application.Response;
 using static Fincompare.Application.Request.GroupMerchantRequest.GroupMerchantBaseModel;
 using static Fincompare.Application.Response.GroupMerchantResponse.GroupMerchantViewResponse;
 

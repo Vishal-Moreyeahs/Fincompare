@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Fincompare.Application.Request.CountryCurrencyRequests
+﻿namespace Fincompare.Application.Request.CountryCurrencyRequests
 {
     public class CountryCurrencyRequest
     {
@@ -15,7 +9,7 @@ namespace Fincompare.Application.Request.CountryCurrencyRequests
 
 
     public class MultipleCurrencyRequest
-    { 
+    {
         public string CurrencyIso { get; set; }
         public bool IsPrimaryCur { get; set; } = false;
         public int? CountryCurrencyCategoryId { get; set; }
@@ -23,11 +17,12 @@ namespace Fincompare.Application.Request.CountryCurrencyRequests
 
     }
 
-    public class UpdateCountryWithMultipleCurrencyRequest : CountryCurrencyRequest { 
-        public List<MultipleCurrencyRequest> Currencies { get; set;}
+    public class UpdateCountryWithMultipleCurrencyRequest : CountryCurrencyRequest
+    {
+        public List<MultipleCurrencyRequest> Currencies { get; set; }
     }
 
-    public class  UpdateCountryCurrencyRequest : CountryCurrencyRequest
+    public class UpdateCountryCurrencyRequest : CountryCurrencyRequest
     {
         public int Id { get; set; }
     }

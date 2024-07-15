@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Fincompare.Application.Request.StateRequest
+﻿namespace Fincompare.Application.Request.StateRequest
 {
     public class StateRequest
     {
@@ -15,7 +9,8 @@ namespace Fincompare.Application.Request.StateRequest
 
     public class AddStateRequest : StateRequest { }
 
-    public class UpdateStateRequest : StateRequest { 
+    public class UpdateStateRequest : StateRequest
+    {
         public int Id { get; set; }
     }
 

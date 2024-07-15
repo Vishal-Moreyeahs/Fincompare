@@ -47,6 +47,6 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
-       
+
     }
 }

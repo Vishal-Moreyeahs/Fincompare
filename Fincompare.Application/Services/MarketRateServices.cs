@@ -4,11 +4,6 @@ using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MarketRateRequest;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fincompare.Application.Services
 {
@@ -68,7 +63,8 @@ namespace Fincompare.Application.Services
             // Save changes asynchronously
             await _unitOfWork.SaveChangesAsync();
 
-            var response = new ApiResponse<string>() { 
+            var response = new ApiResponse<string>()
+            {
                 Status = true,
                 Message = "Market Rate Added Successfully."
             };
@@ -87,7 +83,8 @@ namespace Fincompare.Application.Services
 
             var data = _mapper.Map<IEnumerable<MarketRateDto>>(marketRates);
 
-            var response = new ApiResponse<IEnumerable<MarketRateDto>>() { 
+            var response = new ApiResponse<IEnumerable<MarketRateDto>>()
+            {
                 Status = true,
                 Message = "Market Rates Fetched",
                 Data = data

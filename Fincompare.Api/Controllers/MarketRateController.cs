@@ -1,7 +1,5 @@
 ﻿using Fincompare.Application.Repositories;
-using Fincompare.Application.Request.CountryCurrencyRequests;
 using Fincompare.Application.Request.MarketRateRequest;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers
@@ -54,7 +52,7 @@ namespace Fincompare.Api.Controllers
         [Route("get-market-rate-by-sendAndReceiveCurr")]
         public async Task<IActionResult> GetMarketRateBySourceAndDestCurr(string sendCurr, string receiveCurr)
         {
-            var response = await _marketRateServices.GetMarketRateBySourceAndDestCurr(sendCurr,receiveCurr);
+            var response = await _marketRateServices.GetMarketRateBySourceAndDestCurr(sendCurr, receiveCurr);
             return Ok(response);
         }
     }

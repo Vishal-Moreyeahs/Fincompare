@@ -1,6 +1,4 @@
-﻿using Fincompare.Domain.Entities;
-
-namespace Fincompare.Application.Response.CurrencyResponse
+﻿namespace Fincompare.Application.Response.CurrencyResponse
 {
     public class CurrencyResponseBaseModel
     {
@@ -16,7 +14,7 @@ namespace Fincompare.Application.Response.CurrencyResponse
 
         public class GetCurrencyResponse : GetAllCurrencyResponse
         {
-            
+
         }
     }
 }

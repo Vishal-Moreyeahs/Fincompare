@@ -1,6 +1,5 @@
 ﻿using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Domain.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RestSharp;
@@ -14,7 +13,7 @@ namespace Fincompare.Api.Controllers
         private readonly IUnitOfWork _unitOfWork;
 
         public CountryController(IUnitOfWork unitOfWork)
-        { 
+        {
             _unitOfWork = unitOfWork;
         }
 
@@ -79,7 +78,7 @@ namespace Fincompare.Api.Controllers
             {
                 throw ex;
             }
-            
+
         }
 
         [HttpPost]
@@ -90,9 +89,10 @@ namespace Fincompare.Api.Controllers
 
             var newList = new List<Currency2>();
 
-            foreach (var currency in list) {
-                if(currency.Currencies != null && currency.Currencies.Count !=0)
-                 newList.AddRange(currency.Currencies);
+            foreach (var currency in list)
+            {
+                if (currency.Currencies != null && currency.Currencies.Count != 0)
+                    newList.AddRange(currency.Currencies);
             }
 
             var insertData = newList
@@ -148,7 +148,7 @@ namespace Fincompare.Api.Controllers
         }
 
         public class CurrencyData
-        { 
+        {
             public List<Currency2> Currencies { get; set; }
         }
 

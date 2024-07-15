@@ -3,11 +3,6 @@ using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MerchantRequests;
 using Fincompare.Application.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fincompare.Application.Services
 {
@@ -20,7 +15,7 @@ namespace Fincompare.Application.Services
 
         public MerchantServices(IAuthenticatedUserService authenticatedUser, IUserManagerServices userManager,
                                     IUnitOfWork unitOfWork, IAuthService authService)
-        { 
+        {
             _authenticatedUserService = authenticatedUser;
             _userManagerServices = userManager;
             _unitOfWork = unitOfWork;

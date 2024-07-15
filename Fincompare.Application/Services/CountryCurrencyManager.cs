@@ -4,12 +4,6 @@ using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.CountryCurrencyRequests;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
 using static Fincompare.Application.Response.CurrencyResponse.CurrencyResponseBaseModel;
 
 namespace Fincompare.Application.Services
@@ -20,7 +14,7 @@ namespace Fincompare.Application.Services
         private readonly IMapper _mapper;
 
         public CountryCurrencyManager(IUnitOfWork unitOfWork, IMapper mapper)
-        { 
+        {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -48,7 +42,7 @@ namespace Fincompare.Application.Services
                                             .ToList();
                 }
                 else
-                { 
+                {
                     currencies = currencyList
                                                 .Where(cc => cc.Country3Iso == country3Iso && cc.Status && cc.Currency.Status && cc.CountryCurrencyCategoryId == categoryId)
                                                 .Select(cc => new GetCurrencyResponse
@@ -62,7 +56,8 @@ namespace Fincompare.Application.Services
                                                 .ToList();
 
                 }
-                var response = new ApiResponse<List<GetCurrencyResponse>>() {
+                var response = new ApiResponse<List<GetCurrencyResponse>>()
+                {
                     Status = true,
                     Message = "Currencies fetched",
                     Data = currencies
@@ -70,7 +65,8 @@ namespace Fincompare.Application.Services
 
                 return response;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw ex;
             }
         }
@@ -104,7 +100,8 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.GetRepository<CountryCurrency>().AddRange(newCountryCurrencies);
                 await _unitOfWork.SaveChangesAsync();
 
-                var response = new ApiResponse<string>() { 
+                var response = new ApiResponse<string>()
+                {
                     Status = true,
                     Message = $"Update Currencies for Country {model.Country3Iso}"
                 };

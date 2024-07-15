@@ -4,14 +4,6 @@ using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.StateRequest;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using static Fincompare.Application.Response.CurrencyResponse.CurrencyResponseBaseModel;
 
 namespace Fincompare.Application.Services
 {
@@ -21,7 +13,7 @@ namespace Fincompare.Application.Services
         private readonly IMapper _mapper;
 
         public StateServices(IUnitOfWork unitOfWork, IMapper mapper)
-        { 
+        {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -172,7 +164,7 @@ namespace Fincompare.Application.Services
                 {
                     Status = true,
                     Message = "State Found !",
-                    Data= data
+                    Data = data
                 };
             }
             catch (Exception ex)

@@ -1,6 +1,5 @@
 ﻿using Fincompare.Application.Repositories;
 using Fincompare.Application.Services;
-using Fincompare.Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 

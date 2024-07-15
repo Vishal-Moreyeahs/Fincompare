@@ -14,7 +14,7 @@
         public class UpdateCurrencyRequests : AddCurrencyRequests
         {
             //public int Id { get; set; }
-            
+
         }
 
     }

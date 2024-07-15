@@ -152,7 +152,7 @@ namespace Fincompare.Application.Services
                         Status = false,
                         Message = "Country Updated Successfully"
                     };
-                var country = _mapper.Map(request , countryData) ;
+                var country = _mapper.Map(request, countryData);
                 await _unitOfWork.GetRepository<Country>().Upsert(countryData);
                 await _unitOfWork.SaveChangesAsync();
                 var response = new ApiResponse<string>()

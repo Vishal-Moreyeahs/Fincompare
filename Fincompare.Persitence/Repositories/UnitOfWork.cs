@@ -1,7 +1,4 @@
 ﻿using Fincompare.Application.Contracts.Persistence;
-using Fincompare.Application.Repositories;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore;
 using Fincompare.Domain.Entities.Common;
 
 namespace Fincompare.Persitence.Repositories

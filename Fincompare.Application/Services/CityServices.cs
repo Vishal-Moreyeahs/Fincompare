@@ -2,14 +2,8 @@
 using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.CityRequest;
-using Fincompare.Application.Request.StateRequest;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fincompare.Application.Services
 {

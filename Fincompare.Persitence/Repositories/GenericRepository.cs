@@ -19,15 +19,15 @@ namespace Fincompare.Persitence.Repositories
 
         public virtual async Task<IEnumerable<T>> GetAll()
         {
-            return await dbSet.Where(x=> !x.IsDeleted).ToListAsync();
+            return await dbSet.Where(x => !x.IsDeleted).ToListAsync();
         }
 
         public async Task<T> GetById(string id)
         {
             try
             {
-                var entity =  await dbSet.FindAsync(id);
-                return  (entity == null || entity.IsDeleted) ? null : entity;
+                var entity = await dbSet.FindAsync(id);
+                return (entity == null || entity.IsDeleted) ? null : entity;
             }
             catch (Exception e)
             {

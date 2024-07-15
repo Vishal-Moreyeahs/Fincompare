@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Fincompare.Application.Request.MerchantRequests
+﻿namespace Fincompare.Application.Request.MerchantRequests
 {
     public class MerchantRequest
     {
@@ -40,7 +34,8 @@ namespace Fincompare.Application.Request.MerchantRequests
 
     public class AddMerchantRequest : MerchantRequest { }
 
-    public class UpdateMerchantRequest : MerchantRequest {
+    public class UpdateMerchantRequest : MerchantRequest
+    {
         public int Id { get; set; }
     }
 }

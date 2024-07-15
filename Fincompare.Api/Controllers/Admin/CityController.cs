@@ -1,7 +1,5 @@
 ﻿using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.CityRequest;
-using Fincompare.Application.Request.StateRequest;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers.Admin
