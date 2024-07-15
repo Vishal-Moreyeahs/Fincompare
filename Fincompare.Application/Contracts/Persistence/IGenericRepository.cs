@@ -6,9 +6,9 @@
         Task<T> GetById(int id);
 
         Task<bool> Add(T entity);
-
+        Task<T> GetByStringId(string id);
         Task<bool> AddRange(IEnumerable<T> entities);
-
+        bool RemoveRange(IEnumerable<T> entities);
         Task<bool> Delete(T id);
 
         Task<bool> Upsert(T entity);

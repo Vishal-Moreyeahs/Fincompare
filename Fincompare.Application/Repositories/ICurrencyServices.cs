@@ -9,8 +9,8 @@ namespace Fincompare.Application.Repositories
         Task<ApiResponse<string>> AddCurrency(AddCurrencyRequests model);
         Task<ApiResponse<string>> UpdateCurrency(UpdateCurrencyRequests model);
         Task<ApiResponse<IEnumerable<GetAllCurrencyResponse>>> GetAllCurrency();
-        Task<ApiResponse<GetCurrencyResponse>> GetByCurrencyId(int id);
-        Task<ApiResponse<string>> DeleteCurrency(int id);
+        Task<ApiResponse<GetCurrencyResponse>> GetByCurrencyId(string id);
+        Task<ApiResponse<string>> DeleteCurrency(string id);
 
     }
 }

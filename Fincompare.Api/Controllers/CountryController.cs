@@ -44,33 +44,42 @@ namespace Fincompare.Api.Controllers
         [Route("add-all-countries-with-currency")]
         public async Task<IActionResult> AddCountriesWithCurrency()
         {
-            var list = GetCountryWithCurrency();
-
-            var countryCurrencyList = new List<CountryCurrency>();
-
-            var currencies = await _unitOfWork.GetRepository<Currency>().GetAll();
-
-            foreach (var country in list)
+            try
             {
-                if (country.Currencies != null)
-                { 
-                    foreach (var currency in country.Currencies)
+                var list = GetCountryWithCurrency();
+
+                var countryCurrencyList = new List<CountryCurrency>();
+
+                var currencies = await _unitOfWork.GetRepository<Currency>().GetAll();
+
+                foreach (var country in list)
+                {
+                    if (country.Currencies != null)
                     {
-                        countryCurrencyList.Add(new CountryCurrency { 
-                            Country3Iso = country.Alpha3Code,
-                            CurrencyId = currencies.Where(x => x.CurrencyIso == currency.Code).First().Id,
-                            CreatedDate = DateTime.UtcNow,
-                            UpdatedDate = DateTime.UtcNow,
-                            IsPrimaryCur = false,
-                            Status = true
-                        });
+                        foreach (var currency in country.Currencies)
+                        {
+                            countryCurrencyList.Add(new CountryCurrency
+                            {
+                                Country3Iso = country.Alpha3Code,
+                                CurrencyIso = currencies.Where(x => x.CurrencyIso == currency.Code).First().CurrencyIso,
+                                CreatedDate = DateTime.UtcNow,
+                                UpdatedDate = DateTime.UtcNow,
+                                IsPrimaryCur = false,
+                                Status = true
+                            });
+                        }
                     }
                 }
-            }
 
-            await _unitOfWork.GetRepository<CountryCurrency>().AddRange(countryCurrencyList);
-            await _unitOfWork.SaveChangesAsync();
-            return Ok("insertingList");
+                await _unitOfWork.GetRepository<CountryCurrency>().AddRange(countryCurrencyList);
+                await _unitOfWork.SaveChangesAsync();
+                return Ok("insertingList");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
 
         [HttpPost]

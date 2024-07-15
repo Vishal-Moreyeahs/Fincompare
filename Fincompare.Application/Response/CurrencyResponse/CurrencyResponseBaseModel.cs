@@ -6,7 +6,7 @@ namespace Fincompare.Application.Response.CurrencyResponse
     {
         public class GetAllCurrencyResponse
         {
-            public int Id { get; set; }
+            //public int Id { get; set; }
             public string CurrencyName { get; set; } = null!;
             public string? CurrencyIso { get; set; }
             public int Decimal { get; set; }

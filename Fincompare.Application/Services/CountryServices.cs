@@ -54,7 +54,7 @@ namespace Fincompare.Application.Services
 
                     var res = new ApiResponse<List<GetCountryDto>>()
                     {
-                        Status = true,
+                        Status = false,
                         Message = "Countries not found"
                     };
                     return res;
@@ -115,7 +115,9 @@ namespace Fincompare.Application.Services
                 var country = countryList.Where(x => x.Country3Iso == country3Iso).FirstOrDefault();
                 if (country != null)
                 {
-                    await _unitOfWork.GetRepository<Country>().Delete(country);
+                    country.Status = false;
+                    country.UpdatedDate = DateTime.UtcNow;
+                    await _unitOfWork.GetRepository<Country>().Upsert(country);
                     await _unitOfWork.SaveChangesAsync();
                     var response = new ApiResponse<string>()
                     {

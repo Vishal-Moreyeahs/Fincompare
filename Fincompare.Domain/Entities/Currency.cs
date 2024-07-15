@@ -1,14 +1,15 @@
 ﻿using Fincompare.Domain.Entities.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace Fincompare.Domain.Entities
 {
     public partial class Currency : Base
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
+        [Key]
+        public string CurrencyIso { get; set; } 
 
         public string CurrencyName { get; set; } = null!;
-
-        public string? CurrencyIso { get; set; } 
 
         public int Decimal { get; set; }
 

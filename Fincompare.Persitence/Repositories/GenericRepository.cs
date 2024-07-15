@@ -21,6 +21,18 @@ namespace Fincompare.Persitence.Repositories
             return await dbSet.ToListAsync();
         }
 
+        public async Task<T> GetByStringId(string id)
+        {
+            try
+            {
+                return await dbSet.FindAsync(id);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
         public virtual async Task<T> GetById(int id)
         {
             try
@@ -58,7 +70,18 @@ namespace Fincompare.Persitence.Repositories
                 return false;
             }
         }
-
+        public virtual bool RemoveRange(IEnumerable<T> entities)
+        {
+            try
+            {
+                dbSet.RemoveRange(entities);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
 
         public virtual async Task<bool> Delete(T entity)
         {

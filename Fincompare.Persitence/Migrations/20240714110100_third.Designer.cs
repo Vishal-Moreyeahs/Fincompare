@@ -3,6 +3,7 @@ using System;
 using Fincompare.Persitence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-    partial class FincompareDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240714110100_third")]
+    partial class third
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -264,6 +267,7 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnName("Created_Date");
 
                     b.Property<string>("CurrencyIso")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("Currency_3_iso");
 
@@ -1616,7 +1620,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 7, 14, 16, 45, 39, 317, DateTimeKind.Local).AddTicks(4477),
+                            CreatedAt = new DateTime(2024, 7, 14, 16, 30, 59, 437, DateTimeKind.Local).AddTicks(8775),
                             Email = "aarya.garg@moreyeahs.com",
                             FirstName = "Aarya",
                             LastName = "Garg",
@@ -1627,7 +1631,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 7, 14, 16, 45, 39, 317, DateTimeKind.Local).AddTicks(4497),
+                            CreatedAt = new DateTime(2024, 7, 14, 16, 30, 59, 437, DateTimeKind.Local).AddTicks(8795),
                             Email = "vishal.pawar@moreyeahs.com",
                             FirstName = "Vishal",
                             LastName = "Pawar",
@@ -1790,6 +1794,7 @@ namespace Fincompare.Persitence.Migrations
                     b.HasOne("Fincompare.Domain.Entities.Currency", "Currency")
                         .WithMany("CountryCurrencies")
                         .HasForeignKey("CurrencyIso")
+                        .IsRequired()
                         .HasConstraintName("CountryCurrency_Currency_3_iso_fkey");
 
                     b.Navigation("Country3IsoNavigation");

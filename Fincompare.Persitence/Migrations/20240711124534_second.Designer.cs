@@ -3,6 +3,7 @@ using System;
 using Fincompare.Persitence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-    partial class FincompareDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240711124534_second")]
+    partial class second
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -263,9 +266,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Created_Date");
 
-                    b.Property<string>("CurrencyIso")
-                        .HasColumnType("text")
-                        .HasColumnName("Currency_3_iso");
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("integer")
+                        .HasColumnName("Currency_Id");
 
                     b.Property<bool>("IsPrimaryCur")
                         .HasColumnType("boolean")
@@ -285,7 +288,7 @@ namespace Fincompare.Persitence.Migrations
 
                     b.HasIndex("CountryCurrencyCategoryId");
 
-                    b.HasIndex("CurrencyIso");
+                    b.HasIndex("CurrencyId");
 
                     b.ToTable("CountryCurrency", (string)null);
                 });
@@ -357,12 +360,18 @@ namespace Fincompare.Persitence.Migrations
 
             modelBuilder.Entity("Fincompare.Domain.Entities.Currency", b =>
                 {
-                    b.Property<string>("CurrencyIso")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Created_Date");
+
+                    b.Property<string>("CurrencyIso")
+                        .HasColumnType("text");
 
                     b.Property<string>("CurrencyName")
                         .IsRequired()
@@ -384,7 +393,7 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("Volatility_Range");
 
-                    b.HasKey("CurrencyIso")
+                    b.HasKey("Id")
                         .HasName("Currency_pkey");
 
                     b.ToTable("Currency", (string)null);
@@ -406,14 +415,12 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("CustomerUser_Id");
 
-                    b.Property<string>("ReceiveCur")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("ReceiveCur")
+                        .HasColumnType("integer")
                         .HasColumnName("Receive_Cur");
 
-                    b.Property<string>("SendCur")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("SendCur")
+                        .HasColumnType("integer")
                         .HasColumnName("Send_Cur");
 
                     b.Property<bool>("Status")
@@ -715,14 +722,12 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("character varying")
                         .HasColumnName("Rate_Source");
 
-                    b.Property<string>("ReceiveCur")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("ReceiveCur")
+                        .HasColumnType("integer")
                         .HasColumnName("Receive_Cur");
 
-                    b.Property<string>("SendCur")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("SendCur")
+                        .HasColumnType("integer")
                         .HasColumnName("Send_Cur");
 
                     b.HasKey("Id")
@@ -941,18 +946,16 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("character varying")
                         .HasColumnName("Receive_Country_3_iso");
 
-                    b.Property<string>("ReceiveCurrencyId")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("ReceiveCurrencyId")
+                        .HasColumnType("integer")
                         .HasColumnName("Receive_Currency_Id");
 
                     b.Property<string>("SendCountry3Iso")
                         .HasColumnType("character varying")
                         .HasColumnName("Send_Country_3_iso");
 
-                    b.Property<string>("SendCurrencyId")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("SendCurrencyId")
+                        .HasColumnType("integer")
                         .HasColumnName("Send_Currency_Id");
 
                     b.Property<int>("ServiceCategoryId")
@@ -1064,9 +1067,8 @@ namespace Fincompare.Persitence.Migrations
                     b.Property<double>("Fees")
                         .HasColumnType("double precision");
 
-                    b.Property<string>("FeesCur")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("FeesCur")
+                        .HasColumnType("integer")
                         .HasColumnName("Fees_Cur");
 
                     b.Property<string>("FeesName")
@@ -1092,9 +1094,8 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("character varying")
                         .HasColumnName("Receive_Country_3_iso");
 
-                    b.Property<string>("ReceiveCurrency")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("ReceiveCurrency")
+                        .HasColumnType("integer")
                         .HasColumnName("Receive_Currency");
 
                     b.Property<double>("ReceiveMaxLimit")
@@ -1110,9 +1111,8 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("character varying")
                         .HasColumnName("Send_Country_3_iso");
 
-                    b.Property<string>("SendCurrency")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("SendCurrency")
+                        .HasColumnType("integer")
                         .HasColumnName("Send_Currency");
 
                     b.Property<double>("SendMaxLimit")
@@ -1191,9 +1191,8 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("character varying")
                         .HasColumnName("Receive_Country_3_iso");
 
-                    b.Property<string>("ReceiveCur")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("ReceiveCur")
+                        .HasColumnType("integer")
                         .HasColumnName("Receive_Cur");
 
                     b.Property<int>("ReceiveMaxLimit")
@@ -1209,9 +1208,8 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("character varying")
                         .HasColumnName("Send_Country_3_iso");
 
-                    b.Property<string>("SendCur")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("SendCur")
+                        .HasColumnType("integer")
                         .HasColumnName("Send_Cur");
 
                     b.Property<int>("SendMaxLimit")
@@ -1616,7 +1614,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 7, 14, 16, 45, 39, 317, DateTimeKind.Local).AddTicks(4477),
+                            CreatedAt = new DateTime(2024, 7, 11, 18, 15, 34, 249, DateTimeKind.Local).AddTicks(3515),
                             Email = "aarya.garg@moreyeahs.com",
                             FirstName = "Aarya",
                             LastName = "Garg",
@@ -1627,7 +1625,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 7, 14, 16, 45, 39, 317, DateTimeKind.Local).AddTicks(4497),
+                            CreatedAt = new DateTime(2024, 7, 11, 18, 15, 34, 249, DateTimeKind.Local).AddTicks(3535),
                             Email = "vishal.pawar@moreyeahs.com",
                             FirstName = "Vishal",
                             LastName = "Pawar",
@@ -1789,8 +1787,9 @@ namespace Fincompare.Persitence.Migrations
 
                     b.HasOne("Fincompare.Domain.Entities.Currency", "Currency")
                         .WithMany("CountryCurrencies")
-                        .HasForeignKey("CurrencyIso")
-                        .HasConstraintName("CountryCurrency_Currency_3_iso_fkey");
+                        .HasForeignKey("CurrencyId")
+                        .IsRequired()
+                        .HasConstraintName("CountryCurrency_Currency_Id_fkey");
 
                     b.Navigation("Country3IsoNavigation");
 

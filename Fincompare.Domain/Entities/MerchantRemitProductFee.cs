@@ -10,7 +10,7 @@ namespace Fincompare.Domain.Entities
 
         public string FeesName { get; set; } = null!;
 
-        public int FeesCur { get; set; }
+        public string FeesCur { get; set; }
 
         public double Fees { get; set; }
 
@@ -22,9 +22,9 @@ namespace Fincompare.Domain.Entities
 
         public string ReceiveCountry3Iso { get; set; } = null!;
 
-        public int SendCurrency { get; set; }
+        public string SendCurrency { get; set; }
 
-        public int ReceiveCurrency { get; set; }
+        public string ReceiveCurrency { get; set; }
 
         public double SendMinLimit { get; set; }
 
