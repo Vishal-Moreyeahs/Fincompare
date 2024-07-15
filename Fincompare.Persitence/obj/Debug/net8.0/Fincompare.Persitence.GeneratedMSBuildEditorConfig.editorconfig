@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Fincompare.Persitence
-build_property.ProjectDir = C:\Users\ravi.vyas\Desktop\FinCompare\Fincompare\Fincompare.Persitence\
+build_property.ProjectDir = C:\Users\visha\source\repos\Fincompare_Backend\Fincompare\Fincompare.Persitence\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
