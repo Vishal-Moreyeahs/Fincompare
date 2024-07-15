@@ -51,6 +51,24 @@ namespace Fincompare.Infrastructure.Services
             return response;
         }
 
+        public async Task<Response<User>> GetUserById(int id)
+        {
+            var response = new Response<User>();
+            var user = await _unitOfWork.GetRepository<User>().GetById(id);
+
+            if (user == null)
+            { 
+                response.Status = false;
+                response.Message = "User Not Found";
+                return response;
+            }
+
+            response.Status = true;
+            response.Message = "User found";
+            response.Data = user;
+            return response;
+        }
+
         private bool CheckPasswordForUser(User user, string password)
         {
             var bytePassword = _cryptographyService.EncryptPassword(password);

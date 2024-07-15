@@ -18,6 +18,9 @@ namespace Fincompare.Application
             services.AddTransient<ICountryCurrencyManager, CountryCurrencyManager>();
             services.AddTransient<IMarketRateServices, MarketRateServices>();
             services.AddTransient<IMerchantServices, MerchantServices>();
+            services.AddTransient<IGroupMerchantService, GroupMerchantService>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IInstrumentService, InstrumentService>();
 
             return services;
         }
