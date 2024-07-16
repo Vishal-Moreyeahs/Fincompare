@@ -7,3 +7,4 @@
         public Dictionary<string, double> conversion_rates { get; set; }
     }
 }
+
