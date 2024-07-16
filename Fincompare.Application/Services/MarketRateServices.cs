@@ -1,25 +1,24 @@
 ﻿using AutoMapper;
+using Fincompare.Application.Contracts.Infrastructure;
 using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MarketRateRequest;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
-
 namespace Fincompare.Application.Services
 {
     public class MarketRateServices : IMarketRateServices
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-
-        public MarketRateServices()
-        {
-        }
-
-        public MarketRateServices(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly ICurrencyServices _currencyServices;
+        private readonly IExchangeRate _exchangeRate;
+        public MarketRateServices(IUnitOfWork unitOfWork, IMapper mapper, ICurrencyServices currencyServices, IExchangeRate exchangeRate)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _currencyServices = currencyServices;
+            _exchangeRate = exchangeRate;
         }
 
         public async Task<ApiResponse<string>> AddMarketRate(AddMarketRate model)
@@ -201,6 +200,57 @@ namespace Fincompare.Application.Services
             }
 
             return response;
+        }
+
+
+        public async Task<ApiResponse<List<string>>> UpdateDbCurrencyExchangeRates()
+        {
+            List<string> failCurrency = [];
+            try
+            {
+                var getAllCurrencyCode = (await _currencyServices.GetAllCurrency())
+                    .Data.Select(x => x.CurrencyIso).OrderBy(x => x).ToArray();
+                foreach (var currencyCode in getAllCurrencyCode)
+                {
+                    DateTime currentDateTime = DateTime.UtcNow;
+                    var conversionData = _exchangeRate.Import(currencyCode);
+                    if (conversionData == null)
+                    {
+                        failCurrency.Add(currencyCode);
+                        continue;
+                    }
+                    var addToDb = conversionData.conversion_rates
+                        .Where(x => getAllCurrencyCode.Contains(x.Key))
+                        .Select(x => new MarketRate
+                        {
+                            SendCur = currencyCode,
+                            ReceiveCur = x.Key,
+                            Rate = x.Value,
+                            Date = currentDateTime,
+                            RateSource = "Third-Party",
+                        })
+                        .ToList();
+
+                    await _unitOfWork.GetRepository<MarketRate>().AddRange(addToDb);
+                    await _unitOfWork.SaveChangesAsync();
+                }
+                if (failCurrency.Count != 0)
+                    return new ApiResponse<List<string>>()
+                    {
+                        Message = "Some Currency Not Update",
+                        Data = failCurrency,
+                    };
+                return new ApiResponse<List<string>>()
+                {
+                    Message = "Success",
+                    Status = true,
+                    Data = failCurrency,
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

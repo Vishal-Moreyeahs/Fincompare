@@ -1,7 +1,7 @@
 ﻿using Fincompare.Application.Contracts.Infrastructure;
 using Fincompare.Application.Models;
 using Fincompare.Infrastructure.Authentication;
-using Fincompare.Infrastructure.BackgroundServices;
+using Fincompare.Infrastructure.RateServices;
 using Fincompare.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -28,6 +28,7 @@ namespace Fincompare.Infrastructure
             services.AddTransient<ICryptographyService, CryptographyService>();
             services.AddTransient<IPermissionService, PermissionService>();
             services.AddTransient<IUserManagerServices, UserManagerServices>();
+            services.AddTransient<IExchangeRate, ExchangeRate>();
 
             services.AddAuthentication(options =>
             {
