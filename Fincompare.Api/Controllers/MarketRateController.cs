@@ -55,5 +55,14 @@ namespace Fincompare.Api.Controllers
             var response = await _marketRateServices.GetMarketRateBySourceAndDestCurr(sendCurr, receiveCurr);
             return Ok(response);
         }
+
+        [HttpGet]
+        [Route("get-market-rate-api")]
+        private async Task<IActionResult> UpdateDbCurrencyExchangeRates()
+        {
+            var response = await _marketRateServices.UpdateDbCurrencyExchangeRates();
+            return Ok(response);
+        }
     }
 }
+
