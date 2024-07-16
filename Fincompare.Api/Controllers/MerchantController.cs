@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Fincompare.Application.Repositories;
+using Fincompare.Application.Request.MarketRateRequest;
+using Fincompare.Application.Request.MerchantRequests;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers
 {
@@ -6,5 +9,52 @@ namespace Fincompare.Api.Controllers
     [ApiController]
     public class MerchantController : ControllerBase
     {
+        private readonly IMerchantServices _merchantServices;
+
+        public MerchantController(IMerchantServices merchantServices)
+        {
+            _merchantServices = merchantServices;
+        }
+
+
+        [HttpPost]
+        [Route("onboard-merchant")]
+        public async Task<IActionResult> OnBoardMerchant(AddMerchantRequest model)
+        {
+            var response = await _merchantServices.OnboardMerchant(model);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("get-all-merchants")]
+        public async Task<IActionResult> GetAllMerchants()
+        {
+            var response = await _merchantServices.GetAllMerchants();
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("get-market-rate-by-id")]
+        public async Task<IActionResult> GetMerchantByMerchantId(int merchantId)
+        {
+            var response = await _merchantServices.GetMerchantByMerchantId(merchantId);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("get-merchant-by-userId")]
+        public async Task<IActionResult> GetMerchantByUserId(int userId)
+        {
+            var response = await _merchantServices.GetMerchantByUserId(userId);
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        [Route("delete-merchant-by-id")]
+        public async Task<IActionResult> DeleteMerchant(int merchantId)
+        {
+            var response = await _merchantServices.DeleteMerchant(merchantId);
+            return Ok(response);
+        }
     }
 }
