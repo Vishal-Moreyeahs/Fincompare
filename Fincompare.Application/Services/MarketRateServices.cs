@@ -21,8 +21,6 @@ namespace Fincompare.Application.Services
             _exchangeRate = exchangeRate;
         }
 
-
-
         public async Task<ApiResponse<string>> AddMarketRate(AddMarketRate model)
         {
             // Validate request
