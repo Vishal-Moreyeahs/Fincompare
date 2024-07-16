@@ -4,6 +4,7 @@ using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MarketRateRequest;
 using Fincompare.Application.Response;
+using Fincompare.Application.Response.MarketRateResponse;
 using Fincompare.Domain.Entities;
 namespace Fincompare.Application.Services
 {
@@ -89,6 +90,35 @@ namespace Fincompare.Application.Services
                 Data = data
             };
             return response;
+        }
+
+        public async Task<MarketRateStatisticsData> GetAllMarketRatesStatistics(string sendCurr, string receiveCurr)
+        {
+            var lastWeekRates = DateTime.UtcNow.AddDays(-7);
+
+            var lastMonthRates = DateTime.UtcNow.AddMonths(-1);
+            var last2MonthRates = DateTime.UtcNow.AddMonths(-2);
+
+
+            //Get List of Rates 
+            var lastWeekRateList = new List<MarketRateStatisticsData>();
+            var lastMonthRateList = new List<MarketRateStatisticsData>();
+            var last2MonthRateList = new List<MarketRateStatisticsData>();
+
+
+            var getAllMidMarketRates = await _unitOfWork.GetRepository<MarketRate>().GetAll();
+            var getRateForSendAndDesCurr = getAllMidMarketRates.Where(x => x.SendCur == sendCurr && x.ReceiveCur == receiveCurr).ToList();
+            var getLastWeekRates = getRateForSendAndDesCurr.Where(x => x.Date <= lastWeekRates);
+            var getLastMonthRates = getRateForSendAndDesCurr.Where(x => x.Date <= lastMonthRates);
+            var getLast2MonthRates = getRateForSendAndDesCurr.Where(x => x.Date <= lastWeekRates);
+
+            
+            //var response = new MarketRateStatisticsData()
+            //{
+            //    RateWeek = 
+            //};
+
+            throw new NotImplementedException();
         }
 
         public async Task<ApiResponse<MarketRateDto>> GetMarketRateById(int id)
