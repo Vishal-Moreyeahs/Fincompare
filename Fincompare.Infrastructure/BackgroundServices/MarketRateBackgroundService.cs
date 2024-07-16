@@ -1,4 +1,7 @@
-﻿using Fincompare.Application.Repositories;
+﻿using Fincompare.Application.Contracts.Infrastructure;
+using Fincompare.Application.Contracts.Persistence;
+using Fincompare.Application.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -10,18 +13,52 @@ namespace Fincompare.Infrastructure.BackgroundServices
 {
     public class MarketRateBackgroundService : BackgroundService
     {
-        private readonly IMarketRateServices _marketRateServices;
-        public MarketRateBackgroundService(IMarketRateServices marketRateServices)
+        private readonly IServiceScopeFactory _serviceScopeFactory;
+
+        //private readonly IExchangeRate _exchangeRate;
+
+        public MarketRateBackgroundService(/*IExchangeRate exchangeRate,*/ IServiceScopeFactory serviceScopeFactory)
         {
-            _marketRateServices = marketRateServices;
+            //_exchangeRate = exchangeRate;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested) { 
-                
+            var periodicTimer = new PeriodicTimer(TimeSpan.FromDays(1));
+
+            try
+            {
+                while (await periodicTimer.WaitForNextTickAsync(stoppingToken))
+                {
+                    try
+                    {
+                        using (var scope = _serviceScopeFactory.CreateScope())
+                        {
+                            var exchangeRate = scope.ServiceProvider.GetRequiredService<IExchangeRate>();
+                            var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+
+                            Console.WriteLine("Run Background Process");
+                            await exchangeRate.UpdateDbCurrencyExchangeRates();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
             }
-            return Task.CompletedTask;
+            catch (OperationCanceledException)
+            {
+
+            }
+        }
+
+        public override async Task StopAsync(CancellationToken cancellationToken)
+        {
+            await base.StopAsync(cancellationToken);
         }
     }
+
+
 }

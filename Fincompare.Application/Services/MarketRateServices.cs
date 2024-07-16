@@ -203,54 +203,54 @@ namespace Fincompare.Application.Services
         }
 
 
-        public async Task<ApiResponse<List<string>>> UpdateDbCurrencyExchangeRates()
-        {
-            List<string> failCurrency = [];
-            try
-            {
-                var getAllCurrencyCode = (await _currencyServices.GetAllCurrency())
-                    .Data.Select(x => x.CurrencyIso).OrderBy(x => x).ToArray();
-                foreach (var currencyCode in getAllCurrencyCode)
-                {
-                    DateTime currentDateTime = DateTime.UtcNow;
-                    var conversionData = _exchangeRate.Import(currencyCode);
-                    if (conversionData == null)
-                    {
-                        failCurrency.Add(currencyCode);
-                        continue;
-                    }
-                    var addToDb = conversionData.conversion_rates
-                        .Where(x => getAllCurrencyCode.Contains(x.Key))
-                        .Select(x => new MarketRate
-                        {
-                            SendCur = currencyCode,
-                            ReceiveCur = x.Key,
-                            Rate = x.Value,
-                            Date = currentDateTime,
-                            RateSource = "Third-Party",
-                        })
-                        .ToList();
+        //public async Task<ApiResponse<List<string>>> UpdateDbCurrencyExchangeRates()
+        //{
+        //    List<string> failCurrency = [];
+        //    try
+        //    {
+        //        var getAllCurrencyCode = (await _currencyServices.GetAllCurrency())
+        //            .Data.Select(x => x.CurrencyIso).OrderBy(x => x).ToArray();
+        //        foreach (var currencyCode in getAllCurrencyCode)
+        //        {
+        //            DateTime currentDateTime = DateTime.UtcNow;
+        //            var conversionData = _exchangeRate.Import(currencyCode);
+        //            if (conversionData == null)
+        //            {
+        //                failCurrency.Add(currencyCode);
+        //                continue;
+        //            }
+        //            var addToDb = conversionData.conversion_rates
+        //                .Where(x => getAllCurrencyCode.Contains(x.Key))
+        //                .Select(x => new MarketRate
+        //                {
+        //                    SendCur = currencyCode,
+        //                    ReceiveCur = x.Key,
+        //                    Rate = x.Value,
+        //                    Date = currentDateTime,
+        //                    RateSource = "Third-Party",
+        //                })
+        //                .ToList();
 
-                    await _unitOfWork.GetRepository<MarketRate>().AddRange(addToDb);
-                    await _unitOfWork.SaveChangesAsync();
-                }
-                if (failCurrency.Count != 0)
-                    return new ApiResponse<List<string>>()
-                    {
-                        Message = "Some Currency Not Update",
-                        Data = failCurrency,
-                    };
-                return new ApiResponse<List<string>>()
-                {
-                    Message = "Success",
-                    Status = true,
-                    Data = failCurrency,
-                };
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //            await _unitOfWork.GetRepository<MarketRate>().AddRange(addToDb);
+        //            await _unitOfWork.SaveChangesAsync();
+        //        }
+        //        if (failCurrency.Count != 0)
+        //            return new ApiResponse<List<string>>()
+        //            {
+        //                Message = "Some Currency Not Update",
+        //                Data = failCurrency,
+        //            };
+        //        return new ApiResponse<List<string>>()
+        //        {
+        //            Message = "Success",
+        //            Status = true,
+        //            Data = failCurrency,
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
     }
 }
