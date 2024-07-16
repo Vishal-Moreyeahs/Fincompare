@@ -114,6 +114,7 @@ namespace Fincompare.Application.Services
         public async Task<ApiResponse<List<MarketRateDto>>> GetMarketRateBySendCurr(string sendCurr)
         {
             var response = new ApiResponse<List<MarketRateDto>>();
+            var oneHourAgo = DateTime.UtcNow.AddHours(-1);
 
             if (string.IsNullOrEmpty(sendCurr))
             {
@@ -128,7 +129,7 @@ namespace Fincompare.Application.Services
                 var marketRates = await _unitOfWork.GetRepository<MarketRate>()
                                                        .GetAll();
 
-                var marketCurrRates = marketRates.Where(x => x.SendCur == sendCurr)
+                var marketCurrRates = marketRates.Where(x => x.SendCur == sendCurr && x.Date >= oneHourAgo)
                                                        .ToList();
 
                 if (marketCurrRates == null || !marketCurrRates.Any())
@@ -160,6 +161,7 @@ namespace Fincompare.Application.Services
         public async Task<ApiResponse<MarketRateDto>> GetMarketRateBySourceAndDestCurr(string sourceCurr, string destCurr)
         {
             var response = new ApiResponse<MarketRateDto>();
+            var oneHourAgo = DateTime.UtcNow.AddHours(-1);
 
             if (string.IsNullOrEmpty(sourceCurr) || string.IsNullOrEmpty(destCurr))
             {
@@ -174,7 +176,7 @@ namespace Fincompare.Application.Services
                 var marketRates = await _unitOfWork.GetRepository<MarketRate>()
                                                        .GetAll();
 
-                var marketCurrRates = marketRates.Where(x => x.SendCur == sourceCurr && x.ReceiveCur == destCurr)
+                var marketCurrRates = marketRates.Where(x => x.SendCur == sourceCurr && x.ReceiveCur == destCurr && x.Date >= oneHourAgo)
                                                        .FirstOrDefault();
 
                 if (marketCurrRates == null)
@@ -203,54 +205,54 @@ namespace Fincompare.Application.Services
         }
 
 
-        public async Task<ApiResponse<List<string>>> UpdateDbCurrencyExchangeRates()
-        {
-            List<string> failCurrency = [];
-            try
-            {
-                var getAllCurrencyCode = (await _currencyServices.GetAllCurrency())
-                    .Data.Select(x => x.CurrencyIso).OrderBy(x => x).ToArray();
-                foreach (var currencyCode in getAllCurrencyCode)
-                {
-                    DateTime currentDateTime = DateTime.UtcNow;
-                    var conversionData = _exchangeRate.Import(currencyCode);
-                    if (conversionData == null)
-                    {
-                        failCurrency.Add(currencyCode);
-                        continue;
-                    }
-                    var addToDb = conversionData.conversion_rates
-                        .Where(x => getAllCurrencyCode.Contains(x.Key))
-                        .Select(x => new MarketRate
-                        {
-                            SendCur = currencyCode,
-                            ReceiveCur = x.Key,
-                            Rate = x.Value,
-                            Date = currentDateTime,
-                            RateSource = "Third-Party",
-                        })
-                        .ToList();
+        //public async Task<ApiResponse<List<string>>> UpdateDbCurrencyExchangeRates()
+        //{
+        //    List<string> failCurrency = [];
+        //    try
+        //    {
+        //        var getAllCurrencyCode = (await _currencyServices.GetAllCurrency())
+        //            .Data.Select(x => x.CurrencyIso).OrderBy(x => x).ToArray();
+        //        foreach (var currencyCode in getAllCurrencyCode)
+        //        {
+        //            DateTime currentDateTime = DateTime.UtcNow;
+        //            var conversionData = _exchangeRate.Import(currencyCode);
+        //            if (conversionData == null)
+        //            {
+        //                failCurrency.Add(currencyCode);
+        //                continue;
+        //            }
+        //            var addToDb = conversionData.conversion_rates
+        //                .Where(x => getAllCurrencyCode.Contains(x.Key))
+        //                .Select(x => new MarketRate
+        //                {
+        //                    SendCur = currencyCode,
+        //                    ReceiveCur = x.Key,
+        //                    Rate = x.Value,
+        //                    Date = currentDateTime,
+        //                    RateSource = "Third-Party",
+        //                })
+        //                .ToList();
 
-                    await _unitOfWork.GetRepository<MarketRate>().AddRange(addToDb);
-                    await _unitOfWork.SaveChangesAsync();
-                }
-                if (failCurrency.Count != 0)
-                    return new ApiResponse<List<string>>()
-                    {
-                        Message = "Some Currency Not Update",
-                        Data = failCurrency,
-                    };
-                return new ApiResponse<List<string>>()
-                {
-                    Message = "Success",
-                    Status = true,
-                    Data = failCurrency,
-                };
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
+        //            await _unitOfWork.GetRepository<MarketRate>().AddRange(addToDb);
+        //            await _unitOfWork.SaveChangesAsync();
+        //        }
+        //        if (failCurrency.Count != 0)
+        //            return new ApiResponse<List<string>>()
+        //            {
+        //                Message = "Some Currency Not Update",
+        //                Data = failCurrency,
+        //            };
+        //        return new ApiResponse<List<string>>()
+        //        {
+        //            Message = "Success",
+        //            Status = true,
+        //            Data = failCurrency,
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
     }
 }
