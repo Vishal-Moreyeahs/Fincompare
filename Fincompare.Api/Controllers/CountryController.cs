@@ -1,6 +1,7 @@
 ﻿using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -114,6 +115,87 @@ namespace Fincompare.Api.Controllers
             return Ok("insertData success");
         }
 
+        [HttpPost]
+        [Route("Add-State")]
+        public async Task<IActionResult> AddBulkStates()
+        {
+            var list = GetWithState();
+
+            await UpdateStatesAsync(list);
+            
+            return Ok("insertData success");
+        }
+
+        private async Task UpdateStatesAsync(List<UpdateStateModel> updateStateModels)
+        {
+            try
+            {
+                foreach (var updateStateModel in updateStateModels)
+                {
+                    foreach (var state2 in updateStateModel.States)
+                    {
+                        // Check if the state exists in the database
+                        //var state = await _unitOfWork.GetRepository<>
+                        //var state = await _context.States
+                        //    .FirstOrDefaultAsync(s => s.StateName == state2.Name && s.Country3Iso == updateStateModel.Iso3);
+
+                        //if (state == null)
+                        //{
+                        // If the state does not exist, create a new one
+                        if (updateStateModel.States != null && updateStateModel.States.Count > 0)
+                        {
+                            var state = new State
+                            {
+                                StateName = state2.Name,
+                                Country3Iso = updateStateModel.Iso3,
+                                Status = true
+                            };
+                            await _unitOfWork.GetRepository<State>().Add(state);
+                            await _unitOfWork.SaveChangesAsync(); // Save to get the State Id
+                                                                  //}
+                            if (state2.Cities != null && state2.Cities.Count > 0)
+                            {
+                                foreach (var city2 in state2.Cities)
+                                {
+                                    // Check if the city exists in the database
+                                    //var city = await _context.Cities
+                                    //    .FirstOrDefaultAsync(c => c.CityName == city2.Name && c.StateId == state.Id);
+
+                                    //if (city == null)
+                                    //{
+                                    // If the city does not exist, create a new one
+                                    var city = new City
+                                    {
+                                        CityName = string.IsNullOrEmpty(city2.Name) ? "":city2.Name,
+                                        StateId = state.Id,
+                                        Status = true
+                                    };
+                                    await _unitOfWork.GetRepository<City>().Add(city);
+                                    //}
+                                    //else
+                                    //{
+                                    //    // Update the city if it already exists
+                                    //    city.CityName = city2.Name;
+                                    //    city.Status = true;
+                                    //    _context.Cities.Update(city);
+                                    //}
+                                }
+                            }
+                        }
+                            
+                        
+                        await _unitOfWork.SaveChangesAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
+        }
+
+
         private List<Country2> GetCountryWithCurrency()
         {
             string baseURL = "https://restcountries.com/v2/all?fields=name,flag,currencies,alpha2Code,alpha3Code";
@@ -128,6 +210,14 @@ namespace Fincompare.Api.Controllers
             string baseURL = "https://restcountries.com/v2/all?fields=currencies";
             string response = RestClientHelper.HitTheRestClient(baseURL);
             var myDeserializedClass = JsonConvert.DeserializeObject<List<CurrencyData>>(response);
+            return myDeserializedClass;
+        }
+
+        private List<UpdateStateModel> GetWithState()
+        {
+            string baseURL = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries%2Bstates%2Bcities.json";
+            string response = RestClientHelper.HitTheRestClient(baseURL);
+            var myDeserializedClass = JsonConvert.DeserializeObject<List<UpdateStateModel>>(response);
             return myDeserializedClass;
         }
         public class RestClientHelper
@@ -159,6 +249,24 @@ namespace Fincompare.Api.Controllers
             public string Symbol { get; set; }
         }
 
+
+
+        public class City2
+        {
+            public string Name { get; set; }
+        }
+
+        public class UpdateStateModel
+        { 
+            public string Iso3 { get; set; }
+            public List<State2> States { get; set; }
+        }
+
+        public class State2
+        {
+            public string Name { get; set; }
+            public List<City2> Cities { get; set; }
+        }
         public class Country2
         {
             public string Name { get; set; }

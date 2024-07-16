@@ -1,6 +1,7 @@
 ﻿using Fincompare.Application.Contracts.Infrastructure;
 using Fincompare.Application.Models;
 using Fincompare.Infrastructure.Authentication;
+using Fincompare.Infrastructure.BackgroundServices;
 using Fincompare.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -15,6 +16,8 @@ namespace Fincompare.Infrastructure
     {
         public static IServiceCollection ConfigureInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
+
+            services.AddHostedService<MarketRateBackgroundService>();
             // Corrected code: Check if JwtSettings is present in your configuration
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
 

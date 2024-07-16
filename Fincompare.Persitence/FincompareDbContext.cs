@@ -111,7 +111,7 @@ namespace Fincompare.Persitence
 
                 entity.Property(e => e.CityName)
                     .HasColumnType("character varying")
-                    .HasColumnName("City_Name").HasMaxLength(40);
+                    .HasColumnName("City_Name").HasMaxLength(100);
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("timestamp with time zone")
                     .HasColumnName("Created_Date");
@@ -919,7 +919,7 @@ namespace Fincompare.Persitence
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("timestamp with time zone")
                     .HasColumnName("Created_Date");
-                entity.Property(e => e.StateName).HasColumnName("State_Name").HasMaxLength(40);
+                entity.Property(e => e.StateName).HasColumnName("State_Name").HasMaxLength(100);
                 entity.Property(e => e.UpdatedDate)
                     .HasColumnType("timestamp with time zone")
                     .HasColumnName("Updated_Date");
