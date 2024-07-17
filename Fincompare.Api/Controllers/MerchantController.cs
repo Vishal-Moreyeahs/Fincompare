@@ -1,7 +1,9 @@
 ﻿using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MarketRateRequest;
 using Fincompare.Application.Request.MerchantRequests;
+using Fincompare.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Fincompare.Api.Controllers
 {
@@ -54,6 +56,14 @@ namespace Fincompare.Api.Controllers
         public async Task<IActionResult> DeleteMerchant(int merchantId)
         {
             var response = await _merchantServices.DeleteMerchant(merchantId);
+            return Ok(response);
+        }
+
+        [HttpPut]
+        [Route("update-merchant")]
+        public async Task<IActionResult> UpdateMerchant(UpdateMerchantRequest model)
+        {
+            var response = await _merchantServices.EditMerchantProfile(model);
             return Ok(response);
         }
     }

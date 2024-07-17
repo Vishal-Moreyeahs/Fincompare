@@ -1,5 +1,6 @@
 ﻿using Fincompare.Application.Request.MarketRateRequest;
 using Fincompare.Application.Response;
+using Fincompare.Application.Response.MarketRateResponse;
 
 namespace Fincompare.Application.Repositories
 {
@@ -18,6 +19,6 @@ namespace Fincompare.Application.Repositories
 
         //Task<ApiResponse<List<string>>> UpdateDbCurrencyExchangeRates();
 
-
+        Task<MarketRateStatisticsData> GetAllMarketRatesStatistics(string sendCurr, string receiveCurr);
     }
 }
