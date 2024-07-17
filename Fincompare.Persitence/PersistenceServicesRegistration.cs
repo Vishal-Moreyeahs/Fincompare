@@ -11,8 +11,7 @@ namespace Fincompare.Persitence
         public static IServiceCollection ConfigurePersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<FincompareDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DBConnection"))
-            );
+                options.UseNpgsql(configuration.GetConnectionString("DBConnection")));
 
             //services.AddTransient<ICryptographyService,CryptographyService>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
