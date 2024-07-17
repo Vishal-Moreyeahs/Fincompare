@@ -1,6 +1,9 @@
 ﻿using Fincompare.Application.Repositories;
+using Fincompare.Application.Request.MerchantProductRequests;
+using Fincompare.Application.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static Fincompare.Application.Request.GroupMerchantRequest.GroupMerchantBaseModel;
 
 namespace Fincompare.Api.Controllers
 {
@@ -13,6 +16,14 @@ namespace Fincompare.Api.Controllers
         public MerchantProductController(IMerchantProductService merchantProductService)
         {
             _merchantProductService = merchantProductService;
+        }
+
+        [HttpPost]
+        [Route("add-merchant-product")]
+        public async Task<IActionResult> AddMerchantProduct(AddMerchantProductRequest model)
+        {
+            var response = await _merchantProductService.AddMerchantProduct(model);
+            return Ok(response);
         }
 
         [HttpGet("{sendCountry}/{receiveCountry}/{sendCurrency}/{receiveCurrency}")]

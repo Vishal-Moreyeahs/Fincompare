@@ -2,6 +2,7 @@
 using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Models;
 using Fincompare.Application.Repositories;
+using Fincompare.Application.Request.MerchantProductRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.MerchantProductResponse;
 using Fincompare.Domain.Entities;
@@ -22,6 +23,58 @@ namespace Fincompare.Application.Services
         { 
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+        }
+
+        public async Task<ApiResponse<MerchantProductViewModel>> AddMerchantProduct(AddMerchantProductRequest model)
+        {
+            try
+            {
+                if (model == null)
+                    return new ApiResponse<MerchantProductViewModel>()
+                    {
+                        Status = true,
+                        Message = "Merchant Product Creation Failed"
+                    };
+                //var checkMerchantExist = await _unitOfWork.GetRepository<Merchant>().GetById(model.MerchantId);
+                var createdData = _mapper.Map<MerchantProduct>(model);
+                await _unitOfWork.GetRepository<MerchantProduct>().Add(createdData);
+                await _unitOfWork.SaveChangesAsync();
+                var responseData = await _unitOfWork.GetRepository<MerchantProduct>().GetByPrimaryKeyWithRelatedEntitiesAsync<int>(createdData.Id);
+
+                var merchantResponseData = new MerchantProductViewModel
+                {
+                    MerchantProductId = responseData.Id,
+                    MerchantId = responseData.MerchantId,
+                    ServiceCategoryId = responseData.ServiceCategoryId,
+                    ServiceCategoryName = responseData.ServiceCategory.ServCategoryName,
+                    InstrumentId = responseData.InstrumentId,
+                    InstrumentName = responseData.Instrument.InstrumentName,
+                    ProductId = responseData.ProductId,
+                    ProductName = responseData.Instrument.InstrumentName,
+                    MerchantName = responseData.Merchant.MerchantName,
+                    ReceiveCountry3Iso = responseData.ReceiveCountry3Iso,
+                    SendCountry3Iso = responseData.SendCountry3Iso,
+                    ReceiveCurrencyId = responseData.ReceiveCurrencyId,
+                    SendCurrencyId = responseData.SendCurrencyId,
+                    ServiceLevels = responseData.ServiceLevels,
+                    Status = responseData.Status
+                };
+                                            
+
+                var response = new ApiResponse<MerchantProductViewModel>()
+                {
+                    Status = true,
+                    Message = "Merchant Product Created Successfully",
+                    Data = merchantResponseData
+
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw new ApplicationException("Error in adding merchant product");
+            }
         }
 
         public async Task<ApiResponse<IEnumerable<MerchantProductViewModel>>> GetMerchantProductByMerchantId(int merchantId)
@@ -124,6 +177,11 @@ namespace Fincompare.Application.Services
             response.Message = "Merchant Products found";
             response.Data = data;
             return response;
+        }
+
+        public Task<ApiResponse<MerchantProductViewModel>> UpdateMerchantProduct(UpdateMerchantProductRequest model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

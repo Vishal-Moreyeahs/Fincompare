@@ -142,5 +142,29 @@ namespace Fincompare.Persitence.Repositories
 
             return query.ToList();
         }
+
+        public async Task<T> GetByPrimaryKeyWithRelatedEntitiesAsync<TKey>(TKey primaryKey)
+        {
+            var entityType = _context.Model.FindEntityType(typeof(T));
+
+            var query = _context.Set<T>().AsQueryable();
+
+            foreach (var navigation in entityType.GetNavigations())
+            {
+                query = query.Include(navigation.Name);
+            }
+
+            // Assuming the primary key is a single key. For composite keys, adjust accordingly.
+            var primaryKeyProperty = entityType.FindPrimaryKey().Properties.FirstOrDefault();
+
+            if (primaryKeyProperty == null)
+            {
+                throw new InvalidOperationException("Primary key not found");
+            }
+
+            var keyValues = new object[] { primaryKey };
+            return await query.SingleOrDefaultAsync(e => EF.Property<TKey>(e, primaryKeyProperty.Name).Equals(primaryKey));
+        }
+
     }
 }

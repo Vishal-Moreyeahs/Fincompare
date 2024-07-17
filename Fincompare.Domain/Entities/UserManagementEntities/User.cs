@@ -14,7 +14,7 @@ namespace Fincompare.Domain.Entities.UserManagementEntities
         public string Email { get; set; }
         public string Phone { get; set; }
         public byte[] PasswordHash { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public int? CreatedBy { get; set; }
         public int StatusId { get; set; }
 

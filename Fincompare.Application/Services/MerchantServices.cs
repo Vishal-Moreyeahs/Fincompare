@@ -196,7 +196,7 @@ namespace Fincompare.Application.Services
                 //check if merchant already exist or not
 
                 var merchants = await _unitOfWork.GetRepository<Merchant>().GetAll();
-                var checkMerchant = merchants.Where(x => x.MerchantCsem == model.MerchantCsem);
+                var checkMerchant = merchants.FirstOrDefault(x => x.MerchantCsem == model.MerchantCsem);
                 if (checkMerchant != null)
                 { 
                     response.Status = false;
@@ -224,14 +224,14 @@ namespace Fincompare.Application.Services
                     Password = string.Concat(model.MerchantCsem,"Merchant@123"),
                     Role = RoleEnum.Customer.ToString(), 
                     Email = model.MerchantCsem.ToString(),
-                    CreatedBy = loggedInUser !=null ? loggedInUser.Id : 0,
+                    CreatedBy = loggedInUser !=null ? loggedInUser.Id : null,
                     Phone = model.MerchantCsph.ToString()
                 };
                 var registerMerchant = await _authService.Register(merchantUser);
 
 
                 //Create a merchant and add this in Merchant Table.
-                var merchant = _mapper.Map<Merchant>(registerMerchant);
+                var merchant = _mapper.Map<Merchant>(model);
                 merchant.UserId = registerMerchant.Data.Id;
                 await _unitOfWork.GetRepository<Merchant>().Add(merchant);
                 await _unitOfWork.SaveChangesAsync();

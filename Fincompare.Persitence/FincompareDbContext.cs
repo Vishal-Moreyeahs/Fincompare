@@ -956,7 +956,7 @@ namespace Fincompare.Persitence
                             Email = "aarya.garg@moreyeahs.com",
                             Phone = "1234567890",
                             PasswordHash = EncryptPassword("aarya.garg@moreyeahs.comAdmin@123"),
-                            CreatedAt = DateTime.Now,
+                            CreatedAt = DateTime.UtcNow,
                             StatusId = (int)StatusEnum.Enabled,
                             CreatedBy = null
                         },
@@ -968,7 +968,7 @@ namespace Fincompare.Persitence
                             Email = "vishal.pawar@moreyeahs.com",
                             Phone = "9876543216",
                             PasswordHash = EncryptPassword("vishal.pawar@moreyeahs.comAdmin@123"),
-                            CreatedAt = DateTime.Now,
+                            CreatedAt = DateTime.UtcNow,
                             StatusId = (int)StatusEnum.Enabled,
                             CreatedBy = null
                         }

@@ -15,5 +15,6 @@ namespace Fincompare.Application.Contracts.Persistence
 
         Task<bool> Upsert(T entity);
         IEnumerable<T> GetAllRelatedEntity();
+        Task<T> GetByPrimaryKeyWithRelatedEntitiesAsync<TKey>(TKey primaryKey);
     }
 }

@@ -120,15 +120,15 @@ namespace Fincompare.Infrastructure.Services
 
             if (existingUser.Count > 0)
             {
-                return null;
-                //throw new ApplicationException($"User '{request.Email}' already exists.");
+                //return null;
+                throw new ApplicationException($"User '{request.Email}' already exists.");
             }
 
             var loggedInUser = await _authenticatedUserService.GetLoggedInUser();
 
             //AddUser
             var user = _mapper.Map<User>(request);
-            user.CreatedBy = loggedInUser.Id;
+            user.CreatedBy = loggedInUser == null ? request.CreatedBy : loggedInUser.Id ;
             user.PasswordHash = _cryptographyService.EncryptPassword(request.Email + request.Password);
 
             await _unitOfWork.GetRepository<User>().Add(user);
