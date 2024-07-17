@@ -21,6 +21,7 @@ namespace Fincompare.Application
             services.AddTransient<IGroupMerchantService, GroupMerchantService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IInstrumentService, InstrumentService>();
+            services.AddTransient<IMerchantProductService, MerchantProductService>();
 
             return services;
         }
