@@ -51,17 +51,14 @@ namespace Fincompare.Application.Profiles
             CreateMap<CreateInstrumentRequest, Instrument>().ReverseMap();
             CreateMap<UpdateInstrumentRequest, Instrument>().ReverseMap();
             CreateMap<GetAllInstrumentResponse, Instrument>().ReverseMap();
-
             CreateMap<CreateProductRequest, Product>().ReverseMap();
             CreateMap<UpdateProductRequest, Product>().ReverseMap();
             CreateMap<GetAllProductResponse, Product>().ReverseMap();
             CreateMap<GetAllProductResponse, Product>().ReverseMap();
-
             CreateMap<MerchantProductDto, MerchantProduct>().ReverseMap();
             CreateMap<AddMerchantProductRequest, MerchantProduct>().ReverseMap();
             CreateMap<UpdateMerchantProductRequest, MerchantProduct>().ReverseMap();
             CreateMap<MerchantProductViewModel, MerchantProduct>().ReverseMap();
-
             CreateMap<CreateMerchantRemitProductFeeRequest, MerchantRemitProductFee>().ReverseMap();
             CreateMap<UpdateMerchantRemitProductFeeRequest, MerchantRemitProductFee>().ReverseMap();
         }
