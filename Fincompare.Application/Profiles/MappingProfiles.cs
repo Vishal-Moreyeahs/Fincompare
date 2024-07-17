@@ -13,6 +13,7 @@ using Fincompare.Domain.Entities.UserManagementEntities;
 using static Fincompare.Application.Request.CurrencyRequest.CurrencyRequests;
 using static Fincompare.Application.Request.GroupMerchantRequest.GroupMerchantBaseModel;
 using static Fincompare.Application.Request.InstrumentRequest.InstrumentRequestBaseModel;
+using static Fincompare.Application.Request.MerchantRemitProductFeeRequests.MerchantRemitProductFeeRequestViewModel;
 using static Fincompare.Application.Request.ProductRequests.ProductRequestViewModel;
 using static Fincompare.Application.Response.CurrencyResponse.CurrencyResponseBaseModel;
 using static Fincompare.Application.Response.GroupMerchantResponse.GroupMerchantViewResponse;
@@ -61,6 +62,8 @@ namespace Fincompare.Application.Profiles
             CreateMap<UpdateMerchantProductRequest, MerchantProduct>().ReverseMap();
             CreateMap<MerchantProductViewModel, MerchantProduct>().ReverseMap();
 
+            CreateMap<CreateMerchantRemitProductFeeRequest, MerchantRemitProductFee>().ReverseMap();
+            CreateMap<UpdateMerchantRemitProductFeeRequest, MerchantRemitProductFee>().ReverseMap();
         }
     }
 }

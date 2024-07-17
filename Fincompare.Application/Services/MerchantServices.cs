@@ -118,7 +118,7 @@ namespace Fincompare.Application.Services
                 }
 
                 var merchantsResponse = _mapper.Map<IEnumerable<MerchantDto>>(merchants);
-                response.Status = true;67
+                response.Status = true;
                 response.Data = merchantsResponse;
                 response.Message = "Merchants found";
                 return response;
