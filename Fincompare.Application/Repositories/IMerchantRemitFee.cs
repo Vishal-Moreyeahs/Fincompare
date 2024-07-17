@@ -6,7 +6,9 @@ namespace Fincompare.Application.Repositories
 {
     public interface IMerchantRemitFee
     {
-        Task<ApiResponse<IEnumerable<MerchantRemittanceFee>>> AddMerchantRemitFee(CreateMerchantRemitProductFeeRequest model);
-        Task<ApiResponse<IEnumerable<MerchantRemittanceFee>>> UpdateMerchantRemitFee(UpdateMerchantRemitProductFeeRequest model);
-    }
+        Task<ApiResponse<MerchantRemittanceFee>> AddMerchantRemitFee(CreateMerchantRemitProductFeeRequest model);
+        Task<ApiResponse<MerchantRemittanceFee>> UpdateMerchantRemitFee(UpdateMerchantRemitProductFeeRequest model);
+
+        //Task<ApiResponse<IEnumerable<MerchantRemittanceFee>>> GetMerchantRemittanceFee(string sendCountry,string receiveCountry,string sendCurrency,string receiveCurrency,int? merchantId,int? remittanceFeeId,int? merchantProductId,int? serviceCategoryId,int? instrumentId,double? sendMinLimit,double? receiveMinLimit,bool? status,bool? isValid);
+     }
 }

@@ -22,7 +22,7 @@
         }
         public class UpdateMerchantRemitProductFeeRequest : CreateMerchantRemitProductFeeRequest
         {
-            public int RemittanceFeeID { get; set; }
+            public int Id { get; set; }
         }
     }
 }
