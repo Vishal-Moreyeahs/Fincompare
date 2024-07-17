@@ -67,14 +67,40 @@ namespace Fincompare.Application.Services
             
         }
 
-        public Task<ApiResponse<string>> EditMerchantProfile(UpdateMerchantRequest model)
+        public async Task<ApiResponse<MerchantDto>> EditMerchantProfile(UpdateMerchantRequest model)
         {
-            //get merchant 
+            var response = new ApiResponse<MerchantDto>();
+            try
+            {
+                // Fetch merchant from the repository
+                var merchant = await _unitOfWork.GetRepository<Merchant>().GetById(model.Id);
+                if (merchant == null)
+                {
+                    response.Message = "Merchant Not Found";
+                    return response;
+                }
 
-            //edit its profile and map and save it in database
+                // Map the updated data and save it in the database
+                _mapper.Map(model, merchant);
+                await _unitOfWork.GetRepository<Merchant>().Upsert(merchant);
+                await _unitOfWork.SaveChangesAsync();
 
-            throw new NotImplementedException();
+                // Prepare the response
+                response.Status = true;
+                response.Message = "Merchant Updated Successfully";
+                response.Data = _mapper.Map<MerchantDto>(merchant);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception details for troubleshooting
+                // Logger.LogError(ex, "Merchant Update failed");
+                response.Status = false;
+                response.Message = "Merchant Update failed";
+            }
+
+            return response;
         }
+
 
         public async Task<ApiResponse<IEnumerable<MerchantDto>>> GetAllMerchants()
         {
@@ -92,7 +118,7 @@ namespace Fincompare.Application.Services
                 }
 
                 var merchantsResponse = _mapper.Map<IEnumerable<MerchantDto>>(merchants);
-                response.Status = true;
+                response.Status = true;67
                 response.Data = merchantsResponse;
                 response.Message = "Merchants found";
                 return response;
