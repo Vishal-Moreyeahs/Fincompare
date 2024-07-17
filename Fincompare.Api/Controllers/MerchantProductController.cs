@@ -26,6 +26,22 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
+        [HttpPut]
+        [Route("update-merchant-product")]
+        public async Task<IActionResult> UpdateMerchantProduct(UpdateMerchantProductRequest model)
+        {
+            var response = await _merchantProductService.UpdateMerchantProduct(model);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("get-merchant-product-by-merchantId")]
+        public async Task<IActionResult> GetMerchantProductByMerchantId(int merchantId)
+        {
+            var response = await _merchantProductService.GetMerchantProductByMerchantId(merchantId);
+            return Ok(response);
+        }
+
         [HttpGet("{sendCountry}/{receiveCountry}/{sendCurrency}/{receiveCurrency}")]
         public async Task<IActionResult> GetMerchantProducts(
                                                             string sendCountry,

@@ -8,7 +8,7 @@ namespace Fincompare.Application.Response.MerchantProductResponse
 {
     public class MerchantProductViewModel
     {
-        public int MerchantProductId { get; set; }
+        public int Id { get; set; }
 
         public int ServiceCategoryId { get; set; }
         public string ServiceCategoryName { get; set; }
