@@ -5,6 +5,7 @@
         public string CityName { get; set; } = null!;
 
         public int StateId { get; set; }
+        public bool Status {  get; set; }
     }
 
     public class AddCityRequest : CityRequest { }
