@@ -28,10 +28,15 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("update-group-merchant")]
         public async Task<IActionResult> UpdateGroupMerchant(UpdateGroupMerchantRequestClass model)
         {
+            if (!ModelState.IsValid)
+            {
+                // Return a 400 Bad Request response with validation errors
+                return BadRequest(ModelState);
+            }
             var response = await _groupMerchantService.UpdateGroupMerchant(model);
             return Ok(response);
         }

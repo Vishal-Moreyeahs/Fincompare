@@ -20,9 +20,14 @@ namespace Fincompare.Api.Controllers
 
 
         [HttpPost]
-        [Route("onboard-merchant")]
-        public async Task<IActionResult> OnBoardMerchant(AddMerchantRequest model)
+        [Route("add-merchant")]
+        public async Task<IActionResult> AddMerchant(AddMerchantRequest model)
         {
+            if (!ModelState.IsValid)
+            {
+                // Return a 400 Bad Request response with validation errors
+                return BadRequest(ModelState);
+            }
             var response = await _merchantServices.AddMerchant(model);
             return Ok(response);
         }
@@ -63,6 +68,11 @@ namespace Fincompare.Api.Controllers
         [Route("update-merchant")]
         public async Task<IActionResult> UpdateMerchant(UpdateMerchantRequest model)
         {
+            if (!ModelState.IsValid)
+            {
+                // Return a 400 Bad Request response with validation errors
+                return BadRequest(ModelState);
+            }
             var response = await _merchantServices.EditMerchantProfile(model);
             return Ok(response);
         }

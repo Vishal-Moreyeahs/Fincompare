@@ -19,6 +19,11 @@ namespace Fincompare.Api.Controllers.Admin
         [Route("add")]
         public async Task<IActionResult> CreateCompany(CountryRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                // Return a 400 Bad Request response with validation errors
+                return BadRequest(ModelState);
+            }
             return Ok(await _countryServices.AddCountry(request));
         }
 
@@ -26,6 +31,11 @@ namespace Fincompare.Api.Controllers.Admin
         [Route("update")]
         public async Task<IActionResult> UpdateCompany(CountryRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                // Return a 400 Bad Request response with validation errors
+                return BadRequest(ModelState);
+            }
             return Ok(await _countryServices.UpdateCountry(request));
         }
 

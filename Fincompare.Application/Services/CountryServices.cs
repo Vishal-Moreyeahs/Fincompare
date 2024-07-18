@@ -18,19 +18,32 @@ namespace Fincompare.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<string>> AddCountry(CountryRequest addCountry)
+        public async Task<ApiResponse<CountryRequest>> AddCountry(CountryRequest addCountry)
         {
             try
             {
+                var checkCountry = await _unitOfWork.GetRepository<Country>().GetById(addCountry.Country3Iso);
+
+                if (checkCountry != null)
+                {
+                    return new ApiResponse<CountryRequest>()
+                    {
+                        Status = true,
+                        Message = "Country already exist"
+                    };
+                }
+
                 var country = _mapper.Map<Country>(addCountry);
                 //country.CreatedDate = DateTime.UtcNow;
                 //country.UpdatedDate = DateTime.UtcNow;
                 await _unitOfWork.GetRepository<Country>().Add(country);
                 await _unitOfWork.SaveChangesAsync();
-                var response = new ApiResponse<string>()
+                var data = _mapper.Map<CountryRequest>(country);
+                var response = new ApiResponse<CountryRequest>()
                 {
                     Status = true,
-                    Message = "Country Created Successfully"
+                    Message = "Country Created Successfully",
+                    Data = data
                 };
                 return response;
             }

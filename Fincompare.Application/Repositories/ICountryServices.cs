@@ -5,7 +5,7 @@ namespace Fincompare.Application.Repositories
 {
     public interface ICountryServices
     {
-        Task<ApiResponse<string>> AddCountry(CountryRequest addCountry);
+        Task<ApiResponse<CountryRequest>> AddCountry(CountryRequest addCountry);
         Task<ApiResponse<string>> RemoveCountry(string country3Iso);
         Task<ApiResponse<string>> UpdateCountry(CountryRequest request);
         Task<ApiResponse<GetCountryDto>> GetCountryByCountryName(string countryName);

@@ -3,6 +3,7 @@ using System;
 using Fincompare.Persitence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-    partial class FincompareDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240718113523_deleteUserId")]
+    partial class deleteUserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -871,7 +874,7 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Updated_Date");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("WebUrl")
@@ -1718,7 +1721,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 7, 18, 11, 39, 6, 816, DateTimeKind.Utc).AddTicks(9169),
+                            CreatedAt = new DateTime(2024, 7, 18, 11, 35, 22, 952, DateTimeKind.Utc).AddTicks(3159),
                             Email = "aarya.garg@moreyeahs.com",
                             FirstName = "Aarya",
                             IsDeleted = false,
@@ -1730,7 +1733,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 7, 18, 11, 39, 6, 816, DateTimeKind.Utc).AddTicks(9193),
+                            CreatedAt = new DateTime(2024, 7, 18, 11, 35, 22, 952, DateTimeKind.Utc).AddTicks(3182),
                             Email = "vishal.pawar@moreyeahs.com",
                             FirstName = "Vishal",
                             IsDeleted = false,
@@ -2054,7 +2057,8 @@ namespace Fincompare.Persitence.Migrations
                     b.HasOne("Fincompare.Domain.Entities.UserManagementEntities.User", "User")
                         .WithMany("Merchants")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("Merchant_UserId_fkey");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Country3IsoNavigation");
 

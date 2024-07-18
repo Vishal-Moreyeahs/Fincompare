@@ -1,12 +1,19 @@
-﻿namespace Fincompare.Application.Request.MerchantRemitProductFeeRequests
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Fincompare.Application.Request.MerchantRemitProductFeeRequests
 {
     public class MerchantRemitProductFeeRequestViewModel
     {
         public class CreateMerchantRemitProductFeeRequest
         {
+            [Required]
             public int MerchantId { get; set; }
             public string FeesName { get; set; } = null!;
+
+            [Required]
             public string FeesCur { get; set; }
+
+            [Required]
             public double Fees { get; set; }
             public double? PromoFees { get; set; }
             public int? MerchantProductId { get; set; }
@@ -22,6 +29,7 @@
         }
         public class UpdateMerchantRemitProductFeeRequest : CreateMerchantRemitProductFeeRequest
         {
+            [Required]
             public int Id { get; set; }
         }
     }

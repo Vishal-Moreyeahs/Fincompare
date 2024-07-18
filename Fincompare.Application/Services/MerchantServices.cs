@@ -50,9 +50,9 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.GetRepository<Merchant>().Upsert(merchant);
                 await _unitOfWork.SaveChangesAsync();
 
-                // retreive the User table (get userid from merchant)
+                //retreive the User table(get userid from merchant)
                 if (merchant.UserId != null)
-                { 
+                {
                     var userResponse = await _userManagerServices.GetUserById((int)merchant.UserId);
                     var user = userResponse.Data;
 
@@ -71,9 +71,9 @@ namespace Fincompare.Application.Services
             
         }
 
-        public async Task<ApiResponse<IEnumerable<MerchantDto>>> EditMerchantProfile(UpdateMerchantRequest model)
+        public async Task<ApiResponse<MerchantDto>> EditMerchantProfile(UpdateMerchantRequest model)
         {
-            var response = new ApiResponse<IEnumerable<MerchantDto>>();
+            var response = new ApiResponse<MerchantDto>();
             try
             {
                 // Fetch merchant from the repository
@@ -92,7 +92,7 @@ namespace Fincompare.Application.Services
                 // Prepare the response
                 response.Status = true;
                 response.Message = "Merchant Updated Successfully";
-                response.Data = _mapper.Map<IEnumerable<MerchantDto>>(merchant);
+                response.Data = _mapper.Map<MerchantDto>(merchant);
             }
             catch (Exception ex)
             {
@@ -200,9 +200,9 @@ namespace Fincompare.Application.Services
 
         }
 
-        public async Task<ApiResponse<IEnumerable<MerchantDto>>> AddMerchant(AddMerchantRequest model)
+        public async Task<ApiResponse<MerchantDto>> AddMerchant(AddMerchantRequest model)
         {
-            var response = new ApiResponse<IEnumerable<MerchantDto>>();
+            var response = new ApiResponse<MerchantDto>();
             
             try
             {
@@ -249,7 +249,7 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.GetRepository<Merchant>().Add(merchant);
                 await _unitOfWork.SaveChangesAsync();
 
-                var merchantData = _mapper.Map<IEnumerable<MerchantDto>>(merchant);
+                var merchantData = _mapper.Map<MerchantDto>(merchant);
                 response.Status = true;
                 response.Message = "Merchant created successfully";
                 response.Data = merchantData;
