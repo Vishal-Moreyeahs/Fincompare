@@ -32,6 +32,6 @@
 
         public string WebUrl { get; set; } = null!;
 
-        public int UserId { get; set; }
+        //public int UserId { get; set; }
     }
 }

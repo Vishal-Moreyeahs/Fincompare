@@ -24,7 +24,7 @@ namespace Fincompare.Api.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPut]
         [Route("update-merchantremit-fee")]
         public async Task<IActionResult> UpdateMerchantRemitFee(UpdateMerchantRemitProductFeeRequest model)
         {
@@ -33,27 +33,78 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpGet("Merchant-RemittanceFee/{sendCountry}/{receiveCountry}/{sendCurrency}/{receiveCurrency}")]
-        public IActionResult GetMerchantRemittanceFee(
+        public async Task<IActionResult> GetMerchantRemittanceFee(
             string sendCountry,
             string receiveCountry,
             string sendCurrency,
             string receiveCurrency,
-            [FromQuery] string? merchantId,
-            [FromQuery] string? remittanceFeeId,
-            [FromQuery] string? merchantProductId,
-            [FromQuery] string? serviceCategoryId,
-            [FromQuery] string? instrumentId,
-            [FromQuery] string? sendMinLimit,
-            [FromQuery] string? receiveMinLimit,
+            [FromQuery] int? merchantId,
+            [FromQuery] int? remittanceFeeId,
+            [FromQuery] int? merchantProductId,
+            [FromQuery] int? serviceCategoryId,
+            [FromQuery] int? instrumentId,
+            [FromQuery] int? sendMinLimit,
+            [FromQuery] int? receiveMinLimit,
             [FromQuery] bool? status,
             [FromQuery] bool? isValid)
         {
             // Implement your logic here to process the request parameters
             // You can access and use these parameters as needed
+            var response = await _merchantRemitFee
+                .GetMerchantRemittanceFee(
+                sendCountry,
+                receiveCountry,
+                sendCurrency,
+                receiveCurrency,
+                merchantId,
+                remittanceFeeId,
+                merchantProductId,
+                serviceCategoryId,
+                instrumentId,
+                sendMinLimit,
+                receiveMinLimit,
+                status,
+                isValid);
+            return Ok(response);
 
-            
+        }
 
-            return Ok("response");
+
+        [HttpGet("Merchant-RemittanceFee/{merchantId}/{sendCountry}/{receiveCountry}/{sendCurrency}/{receiveCurrency}")]
+        public async Task<IActionResult> GetMerchantRemittanceFeeByMerchant(
+            int merchantId,
+            string sendCountry,
+            string receiveCountry,
+            string sendCurrency,
+            string receiveCurrency,
+            [FromQuery] int? remittanceFeeId,
+            [FromQuery] int? merchantProductId,
+            [FromQuery] int? serviceCategoryId,
+            [FromQuery] int? instrumentId,
+            [FromQuery] int? sendMinLimit,
+            [FromQuery] int? receiveMinLimit,
+            [FromQuery] bool? status,
+            [FromQuery] bool? isValid)
+        {
+            // Implement your logic here to process the request parameters
+            // You can access and use these parameters as needed
+            var response = await _merchantRemitFee
+                .GetMerchantRemittanceFeeByMerchant(
+                merchantId,
+                sendCountry,
+                receiveCountry,
+                sendCurrency,
+                receiveCurrency,
+                remittanceFeeId,
+                merchantProductId,
+                serviceCategoryId,
+                instrumentId,
+                sendMinLimit,
+                receiveMinLimit,
+                status,
+                isValid);
+            return Ok(response);
+
         }
     }
 }

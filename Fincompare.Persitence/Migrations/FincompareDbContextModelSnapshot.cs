@@ -871,7 +871,7 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Updated_Date");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("WebUrl")
@@ -1718,7 +1718,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 7, 16, 14, 34, 40, 724, DateTimeKind.Local).AddTicks(5835),
+                            CreatedAt = new DateTime(2024, 7, 18, 6, 38, 48, 121, DateTimeKind.Utc).AddTicks(7473),
                             Email = "aarya.garg@moreyeahs.com",
                             FirstName = "Aarya",
                             IsDeleted = false,
@@ -1730,7 +1730,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 7, 16, 14, 34, 40, 724, DateTimeKind.Local).AddTicks(5854),
+                            CreatedAt = new DateTime(2024, 7, 18, 6, 38, 48, 121, DateTimeKind.Utc).AddTicks(7515),
                             Email = "vishal.pawar@moreyeahs.com",
                             FirstName = "Vishal",
                             IsDeleted = false,
@@ -2054,7 +2054,6 @@ namespace Fincompare.Persitence.Migrations
                     b.HasOne("Fincompare.Domain.Entities.UserManagementEntities.User", "User")
                         .WithMany("Merchants")
                         .HasForeignKey("UserId")
-                        .IsRequired()
                         .HasConstraintName("Merchant_UserId_fkey");
 
                     b.Navigation("Country3IsoNavigation");

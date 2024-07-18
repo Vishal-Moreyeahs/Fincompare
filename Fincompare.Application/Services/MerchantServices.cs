@@ -9,6 +9,7 @@ using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
 using Fincompare.Domain.Entities.UserManagementEntities;
 using Fincompare.Domain.Enums;
+using System.Diagnostics.Metrics;
 
 namespace Fincompare.Application.Services
 {
@@ -50,13 +51,16 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.SaveChangesAsync();
 
                 // retreive the User table (get userid from merchant)
-                var userResponse = await _userManagerServices.GetUserById(merchant.UserId);
-                var user = userResponse.Data;
+                if (merchant.UserId != null)
+                { 
+                    var userResponse = await _userManagerServices.GetUserById((int)merchant.UserId);
+                    var user = userResponse.Data;
 
-                user.IsDeleted = true;
-                await _unitOfWork.GetRepository<User>().Upsert(user);
-                await _unitOfWork.SaveChangesAsync();
+                    user.IsDeleted = true;
+                    await _unitOfWork.GetRepository<User>().Upsert(user);
+                    await _unitOfWork.SaveChangesAsync();
 
+                }
                 response.Status = true;
                 response.Message = "Merchant Removed";
                 return response;
@@ -67,9 +71,9 @@ namespace Fincompare.Application.Services
             
         }
 
-        public async Task<ApiResponse<MerchantDto>> EditMerchantProfile(UpdateMerchantRequest model)
+        public async Task<ApiResponse<IEnumerable<MerchantDto>>> EditMerchantProfile(UpdateMerchantRequest model)
         {
-            var response = new ApiResponse<MerchantDto>();
+            var response = new ApiResponse<IEnumerable<MerchantDto>>();
             try
             {
                 // Fetch merchant from the repository
@@ -88,7 +92,7 @@ namespace Fincompare.Application.Services
                 // Prepare the response
                 response.Status = true;
                 response.Message = "Merchant Updated Successfully";
-                response.Data = _mapper.Map<MerchantDto>(merchant);
+                response.Data = _mapper.Map<IEnumerable<MerchantDto>>(merchant);
             }
             catch (Exception ex)
             {
@@ -102,7 +106,7 @@ namespace Fincompare.Application.Services
         }
 
 
-        public async Task<ApiResponse<IEnumerable<MerchantDto>>> GetAllMerchants()
+        public async Task<ApiResponse<IEnumerable<MerchantDto>>> GetAllMerchants(int? groupMerchantId, int? merchantId, string? countryIso3, bool? status)
         {
             var response = new ApiResponse<IEnumerable<MerchantDto>>();
 
@@ -117,10 +121,19 @@ namespace Fincompare.Application.Services
                     return response;
                 }
 
+                if (groupMerchantId.HasValue)
+                    merchants = merchants.Where(mp => mp.GroupMerchantId == groupMerchantId.Value);
+                if (merchantId.HasValue)
+                    merchants = merchants.Where(mp => mp.Id == merchantId.Value);
+                if (!string.IsNullOrEmpty(countryIso3))
+                    merchants = merchants.Where(mp => mp.Country3Iso == countryIso3);
+                if (status.HasValue)
+                    merchants = merchants.Where(mp => mp.Status == status.Value);
+
                 var merchantsResponse = _mapper.Map<IEnumerable<MerchantDto>>(merchants);
                 response.Status = true;
                 response.Data = merchantsResponse;
-                response.Message = "Merchants found";
+                response.Message = "Merchants fetched successfully";
                 return response;
             }
             catch (Exception ex) {
@@ -187,10 +200,10 @@ namespace Fincompare.Application.Services
 
         }
 
-        public async Task<ApiResponse<MerchantDto>> OnboardMerchant(AddMerchantRequest model)
+        public async Task<ApiResponse<IEnumerable<MerchantDto>>> AddMerchant(AddMerchantRequest model)
         {
-            var response = new ApiResponse<MerchantDto>();
-
+            var response = new ApiResponse<IEnumerable<MerchantDto>>();
+            
             try
             {
                 //check if merchant already exist or not
@@ -216,28 +229,29 @@ namespace Fincompare.Application.Services
 
 
                 //Create a user in userTable where merchant is created by admin.
-                var loggedInUser = await _authenticatedUserService.GetLoggedInUser();
-                var merchantUser = new RegisterUserRequest()
-                {
-                    FirstName = model.MerchantName,
-                    LastName = model.MerchantName + " "+ model.MerchantShortName,
-                    Password = string.Concat(model.MerchantCsem,"Merchant@123"),
-                    Role = RoleEnum.Customer.ToString(), 
-                    Email = model.MerchantCsem.ToString(),
-                    CreatedBy = loggedInUser !=null ? loggedInUser.Id : null,
-                    Phone = model.MerchantCsph.ToString()
-                };
-                var registerMerchant = await _authService.Register(merchantUser);
+                //var loggedInUser = await _authenticatedUserService.GetLoggedInUser();
+                //var merchantUser = new RegisterUserRequest()
+                //{
+                //    FirstName = model.MerchantName,
+                //    LastName = model.MerchantName + " "+ model.MerchantShortName,
+                //    Password = string.Concat(model.MerchantCsem,"Merchant@123"),
+                //    Role = RoleEnum.Customer.ToString(), 
+                //    Email = model.MerchantCsem.ToString(),
+                //    CreatedBy = loggedInUser !=null ? loggedInUser.Id : null,
+                //    Phone = model.MerchantCsph.ToString()
+                //};
+                //var registerMerchant = await _authService.Register(merchantUser);
 
 
                 //Create a merchant and add this in Merchant Table.
                 var merchant = _mapper.Map<Merchant>(model);
-                merchant.UserId = registerMerchant.Data.Id;
+                //merchant.UserId = registerMerchant.Data.Id;
                 await _unitOfWork.GetRepository<Merchant>().Add(merchant);
                 await _unitOfWork.SaveChangesAsync();
 
-                var merchantData = _mapper.Map<MerchantDto>(merchant);
+                var merchantData = _mapper.Map<IEnumerable<MerchantDto>>(merchant);
                 response.Status = true;
+                response.Message = "Merchant created successfully";
                 response.Data = merchantData;
                 return response;
             }

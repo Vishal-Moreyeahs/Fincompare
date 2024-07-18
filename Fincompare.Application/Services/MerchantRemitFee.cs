@@ -2,9 +2,7 @@
 using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Response;
-using Fincompare.Application.Response.MerchantProductResponse;
 using Fincompare.Domain.Entities;
-using System.Diagnostics.Metrics;
 using static Fincompare.Application.Request.MerchantRemitProductFeeRequests.MerchantRemitProductFeeRequestViewModel;
 using static Fincompare.Application.Response.MerchantRemitFeeResponse.MerchantRemitFeeBaseResponse;
 
@@ -26,12 +24,12 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<MerchantRemittanceFee>() { Status = false, Message = "Request are UnVailed !" };
 
-                var requestData =  _mapper.Map<MerchantRemitProductFee>(model);
+                var requestData = _mapper.Map<MerchantRemitProductFee>(model);
 
                 await _unitOfWork.GetRepository<MerchantRemitProductFee>().Add(requestData);
                 await _unitOfWork.SaveChangesAsync();
 
-                var merchantRemitFee =  await _unitOfWork.GetRepository<MerchantRemitProductFee>().GetByPrimaryKeyWithRelatedEntitiesAsync<int>(requestData.Id);
+                var merchantRemitFee = await _unitOfWork.GetRepository<MerchantRemitProductFee>().GetByPrimaryKeyWithRelatedEntitiesAsync<int>(requestData.Id);
 
                 var data = new MerchantRemittanceFee
                 {
@@ -69,63 +67,168 @@ namespace Fincompare.Application.Services
             }
         }
 
-        //public Task<ApiResponse<IEnumerable<MerchantRemittanceFee>>> GetMerchantRemittanceFee(string sendCountry, string receiveCountry, string sendCurrency, string receiveCurrency, int? merchantId, int? remittanceFeeId, int? merchantProductId, int? serviceCategoryId, int? instrumentId, double? sendMinLimit, double? receiveMinLimit, bool? status, bool? isValid)
-        //{
-        //    var response = new ApiResponse<IEnumerable<MerchantProductViewModel>>();
-        //    var merchantProducts = _unitOfWork.GetRepository<MerchantProduct>().GetAllRelatedEntity().AsQueryable();
+        public async Task<ApiResponse<IEnumerable<MerchantRemittanceFee>>>
+            GetMerchantRemittanceFee
+            (string sendCountry,
+            string receiveCountry,
+            string sendCurrency,
+            string receiveCurrency,
+            int? merchantId,
+            int? remittanceFeeId,
+            int? merchantProductId,
+            int? serviceCategoryId,
+            int? instrumentId,
+            double? sendMinLimit,
+            double? receiveMinLimit,
+            bool? status,
+            bool? isValid)
 
 
-        //    // Apply filters
-        //    if (merchantId.HasValue)
-        //        merchantProducts = merchantProducts.Where(mp => mp.MerchantId == merchantID.Value);
-        //    if (merchantProductId.HasValue)
-        //        merchantProducts = merchantProducts.Where(mp => mp.Id == merchantProductID.Value);
-        //    if (productId.HasValue)
-        //        merchantProducts = merchantProducts.Where(mp => mp.ProductId == productID.Value);
-        //    if (serviceCategoryId.HasValue)
-        //        merchantProducts = merchantProducts.Where(mp => mp.ServiceCategoryId == serviceCategoryID.Value);
-        //    if (instrumentId.HasValue)
-        //        merchantProducts = merchantProducts.Where(mp => mp.InstrumentId == instrumentID.Value);
-        //    if (status.HasValue)
-        //        merchantProducts = merchantProducts.Where(mp => mp.Status == status.Value);
+        {
+            //var response = new ApiResponse<IEnumerable<MerchantRemittanceFee>>();
+            var merchantRemitFees = _unitOfWork.GetRepository<MerchantRemitProductFee>().GetAllRelatedEntity().AsQueryable();
 
-        //    // Filter by required path parameters
-        //    merchantProducts = merchantProducts
-        //        .Where(mp => mp.SendCountry3Iso == sendCountry)
-        //        .Where(mp => mp.ReceiveCountry3Iso == receiveCountry)
-        //        .Where(mp => mp.SendCurrencyId == sendCurrency)
-        //        .Where(mp => mp.ReceiveCurrencyId == receiveCurrency);
 
-        //    if (!merchantProducts.Any())
-        //    {
-        //        response.Message = "merchant products not found";
-        //        return response;
-        //    }
-        //    var data = merchantProducts.Select(x => new MerchantProductViewModel
-        //    {
-        //        Id = x.Id,
-        //        MerchantId = x.MerchantId,
-        //        ServiceCategoryId = x.ServiceCategoryId,
-        //        ServiceCategoryName = x.ServiceCategory.ServCategoryName,
-        //        InstrumentId = x.InstrumentId,
-        //        InstrumentName = x.Instrument.InstrumentName,
-        //        ProductId = x.ProductId,
-        //        ProductName = x.Product.ProductName,
-        //        MerchantName = x.Merchant.MerchantName,
-        //        ReceiveCountry3Iso = x.ReceiveCountry3Iso,
-        //        SendCountry3Iso = x.SendCountry3Iso,
-        //        ReceiveCurrencyId = x.ReceiveCurrencyId,
-        //        SendCurrencyId = x.SendCurrencyId,
-        //        ServiceLevels = x.ServiceLevels,
-        //        Status = x.Status
-        //    }).ToList();
+            // Apply filters
+            if (merchantId.HasValue)
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.MerchantId == merchantId.Value);
+            if (merchantProductId.HasValue)
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.MerchantProductId == merchantProductId.Value);
+            if (remittanceFeeId.HasValue)
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.Id == remittanceFeeId.Value);
+            if (serviceCategoryId.HasValue)
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.MerchantProduct.ServiceCategoryId == serviceCategoryId.Value);
+            if (instrumentId.HasValue)
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.MerchantProduct.InstrumentId == instrumentId.Value);
+            if (sendMinLimit.HasValue)
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.SendMinLimit == sendMinLimit.Value);
+            if (receiveMinLimit.HasValue)
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.ReceiveMinLimit == receiveMinLimit.Value);
+            if (status.HasValue)
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.Status == status.Value);
+            //if (isValid.HasValue)
+            //    merchantRemitFees = merchantRemitFees.Where(mp => mp.va == status.Value);
 
-        //    response.Status = true;
-        //    response.Message = "Merchant Products found";
-        //    response.Data = data;
-        //    return response;
-        //}
+            // Filter by required path parameters
+            merchantRemitFees = merchantRemitFees
+                .Where(mp => mp.SendCountry3Iso == sendCountry)
+                .Where(mp => mp.ReceiveCountry3Iso == receiveCountry)
+                .Where(mp => mp.SendCurrency == sendCurrency)
+                .Where(mp => mp.ReceiveCurrency == receiveCurrency);
 
+            //if (!merchantRemitFees.Any())
+            //{
+            //    response.Message = "merchant products not found";
+            //    return response;
+            //}
+            var data = merchantRemitFees.Select(merchantRemitFee => new MerchantRemittanceFee
+            {
+                RemittanceFeeID = merchantRemitFee.Id,
+                MerchantID = merchantRemitFee.MerchantId,
+                MerchantName = merchantRemitFee.Merchant.MerchantName,
+                ServiceCategoryId = merchantRemitFee.MerchantProduct.ServiceCategoryId,
+                ServiceCategoryName = merchantRemitFee.MerchantProduct.ServiceCategory.ServCategoryName,
+                InstrumentId = merchantRemitFee.MerchantProduct.Instrument.Id,
+                InstrumentName = merchantRemitFee.MerchantProduct.Instrument.InstrumentName,
+                ProductId = merchantRemitFee.MerchantProduct.ProductId,
+                ProductName = merchantRemitFee.MerchantProduct.Product.ProductName,
+                FeesName = merchantRemitFee.FeesName,
+                FeesCurrency = merchantRemitFee.FeesCur,
+                Fees = merchantRemitFee.Fees,
+                PromoFees = merchantRemitFee.PromoFees,
+                MerchantProductID = merchantRemitFee.MerchantProductId,
+                SendCountry = merchantRemitFee.SendCountry3Iso,
+                ReceiveCountry = merchantRemitFee.ReceiveCurrency,
+                SendCurrency = merchantRemitFee.SendCurrency,
+                ReceiveCurrency = merchantRemitFee.ReceiveCurrency,
+                SendMinLimit = merchantRemitFee.SendMinLimit,
+                SendMaxLimit = merchantRemitFee.SendMinLimit,
+                ReceiveMinLimit = merchantRemitFee.ReceiveMinLimit,
+                ReceiveMaxLimit = merchantRemitFee.ReceiveMaxLimit,
+                ValidityExpiry = merchantRemitFee.ValidityExpiry,
+            }).ToList();
+
+            if (data.Count > 0)
+                return new ApiResponse<IEnumerable<MerchantRemittanceFee>>() { Status = true, Message = "Remittance Fee Fetch Successfully!", Data = data };
+            return new ApiResponse<IEnumerable<MerchantRemittanceFee>>() { Status = false, Message = "Remittance Fee Not Found!" };
+
+        }
+
+
+        public async Task<ApiResponse<IEnumerable<MerchantRemittanceFee>>> GetMerchantRemittanceFeeByMerchant(int merchantId, string sendCountry, string receiveCountry, string sendCurrency, string receiveCurrency, int? remittanceFeeId, int? merchantProductId, int? serviceCategoryId, int? instrumentId, double? sendMinLimit, double? receiveMinLimit, bool? status, bool? isValid)
+        {
+            //var response = new ApiResponse<IEnumerable<MerchantRemittanceFee>>();
+            var merchantRemitFees = _unitOfWork.GetRepository<MerchantRemitProductFee>().GetAllRelatedEntity().AsQueryable();
+
+
+            // Apply filters
+            //if (merchantId.HasValue)
+            //    merchantRemitFees = merchantRemitFees.Where(mp => mp.MerchantId == merchantId.Value);
+            if (merchantProductId.HasValue)
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.MerchantProductId == merchantProductId.Value);
+            if (remittanceFeeId.HasValue)
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.Id == remittanceFeeId.Value);
+            if (serviceCategoryId.HasValue)
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.MerchantProduct.ServiceCategoryId == serviceCategoryId.Value);
+            if (instrumentId.HasValue)
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.MerchantProduct.InstrumentId == instrumentId.Value);
+            if (sendMinLimit.HasValue)
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.SendMinLimit == sendMinLimit.Value);
+            if (receiveMinLimit.HasValue)
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.ReceiveMinLimit == receiveMinLimit.Value);
+            if (status.HasValue)
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.Status == status.Value);
+            //if (isValid.HasValue)
+            //    merchantRemitFees = merchantRemitFees.Where(mp => mp.va == status.Value);
+
+            // Filter by required path parameters
+            merchantRemitFees = merchantRemitFees
+                .Where(mp => mp.SendCountry3Iso == sendCountry)
+                .Where(mp => mp.ReceiveCountry3Iso == receiveCountry)
+                .Where(mp => mp.SendCurrency == sendCurrency)
+                .Where(mp => mp.ReceiveCurrency == receiveCurrency)
+                .Where(mp => mp.MerchantId == merchantId);
+
+            //if (!merchantRemitFees.Any())
+            //{
+            //    response.Message = "merchant products not found";
+            //    return response;
+            //}
+            var data = merchantRemitFees.Select(merchantRemitFee => new MerchantRemittanceFee
+            {
+                RemittanceFeeID = merchantRemitFee.Id,
+                MerchantID = merchantRemitFee.MerchantId,
+                MerchantName = merchantRemitFee.Merchant.MerchantName,
+                ServiceCategoryId = merchantRemitFee.MerchantProduct.ServiceCategoryId,
+                ServiceCategoryName = merchantRemitFee.MerchantProduct.ServiceCategory.ServCategoryName,
+                InstrumentId = merchantRemitFee.MerchantProduct.Instrument.Id,
+                InstrumentName = merchantRemitFee.MerchantProduct.Instrument.InstrumentName,
+                ProductId = merchantRemitFee.MerchantProduct.ProductId,
+                ProductName = merchantRemitFee.MerchantProduct.Product.ProductName,
+                FeesName = merchantRemitFee.FeesName,
+                FeesCurrency = merchantRemitFee.FeesCur,
+                Fees = merchantRemitFee.Fees,
+                PromoFees = merchantRemitFee.PromoFees,
+                MerchantProductID = merchantRemitFee.MerchantProductId,
+                SendCountry = merchantRemitFee.SendCountry3Iso,
+                ReceiveCountry = merchantRemitFee.ReceiveCurrency,
+                SendCurrency = merchantRemitFee.SendCurrency,
+                ReceiveCurrency = merchantRemitFee.ReceiveCurrency,
+                SendMinLimit = merchantRemitFee.SendMinLimit,
+                SendMaxLimit = merchantRemitFee.SendMinLimit,
+                ReceiveMinLimit = merchantRemitFee.ReceiveMinLimit,
+                ReceiveMaxLimit = merchantRemitFee.ReceiveMaxLimit,
+                ValidityExpiry = merchantRemitFee.ValidityExpiry,
+            }).ToList();
+
+            if (data.Count > 0)
+                return new ApiResponse<IEnumerable<MerchantRemittanceFee>>() { Status = true, Message = "Remittance Fee Fetch Successfully!", Data = data };
+            return new ApiResponse<IEnumerable<MerchantRemittanceFee>>() { Status = false, Message = "Remittance Fee Not Found!" };
+
+            
+        }
+
+        
         public async Task<ApiResponse<MerchantRemittanceFee>> UpdateMerchantRemitFee(UpdateMerchantRemitProductFeeRequest model)
         {
             try
@@ -166,7 +269,7 @@ namespace Fincompare.Application.Services
                     ReceiveMinLimit = merchantRemitFee.ReceiveMinLimit,
                     ReceiveMaxLimit = merchantRemitFee.ReceiveMaxLimit,
                     ValidityExpiry = merchantRemitFee.ValidityExpiry,
-                    
+
                 };
 
                 return new ApiResponse<MerchantRemittanceFee>() { Status = true, Message = "Merchant Remittance Fee updated successfully!", Data = data };

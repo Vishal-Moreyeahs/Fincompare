@@ -33,9 +33,9 @@ namespace Fincompare.Api.Controllers
 
         [HttpGet]
         [Route("getall-group-merchant")]
-        public async Task<IActionResult> GetAllGroupMerchant()
+        public async Task<IActionResult> GetAllGroupMerchant(int? groupMerchantId, string? countryIso3, bool? status)
         {
-            var response = await _groupMerchantService.GetAllGroupMerchant();
+            var response = await _groupMerchantService.GetAllGroupMerchant(groupMerchantId, countryIso3, status);
             return Ok(response);
         }
 

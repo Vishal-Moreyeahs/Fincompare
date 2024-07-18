@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-    [Migration("20240711124534_second")]
-    partial class second
+    [Migration("20240718063848_UpdateUserId")]
+    partial class UpdateUserId
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,9 @@ namespace Fincompare.Persitence.Migrations
                     b.Property<DateTime>("DateValidity")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Date_Validity");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("MerchantId")
                         .HasColumnType("integer")
@@ -117,6 +120,9 @@ namespace Fincompare.Persitence.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
 
@@ -138,13 +144,16 @@ namespace Fincompare.Persitence.Migrations
 
                     b.Property<string>("CityName")
                         .IsRequired()
-                        .HasMaxLength(40)
+                        .HasMaxLength(100)
                         .HasColumnType("character varying")
                         .HasColumnName("City_Name");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Created_Date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("StateId")
                         .HasColumnType("integer")
@@ -184,6 +193,9 @@ namespace Fincompare.Persitence.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("MerchantId")
                         .HasColumnType("integer")
@@ -227,6 +239,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Created_Date");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
 
@@ -266,9 +281,12 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Created_Date");
 
-                    b.Property<int>("CurrencyId")
-                        .HasColumnType("integer")
-                        .HasColumnName("Currency_Id");
+                    b.Property<string>("CurrencyIso")
+                        .HasColumnType("text")
+                        .HasColumnName("Currency_3_iso");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsPrimaryCur")
                         .HasColumnType("boolean")
@@ -288,7 +306,7 @@ namespace Fincompare.Persitence.Migrations
 
                     b.HasIndex("CountryCurrencyCategoryId");
 
-                    b.HasIndex("CurrencyId");
+                    b.HasIndex("CurrencyIso");
 
                     b.ToTable("CountryCurrency", (string)null);
                 });
@@ -309,6 +327,9 @@ namespace Fincompare.Persitence.Migrations
                         .IsRequired()
                         .HasMaxLength(35)
                         .HasColumnType("character varying");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
@@ -345,6 +366,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Created_Date");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
 
@@ -360,18 +384,12 @@ namespace Fincompare.Persitence.Migrations
 
             modelBuilder.Entity("Fincompare.Domain.Entities.Currency", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<string>("CurrencyIso")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Created_Date");
-
-                    b.Property<string>("CurrencyIso")
-                        .HasColumnType("text");
 
                     b.Property<string>("CurrencyName")
                         .IsRequired()
@@ -381,6 +399,9 @@ namespace Fincompare.Persitence.Migrations
 
                     b.Property<int>("Decimal")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
@@ -393,7 +414,7 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("Volatility_Range");
 
-                    b.HasKey("Id")
+                    b.HasKey("CurrencyIso")
                         .HasName("Currency_pkey");
 
                     b.ToTable("Currency", (string)null);
@@ -415,12 +436,17 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("CustomerUser_Id");
 
-                    b.Property<int>("ReceiveCur")
-                        .HasColumnType("integer")
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("ReceiveCur")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("Receive_Cur");
 
-                    b.Property<int>("SendCur")
-                        .HasColumnType("integer")
+                    b.Property<string>("SendCur")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("Send_Cur");
 
                     b.Property<bool>("Status")
@@ -449,6 +475,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("MerchantId")
                         .HasColumnType("integer")
@@ -489,6 +518,9 @@ namespace Fincompare.Persitence.Migrations
                     b.Property<int>("CustomerUserId")
                         .HasColumnType("integer")
                         .HasColumnName("CustomerUser_Id");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsUsed")
                         .HasColumnType("boolean");
@@ -553,6 +585,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasMaxLength(35)
                         .HasColumnType("character varying")
                         .HasColumnName("Email_Id");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -650,6 +685,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("character varying")
                         .HasColumnName("Group_Ph2");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
 
@@ -688,6 +726,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("character varying")
                         .HasColumnName("Instrument_Name");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
 
@@ -714,6 +755,9 @@ namespace Fincompare.Persitence.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<double>("Rate")
                         .HasColumnType("double precision");
 
@@ -722,12 +766,14 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("character varying")
                         .HasColumnName("Rate_Source");
 
-                    b.Property<int>("ReceiveCur")
-                        .HasColumnType("integer")
+                    b.Property<string>("ReceiveCur")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("Receive_Cur");
 
-                    b.Property<int>("SendCur")
-                        .HasColumnType("integer")
+                    b.Property<string>("SendCur")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("Send_Cur");
 
                     b.HasKey("Id")
@@ -765,6 +811,9 @@ namespace Fincompare.Persitence.Migrations
                     b.Property<int>("GroupMerchantId")
                         .HasColumnType("integer")
                         .HasColumnName("GroupMerchant_id");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("MerchantCsem")
                         .IsRequired()
@@ -825,7 +874,7 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Updated_Date");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("WebUrl")
@@ -876,6 +925,9 @@ namespace Fincompare.Persitence.Migrations
                     b.Property<DateTime>("DateValidity")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Date_Validity");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("MerchantId")
                         .HasColumnType("integer")
@@ -934,6 +986,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("Instrument_Id");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("MerchantId")
                         .HasColumnType("integer")
                         .HasColumnName("Merchant_Id");
@@ -946,16 +1001,18 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("character varying")
                         .HasColumnName("Receive_Country_3_iso");
 
-                    b.Property<int>("ReceiveCurrencyId")
-                        .HasColumnType("integer")
+                    b.Property<string>("ReceiveCurrencyId")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("Receive_Currency_Id");
 
                     b.Property<string>("SendCountry3Iso")
                         .HasColumnType("character varying")
                         .HasColumnName("Send_Country_3_iso");
 
-                    b.Property<int>("SendCurrencyId")
-                        .HasColumnType("integer")
+                    b.Property<string>("SendCurrencyId")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("Send_Currency_Id");
 
                     b.Property<int>("ServiceCategoryId")
@@ -1019,6 +1076,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Created_Date");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsMultiple")
                         .HasColumnType("boolean");
 
@@ -1067,8 +1127,9 @@ namespace Fincompare.Persitence.Migrations
                     b.Property<double>("Fees")
                         .HasColumnType("double precision");
 
-                    b.Property<int>("FeesCur")
-                        .HasColumnType("integer")
+                    b.Property<string>("FeesCur")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("Fees_Cur");
 
                     b.Property<string>("FeesName")
@@ -1076,6 +1137,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasMaxLength(35)
                         .HasColumnType("character varying")
                         .HasColumnName("Fees_Name");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("MerchantId")
                         .HasColumnType("integer")
@@ -1094,8 +1158,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("character varying")
                         .HasColumnName("Receive_Country_3_iso");
 
-                    b.Property<int>("ReceiveCurrency")
-                        .HasColumnType("integer")
+                    b.Property<string>("ReceiveCurrency")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("Receive_Currency");
 
                     b.Property<double>("ReceiveMaxLimit")
@@ -1111,8 +1176,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("character varying")
                         .HasColumnName("Send_Country_3_iso");
 
-                    b.Property<int>("SendCurrency")
-                        .HasColumnType("integer")
+                    b.Property<string>("SendCurrency")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("Send_Currency");
 
                     b.Property<double>("SendMaxLimit")
@@ -1165,6 +1231,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Created_Date");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("MerchantId")
                         .HasColumnType("integer")
                         .HasColumnName("Merchant_Id");
@@ -1191,8 +1260,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("character varying")
                         .HasColumnName("Receive_Country_3_iso");
 
-                    b.Property<int>("ReceiveCur")
-                        .HasColumnType("integer")
+                    b.Property<string>("ReceiveCur")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("Receive_Cur");
 
                     b.Property<int>("ReceiveMaxLimit")
@@ -1208,8 +1278,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("character varying")
                         .HasColumnName("Send_Country_3_iso");
 
-                    b.Property<int>("SendCur")
-                        .HasColumnType("integer")
+                    b.Property<string>("SendCur")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("Send_Cur");
 
                     b.Property<int>("SendMaxLimit")
@@ -1269,6 +1340,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Created_Date");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("ProductDescription")
                         .IsRequired()
                         .HasMaxLength(75)
@@ -1315,6 +1389,9 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("character varying")
                         .HasColumnName("Country_3_iso");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Rate_Card")
                         .IsRequired()
                         .HasMaxLength(7)
@@ -1348,6 +1425,9 @@ namespace Fincompare.Persitence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Created_Date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ServCategoryName")
                         .IsRequired()
@@ -1387,10 +1467,13 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Created_Date");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("StateName")
                         .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("State_Name");
 
                     b.Property<bool>("Status")
@@ -1422,6 +1505,9 @@ namespace Fincompare.Persitence.Migrations
                     b.Property<bool>("IsCustomer")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsMerchant")
                         .HasColumnType("boolean");
 
@@ -1442,6 +1528,7 @@ namespace Fincompare.Persitence.Migrations
                             Id = 10,
                             IsAdmin = true,
                             IsCustomer = false,
+                            IsDeleted = false,
                             IsMerchant = false,
                             IsVendor = false,
                             PermissionName = "CanAccessAdmin"
@@ -1451,6 +1538,7 @@ namespace Fincompare.Persitence.Migrations
                             Id = 11,
                             IsAdmin = false,
                             IsCustomer = false,
+                            IsDeleted = false,
                             IsMerchant = true,
                             IsVendor = false,
                             PermissionName = "CanAccessMerchant"
@@ -1460,6 +1548,7 @@ namespace Fincompare.Persitence.Migrations
                             Id = 12,
                             IsAdmin = false,
                             IsCustomer = false,
+                            IsDeleted = false,
                             IsMerchant = false,
                             IsVendor = true,
                             PermissionName = "CanAccessVendor"
@@ -1469,6 +1558,7 @@ namespace Fincompare.Persitence.Migrations
                             Id = 13,
                             IsAdmin = false,
                             IsCustomer = true,
+                            IsDeleted = false,
                             IsMerchant = false,
                             IsVendor = false,
                             PermissionName = "CanAccessCustomer"
@@ -1483,6 +1573,9 @@ namespace Fincompare.Persitence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("RoleName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1495,21 +1588,25 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
+                            IsDeleted = false,
                             RoleName = "Admin"
                         },
                         new
                         {
                             Id = 2,
+                            IsDeleted = false,
                             RoleName = "Merchant"
                         },
                         new
                         {
                             Id = 3,
+                            IsDeleted = false,
                             RoleName = "Vendor"
                         },
                         new
                         {
                             Id = 4,
+                            IsDeleted = false,
                             RoleName = "Customer"
                         });
                 });
@@ -1528,6 +1625,9 @@ namespace Fincompare.Persitence.Migrations
                         .IsUnicode(false)
                         .HasColumnType("character varying(255)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("StatusCode")
                         .IsRequired()
                         .HasMaxLength(5)
@@ -1543,24 +1643,28 @@ namespace Fincompare.Persitence.Migrations
                         {
                             Id = 1,
                             Description = "Enabled",
+                            IsDeleted = false,
                             StatusCode = "EN"
                         },
                         new
                         {
                             Id = 2,
                             Description = "Disabled",
+                            IsDeleted = false,
                             StatusCode = "DS"
                         },
                         new
                         {
                             Id = 3,
                             Description = "Locked",
+                            IsDeleted = false,
                             StatusCode = "LK"
                         },
                         new
                         {
                             Id = 4,
                             Description = "PasswordExpired",
+                            IsDeleted = false,
                             StatusCode = "PE"
                         });
                 });
@@ -1586,6 +1690,9 @@ namespace Fincompare.Persitence.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -1614,9 +1721,10 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 7, 11, 18, 15, 34, 249, DateTimeKind.Local).AddTicks(3515),
+                            CreatedAt = new DateTime(2024, 7, 18, 6, 38, 48, 121, DateTimeKind.Utc).AddTicks(7473),
                             Email = "aarya.garg@moreyeahs.com",
                             FirstName = "Aarya",
+                            IsDeleted = false,
                             LastName = "Garg",
                             PasswordHash = new byte[] { 174, 37, 40, 78, 61, 77, 69, 19, 80, 223, 202, 222, 187, 5, 98, 239, 4, 250, 125, 131, 152, 224, 149, 111, 155, 248, 50, 77, 228, 16, 121, 219 },
                             Phone = "1234567890",
@@ -1625,9 +1733,10 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 7, 11, 18, 15, 34, 249, DateTimeKind.Local).AddTicks(3535),
+                            CreatedAt = new DateTime(2024, 7, 18, 6, 38, 48, 121, DateTimeKind.Utc).AddTicks(7515),
                             Email = "vishal.pawar@moreyeahs.com",
                             FirstName = "Vishal",
+                            IsDeleted = false,
                             LastName = "Pawar",
                             PasswordHash = new byte[] { 191, 77, 99, 205, 83, 55, 86, 113, 215, 255, 103, 106, 200, 175, 114, 38, 28, 185, 72, 18, 181, 201, 106, 152, 78, 60, 123, 188, 38, 184, 208, 240 },
                             Phone = "9876543216",
@@ -1643,6 +1752,9 @@ namespace Fincompare.Persitence.Migrations
                     b.Property<int>("PermissionId")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.HasKey("UserId", "PermissionId");
 
                     b.HasIndex("PermissionId");
@@ -1653,12 +1765,14 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             UserId = 1,
-                            PermissionId = 10
+                            PermissionId = 10,
+                            IsDeleted = false
                         },
                         new
                         {
                             UserId = 2,
-                            PermissionId = 10
+                            PermissionId = 10,
+                            IsDeleted = false
                         });
                 });
 
@@ -1670,6 +1784,9 @@ namespace Fincompare.Persitence.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
@@ -1680,12 +1797,14 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             UserId = 1,
-                            RoleId = 1
+                            RoleId = 1,
+                            IsDeleted = false
                         },
                         new
                         {
                             UserId = 2,
-                            RoleId = 1
+                            RoleId = 1,
+                            IsDeleted = false
                         });
                 });
 
@@ -1787,9 +1906,8 @@ namespace Fincompare.Persitence.Migrations
 
                     b.HasOne("Fincompare.Domain.Entities.Currency", "Currency")
                         .WithMany("CountryCurrencies")
-                        .HasForeignKey("CurrencyId")
-                        .IsRequired()
-                        .HasConstraintName("CountryCurrency_Currency_Id_fkey");
+                        .HasForeignKey("CurrencyIso")
+                        .HasConstraintName("CountryCurrency_Currency_3_iso_fkey");
 
                     b.Navigation("Country3IsoNavigation");
 
@@ -1939,7 +2057,6 @@ namespace Fincompare.Persitence.Migrations
                     b.HasOne("Fincompare.Domain.Entities.UserManagementEntities.User", "User")
                         .WithMany("Merchants")
                         .HasForeignKey("UserId")
-                        .IsRequired()
                         .HasConstraintName("Merchant_UserId_fkey");
 
                     b.Navigation("Country3IsoNavigation");
