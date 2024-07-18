@@ -23,7 +23,6 @@ namespace Fincompare.Application
             services.AddTransient<IInstrumentService, InstrumentService>();
             services.AddTransient<IMerchantProductService, MerchantProductService>();
             services.AddTransient<IMerchantRemitFee, MerchantRemitFee>();
-
             services.AddTransient<IMerchantRemitProductRateService, MerchantRemitProductRateService>();
 
             return services;
