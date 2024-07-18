@@ -33,9 +33,9 @@ namespace Fincompare.Api.Controllers.Admin
 
         [HttpGet]
         [Route("get-all-cities")]
-        public async Task<IActionResult> GetAllCity()
+        public async Task<IActionResult> GetAllCity(string? countryIso3, int? StateId, int? CityId, bool? Status)
         {
-            var response = await _cityServices.GetAllCity();
+            var response = await _cityServices.GetAllCity(countryIso3, StateId, CityId, Status);
             return Ok(response);
         }
 

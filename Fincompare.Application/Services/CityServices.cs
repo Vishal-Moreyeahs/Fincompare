@@ -17,20 +17,27 @@ namespace Fincompare.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<string>> AddCity(AddCityRequest model)
+        public async Task<ApiResponse<UpdateCityRequest>> AddCity(AddCityRequest model)
         {
             try
             {
+                if (model == null)
+                    return new ApiResponse<UpdateCityRequest>()
+                    {
+                        Status = true,
+                        Message = "Request invalid !",
+                    };
+
                 var city = _mapper.Map<City>(model);
-                //city.CreatedDate = DateTime.UtcNow;
-                //city.UpdatedDate = DateTime.UtcNow;
                 await _unitOfWork.GetRepository<City>().Add(city);
                 await _unitOfWork.SaveChangesAsync();
 
-                return new ApiResponse<string>()
+                var response = _mapper.Map<UpdateCityRequest>(model);
+                return new ApiResponse<UpdateCityRequest>()
                 {
                     Status = true,
-                    Message = "City Added Successfully !",
+                    Message = "City Created Successfully !",
+                    Data = response
                 };
             }
             catch (Exception ex)
@@ -74,13 +81,30 @@ namespace Fincompare.Application.Services
             }
         }
 
-        public async Task<ApiResponse<IEnumerable<CityDto>>> GetAllCity()
+        public async Task<ApiResponse<IEnumerable<CityDto>>> GetAllCity(string? countryIso3, int? stateId, int? cityId, bool? status)
         {
             try
             {
-                var getAllCity = await _unitOfWork.GetRepository<City>().GetAll();
+                var getAllCity = _unitOfWork.GetRepository<City>().GetAllRelatedEntity();
 
-                if (getAllCity == null || getAllCity.ToList().Count == 0)
+                if (!string.IsNullOrEmpty(countryIso3))
+                {
+                    getAllCity = getAllCity.Where(x => x.State.Country3Iso == countryIso3).ToList();
+                }
+                if (stateId.HasValue)
+                {
+                    getAllCity = getAllCity.Where(x => x.StateId == stateId).ToList();
+                }
+                if (cityId.HasValue)
+                {
+                    getAllCity = getAllCity.Where(x => x.Id == cityId).ToList();
+                }
+                if (status.HasValue)
+                {
+                    getAllCity = getAllCity.Where(x => x.Status == status).ToList();
+                }
+
+                if (getAllCity.ToList().Count == 0)
                 {
                     var response = new ApiResponse<IEnumerable<CityDto>>()
                     {
@@ -170,26 +194,27 @@ namespace Fincompare.Application.Services
             }
         }
 
-        public async Task<ApiResponse<string>> UpdateCity(UpdateCityRequest model)
+        public async Task<ApiResponse<UpdateCityRequest>> UpdateCity(UpdateCityRequest model)
         {
             try
             {
                 var checkCity = await _unitOfWork.GetRepository<City>().GetById(model.Id);
                 if (checkCity == null)
-                    return new ApiResponse<string>()
+                    return new ApiResponse<UpdateCityRequest>()
                     {
                         Status = false,
                         Message = "City Not Found !"
                     };
 
                 var updateCity = _mapper.Map(model, checkCity);
-                //updateCity.UpdatedDate = DateTime.UtcNow;
                 await _unitOfWork.GetRepository<City>().Upsert(updateCity);
                 await _unitOfWork.SaveChangesAsync();
-                return new ApiResponse<string>()
+                var response = _mapper.Map<UpdateCityRequest>(model);
+                return new ApiResponse<UpdateCityRequest>()
                 {
                     Status = true,
                     Message = "City Update Successfully !",
+                    Data = response
                 };
             }
             catch (Exception ex)
