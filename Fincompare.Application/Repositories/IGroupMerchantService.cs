@@ -6,8 +6,8 @@ namespace Fincompare.Application.Repositories
 {
     public interface IGroupMerchantService
     {
-        Task<ApiResponse<IEnumerable<GetAllGroupMerchantResponse>>> AddGroupMerchant(AddGroupMerchantRequestClass model);
-        Task<ApiResponse<IEnumerable<UpdateGroupMerchantRequestClass>>> UpdateGroupMerchant(UpdateGroupMerchantRequestClass model);
+        Task<ApiResponse<GetAllGroupMerchantResponse>> AddGroupMerchant(AddGroupMerchantRequestClass model);
+        Task<ApiResponse<UpdateGroupMerchantRequestClass>> UpdateGroupMerchant(UpdateGroupMerchantRequestClass model);
         Task<ApiResponse<IEnumerable<GetAllGroupMerchantResponse>>> GetAllGroupMerchant(int? groupMerchantId, string? countryIso3, bool? status);
         Task<ApiResponse<GetAllGroupMerchantResponse>> GetByIdGroupMerchant(int id);
     }

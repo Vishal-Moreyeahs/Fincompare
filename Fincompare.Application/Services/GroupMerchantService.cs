@@ -22,12 +22,12 @@ namespace Fincompare.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<IEnumerable<GetAllGroupMerchantResponse>>> AddGroupMerchant(AddGroupMerchantRequestClass model)
+        public async Task<ApiResponse<GetAllGroupMerchantResponse>> AddGroupMerchant(AddGroupMerchantRequestClass model)
         {
             try
             {
                 if (model == null)
-                    return new ApiResponse<IEnumerable<GetAllGroupMerchantResponse>>()
+                    return new ApiResponse<GetAllGroupMerchantResponse>()
                     {
                         Status = true,
                         Message = "Merchant Group Creation Failed"
@@ -36,8 +36,8 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.GetRepository<GroupMerchant>().Add(createdData);
                 await _unitOfWork.SaveChangesAsync();
 
-                var data = _mapper.Map<IEnumerable<GetAllGroupMerchantResponse>>(createdData);
-                return new ApiResponse<IEnumerable<GetAllGroupMerchantResponse>>() { Status = true, Message = "Group Merchant Created Successfully",Data =data };
+                var data = _mapper.Map<GetAllGroupMerchantResponse>(createdData);
+                return new ApiResponse<GetAllGroupMerchantResponse>() { Status = true, Message = "Group Merchant Created Successfully",Data =data };
 
                 //var response = new ApiResponse<string>()
                 //{
@@ -53,18 +53,18 @@ namespace Fincompare.Application.Services
             }
         }
 
-        public async Task<ApiResponse<IEnumerable<UpdateGroupMerchantRequestClass>>> UpdateGroupMerchant(UpdateGroupMerchantRequestClass model)
+        public async Task<ApiResponse<UpdateGroupMerchantRequestClass>> UpdateGroupMerchant(UpdateGroupMerchantRequestClass model)
         {
             try
             {
                 var checkGroup = await _unitOfWork.GetRepository<GroupMerchant>().GetById(model.Id);
                 if (checkGroup == null)
-                    return new ApiResponse<IEnumerable<UpdateGroupMerchantRequestClass>>() { Status = false, Message = "Group Updating Failed" };
+                    return new ApiResponse<UpdateGroupMerchantRequestClass>() { Status = false, Message = "Group Updating Failed" };
                 var groupData = _mapper.Map(model, checkGroup);
                 await _unitOfWork.GetRepository<GroupMerchant>().Upsert(groupData);
                 await _unitOfWork.SaveChangesAsync();
-                var data = _mapper.Map<IEnumerable<UpdateGroupMerchantRequestClass>>(model);
-                return new ApiResponse<IEnumerable<UpdateGroupMerchantRequestClass>>() { Status = true, Message = "group merchant updated successfully" , Data = data };
+                var data = _mapper.Map<UpdateGroupMerchantRequestClass>(model);
+                return new ApiResponse<UpdateGroupMerchantRequestClass>() { Status = true, Message = "group merchant updated successfully" , Data = data };
 
             }
             catch (Exception ex)

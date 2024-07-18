@@ -19,6 +19,11 @@ namespace Fincompare.Api.Controllers
         [Route("add-group-merchant")]
         public async Task<IActionResult> AddGroupMerchant(AddGroupMerchantRequestClass model)
         {
+            if (!ModelState.IsValid)
+            {
+                // Return a 400 Bad Request response with validation errors
+                return BadRequest(ModelState);
+            }
             var response = await _groupMerchantService.AddGroupMerchant(model);
             return Ok(response);
         }
