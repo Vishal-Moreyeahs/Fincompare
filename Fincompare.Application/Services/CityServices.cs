@@ -32,7 +32,7 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.GetRepository<City>().Add(city);
                 await _unitOfWork.SaveChangesAsync();
 
-                var response = _mapper.Map<UpdateCityRequest>(model);
+                var response = _mapper.Map<UpdateCityRequest>(city);
                 return new ApiResponse<UpdateCityRequest>()
                 {
                     Status = true,
@@ -209,7 +209,7 @@ namespace Fincompare.Application.Services
                 var updateCity = _mapper.Map(model, checkCity);
                 await _unitOfWork.GetRepository<City>().Upsert(updateCity);
                 await _unitOfWork.SaveChangesAsync();
-                var response = _mapper.Map<UpdateCityRequest>(model);
+                var response = _mapper.Map<UpdateCityRequest>(updateCity);
                 return new ApiResponse<UpdateCityRequest>()
                 {
                     Status = true,
