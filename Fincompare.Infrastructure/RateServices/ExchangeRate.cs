@@ -46,7 +46,7 @@ namespace Fincompare.Infrastructure.RateServices
             List<string> failCurrency = [];
             try
             {
-                var getAllCurrencyCode = (await _currencyServices.GetAllCurrency())
+                var getAllCurrencyCode = (await _currencyServices.GetAllCurrency(null, null, null))
                     .Data.Select(x => x.CurrencyIso).OrderBy(x => x).ToArray();
                 foreach (var currencyCode in getAllCurrencyCode)
                 {

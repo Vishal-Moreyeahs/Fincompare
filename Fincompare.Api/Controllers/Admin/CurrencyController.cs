@@ -21,6 +21,11 @@ namespace Fincompare.Api.Controllers.Admin
         [Route("add-all-currency")]
         public async Task<IActionResult> AddCurrency(AddCurrencyRequests model)
         {
+            if (!ModelState.IsValid)
+            {
+                // Return a 400 Bad Request response with validation errors
+                return BadRequest(ModelState);
+            }
             var response = await _currencyServices.AddCurrency(model);
             return Ok(response);
         }
@@ -30,15 +35,20 @@ namespace Fincompare.Api.Controllers.Admin
         [Route("update-currency")]
         public async Task<IActionResult> UpdateCurrency(UpdateCurrencyRequests model)
         {
+            if (!ModelState.IsValid)
+            {
+                // Return a 400 Bad Request response with validation errors
+                return BadRequest(ModelState);
+            }
             var response = await _currencyServices.UpdateCurrency(model);
             return Ok(response);
         }
 
         [HttpGet]
         [Route("get-all-currency")]
-        public async Task<IActionResult> GetAllCurrency()
+        public async Task<IActionResult> GetAllCurrency(string? country3Iso, string? currencyIso, bool? status)
         {
-            var response = await _currencyServices.GetAllCurrency();
+            var response = await _currencyServices.GetAllCurrency(country3Iso,currencyIso, status);
             return Ok(response);
         }
 

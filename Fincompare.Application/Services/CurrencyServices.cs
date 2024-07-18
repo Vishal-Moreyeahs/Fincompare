@@ -19,20 +19,24 @@ namespace Fincompare.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<string>> AddCurrency(AddCurrencyRequests model)
+        public async Task<ApiResponse<Currency>> AddCurrency(AddCurrencyRequests model)
         {
             try
             {
-                if (model == null)
-                    return new ApiResponse<string>() { Status = false, Message = "Currency Creation Failed !" };
+                var checkCurrency = await _unitOfWork.GetRepository<Currency>().GetById(model.CurrencyIso);
+
+
+                if (checkCurrency != null)
+                    return new ApiResponse<Currency>() { Status = false, Message = "Currency already exists" };
                 var currency = _mapper.Map<Currency>(model);
                 await _unitOfWork.GetRepository<Currency>().Add(currency);
                 await _unitOfWork.SaveChangesAsync();
 
-                return new ApiResponse<string>()
+                return new ApiResponse<Currency>()
                 {
                     Status = true,
                     Message = "Currency Created Successfully !",
+                    Data = currency
                 };
             }
             catch (Exception ex)
@@ -42,13 +46,13 @@ namespace Fincompare.Application.Services
 
         }
 
-        public async Task<ApiResponse<string>> UpdateCurrency(UpdateCurrencyRequests model)
+        public async Task<ApiResponse<Currency>> UpdateCurrency(UpdateCurrencyRequests model)
         {
             try
             {
                 var checkCurrency = await _unitOfWork.GetRepository<Currency>().GetById(model.CurrencyIso);
                 if (checkCurrency == null)
-                    return new ApiResponse<string>()
+                    return new ApiResponse<Currency>()
                     {
                         Status = false,
                         Message = "Currency Not Found !"
@@ -57,10 +61,11 @@ namespace Fincompare.Application.Services
                 var updateCurrency = _mapper.Map(model, checkCurrency);
                 await _unitOfWork.GetRepository<Currency>().Upsert(updateCurrency);
                 await _unitOfWork.SaveChangesAsync();
-                return new ApiResponse<string>()
+                return new ApiResponse<Currency>()
                 {
                     Status = true,
                     Message = "Currency Update Successfully !",
+                    Data = updateCurrency
                 };
             }
             catch (Exception ex)
@@ -70,11 +75,12 @@ namespace Fincompare.Application.Services
             }
         }
 
-        public async Task<ApiResponse<IEnumerable<GetAllCurrencyResponse>>> GetAllCurrency()
+        public async Task<ApiResponse<IEnumerable<GetAllCurrencyResponse>>> GetAllCurrency(string? country3Iso, string? currencyIso, bool? status)
         {
             try
             {
                 var getAllCurrency = await _unitOfWork.GetRepository<Currency>().GetAll();
+
                 var getData = getAllCurrency
                     .Select(x => new GetAllCurrencyResponse
                     {
@@ -82,7 +88,34 @@ namespace Fincompare.Application.Services
                         CurrencyIso = x.CurrencyIso,
                         Decimal = x.Decimal,
                         VolatilityRange = x.VolatilityRange,
+                        Status = x.Status
                     }).ToList();
+
+                if (!string.IsNullOrEmpty(country3Iso))
+                { 
+                    var countryCurrencies = await _unitOfWork.GetRepository<CountryCurrency>().GetAll();
+                    countryCurrencies = countryCurrencies.Where(x => x.Country3Iso == country3Iso);
+                    var currencies = from c in getAllCurrency
+                                     join cc in countryCurrencies
+                                     on c.CurrencyIso equals cc.CurrencyIso
+                                     select new GetAllCurrencyResponse
+                                     {
+                                         CurrencyName = c.CurrencyName,
+                                         CurrencyIso = c.CurrencyIso,
+                                         Decimal = c.Decimal,
+                                         VolatilityRange = c.VolatilityRange,
+                                         Status = c.Status
+                                     };
+                    getData = currencies.ToList();
+                }
+
+                if (!string.IsNullOrEmpty(currencyIso))
+                    getData = getData.Where(x => x.CurrencyIso == currencyIso).ToList();
+
+
+                if (status.HasValue)
+                    getData = getData.Where(x => x.Status == status.Value).ToList();
+
 
                 if (getData.Count > 0)
                     return new ApiResponse<IEnumerable<GetAllCurrencyResponse>>()
