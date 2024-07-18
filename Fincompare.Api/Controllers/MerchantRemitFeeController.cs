@@ -31,5 +31,29 @@ namespace Fincompare.Api.Controllers
             var response = await _merchantRemitFee.UpdateMerchantRemitFee(model);
             return Ok(response);
         }
+
+        [HttpGet("Merchant-RemittanceFee/{sendCountry}/{receiveCountry}/{sendCurrency}/{receiveCurrency}")]
+        public IActionResult GetMerchantRemittanceFee(
+            string sendCountry,
+            string receiveCountry,
+            string sendCurrency,
+            string receiveCurrency,
+            [FromQuery] string? merchantId,
+            [FromQuery] string? remittanceFeeId,
+            [FromQuery] string? merchantProductId,
+            [FromQuery] string? serviceCategoryId,
+            [FromQuery] string? instrumentId,
+            [FromQuery] string? sendMinLimit,
+            [FromQuery] string? receiveMinLimit,
+            [FromQuery] bool? status,
+            [FromQuery] bool? isValid)
+        {
+            // Implement your logic here to process the request parameters
+            // You can access and use these parameters as needed
+
+            
+
+            return Ok("response");
+        }
     }
 }
