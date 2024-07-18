@@ -35,6 +35,7 @@ namespace Fincompare.Application.Profiles
             CreateMap<AddStateRequest, State>().ReverseMap();
             CreateMap<UpdateStateRequest, State>().ReverseMap();
             CreateMap<StateDTO, State>().ReverseMap();
+            CreateMap<IEnumerable<StateDTO>, State>().ReverseMap();
             CreateMap<CityDto, City>().ReverseMap();
             CreateMap<AddCityRequest, City>().ReverseMap();
             CreateMap<UpdateCityRequest, City>().ReverseMap();

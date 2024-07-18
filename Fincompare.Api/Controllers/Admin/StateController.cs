@@ -33,9 +33,9 @@ namespace Fincompare.Api.Controllers.Admin
 
         [HttpGet]
         [Route("get-all-states")]
-        public async Task<IActionResult> GetAllState()
+        public async Task<IActionResult> GetAllState(string? countryIso3, int? stateId, bool? status)
         {
-            var response = await _stateService.GetAllState();
+            var response = await _stateService.GetAllState(countryIso3, stateId, status);
             return Ok(response);
         }
 

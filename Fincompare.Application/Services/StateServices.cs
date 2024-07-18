@@ -4,6 +4,7 @@ using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.StateRequest;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
+using System.Collections.Generic;
 
 namespace Fincompare.Application.Services
 {
@@ -18,7 +19,7 @@ namespace Fincompare.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<string>> AddState(AddStateRequest model)
+        public async Task<ApiResponse<StateDTO>> AddState(AddStateRequest model)
         {
             try
             {
@@ -28,10 +29,13 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.GetRepository<State>().Add(state);
                 await _unitOfWork.SaveChangesAsync();
 
-                return new ApiResponse<string>()
+                var data = _mapper.Map<StateDTO>(state);
+
+                return new ApiResponse<StateDTO>()
                 {
                     Status = true,
-                    Message = "State Added Successfully !",
+                    Message = "State created Successfully",
+                    Data = data
                 };
             }
             catch (Exception ex)
@@ -76,7 +80,7 @@ namespace Fincompare.Application.Services
 
         }
 
-        public async Task<ApiResponse<IEnumerable<StateDTO>>> GetAllState()
+        public async Task<ApiResponse<IEnumerable<StateDTO>>> GetAllState(string? countryIso3, int? stateId, bool? status)
         {
             try
             {
@@ -91,6 +95,15 @@ namespace Fincompare.Application.Services
                     };
                     return response;
                 }
+
+                if (!string.IsNullOrEmpty(countryIso3))
+                    getAllState = getAllState.Where(x => x.Country3Iso == countryIso3);
+                if (stateId.HasValue)
+                    getAllState = getAllState.Where(x => x.Id == stateId.Value);
+                if (status.HasValue)
+                    getAllState = getAllState.Where(x => x.Status == status);
+                
+
                 var data = _mapper.Map<IEnumerable<StateDTO>>(getAllState);
                 return new ApiResponse<IEnumerable<StateDTO>>()
                 {
@@ -138,29 +151,29 @@ namespace Fincompare.Application.Services
             }
         }
 
-        public async Task<ApiResponse<StateDTO>> GetStateByCountryIso(string country3iso)
+        public async Task<ApiResponse<IEnumerable<StateDTO>>> GetStateByCountryIso(string country3iso)
         {
             try
             {
                 var checkState = _unitOfWork.GetRepository<State>().GetAllRelatedEntity();
 
                 if (checkState == null)
-                    return new ApiResponse<StateDTO>()
+                    return new ApiResponse<IEnumerable<StateDTO>>()
                     {
                         Status = false,
                         Message = "State Not Found !"
                     };
 
-                var state = checkState.Where(x => x.Country3IsoNavigation.Country3Iso == country3iso).FirstOrDefault();
+                var state = checkState.Where(x => x.Country3IsoNavigation.Country3Iso == country3iso);
                 if (state == null)
-                    return new ApiResponse<StateDTO>()
+                    return new ApiResponse<IEnumerable<StateDTO>>()
                     {
                         Status = false,
                         Message = "State Not Found !"
                     };
-                var data = _mapper.Map<StateDTO>(state);
+                var data = _mapper.Map<IEnumerable<StateDTO>>(state);
 
-                return new ApiResponse<StateDTO>()
+                return new ApiResponse<IEnumerable<StateDTO>>()
                 {
                     Status = true,
                     Message = "State Found !",
@@ -173,13 +186,13 @@ namespace Fincompare.Application.Services
             }
         }
 
-        public async Task<ApiResponse<string>> UpdateState(UpdateStateRequest model)
+        public async Task<ApiResponse<StateDTO>> UpdateState(UpdateStateRequest model)
         {
             try
             {
                 var checkState = await _unitOfWork.GetRepository<State>().GetById(model.Id);
                 if (checkState == null)
-                    return new ApiResponse<string>()
+                    return new ApiResponse<StateDTO>()
                     {
                         Status = false,
                         Message = "State Not Found !"
@@ -189,10 +202,14 @@ namespace Fincompare.Application.Services
                 //updateState.UpdatedDate = DateTime.UtcNow;
                 await _unitOfWork.GetRepository<State>().Upsert(updateState);
                 await _unitOfWork.SaveChangesAsync();
-                return new ApiResponse<string>()
+
+                var data = _mapper.Map<StateDTO>(updateState);
+
+                return new ApiResponse<StateDTO>()
                 {
                     Status = true,
                     Message = "State Update Successfully !",
+                    Data = data
                 };
             }
             catch (Exception ex)
