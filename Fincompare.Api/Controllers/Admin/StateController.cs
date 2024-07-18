@@ -19,6 +19,11 @@ namespace Fincompare.Api.Controllers.Admin
         [Route("add-state")]
         public async Task<IActionResult> AddState(AddStateRequest model)
         {
+            if (!ModelState.IsValid)
+            {
+                // Return a 400 Bad Request response with validation errors
+                return BadRequest(ModelState);
+            }
             var response = await _stateService.AddState(model);
             return Ok(response);
         }
@@ -27,6 +32,11 @@ namespace Fincompare.Api.Controllers.Admin
         [Route("update-state")]
         public async Task<IActionResult> UpdateState(UpdateStateRequest model)
         {
+            if (!ModelState.IsValid)
+            {
+                // Return a 400 Bad Request response with validation errors
+                return BadRequest(ModelState);
+            }
             var response = await _stateService.UpdateState(model);
             return Ok(response);
         }

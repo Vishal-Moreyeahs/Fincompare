@@ -47,10 +47,10 @@ namespace Fincompare.Api.Controllers.Admin
         }
 
         [HttpGet]
-        [Route("get-all")]
-        public async Task<IActionResult> GetAllCompany()
+        [Route("get-all-countries")]
+        public async Task<IActionResult> GetAllCountry(string? country3iso, bool? status)
         {
-            return Ok(await _countryServices.GetAllCountry());
+            return Ok(await _countryServices.GetAllCountry(country3iso, status));
         }
 
         [HttpGet]
