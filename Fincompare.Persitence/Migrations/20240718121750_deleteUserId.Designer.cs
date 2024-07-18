@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-    [Migration("20240718113523_deleteUserId")]
+    [Migration("20240718121750_deleteUserId")]
     partial class deleteUserId
     {
         /// <inheritdoc />
@@ -874,7 +874,7 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Updated_Date");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("WebUrl")
@@ -1721,7 +1721,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 7, 18, 11, 35, 22, 952, DateTimeKind.Utc).AddTicks(3159),
+                            CreatedAt = new DateTime(2024, 7, 18, 12, 17, 49, 728, DateTimeKind.Utc).AddTicks(3698),
                             Email = "aarya.garg@moreyeahs.com",
                             FirstName = "Aarya",
                             IsDeleted = false,
@@ -1733,7 +1733,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 7, 18, 11, 35, 22, 952, DateTimeKind.Utc).AddTicks(3182),
+                            CreatedAt = new DateTime(2024, 7, 18, 12, 17, 49, 728, DateTimeKind.Utc).AddTicks(3710),
                             Email = "vishal.pawar@moreyeahs.com",
                             FirstName = "Vishal",
                             IsDeleted = false,
@@ -2056,9 +2056,7 @@ namespace Fincompare.Persitence.Migrations
 
                     b.HasOne("Fincompare.Domain.Entities.UserManagementEntities.User", "User")
                         .WithMany("Merchants")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Country3IsoNavigation");
 

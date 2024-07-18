@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Fincompare.Persitence.Migrations
 {
     /// <inheritdoc />
-    public partial class userid : Migration
+    public partial class deleteUserId : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,29 +20,28 @@ namespace Fincompare.Persitence.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "CreatedAt",
-                value: new DateTime(2024, 7, 18, 11, 20, 10, 351, DateTimeKind.Utc).AddTicks(8540));
+                value: new DateTime(2024, 7, 18, 12, 17, 49, 728, DateTimeKind.Utc).AddTicks(3698));
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "CreatedAt",
-                value: new DateTime(2024, 7, 18, 11, 20, 10, 351, DateTimeKind.Utc).AddTicks(8557));
+                value: new DateTime(2024, 7, 18, 12, 17, 49, 728, DateTimeKind.Utc).AddTicks(3710));
 
             migrationBuilder.AddForeignKey(
-                name: "Merchant_UserId_fkey",
+                name: "FK_Merchant_Users_UserId",
                 table: "Merchant",
                 column: "UserId",
                 principalTable: "Users",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.SetNull);
+                principalColumn: "Id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "Merchant_UserId_fkey",
+                name: "FK_Merchant_Users_UserId",
                 table: "Merchant");
 
             migrationBuilder.UpdateData(
@@ -50,14 +49,14 @@ namespace Fincompare.Persitence.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "CreatedAt",
-                value: new DateTime(2024, 7, 18, 11, 15, 29, 325, DateTimeKind.Utc).AddTicks(7347));
+                value: new DateTime(2024, 7, 18, 11, 39, 6, 816, DateTimeKind.Utc).AddTicks(9169));
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "CreatedAt",
-                value: new DateTime(2024, 7, 18, 11, 15, 29, 325, DateTimeKind.Utc).AddTicks(7361));
+                value: new DateTime(2024, 7, 18, 11, 39, 6, 816, DateTimeKind.Utc).AddTicks(9193));
 
             migrationBuilder.AddForeignKey(
                 name: "Merchant_UserId_fkey",
