@@ -52,15 +52,15 @@ namespace Fincompare.Application.Services
 
                 //retreive the User table(get userid from merchant)
                 if (merchant.UserId != null)
-                {
-                    var userResponse = await _userManagerServices.GetUserById((int)merchant.UserId);
-                    var user = userResponse.Data;
+                //{
+                //    var userResponse = await _userManagerServices.GetUserById((int)merchant.UserId);
+                //    var user = userResponse.Data;
 
-                    user.IsDeleted = true;
-                    await _unitOfWork.GetRepository<User>().Upsert(user);
-                    await _unitOfWork.SaveChangesAsync();
+                //    user.IsDeleted = true;
+                //    await _unitOfWork.GetRepository<User>().Upsert(user);
+                //    await _unitOfWork.SaveChangesAsync();
 
-                }
+                //}
                 response.Status = true;
                 response.Message = "Merchant Removed";
                 return response;

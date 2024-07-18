@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-    [Migration("20240718112010_userid")]
-    partial class userid
+    [Migration("20240718121943_updateUserId")]
+    partial class updateUserId
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1721,7 +1721,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 7, 18, 11, 20, 10, 351, DateTimeKind.Utc).AddTicks(8540),
+                            CreatedAt = new DateTime(2024, 7, 18, 12, 19, 43, 298, DateTimeKind.Utc).AddTicks(4711),
                             Email = "aarya.garg@moreyeahs.com",
                             FirstName = "Aarya",
                             IsDeleted = false,
@@ -1733,7 +1733,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 7, 18, 11, 20, 10, 351, DateTimeKind.Utc).AddTicks(8557),
+                            CreatedAt = new DateTime(2024, 7, 18, 12, 19, 43, 298, DateTimeKind.Utc).AddTicks(4724),
                             Email = "vishal.pawar@moreyeahs.com",
                             FirstName = "Vishal",
                             IsDeleted = false,
@@ -2057,7 +2057,6 @@ namespace Fincompare.Persitence.Migrations
                     b.HasOne("Fincompare.Domain.Entities.UserManagementEntities.User", "User")
                         .WithMany("Merchants")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("Merchant_UserId_fkey");
 
                     b.Navigation("Country3IsoNavigation");
