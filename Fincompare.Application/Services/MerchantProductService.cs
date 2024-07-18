@@ -218,7 +218,7 @@ namespace Fincompare.Application.Services
                 var response = new ApiResponse<MerchantProductViewModel>()
                 {
                     Status = true,
-                    Message = "Merchant Product Created Successfully",
+                    Message = "Merchant Product updated Successfully",
                     Data = merchantResponseData
 
                 };

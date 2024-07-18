@@ -70,7 +70,7 @@ namespace Fincompare.Api.Controllers
         }
 
 
-        [HttpGet("Merchant-RemittanceFee/{merchantId}/{sendCountry}/{receiveCountry}/{sendCurrency}/{receiveCurrency}")]
+        [HttpGet("Merchant-RemittanceFee-MerchantId/{merchantId}/{sendCountry}/{receiveCountry}/{sendCurrency}/{receiveCurrency}")]
         public async Task<IActionResult> GetMerchantRemittanceFeeByMerchant(
             int merchantId,
             string sendCountry,
