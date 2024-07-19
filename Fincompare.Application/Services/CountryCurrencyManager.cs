@@ -72,7 +72,7 @@ namespace Fincompare.Application.Services
             }
         }
 
-        public async Task<ApiResponse<GetCountryCurrencyResponse>> AddCountryWithMultipleCurrencies(UpdateCountryWithMultipleCurrencyRequest model)
+        public async Task<ApiResponse<List<GetCountryCurrencyResponse>>> AddCountryWithMultipleCurrencies(UpdateCountryWithMultipleCurrencyRequest model)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace Fincompare.Application.Services
                                         Status = cc.Status
                                     }).ToList();
 
-                var response = new ApiResponse<GetCountryCurrencyResponse>()
+                var response = new ApiResponse<List<GetCountryCurrencyResponse>>()
                 {
                     Status = true,
                     Message = $"Country Currencies Created successfully",
@@ -151,11 +151,12 @@ namespace Fincompare.Application.Services
                     IsPrimary = checkCountryCurrency.IsPrimaryCur,
                     Category = checkCountryCurrency.CountryCurrencyCategoryId,
                     Status = checkCountryCurrency.Status
-                }).ToList();
+                };
 
                 response.Message = "country currency updated successfully";
                 response.Status = true;
                 response.Data = data;
+                return response;
             }
 
             catch (Exception ex) { 
