@@ -2,9 +2,9 @@
 {
     public class GetCountryCurrencyResponse
     {
-        public int CountryCurrencyID { get; set; }
-        public string CountryIso3 { get; set; }
-        public string CountryIso2 { get; set; }
+        public int Id { get; set; }
+        public string Country3Iso { get; set; }
+        public string CurrencyIso { get; set; }
         public bool IsPrimary { get; set; }
         public string Category { get; set; }
         public bool Status { get; set; }

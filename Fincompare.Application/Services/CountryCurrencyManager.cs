@@ -19,7 +19,7 @@ namespace Fincompare.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<List<GetCountryCurrencyResponse>>> GetCurrenciesbyCountry3Iso(string country3Iso, string? categoryId)
+        public async Task<ApiResponse<List<GetCountryCurrencyResponse>>> GetCurrenciesbyCountry3Iso(string? country3Iso, string? categoryId)
         {
             try
             {
@@ -27,36 +27,62 @@ namespace Fincompare.Application.Services
 
                 var currencies = new List<GetCountryCurrencyResponse>();
 
-                if (categoryId == null)
+                currencies = currencyList.Select(cc => new GetCountryCurrencyResponse
+                {
+                    Id = cc.Id,
+                    CurrencyIso = cc.CurrencyIso,
+                    Country3Iso = cc.Country3Iso,
+                    IsPrimary = cc.IsPrimaryCur,
+                    Category = cc.CountryCurrencyCategoryId,
+                    Status = cc.Status
+                }).ToList();
+
+                if (!string.IsNullOrEmpty(categoryId))
                 {
                     currencies = currencyList
-                                            .Where(cc => cc.Country3Iso == country3Iso)
+                                            .Where(cc => cc.CountryCurrencyCategoryId == categoryId)
                                             .Select(cc => new GetCountryCurrencyResponse
                                             {
-                                                CountryCurrencyID = cc.Id,
-                                                CountryIso2 = cc.Country3IsoNavigation.Country2Iso,
-                                                CountryIso3 = cc.Country3Iso,
+                                                Id = cc.Id,
+                                                CurrencyIso = cc.CurrencyIso,
+                                                Country3Iso = cc.Country3Iso,
                                                 IsPrimary = cc.IsPrimaryCur,
-                                                Category = cc.CountryCurrencyCategory.Definition,
+                                                Category = cc.CountryCurrencyCategoryId,
                                                 Status = cc.Status
-                                            })
-                                            .ToList();
+                                            }).ToList();
                 }
-                else
+                if (!string.IsNullOrEmpty(country3Iso))
+                {
+                    currencies = currencyList
+                                                .Where(cc => cc.Country3Iso == country3Iso)
+                                                .Select(cc => new GetCountryCurrencyResponse
+                                                {
+                                                    Id = cc.Id,
+                                                    CurrencyIso = cc.CurrencyIso,
+                                                    Country3Iso = cc.Country3Iso,
+                                                    IsPrimary = cc.IsPrimaryCur,
+                                                    Category = cc.CountryCurrencyCategoryId,
+                                                    Status = cc.Status
+                                                }).ToList();
+
+                }
+
+                if (!string.IsNullOrEmpty(country3Iso) && !string.IsNullOrEmpty(categoryId))
                 {
                     currencies = currencyList
                                                 .Where(cc => cc.Country3Iso == country3Iso && cc.CountryCurrencyCategoryId == categoryId)
                                                 .Select(cc => new GetCountryCurrencyResponse
                                                 {
-                                                    CountryCurrencyID = cc.Id,
-                                                    CountryIso2 = cc.Country3IsoNavigation.Country2Iso,
-                                                    CountryIso3 = cc.Country3Iso,
+                                                    Id = cc.Id,
+                                                    CurrencyIso = cc.CurrencyIso,
+                                                    Country3Iso = cc.Country3Iso,
                                                     IsPrimary = cc.IsPrimaryCur,
-                                                    Category = cc.CountryCurrencyCategory.Definition,
+                                                    Category = cc.CountryCurrencyCategoryId,
                                                     Status = cc.Status
                                                 }).ToList();
 
                 }
+
                 var response = new ApiResponse<List<GetCountryCurrencyResponse>>()
                 {
                     Status = true,
@@ -72,7 +98,7 @@ namespace Fincompare.Application.Services
             }
         }
 
-        public async Task<ApiResponse<string>> UpdateCountryWithMultipleCurrencies(UpdateCountryWithMultipleCurrencyRequest model)
+        public async Task<ApiResponse<List<GetCountryCurrencyResponse>>> AddCountryWithMultipleCurrencies(UpdateCountryWithMultipleCurrencyRequest model)
         {
             try
             {
@@ -92,8 +118,8 @@ namespace Fincompare.Application.Services
                     Country3Iso = model.Country3Iso,
                     //CurrencyId = c.Id,
                     CurrencyIso = c.CurrencyIso,
-                    IsPrimaryCur = c.IsPrimaryCur,
-                    CountryCurrencyCategoryId = c.CountryCurrencyCategoryId,
+                    IsPrimaryCur = c.IsPrimary,
+                    CountryCurrencyCategoryId = c.Category,
                     //UpdatedDate = DateTime.UtcNow,
                     //CreatedDate = DateTime.UtcNow
                 }).ToList();
@@ -101,10 +127,21 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.GetRepository<CountryCurrency>().AddRange(newCountryCurrencies);
                 await _unitOfWork.SaveChangesAsync();
 
-                var response = new ApiResponse<string>()
+                var data = newCountryCurrencies.Select(cc => new GetCountryCurrencyResponse
+                {
+                    Id = cc.Id,
+                    CurrencyIso = cc.CurrencyIso,
+                    Country3Iso = cc.Country3Iso,
+                    IsPrimary = cc.IsPrimaryCur,
+                    Category = cc.CountryCurrencyCategoryId,
+                    Status = cc.Status
+                }).ToList();
+
+                var response = new ApiResponse<List<GetCountryCurrencyResponse>>()
                 {
                     Status = true,
-                    Message = $"Country Currencies Created successfully"
+                    Message = $"Country Currencies Created successfully",
+                    Data = data
                 };
                 return response;
             }
@@ -112,6 +149,49 @@ namespace Fincompare.Application.Services
             {
                 throw;
             }
+        }
+
+        public async Task<ApiResponse<GetCountryCurrencyResponse>> UpdateCountryCurrency(UpdateCountryCurrencyRequest model)
+        {
+            try
+            {
+                var response = new ApiResponse<GetCountryCurrencyResponse>();
+                var checkCountryCurrency = await _unitOfWork.GetRepository<CountryCurrency>().GetById(model.Id);
+
+                if (checkCountryCurrency == null)
+                {
+                    response.Message = "Country Currency not found";
+                    return response;
+                }
+
+                // Map the updated data and save it in the database
+                _mapper.Map(model, checkCountryCurrency);
+
+                await _unitOfWork.GetRepository<CountryCurrency>().Upsert(checkCountryCurrency);
+                await _unitOfWork.SaveChangesAsync();
+
+                var data = new GetCountryCurrencyResponse
+                {
+                    Id = checkCountryCurrency.Id,
+                    CurrencyIso = checkCountryCurrency.CurrencyIso,
+                    Country3Iso = checkCountryCurrency.Country3Iso,
+                    IsPrimary = checkCountryCurrency.IsPrimaryCur,
+                    Category = checkCountryCurrency.CountryCurrencyCategoryId,
+                    Status = checkCountryCurrency.Status
+                };
+
+                response.Message = "country currency updated successfully";
+                response.Status = true;
+                response.Data = data;
+                return response;
+            }
+
+            catch (Exception ex)
+            {
+                throw new ApplicationException($"{ex.Message}");
+            }
+
+
         }
     }
 }

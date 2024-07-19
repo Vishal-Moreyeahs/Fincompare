@@ -2,7 +2,7 @@
 {
     public class MerchantRemitProductRateViewModel
     {
-        public int Id { get; set; }
+        public int RemittanceRateId { get; set; }
 
         public string MerchantRateRef { get; set; } = null!;
 
@@ -12,9 +12,14 @@
 
         public int? MerchantProductId { get; set; }
 
-        public string ProductName { get; set; }
-        public string InstrumentName { get; set; }
+        public int ServiceCategoryId { get; set; }
         public string ServiceCategoryName { get; set; }
+
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+
+        public int InstrumentId { get; set; }
+        public string InstrumentName { get; set; }
 
         public string SendCountry3Iso { get; set; } = null!;
 
