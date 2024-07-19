@@ -6,7 +6,7 @@ namespace Fincompare.Application.Repositories
 {
     public interface IMarketRateServices
     {
-        Task<ApiResponse<string>> AddMarketRate(AddMarketRate model);
+        Task<ApiResponse<string>> AddMarketRate(List<AddMarketRate> model);
 
         //Task<ApiResponse<string>> UpdateMarketRate(UpdateMarketRate model);
 

@@ -22,43 +22,32 @@ namespace Fincompare.Application.Services
             _exchangeRate = exchangeRate;
         }
 
-        public async Task<ApiResponse<string>> AddMarketRate(AddMarketRate model)
+        public async Task<ApiResponse<string>> AddMarketRate(List<AddMarketRate> model)
         {
             // Validate request
-            if (model.SendCur == null || model.ReceiveCur == null)
-            {
-                throw new ArgumentException("Currency values must be greater than zero.");
-            }
 
-            if (model.Rate <= 0)
-            {
-                throw new ArgumentException("Rate must be greater than zero.");
-            }
-
-            if (string.IsNullOrWhiteSpace(model.RateSource))
-            {
-                throw new ArgumentException("Rate source must be provided.");
-            }
 
             // Validate foreign keys
-            var sendCurrency = await _unitOfWork.GetRepository<Currency>().GetById(model.SendCur);
+            if (model.Count == 0)
+                return new ApiResponse<string>() { Status = false, Data = "Mid-market rate creation failed" };
 
-            if (sendCurrency == null)
-            {
-                throw new ArgumentException("Invalid Send Currency.");
-            }
+            //var sendCurrency = await _unitOfWork.GetRepository<Currency>().GetById(model.SendCur);
 
-            var receiveCurrency = await _unitOfWork.GetRepository<Currency>().GetById(model.ReceiveCur);
-            if (receiveCurrency == null)
-            {
-                throw new ArgumentException("Invalid Receive Currency.");
-            }
+            //if (sendCurrency == null)
+            //{
+            //    throw new ArgumentException("Invalid Send Currency.");
+            //}
+
+            //var receiveCurrency = await _unitOfWork.GetRepository<Currency>().GetById(model.ReceiveCur);
+            //if (receiveCurrency == null)
+            //{
+            //    throw new ArgumentException("Invalid Receive Currency.");
+            //}
 
             // Map request to entity
-            var marketRate = _mapper.Map<MarketRate>(model);
-            marketRate.Date = DateTime.UtcNow;
+            var marketRate = _mapper.Map<List<MarketRate>>(model);
             // Add to database
-            await _unitOfWork.GetRepository<MarketRate>().Add(marketRate);
+            await _unitOfWork.GetRepository<MarketRate>().AddRange(marketRate);
 
             // Save changes asynchronously
             await _unitOfWork.SaveChangesAsync();
@@ -66,7 +55,7 @@ namespace Fincompare.Application.Services
             var response = new ApiResponse<string>()
             {
                 Status = true,
-                Message = "Market Rate Added Successfully."
+                Message = "Mid-market rate created successfully"
             };
 
             return response;

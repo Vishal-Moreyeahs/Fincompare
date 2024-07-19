@@ -12,15 +12,21 @@ using Fincompare.Application.Response.MerchantProductResponse;
 using Fincompare.Application.Response.MerchantRemitProductRateResponse;
 using Fincompare.Domain.Entities;
 using Fincompare.Domain.Entities.UserManagementEntities;
+using static Fincompare.Application.Request.CouponRequest.CouponRequestViewModel;
 using static Fincompare.Application.Request.CurrencyRequest.CurrencyRequests;
 using static Fincompare.Application.Request.GroupMerchantRequest.GroupMerchantBaseModel;
 using static Fincompare.Application.Request.InstrumentRequest.InstrumentRequestBaseModel;
+using static Fincompare.Application.Request.MerchantProductCouponRequest.MerchantProductRequestViewModel;
 using static Fincompare.Application.Request.MerchantRemitProductFeeRequests.MerchantRemitProductFeeRequestViewModel;
 using static Fincompare.Application.Request.ProductRequests.ProductRequestViewModel;
+using static Fincompare.Application.Request.ServiceCategoriesRequest.ServiceCategoriesViewModel;
+using static Fincompare.Application.Response.CouponResponse.CouponResponseViewModel;
 using static Fincompare.Application.Response.CurrencyResponse.CurrencyResponseBaseModel;
 using static Fincompare.Application.Response.GroupMerchantResponse.GroupMerchantViewResponse;
 using static Fincompare.Application.Response.InstrumentResponse.InstrumentResponseBaseClass;
+using static Fincompare.Application.Response.MerchantProductCouponResponse.MerchantProductCouponViewResponse;
 using static Fincompare.Application.Response.ProductResponse.ProductResponseBaseClass;
+using static Fincompare.Application.Response.ServiceCategoriesResponse.ServiceCategoriesViewResponse;
 
 namespace Fincompare.Application.Profiles
 {
@@ -68,6 +74,19 @@ namespace Fincompare.Application.Profiles
             CreateMap<UpdateMerchantRemitProductRateRequest, MerchantRemitProductRate>().ReverseMap();
             CreateMap<AddMerchantRemitProductRateRequest, MerchantRemitProductRate>().ReverseMap();
 
+
+            CreateMap<CreateServiceCategoriesRequest, ServiceCategory>().ForMember(desc => desc.ServCategoryName, (req => req.MapFrom(src => src.ServiceCategoryName))).ReverseMap();
+            CreateMap<UpdateServiceCategoriesRequest, ServiceCategory>().ForMember(desc => desc.ServCategoryName, (req => req.MapFrom(src => src.ServiceCategoryName))).ReverseMap();
+            CreateMap<GetAllServiceCategoriesResponse, ServiceCategory>().ForMember(desc => desc.ServCategoryName, (req => req.MapFrom(src => src.ServiceCategoryName))).ReverseMap();
+
+
+            CreateMap<CreateCouponRequest, Coupon>().ReverseMap();
+            CreateMap<UpdateCouponRequest, Coupon>().ReverseMap();
+            CreateMap<FetchCouponResponse, Coupon>().ReverseMap();
+
+            CreateMap<CreateMerchantProductCouponRequest, MerchantProductCoupon>().ReverseMap();
+            CreateMap<UpdateMerchantProductCouponRequest, MerchantProductCoupon>().ReverseMap();
+            CreateMap<GetAllMerchantProductCouponResponse, MerchantProductCoupon>().ForMember(desc => desc.Id, (req => req.MapFrom(src => src.MerchantCouponId))).ReverseMap();
         }
     }
 }
