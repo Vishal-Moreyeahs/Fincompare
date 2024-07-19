@@ -20,7 +20,7 @@ namespace Fincompare.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<List<GetCountryCurrencyResponse>>> GetCurrenciesbyCountry3Iso(string country3Iso, int? categoryId)
+        public async Task<ApiResponse<List<GetCountryCurrencyResponse>>> GetCurrenciesbyCountry3Iso(string country3Iso, string? categoryId)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace Fincompare.Application.Services
                 if (categoryId == null)
                 {
                     currencies = currencyList
-                                            .Where(cc => cc.Country3Iso == country3Iso && cc.Currency.Status)
+                                            .Where(cc => cc.Country3Iso == country3Iso)
                                             .Select(cc => new GetCountryCurrencyResponse
                                             {
                                                 CountryCurrencyID = cc.Id,
@@ -46,7 +46,7 @@ namespace Fincompare.Application.Services
                 else
                 {
                     currencies = currencyList
-                                                .Where(cc => cc.Country3Iso == country3Iso && cc.Currency.Status && cc.CountryCurrencyCategoryId == categoryId)
+                                                .Where(cc => cc.Country3Iso == country3Iso && cc.CountryCurrencyCategoryId == categoryId)
                                                 .Select(cc => new GetCountryCurrencyResponse
                                                 {
                                                     CountryCurrencyID = cc.Id,

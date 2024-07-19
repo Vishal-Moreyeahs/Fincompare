@@ -12,7 +12,7 @@ namespace Fincompare.Domain.Entities
 
         public bool IsPrimaryCur { get; set; }
 
-        public int? CountryCurrencyCategoryId { get; set; }
+        public string? CountryCurrencyCategoryId { get; set; }
 
         public bool Status { get; set; } = true;
 
