@@ -1,13 +1,7 @@
 ﻿using Fincompare.Application.Contracts.Infrastructure;
 using Fincompare.Application.Contracts.Persistence;
-using Fincompare.Application.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fincompare.Infrastructure.BackgroundServices
 {

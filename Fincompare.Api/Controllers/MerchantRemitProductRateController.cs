@@ -1,9 +1,6 @@
 ﻿using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MerchantRemitProductRateRequests;
-using Fincompare.Application.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static Fincompare.Application.Request.MerchantRemitProductFeeRequests.MerchantRemitProductFeeRequestViewModel;
 
 namespace Fincompare.Api.Controllers
 {

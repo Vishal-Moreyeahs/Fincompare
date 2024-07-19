@@ -1,11 +1,6 @@
 ﻿using Fincompare.Application.Request.MerchantRemitProductRateRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.MerchantRemitProductRateResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fincompare.Application.Repositories
 {
@@ -25,7 +20,7 @@ namespace Fincompare.Application.Repositories
             double? sendMinLimit,
             double? receiveMinLimit,
             bool? status);
-        
+
         Task<ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>> GetAllMerchantRemitProductRateByCurrencyPairAndMerchant(string sendCurrency,
             string receiveCurrency,
             int merchantId,

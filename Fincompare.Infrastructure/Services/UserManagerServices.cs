@@ -57,7 +57,7 @@ namespace Fincompare.Infrastructure.Services
             var user = await _unitOfWork.GetRepository<User>().GetById(id);
 
             if (user == null)
-            { 
+            {
                 response.Status = false;
                 response.Message = "User Not Found";
                 return response;

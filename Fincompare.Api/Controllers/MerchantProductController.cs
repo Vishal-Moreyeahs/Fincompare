@@ -1,9 +1,6 @@
 ﻿using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MerchantProductRequests;
-using Fincompare.Application.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static Fincompare.Application.Request.GroupMerchantRequest.GroupMerchantBaseModel;
 
 namespace Fincompare.Api.Controllers
 {
@@ -55,7 +52,7 @@ namespace Fincompare.Api.Controllers
                                                             [FromQuery] int? instrumentID,
                                                             [FromQuery] bool? status)
         {
-            var merchantProducts =  _merchantProductService.GetMerchantProducts(sendCountry, receiveCountry, sendCurrency, receiveCurrency, merchantID, merchantProductID, productID, serviceCategoryID, instrumentID, status);
+            var merchantProducts = _merchantProductService.GetMerchantProducts(sendCountry, receiveCountry, sendCurrency, receiveCurrency, merchantID, merchantProductID, productID, serviceCategoryID, instrumentID, status);
             return Ok(merchantProducts);
         }
     }

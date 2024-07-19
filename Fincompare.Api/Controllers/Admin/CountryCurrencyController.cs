@@ -27,7 +27,7 @@ namespace Fincompare.Api.Controllers.Admin
             var response = await _countryCurrencyManager.AddCountryWithMultipleCurrencies(model);
             return Ok(response);
         }
-        
+
         [HttpPost]
         [Route("update-country-currency")]
         public async Task<IActionResult> UpdateCountryCurrency(UpdateCountryCurrencyRequest model)

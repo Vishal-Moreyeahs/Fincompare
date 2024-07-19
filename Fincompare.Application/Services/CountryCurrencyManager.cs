@@ -5,7 +5,6 @@ using Fincompare.Application.Request.CountryCurrencyRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.CountryCurrencyResponse;
 using Fincompare.Domain.Entities;
-using static Fincompare.Application.Response.CurrencyResponse.CurrencyResponseBaseModel;
 
 namespace Fincompare.Application.Services
 {
@@ -29,14 +28,14 @@ namespace Fincompare.Application.Services
                 var currencies = new List<GetCountryCurrencyResponse>();
 
                 currencies = currencyList.Select(cc => new GetCountryCurrencyResponse
-                                    {
-                                        Id = cc.Id,
-                                        CurrencyIso = cc.CurrencyIso,
-                                        Country3Iso = cc.Country3Iso,
-                                        IsPrimary = cc.IsPrimaryCur,
-                                        Category = cc.CountryCurrencyCategoryId,
-                                        Status = cc.Status
-                                    }).ToList();
+                {
+                    Id = cc.Id,
+                    CurrencyIso = cc.CurrencyIso,
+                    Country3Iso = cc.Country3Iso,
+                    IsPrimary = cc.IsPrimaryCur,
+                    Category = cc.CountryCurrencyCategoryId,
+                    Status = cc.Status
+                }).ToList();
 
                 if (!string.IsNullOrEmpty(categoryId))
                 {
@@ -52,7 +51,7 @@ namespace Fincompare.Application.Services
                                                 Status = cc.Status
                                             }).ToList();
                 }
-                if(!string.IsNullOrEmpty(country3Iso))
+                if (!string.IsNullOrEmpty(country3Iso))
                 {
                     currencies = currencyList
                                                 .Where(cc => cc.Country3Iso == country3Iso)
@@ -129,14 +128,14 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.SaveChangesAsync();
 
                 var data = newCountryCurrencies.Select(cc => new GetCountryCurrencyResponse
-                                    {
-                                        Id = cc.Id,
-                                        CurrencyIso = cc.CurrencyIso,
-                                        Country3Iso = cc.Country3Iso,
-                                        IsPrimary = cc.IsPrimaryCur,
-                                        Category = cc.CountryCurrencyCategoryId,
-                                        Status = cc.Status
-                                    }).ToList();
+                {
+                    Id = cc.Id,
+                    CurrencyIso = cc.CurrencyIso,
+                    Country3Iso = cc.Country3Iso,
+                    IsPrimary = cc.IsPrimaryCur,
+                    Category = cc.CountryCurrencyCategoryId,
+                    Status = cc.Status
+                }).ToList();
 
                 var response = new ApiResponse<List<GetCountryCurrencyResponse>>()
                 {
@@ -167,7 +166,7 @@ namespace Fincompare.Application.Services
 
                 // Map the updated data and save it in the database
                 _mapper.Map(model, checkCountryCurrency);
-               
+
                 await _unitOfWork.GetRepository<CountryCurrency>().Upsert(checkCountryCurrency);
                 await _unitOfWork.SaveChangesAsync();
 
@@ -187,10 +186,11 @@ namespace Fincompare.Application.Services
                 return response;
             }
 
-            catch (Exception ex) { 
+            catch (Exception ex)
+            {
                 throw new ApplicationException($"{ex.Message}");
             }
-            
+
 
         }
     }

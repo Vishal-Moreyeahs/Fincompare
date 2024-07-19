@@ -1,9 +1,6 @@
 ﻿using Fincompare.Application.Repositories;
-using Fincompare.Application.Request.MarketRateRequest;
 using Fincompare.Application.Request.MerchantRequests;
-using Fincompare.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Fincompare.Api.Controllers
 {
@@ -34,9 +31,9 @@ namespace Fincompare.Api.Controllers
 
         [HttpGet]
         [Route("get-all-merchants")]
-        public async Task<IActionResult> GetAllMerchants(int? groupMerchantId, int? merchantId, string? couuntryIso3, bool? status )
+        public async Task<IActionResult> GetAllMerchants(int? groupMerchantId, int? merchantId, string? couuntryIso3, bool? status)
         {
-            var response = await _merchantServices.GetAllMerchants(groupMerchantId,  merchantId,  couuntryIso3,  status);
+            var response = await _merchantServices.GetAllMerchants(groupMerchantId, merchantId, couuntryIso3, status);
             return Ok(response);
         }
 

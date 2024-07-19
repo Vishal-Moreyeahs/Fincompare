@@ -112,7 +112,7 @@ namespace Fincompare.Application.Services
             var getLastMonthRates = getRateForSendAndDesCurr.Where(x => x.Date <= lastMonthRates);
             var getLast2MonthRates = getRateForSendAndDesCurr.Where(x => x.Date <= lastWeekRates);
 
-            
+
             //var response = new MarketRateStatisticsData()
             //{
             //    RateWeek = 

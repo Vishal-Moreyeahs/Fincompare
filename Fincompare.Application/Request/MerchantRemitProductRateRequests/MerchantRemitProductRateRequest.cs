@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Fincompare.Application.Request.MerchantRemitProductRateRequests
 {
@@ -54,7 +49,8 @@ namespace Fincompare.Application.Request.MerchantRemitProductRateRequests
     }
 
     public class AddMerchantRemitProductRateRequest : MerchantRemitProductRateRequest { }
-    public class UpdateMerchantRemitProductRateRequest : MerchantRemitProductRateRequest {
+    public class UpdateMerchantRemitProductRateRequest : MerchantRemitProductRateRequest
+    {
         [Required]
         public int Id { get; set; }
     }

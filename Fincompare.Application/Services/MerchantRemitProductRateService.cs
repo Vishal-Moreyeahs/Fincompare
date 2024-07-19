@@ -5,15 +5,6 @@ using Fincompare.Application.Request.MerchantRemitProductRateRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.MerchantRemitProductRateResponse;
 using Fincompare.Domain.Entities;
-using Fincompare.Domain.Entities.UserManagementEntities;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Fincompare.Application.Response.MerchantRemitFeeResponse.MerchantRemitFeeBaseResponse;
-
 namespace Fincompare.Application.Services
 {
     public class MerchantRemitProductRateService : IMerchantRemitProductRateService
@@ -22,7 +13,7 @@ namespace Fincompare.Application.Services
         private readonly IMapper _mapper;
 
         public MerchantRemitProductRateService(IUnitOfWork unitOfWork, IMapper mapper)
-        { 
+        {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
@@ -40,7 +31,7 @@ namespace Fincompare.Application.Services
 
                 var merchantProduct = new MerchantProduct();
                 var merchantRemitRate = await _unitOfWork.GetRepository<MerchantRemitProductRate>().GetByPrimaryKeyWithRelatedEntitiesAsync<int>(requestData.Id);
-                if(merchantRemitRate.MerchantProductId.HasValue)
+                if (merchantRemitRate.MerchantProductId.HasValue)
                     merchantProduct = await _unitOfWork.GetRepository<MerchantProduct>().GetByPrimaryKeyWithRelatedEntitiesAsync<int>(merchantRemitRate.MerchantProductId.Value);
 
                 var data = new MerchantRemitProductRateViewModel
@@ -50,7 +41,7 @@ namespace Fincompare.Application.Services
                     MerchantId = merchantRemitRate.MerchantId,
                     MerchantName = merchantRemitRate.Merchant.MerchantName,
                     MerchantProductId = merchantRemitRate.MerchantProductId.HasValue ? merchantRemitRate.MerchantProductId.Value : null,
-                    ProductName = merchantProduct == null ? "": merchantProduct.Product.ProductName,
+                    ProductName = merchantProduct == null ? "" : merchantProduct.Product.ProductName,
                     InstrumentName = merchantProduct == null ? "" : merchantProduct.Instrument.InstrumentName,
                     ServiceCategoryName = merchantProduct == null ? "" : merchantProduct.ServiceCategory.ServCategoryName,
                     SendCountry3Iso = merchantRemitRate.SendCountry3Iso,
@@ -62,9 +53,9 @@ namespace Fincompare.Application.Services
                     ReceiveMinLimit = merchantRemitRate.ReceiveMinLimit,
                     ReceiveMaxLimit = merchantRemitRate.ReceiveMaxLimit,
                     Rate = merchantRemitRate.Rate,
-                    PromoRate = merchantRemitRate.PromoRate, 
-                    ValidityExpiry = merchantRemitRate.ValidityExpiry, 
-                    Status = true 
+                    PromoRate = merchantRemitRate.PromoRate,
+                    ValidityExpiry = merchantRemitRate.ValidityExpiry,
+                    Status = true
                 };
 
                 return new ApiResponse<MerchantRemitProductRateViewModel>() { Status = true, Message = "Merchant Remittance Product Rate created successfully!", Data = data };
@@ -206,7 +197,7 @@ namespace Fincompare.Application.Services
             {
                 throw new ApplicationException(ex.Message);
             }
-            
+
         }
 
         public async Task<ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>> GetAllMerchantRemitProductRateByCurrencyPairAndMerchant(string sendCurrency, string receiveCurrency, int merchantId, int? remittanceRateId, int? merchantProductId, int? serviceCategoryId, int? instrumentId, double? sendMinLimit, double? receiveMinLimit, bool? status)
@@ -280,7 +271,7 @@ namespace Fincompare.Application.Services
             {
                 throw new ApplicationException(ex.Message);
             }
-            
+
         }
     }
 }

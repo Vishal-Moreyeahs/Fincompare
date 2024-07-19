@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
-using Fincompare.Application.Request.GroupMerchantRequest;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
 using static Fincompare.Application.Request.GroupMerchantRequest.GroupMerchantBaseModel;
 using static Fincompare.Application.Response.GroupMerchantResponse.GroupMerchantViewResponse;
 
@@ -37,7 +34,7 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.SaveChangesAsync();
 
                 var data = _mapper.Map<GetAllGroupMerchantResponse>(createdData);
-                return new ApiResponse<GetAllGroupMerchantResponse>() { Status = true, Message = "Group Merchant Created Successfully",Data =data };
+                return new ApiResponse<GetAllGroupMerchantResponse>() { Status = true, Message = "Group Merchant Created Successfully", Data = data };
 
                 //var response = new ApiResponse<string>()
                 //{
@@ -64,7 +61,7 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.GetRepository<GroupMerchant>().Upsert(groupData);
                 await _unitOfWork.SaveChangesAsync();
                 var data = _mapper.Map<UpdateGroupMerchantRequestClass>(model);
-                return new ApiResponse<UpdateGroupMerchantRequestClass>() { Status = true, Message = "group merchant updated successfully" , Data = data };
+                return new ApiResponse<UpdateGroupMerchantRequestClass>() { Status = true, Message = "group merchant updated successfully", Data = data };
 
             }
             catch (Exception ex)

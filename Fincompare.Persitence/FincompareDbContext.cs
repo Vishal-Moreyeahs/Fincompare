@@ -536,7 +536,7 @@ namespace Fincompare.Persitence
                     .HasForeignKey(d => d.Country3Iso)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Merchant_Country_3_iso_fkey");
-                
+
                 entity.HasOne(d => d.GroupMerchant).WithMany(p => p.Merchants)
                     .HasForeignKey(d => d.GroupMerchantId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
