@@ -6,9 +6,9 @@ namespace Fincompare.Application.Repositories
 {
     public interface IProductService
     {
-        Task<ApiResponse<string>> CreateProduct(CreateProductRequest model);
-        Task<ApiResponse<string>> UpdateProduct(UpdateProductRequest model);
-        Task<ApiResponse<IEnumerable<GetAllProductResponse>>> GetAllProduct();
+        Task<ApiResponse<GetAllProductResponse>> CreateProduct(CreateProductRequest model);
+        Task<ApiResponse<CreateProductRequest>> UpdateProduct(UpdateProductRequest model);
+        Task<ApiResponse<IEnumerable<GetAllProductResponse>>> GetAllProduct(string? countryIso3, int? idProduct, int? idServCategory, bool? status);
         Task<ApiResponse<GetAllProductResponse>> GetProductById(int id);
     }
 }

@@ -6,9 +6,9 @@ namespace Fincompare.Application.Repositories
 {
     public interface IInstrumentService
     {
-        Task<ApiResponse<string>> CreateInstrument(CreateInstrumentRequest model);
-        Task<ApiResponse<string>> UpdateInstrument(UpdateInstrumentRequest model);
-        Task<ApiResponse<IEnumerable<GetAllInstrumentResponse>>> GetAllInstrument();
+        Task<ApiResponse<CreateInstrumentRequest>> CreateInstrument(CreateInstrumentRequest model);
+        Task<ApiResponse<CreateInstrumentRequest>> UpdateInstrument(UpdateInstrumentRequest model);
+        Task<ApiResponse<IEnumerable<GetAllInstrumentResponse>>> GetAllInstrument(int? idInstrument, bool? status);
         Task<ApiResponse<GetAllInstrumentResponse>> GetInstrumentById(int id);
     }
 }

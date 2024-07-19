@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -28,8 +27,8 @@ namespace Fincompare.Infrastructure
             //services.AddSingleton<IHostedService, MarketRateBackgroundService>();
             services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
             services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
-            
-            
+
+
 
             services.AddTransient<IExchangeRate, ExchangeRate>();
             services.AddTransient<IAuthService, AuthService>();

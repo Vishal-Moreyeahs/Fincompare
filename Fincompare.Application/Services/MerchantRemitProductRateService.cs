@@ -5,12 +5,6 @@ using Fincompare.Application.Request.MerchantRemitProductRateRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.MerchantRemitProductRateResponse;
 using Fincompare.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Fincompare.Application.Response.MerchantRemitFeeResponse.MerchantRemitFeeBaseResponse;
 
 namespace Fincompare.Application.Services
 {
@@ -20,7 +14,7 @@ namespace Fincompare.Application.Services
         private readonly IMapper _mapper;
 
         public MerchantRemitProductRateService(IUnitOfWork unitOfWork, IMapper mapper)
-        { 
+        {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }

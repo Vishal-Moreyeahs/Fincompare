@@ -1,10 +1,15 @@
-﻿namespace Fincompare.Application.Request.MarketRateRequest
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Fincompare.Application.Request.MarketRateRequest
 {
     public class MarketRateRequests
     {
+        [Required]
         public string SendCur { get; set; }
+        [Required]
 
         public string ReceiveCur { get; set; }
+        [Required]
 
         public double Rate { get; set; }
 

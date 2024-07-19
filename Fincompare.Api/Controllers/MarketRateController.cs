@@ -18,7 +18,7 @@ namespace Fincompare.Api.Controllers
 
         [HttpPost]
         [Route("add-market-rate")]
-        public async Task<IActionResult> AddMarketRate(AddMarketRate model)
+        public async Task<IActionResult> AddMarketRate(List<AddMarketRate> model)
         {
             var response = await _marketRateServices.AddMarketRate(model);
             return Ok(response);

@@ -1,7 +1,6 @@
 ﻿using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -122,7 +121,7 @@ namespace Fincompare.Api.Controllers
             var list = GetWithState();
 
             await UpdateStatesAsync(list);
-            
+
             return Ok("insertData success");
         }
 
@@ -166,7 +165,7 @@ namespace Fincompare.Api.Controllers
                                     // If the city does not exist, create a new one
                                     var city = new City
                                     {
-                                        CityName = string.IsNullOrEmpty(city2.Name) ? "":city2.Name,
+                                        CityName = string.IsNullOrEmpty(city2.Name) ? "" : city2.Name,
                                         StateId = state.Id,
                                         Status = true
                                     };
@@ -182,8 +181,8 @@ namespace Fincompare.Api.Controllers
                                 }
                             }
                         }
-                            
-                        
+
+
                         await _unitOfWork.SaveChangesAsync();
                     }
                 }
@@ -192,7 +191,7 @@ namespace Fincompare.Api.Controllers
             {
                 throw ex;
             }
-            
+
         }
 
 
@@ -257,7 +256,7 @@ namespace Fincompare.Api.Controllers
         }
 
         public class UpdateStateModel
-        { 
+        {
             public string Iso3 { get; set; }
             public List<State2> States { get; set; }
         }

@@ -4,7 +4,6 @@ using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.StateRequest;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
-using System.Collections.Generic;
 
 namespace Fincompare.Application.Services
 {
@@ -102,7 +101,7 @@ namespace Fincompare.Application.Services
                     getAllState = getAllState.Where(x => x.Id == stateId.Value);
                 if (status.HasValue)
                     getAllState = getAllState.Where(x => x.Status == status);
-                
+
 
                 var data = _mapper.Map<IEnumerable<StateDTO>>(getAllState);
                 return new ApiResponse<IEnumerable<StateDTO>>()

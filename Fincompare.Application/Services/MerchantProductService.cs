@@ -1,16 +1,10 @@
 ﻿using AutoMapper;
 using Fincompare.Application.Contracts.Persistence;
-using Fincompare.Application.Models;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MerchantProductRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.MerchantProductResponse;
 using Fincompare.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fincompare.Application.Services
 {
@@ -20,7 +14,7 @@ namespace Fincompare.Application.Services
         private readonly IMapper _mapper;
 
         public MerchantProductService(IUnitOfWork unitOfWork, IMapper mapper)
-        { 
+        {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
@@ -59,7 +53,7 @@ namespace Fincompare.Application.Services
                     ServiceLevels = responseData.ServiceLevels,
                     Status = responseData.Status
                 };
-                                            
+
 
                 var response = new ApiResponse<MerchantProductViewModel>()
                 {
@@ -119,7 +113,7 @@ namespace Fincompare.Application.Services
             {
                 throw new ApplicationException("Process failed to fetch merchant products");
             }
-            
+
         }
 
         public ApiResponse<IEnumerable<MerchantProductViewModel>> GetMerchantProducts(string sendCountry, string receiveCountry, string sendCurrency, string receiveCurrency, int? merchantID, int? merchantProductID, int? productID, int? serviceCategoryID, int? instrumentID, bool? status)
@@ -155,23 +149,23 @@ namespace Fincompare.Application.Services
                 return response;
             }
             var data = merchantProducts.Select(x => new MerchantProductViewModel
-                                         {
-                                             Id = x.Id,
-                                             MerchantId = x.MerchantId,
-                                             ServiceCategoryId = x.ServiceCategoryId,
-                                             ServiceCategoryName = x.ServiceCategory.ServCategoryName,
-                                             InstrumentId = x.InstrumentId,
-                                             InstrumentName = x.Instrument.InstrumentName,
-                                             ProductId = x.ProductId,
-                                             ProductName = x.Product.ProductName,
-                                             MerchantName = x.Merchant.MerchantName,
-                                             ReceiveCountry3Iso = x.ReceiveCountry3Iso,
-                                             SendCountry3Iso = x.SendCountry3Iso,
-                                             ReceiveCurrencyId = x.ReceiveCurrencyId,
-                                             SendCurrencyId = x.SendCurrencyId,
-                                             ServiceLevels = x.ServiceLevels,
-                                             Status = x.Status
-                                         }).ToList();
+            {
+                Id = x.Id,
+                MerchantId = x.MerchantId,
+                ServiceCategoryId = x.ServiceCategoryId,
+                ServiceCategoryName = x.ServiceCategory.ServCategoryName,
+                InstrumentId = x.InstrumentId,
+                InstrumentName = x.Instrument.InstrumentName,
+                ProductId = x.ProductId,
+                ProductName = x.Product.ProductName,
+                MerchantName = x.Merchant.MerchantName,
+                ReceiveCountry3Iso = x.ReceiveCountry3Iso,
+                SendCountry3Iso = x.SendCountry3Iso,
+                ReceiveCurrencyId = x.ReceiveCurrencyId,
+                SendCurrencyId = x.SendCurrencyId,
+                ServiceLevels = x.ServiceLevels,
+                Status = x.Status
+            }).ToList();
 
             response.Status = true;
             response.Message = "Merchant Products found";

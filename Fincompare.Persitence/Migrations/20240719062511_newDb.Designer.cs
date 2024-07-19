@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-    [Migration("20240718135046_first")]
-    partial class first
+    [Migration("20240719062511_newDb")]
+    partial class newDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -273,8 +273,8 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("character varying")
                         .HasColumnName("Country_3_iso");
 
-                    b.Property<int?>("CountryCurrencyCategoryId")
-                        .HasColumnType("integer")
+                    b.Property<string>("CountryCurrencyCategoryId")
+                        .HasColumnType("character varying(15)")
                         .HasColumnName("CountryCurrencyCategory_id");
 
                     b.Property<DateTime>("CreatedDate")
@@ -313,11 +313,10 @@ namespace Fincompare.Persitence.Migrations
 
             modelBuilder.Entity("Fincompare.Domain.Entities.CountryCurrencyCategory", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<string>("CountryCurrencyCategoryId")
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)")
+                        .HasColumnName("Country_Currency_Category_Id");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone")
@@ -338,7 +337,7 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Updated_Date");
 
-                    b.HasKey("Id")
+                    b.HasKey("CountryCurrencyCategoryId")
                         .HasName("CountryCurrencyCategory_pkey");
 
                     b.ToTable("CountryCurrencyCategory", (string)null);
@@ -1721,7 +1720,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 7, 18, 13, 50, 45, 728, DateTimeKind.Utc).AddTicks(1210),
+                            CreatedAt = new DateTime(2024, 7, 19, 6, 25, 11, 371, DateTimeKind.Utc).AddTicks(9663),
                             Email = "aarya.garg@moreyeahs.com",
                             FirstName = "Aarya",
                             IsDeleted = false,
@@ -1733,7 +1732,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 7, 18, 13, 50, 45, 728, DateTimeKind.Utc).AddTicks(1227),
+                            CreatedAt = new DateTime(2024, 7, 19, 6, 25, 11, 371, DateTimeKind.Utc).AddTicks(9673),
                             Email = "vishal.pawar@moreyeahs.com",
                             FirstName = "Vishal",
                             IsDeleted = false,

@@ -1,9 +1,6 @@
 ﻿using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MerchantProductRequests;
-using Fincompare.Application.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static Fincompare.Application.Request.GroupMerchantRequest.GroupMerchantBaseModel;
 
 namespace Fincompare.Api.Controllers
 {
@@ -20,7 +17,7 @@ namespace Fincompare.Api.Controllers
 
         [HttpPost]
         [Route("add-merchant-product")]
-        private async Task<IActionResult> AddMerchantProduct(AddMerchantProductRequest model)
+        public async Task<IActionResult> AddMerchantProduct(AddMerchantProductRequest model)
         {
             var response = await _merchantProductService.AddMerchantProduct(model);
             return Ok(response);
@@ -28,7 +25,7 @@ namespace Fincompare.Api.Controllers
 
         [HttpPut]
         [Route("update-merchant-product")]
-        private async Task<IActionResult> UpdateMerchantProduct(UpdateMerchantProductRequest model)
+        public async Task<IActionResult> UpdateMerchantProduct(UpdateMerchantProductRequest model)
         {
             var response = await _merchantProductService.UpdateMerchantProduct(model);
             return Ok(response);
@@ -36,14 +33,14 @@ namespace Fincompare.Api.Controllers
 
         [HttpGet]
         [Route("get-merchant-product-by-merchantId/{merchantId}")]
-        private async Task<IActionResult> GetMerchantProductByMerchantId(int merchantId)
+        public async Task<IActionResult> GetMerchantProductByMerchantId(int merchantId)
         {
             var response = await _merchantProductService.GetMerchantProductByMerchantId(merchantId);
             return Ok(response);
         }
 
         [HttpGet("{sendCountry}/{receiveCountry}/{sendCurrency}/{receiveCurrency}")]
-        private async Task<IActionResult> GetMerchantProducts(
+        public async Task<IActionResult> GetMerchantProducts(
                                                             string sendCountry,
                                                             string receiveCountry,
                                                             string sendCurrency,
@@ -55,7 +52,7 @@ namespace Fincompare.Api.Controllers
                                                             [FromQuery] int? instrumentID,
                                                             [FromQuery] bool? status)
         {
-            var merchantProducts =  _merchantProductService.GetMerchantProducts(sendCountry, receiveCountry, sendCurrency, receiveCurrency, merchantID, merchantProductID, productID, serviceCategoryID, instrumentID, status);
+            var merchantProducts = _merchantProductService.GetMerchantProducts(sendCountry, receiveCountry, sendCurrency, receiveCurrency, merchantID, merchantProductID, productID, serviceCategoryID, instrumentID, status);
             return Ok(merchantProducts);
         }
     }

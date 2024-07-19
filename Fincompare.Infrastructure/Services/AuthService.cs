@@ -128,7 +128,7 @@ namespace Fincompare.Infrastructure.Services
 
             //AddUser
             var user = _mapper.Map<User>(request);
-            user.CreatedBy = loggedInUser == null ? request.CreatedBy : loggedInUser.Id ;
+            user.CreatedBy = loggedInUser == null ? request.CreatedBy : loggedInUser.Id;
             user.PasswordHash = _cryptographyService.EncryptPassword(request.Email + request.Password);
 
             await _unitOfWork.GetRepository<User>().Add(user);

@@ -2,14 +2,9 @@
 using Fincompare.Application.Contracts.Infrastructure;
 using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
-using Fincompare.Application.Request;
-using Fincompare.Application.Request.MarketRateRequest;
 using Fincompare.Application.Request.MerchantRequests;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
-using Fincompare.Domain.Entities.UserManagementEntities;
-using Fincompare.Domain.Enums;
-using System.Diagnostics.Metrics;
 
 namespace Fincompare.Application.Services
 {
@@ -52,23 +47,24 @@ namespace Fincompare.Application.Services
 
                 //retreive the User table(get userid from merchant)
                 if (merchant.UserId != null)
-                //{
-                //    var userResponse = await _userManagerServices.GetUserById((int)merchant.UserId);
-                //    var user = userResponse.Data;
+                    //{
+                    //    var userResponse = await _userManagerServices.GetUserById((int)merchant.UserId);
+                    //    var user = userResponse.Data;
 
-                //    user.IsDeleted = true;
-                //    await _unitOfWork.GetRepository<User>().Upsert(user);
-                //    await _unitOfWork.SaveChangesAsync();
+                    //    user.IsDeleted = true;
+                    //    await _unitOfWork.GetRepository<User>().Upsert(user);
+                    //    await _unitOfWork.SaveChangesAsync();
 
-                //}
-                response.Status = true;
+                    //}
+                    response.Status = true;
                 response.Message = "Merchant Removed";
                 return response;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw new ApplicationException("Merchant Deletion Failed");
             }
-            
+
         }
 
         public async Task<ApiResponse<MerchantDto>> EditMerchantProfile(UpdateMerchantRequest model)
@@ -136,7 +132,8 @@ namespace Fincompare.Application.Services
                 response.Message = "Merchants fetched successfully";
                 return response;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
 
                 throw new ApplicationException("Error in getting merchants");
             }
@@ -203,7 +200,7 @@ namespace Fincompare.Application.Services
         public async Task<ApiResponse<MerchantDto>> AddMerchant(AddMerchantRequest model)
         {
             var response = new ApiResponse<MerchantDto>();
-            
+
             try
             {
                 //check if merchant already exist or not
@@ -211,7 +208,7 @@ namespace Fincompare.Application.Services
                 var merchants = await _unitOfWork.GetRepository<Merchant>().GetAll();
                 var checkMerchant = merchants.FirstOrDefault(x => x.MerchantCsem == model.MerchantCsem);
                 if (checkMerchant != null)
-                { 
+                {
                     response.Status = false;
                     response.Message = "Merchant email already exists.";
                     return response;
@@ -255,9 +252,10 @@ namespace Fincompare.Application.Services
                 response.Data = merchantData;
                 return response;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
 
-                throw new ApplicationException("Merchant Onboarding Failed "+ex.Message);
+                throw new ApplicationException("Merchant Onboarding Failed " + ex.Message);
             }
 
         }

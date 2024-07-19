@@ -33,9 +33,9 @@ namespace Fincompare.Api.Controllers
 
         [HttpGet]
         [Route("getall-instrument")]
-        public async Task<IActionResult> GetAllInstrument()
+        public async Task<IActionResult> GetAllInstrument(int? idInstrument, bool? status)
         {
-            var response = await _instrumentService.GetAllInstrument();
+            var response = await _instrumentService.GetAllInstrument(idInstrument, status);
             return Ok(response);
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -9,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     /// <inheritdoc />
-    public partial class first : Migration
+    public partial class newDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,8 +35,7 @@ namespace Fincompare.Persitence.Migrations
                 name: "CountryCurrencyCategory",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Country_Currency_Category_Id = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
                     Definition = table.Column<string>(type: "character varying", maxLength: 35, nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
@@ -46,7 +44,7 @@ namespace Fincompare.Persitence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("CountryCurrencyCategory_pkey", x => x.Id);
+                    table.PrimaryKey("CountryCurrencyCategory_pkey", x => x.Country_Currency_Category_Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -284,7 +282,7 @@ namespace Fincompare.Persitence.Migrations
                     Country_3_iso = table.Column<string>(type: "character varying", nullable: false),
                     Currency_3_iso = table.Column<string>(type: "text", nullable: true),
                     IsPrimary_Cur = table.Column<bool>(type: "boolean", nullable: false),
-                    CountryCurrencyCategory_id = table.Column<int>(type: "integer", nullable: true),
+                    CountryCurrencyCategory_id = table.Column<string>(type: "character varying(15)", nullable: true),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     Created_Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -297,7 +295,7 @@ namespace Fincompare.Persitence.Migrations
                         name: "CountryCurrency_CountryCurrencyCategory_id_fkey",
                         column: x => x.CountryCurrencyCategory_id,
                         principalTable: "CountryCurrencyCategory",
-                        principalColumn: "Id");
+                        principalColumn: "Country_Currency_Category_Id");
                     table.ForeignKey(
                         name: "CountryCurrency_Country_3_iso_fkey",
                         column: x => x.Country_3_iso,
@@ -1029,8 +1027,8 @@ namespace Fincompare.Persitence.Migrations
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "Email", "FirstName", "IsDeleted", "LastName", "PasswordHash", "Phone", "StatusId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 7, 18, 13, 50, 45, 728, DateTimeKind.Utc).AddTicks(1210), null, "aarya.garg@moreyeahs.com", "Aarya", false, "Garg", new byte[] { 174, 37, 40, 78, 61, 77, 69, 19, 80, 223, 202, 222, 187, 5, 98, 239, 4, 250, 125, 131, 152, 224, 149, 111, 155, 248, 50, 77, 228, 16, 121, 219 }, "1234567890", 1 },
-                    { 2, new DateTime(2024, 7, 18, 13, 50, 45, 728, DateTimeKind.Utc).AddTicks(1227), null, "vishal.pawar@moreyeahs.com", "Vishal", false, "Pawar", new byte[] { 191, 77, 99, 205, 83, 55, 86, 113, 215, 255, 103, 106, 200, 175, 114, 38, 28, 185, 72, 18, 181, 201, 106, 152, 78, 60, 123, 188, 38, 184, 208, 240 }, "9876543216", 1 }
+                    { 1, new DateTime(2024, 7, 19, 6, 25, 11, 371, DateTimeKind.Utc).AddTicks(9663), null, "aarya.garg@moreyeahs.com", "Aarya", false, "Garg", new byte[] { 174, 37, 40, 78, 61, 77, 69, 19, 80, 223, 202, 222, 187, 5, 98, 239, 4, 250, 125, 131, 152, 224, 149, 111, 155, 248, 50, 77, 228, 16, 121, 219 }, "1234567890", 1 },
+                    { 2, new DateTime(2024, 7, 19, 6, 25, 11, 371, DateTimeKind.Utc).AddTicks(9673), null, "vishal.pawar@moreyeahs.com", "Vishal", false, "Pawar", new byte[] { 191, 77, 99, 205, 83, 55, 86, 113, 215, 255, 103, 106, 200, 175, 114, 38, 28, 185, 72, 18, 181, 201, 106, 152, 78, 60, 123, 188, 38, 184, 208, 240 }, "9876543216", 1 }
                 });
 
             migrationBuilder.InsertData(

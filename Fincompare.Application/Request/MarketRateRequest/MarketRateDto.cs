@@ -2,7 +2,6 @@
 {
     public class MarketRateDto
     {
-        public int Id { get; set; }
 
         public string SendCur { get; set; }
 

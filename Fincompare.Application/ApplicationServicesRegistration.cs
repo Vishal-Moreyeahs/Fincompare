@@ -24,7 +24,9 @@ namespace Fincompare.Application
             services.AddTransient<IMerchantProductService, MerchantProductService>();
             services.AddTransient<IMerchantRemitFee, MerchantRemitFee>();
             services.AddTransient<IMerchantRemitProductRateService, MerchantRemitProductRateService>();
-
+            services.AddTransient<IServiceCategory, ServiceCategories>();
+            services.AddTransient<ICouponService, CouponServices>();
+            services.AddTransient<IMerchantProductCouponService, MerchantProductCouponService>();
             return services;
         }
     }

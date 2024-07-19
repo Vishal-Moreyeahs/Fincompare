@@ -13,7 +13,8 @@ namespace Fincompare.Infrastructure.RateServices
         private readonly ICurrencyServices _currencyServices;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ExchangeRate(ICurrencyServices currencyServices, IUnitOfWork unitOfWork) { 
+        public ExchangeRate(ICurrencyServices currencyServices, IUnitOfWork unitOfWork)
+        {
             _currencyServices = currencyServices;
             _unitOfWork = unitOfWork;
         }

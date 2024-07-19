@@ -92,7 +92,7 @@ namespace Fincompare.Application.Services
                     }).ToList();
 
                 if (!string.IsNullOrEmpty(country3Iso))
-                { 
+                {
                     var countryCurrencies = await _unitOfWork.GetRepository<CountryCurrency>().GetAll();
                     countryCurrencies = countryCurrencies.Where(x => x.Country3Iso == country3Iso);
                     var currencies = from c in getAllCurrency

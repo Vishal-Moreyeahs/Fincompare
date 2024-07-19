@@ -1,7 +1,6 @@
 ﻿using Fincompare.Application.Request.CountryCurrencyRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.CountryCurrencyResponse;
-using static Fincompare.Application.Response.CurrencyResponse.CurrencyResponseBaseModel;
 
 namespace Fincompare.Application.Repositories
 {

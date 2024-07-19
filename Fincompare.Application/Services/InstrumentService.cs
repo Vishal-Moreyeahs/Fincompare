@@ -19,16 +19,17 @@ namespace Fincompare.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<string>> CreateInstrument(CreateInstrumentRequest model)
+        public async Task<ApiResponse<CreateInstrumentRequest>> CreateInstrument(CreateInstrumentRequest model)
         {
             try
             {
                 if (model == null)
-                    return new ApiResponse<string>() { Status = false, Message = "Request Not Accepted !" };
+                    return new ApiResponse<CreateInstrumentRequest>() { Status = false, Message = "Request Not Accepted !" };
                 var createInstrument = _mapper.Map<Instrument>(model);
                 await _unitOfWork.GetRepository<Instrument>().Add(createInstrument);
                 await _unitOfWork.SaveChangesAsync();
-                return new ApiResponse<string>() { Status = true, Message = "Instrument creation Successfully !" };
+                var response = _mapper.Map<CreateInstrumentRequest>(createInstrument);
+                return new ApiResponse<CreateInstrumentRequest>() { Status = true, Message = "Instrument creation Successfully !", Data = response };
 
             }
             catch (Exception ex)
@@ -38,17 +39,18 @@ namespace Fincompare.Application.Services
             }
         }
 
-        public async Task<ApiResponse<string>> UpdateInstrument(UpdateInstrumentRequest model)
+        public async Task<ApiResponse<CreateInstrumentRequest>> UpdateInstrument(UpdateInstrumentRequest model)
         {
             try
             {
                 var checkInstrument = await _unitOfWork.GetRepository<Instrument>().GetById(model.Id);
                 if (checkInstrument == null)
-                    return new ApiResponse<string>() { Status = false, Message = "Request Not Accepted" };
+                    return new ApiResponse<CreateInstrumentRequest>() { Status = false, Message = "Request Not Accepted" };
                 var updateDate = _mapper.Map(model, checkInstrument);
                 await _unitOfWork.GetRepository<Instrument>().Upsert(updateDate);
                 await _unitOfWork.SaveChangesAsync();
-                return new ApiResponse<string>() { Status = true, Message = "Instrument Updated Successfully !" };
+                var response = _mapper.Map<CreateInstrumentRequest>(updateDate);
+                return new ApiResponse<CreateInstrumentRequest>() { Status = true, Message = "Instrument Updated Successfully !", Data = response };
             }
             catch (Exception ex)
             {
@@ -57,11 +59,19 @@ namespace Fincompare.Application.Services
         }
 
 
-        public async Task<ApiResponse<IEnumerable<GetAllInstrumentResponse>>> GetAllInstrument()
+        public async Task<ApiResponse<IEnumerable<GetAllInstrumentResponse>>> GetAllInstrument(int? idInstrument, bool? status)
         {
             try
             {
                 var getInstrument = await _unitOfWork.GetRepository<Instrument>().GetAll();
+                if (idInstrument.HasValue)
+                {
+                    getInstrument = getInstrument.Where(x => x.Id == idInstrument.Value);
+                }
+                if (status.HasValue)
+                {
+                    getInstrument = getInstrument.Where(x => x.Status == status.Value);
+                }
                 var getListOfAllInstrument = getInstrument
                     .Select(x => new GetAllInstrumentResponse
                     {
@@ -70,6 +80,7 @@ namespace Fincompare.Application.Services
                         Country3Iso = x.Country3Iso,
                         Status = x.Status
                     }).ToList();
+
                 if (getListOfAllInstrument.Count == 0)
                     return new ApiResponse<IEnumerable<GetAllInstrumentResponse>>() { Status = false, Message = "Instrument Not Found!" };
                 return new ApiResponse<IEnumerable<GetAllInstrumentResponse>>() { Status = true, Message = "Instrument Found!", Data = getListOfAllInstrument };
