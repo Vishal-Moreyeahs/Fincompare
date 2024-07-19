@@ -67,6 +67,23 @@ namespace Fincompare.Application.Services
                                                 }).ToList();
 
                 }
+
+                if (!string.IsNullOrEmpty(country3Iso) && !string.IsNullOrEmpty(categoryId))
+                {
+                    currencies = currencyList
+                                                .Where(cc => cc.Country3Iso == country3Iso && cc.CountryCurrencyCategoryId == categoryId)
+                                                .Select(cc => new GetCountryCurrencyResponse
+                                                {
+                                                    Id = cc.Id,
+                                                    CurrencyIso = cc.CurrencyIso,
+                                                    Country3Iso = cc.Country3Iso,
+                                                    IsPrimary = cc.IsPrimaryCur,
+                                                    Category = cc.CountryCurrencyCategoryId,
+                                                    Status = cc.Status
+                                                }).ToList();
+
+                }
+
                 var response = new ApiResponse<List<GetCountryCurrencyResponse>>()
                 {
                     Status = true,
@@ -102,8 +119,8 @@ namespace Fincompare.Application.Services
                     Country3Iso = model.Country3Iso,
                     //CurrencyId = c.Id,
                     CurrencyIso = c.CurrencyIso,
-                    IsPrimaryCur = c.IsPrimaryCur,
-                    CountryCurrencyCategoryId = c.CountryCurrencyCategoryId,
+                    IsPrimaryCur = c.IsPrimary,
+                    CountryCurrencyCategoryId = c.Category,
                     //UpdatedDate = DateTime.UtcNow,
                     //CreatedDate = DateTime.UtcNow
                 }).ToList();
@@ -150,6 +167,7 @@ namespace Fincompare.Application.Services
 
                 // Map the updated data and save it in the database
                 _mapper.Map(model, checkCountryCurrency);
+               
                 await _unitOfWork.GetRepository<CountryCurrency>().Upsert(checkCountryCurrency);
                 await _unitOfWork.SaveChangesAsync();
 
