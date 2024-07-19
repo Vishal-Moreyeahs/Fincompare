@@ -52,7 +52,7 @@ namespace Fincompare.Api.Controllers
                                                             [FromQuery] int? instrumentID,
                                                             [FromQuery] bool? status)
         {
-            var merchantProducts = _merchantProductService.GetMerchantProducts(sendCountry, receiveCountry, sendCurrency, receiveCurrency, merchantID, merchantProductID, productID, serviceCategoryID, instrumentID, status);
+            var merchantProducts =  _merchantProductService.GetMerchantProducts(sendCountry, receiveCountry, sendCurrency, receiveCurrency, merchantID, merchantProductID, productID, serviceCategoryID, instrumentID, status);
             return Ok(merchantProducts);
         }
     }
