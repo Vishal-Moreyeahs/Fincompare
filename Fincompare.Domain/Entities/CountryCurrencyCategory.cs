@@ -1,10 +1,12 @@
 ﻿using Fincompare.Domain.Entities.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace Fincompare.Domain.Entities
 {
     public partial class CountryCurrencyCategory : DateBase
     {
-        public int Id { get; set; }
+        [Key]
+        public string CountryCurrencyCategoryId { get; set; }
 
         public string Definition { get; set; } = null!;
 

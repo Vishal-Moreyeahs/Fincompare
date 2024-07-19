@@ -223,9 +223,12 @@ namespace Fincompare.Persitence
 
             modelBuilder.Entity<CountryCurrencyCategory>(entity =>
             {
-                entity.HasKey(e => e.Id).HasName("CountryCurrencyCategory_pkey");
+                entity.HasKey(e => e.CountryCurrencyCategoryId).HasName("CountryCurrencyCategory_pkey");
 
                 entity.ToTable("CountryCurrencyCategory");
+
+                entity.Property(e => e.CountryCurrencyCategoryId)
+                    .HasColumnName("Country_Currency_Category_Id").HasMaxLength(15);
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("timestamp with time zone")

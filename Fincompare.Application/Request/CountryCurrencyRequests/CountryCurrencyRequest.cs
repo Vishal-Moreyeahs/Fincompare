@@ -12,7 +12,7 @@
     {
         public string CurrencyIso { get; set; }
         public bool IsPrimaryCur { get; set; } = false;
-        public int? CountryCurrencyCategoryId { get; set; }
+        public string? CountryCurrencyCategoryId { get; set; }
         public bool Status { get; set; } = true;
 
     }
