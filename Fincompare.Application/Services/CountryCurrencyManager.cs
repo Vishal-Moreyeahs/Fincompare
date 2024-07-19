@@ -28,20 +28,19 @@ namespace Fincompare.Application.Services
 
                 var currencies = new List<GetCountryCurrencyResponse>();
 
-                if (categoryId == null)
+                if (!string.IsNullOrEmpty(categoryId))
                 {
                     currencies = currencyList
                                             .Where(cc => cc.Country3Iso == country3Iso)
                                             .Select(cc => new GetCountryCurrencyResponse
                                             {
                                                 CountryCurrencyID = cc.Id,
-                                                CountryIso2 = cc.Country3IsoNavigation.Country2Iso,
+                                                CurrencyIso = cc.CurrencyIso,
                                                 CountryIso3 = cc.Country3Iso,
                                                 IsPrimary = cc.IsPrimaryCur,
-                                                Category = cc.CountryCurrencyCategory.Definition,
+                                                Category = cc.CountryCurrencyCategoryId,
                                                 Status = cc.Status
-                                            })
-                                            .ToList();
+                                            }).ToList();
                 }
                 else
                 {
@@ -50,10 +49,10 @@ namespace Fincompare.Application.Services
                                                 .Select(cc => new GetCountryCurrencyResponse
                                                 {
                                                     CountryCurrencyID = cc.Id,
-                                                    CountryIso2 = cc.Country3IsoNavigation.Country2Iso,
+                                                    CurrencyIso = cc.CurrencyIso,
                                                     CountryIso3 = cc.Country3Iso,
                                                     IsPrimary = cc.IsPrimaryCur,
-                                                    Category = cc.CountryCurrencyCategory.Definition,
+                                                    Category = cc.CountryCurrencyCategoryId,
                                                     Status = cc.Status
                                                 }).ToList();
 
@@ -73,7 +72,7 @@ namespace Fincompare.Application.Services
             }
         }
 
-        public async Task<ApiResponse<string>> UpdateCountryWithMultipleCurrencies(UpdateCountryWithMultipleCurrencyRequest model)
+        public async Task<ApiResponse<GetCountryCurrencyResponse>> AddCountryWithMultipleCurrencies(UpdateCountryWithMultipleCurrencyRequest model)
         {
             try
             {
@@ -102,10 +101,21 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.GetRepository<CountryCurrency>().AddRange(newCountryCurrencies);
                 await _unitOfWork.SaveChangesAsync();
 
-                var response = new ApiResponse<string>()
+                var data = newCountryCurrencies.Select(cc => new GetCountryCurrencyResponse
+                                    {
+                                        CountryCurrencyID = cc.Id,
+                                        CurrencyIso = cc.CurrencyIso,
+                                        CountryIso3 = cc.Country3Iso,
+                                        IsPrimary = cc.IsPrimaryCur,
+                                        Category = cc.CountryCurrencyCategoryId,
+                                        Status = cc.Status
+                                    }).ToList();
+
+                var response = new ApiResponse<GetCountryCurrencyResponse>()
                 {
                     Status = true,
-                    Message = $"Country Currencies Created successfully"
+                    Message = $"Country Currencies Created successfully",
+                    Data = data
                 };
                 return response;
             }
@@ -113,6 +123,46 @@ namespace Fincompare.Application.Services
             {
                 throw;
             }
+        }
+
+        public async Task<ApiResponse<GetCountryCurrencyResponse>> UpdateCountryCurrency(UpdateCountryCurrencyRequest model)
+        {
+            try
+            {
+                var response = new ApiResponse<GetCountryCurrencyResponse>();
+                var checkCountryCurrency = await _unitOfWork.GetRepository<CountryCurrency>().GetById(model.Id);
+
+                if (checkCountryCurrency == null)
+                {
+                    response.Message = "Country Currency not found";
+                    return response;
+                }
+
+                // Map the updated data and save it in the database
+                _mapper.Map(model, checkCountryCurrency);
+                await _unitOfWork.GetRepository<CountryCurrency>().Upsert(checkCountryCurrency);
+                await _unitOfWork.SaveChangesAsync();
+
+                var data = new GetCountryCurrencyResponse
+                {
+                    CountryCurrencyID = checkCountryCurrency.Id,
+                    CurrencyIso = checkCountryCurrency.CurrencyIso,
+                    CountryIso3 = checkCountryCurrency.Country3Iso,
+                    IsPrimary = checkCountryCurrency.IsPrimaryCur,
+                    Category = checkCountryCurrency.CountryCurrencyCategoryId,
+                    Status = checkCountryCurrency.Status
+                }).ToList();
+
+                response.Message = "country currency updated successfully";
+                response.Status = true;
+                response.Data = data;
+            }
+
+            catch (Exception ex) { 
+                throw new ApplicationException($"{ex.Message}");
+            }
+            
+
         }
     }
 }
