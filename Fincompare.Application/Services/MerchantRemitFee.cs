@@ -30,18 +30,18 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.SaveChangesAsync();
 
                 var merchantRemitFee = await _unitOfWork.GetRepository<MerchantRemitProductFee>().GetByPrimaryKeyWithRelatedEntitiesAsync<int>(requestData.Id);
-
+                var merchantProduct = await _unitOfWork.GetRepository<MerchantProduct>().GetByPrimaryKeyWithRelatedEntitiesAsync<int>((int)merchantRemitFee.MerchantProductId);
                 var data = new MerchantRemittanceFee
                 {
                     RemittanceFeeID = merchantRemitFee.Id,
                     MerchantID = merchantRemitFee.MerchantId,
                     MerchantName = merchantRemitFee.Merchant.MerchantName,
                     ServiceCategoryId = merchantRemitFee.MerchantProduct.ServiceCategoryId,
-                    ServiceCategoryName = merchantRemitFee.MerchantProduct.ServiceCategory.ServCategoryName,
-                    InstrumentId = merchantRemitFee.MerchantProduct.Instrument.Id,
-                    InstrumentName = merchantRemitFee.MerchantProduct.Instrument.InstrumentName,
-                    ProductId = merchantRemitFee.MerchantProduct.ProductId,
-                    ProductName = merchantRemitFee.MerchantProduct.Product.ProductName,
+                    ServiceCategoryName = merchantProduct.ServiceCategory.ServCategoryName,
+                    InstrumentId = merchantProduct.Instrument.Id,
+                    InstrumentName = merchantProduct.Instrument.InstrumentName,
+                    ProductId = merchantProduct.ProductId,
+                    ProductName = merchantProduct.Product.ProductName,
                     FeesName = merchantRemitFee.FeesName,
                     FeesCurrency = merchantRemitFee.FeesCur,
                     Fees = merchantRemitFee.Fees,
@@ -87,7 +87,7 @@ namespace Fincompare.Application.Services
         {
             //var response = new ApiResponse<IEnumerable<MerchantRemittanceFee>>();
             var merchantRemitFees = _unitOfWork.GetRepository<MerchantRemitProductFee>().GetAllRelatedEntity().AsQueryable();
-
+            var merchantProductList = _unitOfWork.GetRepository<MerchantProduct>().GetAllRelatedEntity().AsQueryable();
 
             // Apply filters
             if (merchantId.HasValue)
@@ -121,32 +121,36 @@ namespace Fincompare.Application.Services
             //    response.Message = "merchant products not found";
             //    return response;
             //}
-            var data = merchantRemitFees.Select(merchantRemitFee => new MerchantRemittanceFee
-            {
-                RemittanceFeeID = merchantRemitFee.Id,
-                MerchantID = merchantRemitFee.MerchantId,
-                MerchantName = merchantRemitFee.Merchant.MerchantName,
-                ServiceCategoryId = merchantRemitFee.MerchantProduct.ServiceCategoryId,
-                ServiceCategoryName = merchantRemitFee.MerchantProduct.ServiceCategory.ServCategoryName,
-                InstrumentId = merchantRemitFee.MerchantProduct.Instrument.Id,
-                InstrumentName = merchantRemitFee.MerchantProduct.Instrument.InstrumentName,
-                ProductId = merchantRemitFee.MerchantProduct.ProductId,
-                ProductName = merchantRemitFee.MerchantProduct.Product.ProductName,
-                FeesName = merchantRemitFee.FeesName,
-                FeesCurrency = merchantRemitFee.FeesCur,
-                Fees = merchantRemitFee.Fees,
-                PromoFees = merchantRemitFee.PromoFees,
-                MerchantProductID = merchantRemitFee.MerchantProductId,
-                SendCountry = merchantRemitFee.SendCountry3Iso,
-                ReceiveCountry = merchantRemitFee.ReceiveCurrency,
-                SendCurrency = merchantRemitFee.SendCurrency,
-                ReceiveCurrency = merchantRemitFee.ReceiveCurrency,
-                SendMinLimit = merchantRemitFee.SendMinLimit,
-                SendMaxLimit = merchantRemitFee.SendMinLimit,
-                ReceiveMinLimit = merchantRemitFee.ReceiveMinLimit,
-                ReceiveMaxLimit = merchantRemitFee.ReceiveMaxLimit,
-                ValidityExpiry = merchantRemitFee.ValidityExpiry,
-            }).ToList();
+
+            var data = (from merchantRemitFee in merchantRemitFees
+                             join mp in merchantProductList
+                             on merchantRemitFee.MerchantProductId equals mp.Id
+                             select new MerchantRemittanceFee
+                             {
+                                 RemittanceFeeID = merchantRemitFee.Id,
+                                 MerchantID = merchantRemitFee.MerchantId,
+                                 MerchantName = merchantRemitFee.Merchant.MerchantName,
+                                 ServiceCategoryId = merchantRemitFee.MerchantProduct.ServiceCategoryId,
+                                 ServiceCategoryName = mp.ServiceCategory.ServCategoryName,
+                                 InstrumentId = mp.Instrument.Id,
+                                 InstrumentName = mp.Instrument.InstrumentName,
+                                 ProductId = merchantRemitFee.MerchantProduct.ProductId,
+                                 ProductName = mp.Product.ProductName,
+                                 FeesName = merchantRemitFee.FeesName,
+                                 FeesCurrency = merchantRemitFee.FeesCur,
+                                 Fees = merchantRemitFee.Fees,
+                                 PromoFees = merchantRemitFee.PromoFees,
+                                 MerchantProductID = merchantRemitFee.MerchantProductId,
+                                 SendCountry = merchantRemitFee.SendCountry3Iso,
+                                 ReceiveCountry = merchantRemitFee.ReceiveCurrency,
+                                 SendCurrency = merchantRemitFee.SendCurrency,
+                                 ReceiveCurrency = merchantRemitFee.ReceiveCurrency,
+                                 SendMinLimit = merchantRemitFee.SendMinLimit,
+                                 SendMaxLimit = merchantRemitFee.SendMinLimit,
+                                 ReceiveMinLimit = merchantRemitFee.ReceiveMinLimit,
+                                 ReceiveMaxLimit = merchantRemitFee.ReceiveMaxLimit,
+                                 ValidityExpiry = merchantRemitFee.ValidityExpiry
+                             }).ToList();
 
             if (data.Count > 0)
                 return new ApiResponse<IEnumerable<MerchantRemittanceFee>>() { Status = true, Message = "Remittance Fee Fetch Successfully!", Data = data };
@@ -160,7 +164,7 @@ namespace Fincompare.Application.Services
             //var response = new ApiResponse<IEnumerable<MerchantRemittanceFee>>();
             var merchantRemitFees = _unitOfWork.GetRepository<MerchantRemitProductFee>().GetAllRelatedEntity().AsQueryable();
 
-
+            var merchantProductList = _unitOfWork.GetRepository<MerchantProduct>().GetAllRelatedEntity().AsQueryable();
             // Apply filters
             //if (merchantId.HasValue)
             //    merchantRemitFees = merchantRemitFees.Where(mp => mp.MerchantId == merchantId.Value);
@@ -189,40 +193,39 @@ namespace Fincompare.Application.Services
                 .Where(mp => mp.ReceiveCurrency == receiveCurrency)
                 .Where(mp => mp.MerchantId == merchantId);
 
-            //if (!merchantRemitFees.Any())
-            //{
-            //    response.Message = "merchant products not found";
-            //    return response;
-            //}
-            var data = merchantRemitFees.Select(merchantRemitFee => new MerchantRemittanceFee
-            {
-                RemittanceFeeID = merchantRemitFee.Id,
-                MerchantID = merchantRemitFee.MerchantId,
-                MerchantName = merchantRemitFee.Merchant.MerchantName,
-                ServiceCategoryId = merchantRemitFee.MerchantProduct.ServiceCategoryId,
-                ServiceCategoryName = merchantRemitFee.MerchantProduct.ServiceCategory.ServCategoryName,
-                InstrumentId = merchantRemitFee.MerchantProduct.Instrument.Id,
-                InstrumentName = merchantRemitFee.MerchantProduct.Instrument.InstrumentName,
-                ProductId = merchantRemitFee.MerchantProduct.ProductId,
-                ProductName = merchantRemitFee.MerchantProduct.Product.ProductName,
-                FeesName = merchantRemitFee.FeesName,
-                FeesCurrency = merchantRemitFee.FeesCur,
-                Fees = merchantRemitFee.Fees,
-                PromoFees = merchantRemitFee.PromoFees,
-                MerchantProductID = merchantRemitFee.MerchantProductId,
-                SendCountry = merchantRemitFee.SendCountry3Iso,
-                ReceiveCountry = merchantRemitFee.ReceiveCurrency,
-                SendCurrency = merchantRemitFee.SendCurrency,
-                ReceiveCurrency = merchantRemitFee.ReceiveCurrency,
-                SendMinLimit = merchantRemitFee.SendMinLimit,
-                SendMaxLimit = merchantRemitFee.SendMinLimit,
-                ReceiveMinLimit = merchantRemitFee.ReceiveMinLimit,
-                ReceiveMaxLimit = merchantRemitFee.ReceiveMaxLimit,
-                ValidityExpiry = merchantRemitFee.ValidityExpiry,
-            }).ToList();
+            var innerData = (from merchantRemitFee in merchantRemitFees
+                            join mp in merchantProductList
+                            on merchantRemitFee.MerchantProductId equals mp.Id
+                            select new MerchantRemittanceFee
+                            {
+                                RemittanceFeeID = merchantRemitFee.Id,
+                                MerchantID = merchantRemitFee.MerchantId,
+                                MerchantName = merchantRemitFee.Merchant.MerchantName,
+                                ServiceCategoryId = merchantRemitFee.MerchantProduct.ServiceCategoryId,
+                                ServiceCategoryName = mp.ServiceCategory.ServCategoryName,
+                                InstrumentId = mp.Instrument.Id,
+                                InstrumentName = mp.Instrument.InstrumentName,
+                                ProductId = merchantRemitFee.MerchantProduct.ProductId,
+                                ProductName = mp.Product.ProductName,
+                                FeesName = merchantRemitFee.FeesName,
+                                FeesCurrency = merchantRemitFee.FeesCur,
+                                Fees = merchantRemitFee.Fees,
+                                PromoFees = merchantRemitFee.PromoFees,
+                                MerchantProductID = merchantRemitFee.MerchantProductId,
+                                SendCountry = merchantRemitFee.SendCountry3Iso,
+                                ReceiveCountry = merchantRemitFee.ReceiveCurrency,
+                                SendCurrency = merchantRemitFee.SendCurrency,
+                                ReceiveCurrency = merchantRemitFee.ReceiveCurrency,
+                                SendMinLimit = merchantRemitFee.SendMinLimit,
+                                SendMaxLimit = merchantRemitFee.SendMinLimit,
+                                ReceiveMinLimit = merchantRemitFee.ReceiveMinLimit,
+                                ReceiveMaxLimit = merchantRemitFee.ReceiveMaxLimit,
+                                ValidityExpiry = merchantRemitFee.ValidityExpiry
+                            }).ToList();
 
-            if (data.Count > 0)
-                return new ApiResponse<IEnumerable<MerchantRemittanceFee>>() { Status = true, Message = "Remittance Fee Fetch Successfully!", Data = data };
+
+            if (innerData.Count > 0)
+                return new ApiResponse<IEnumerable<MerchantRemittanceFee>>() { Status = true, Message = "Remittance Fee Fetch Successfully!", Data = innerData };
             return new ApiResponse<IEnumerable<MerchantRemittanceFee>>() { Status = false, Message = "Remittance Fee Not Found!" };
 
             

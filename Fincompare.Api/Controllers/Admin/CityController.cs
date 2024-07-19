@@ -19,6 +19,11 @@ namespace Fincompare.Api.Controllers.Admin
         [Route("add-city")]
         public async Task<IActionResult> AddCity(AddCityRequest model)
         {
+            if (!ModelState.IsValid)
+            {
+                // Return a 400 Bad Request response with validation errors
+                return BadRequest(ModelState);
+            }
             var response = await _cityServices.AddCity(model);
             return Ok(response);
         }
@@ -27,6 +32,11 @@ namespace Fincompare.Api.Controllers.Admin
         [Route("update-city")]
         public async Task<IActionResult> UpdateCity(UpdateCityRequest model)
         {
+            if (!ModelState.IsValid)
+            {
+                // Return a 400 Bad Request response with validation errors
+                return BadRequest(ModelState);
+            }
             var response = await _cityServices.UpdateCity(model);
             return Ok(response);
         }
@@ -35,6 +45,11 @@ namespace Fincompare.Api.Controllers.Admin
         [Route("get-all-cities")]
         public async Task<IActionResult> GetAllCity(string? countryIso3, int? StateId, int? CityId, bool? Status)
         {
+            if (!ModelState.IsValid)
+            {
+                // Return a 400 Bad Request response with validation errors
+                return BadRequest(ModelState);
+            }
             var response = await _cityServices.GetAllCity(countryIso3, StateId, CityId, Status);
             return Ok(response);
         }
@@ -44,6 +59,11 @@ namespace Fincompare.Api.Controllers.Admin
         [Route("get-city-by-stateid")]
         public async Task<IActionResult> GetCityByStateId(int stateId)
         {
+            if (!ModelState.IsValid)
+            {
+                // Return a 400 Bad Request response with validation errors
+                return BadRequest(ModelState);
+            }
             var response = await _cityServices.GetCityByStateId(stateId);
             return Ok(response);
         }

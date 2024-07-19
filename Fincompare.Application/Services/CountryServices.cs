@@ -54,7 +54,7 @@ namespace Fincompare.Application.Services
 
         }
 
-        public async Task<ApiResponse<List<GetCountryDto>>> GetAllCountry()
+        public async Task<ApiResponse<List<GetCountryDto>>> GetAllCountry(string? country3iso, bool? status)
         {
             try
             {
@@ -69,6 +69,12 @@ namespace Fincompare.Application.Services
                     };
                     return res;
                 }
+                if (!string.IsNullOrEmpty(country3iso))
+                    countries = countries.Where(x => x.Country3Iso == country3iso);
+                if (status.HasValue)
+                    countries = countries.Where(x => x.Status == status.Value);
+
+
                 var data = _mapper.Map<List<GetCountryDto>>(countries);
                 var response = new ApiResponse<List<GetCountryDto>>()
                 {
@@ -154,24 +160,27 @@ namespace Fincompare.Application.Services
 
         }
 
-        public async Task<ApiResponse<string>> UpdateCountry(CountryRequest request)
+        public async Task<ApiResponse<CountryRequest>> UpdateCountry(CountryRequest request)
         {
             try
             {
                 var countryData = await _unitOfWork.GetRepository<Country>().GetById(request.Country3Iso);
                 if (countryData == null)
-                    return new ApiResponse<string>()
+                    return new ApiResponse<CountryRequest>()
                     {
                         Status = false,
-                        Message = "Country Updated Successfully"
+                        Message = "Country not found"
                     };
                 var country = _mapper.Map(request, countryData);
-                await _unitOfWork.GetRepository<Country>().Upsert(countryData);
+                await _unitOfWork.GetRepository<Country>().Upsert(country);
                 await _unitOfWork.SaveChangesAsync();
-                var response = new ApiResponse<string>()
+
+                var data = _mapper.Map<CountryRequest>(country);
+                var response = new ApiResponse<CountryRequest>()
                 {
                     Status = true,
-                    Message = "Country Updated Successfully"
+                    Message = "Country Updated Successfully",
+                    Data = data
                 };
                 return response;
             }

@@ -3,6 +3,7 @@ using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.CountryCurrencyRequests;
 using Fincompare.Application.Response;
+using Fincompare.Application.Response.CountryCurrencyResponse;
 using Fincompare.Domain.Entities;
 using static Fincompare.Application.Response.CurrencyResponse.CurrencyResponseBaseModel;
 
@@ -19,44 +20,45 @@ namespace Fincompare.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<List<GetCurrencyResponse>>> GetCurrenciesbyCountry3Iso(string country3Iso, int? categoryId)
+        public async Task<ApiResponse<List<GetCountryCurrencyResponse>>> GetCurrenciesbyCountry3Iso(string country3Iso, int? categoryId)
         {
             try
             {
                 var currencyList = _unitOfWork.GetRepository<CountryCurrency>().GetAllRelatedEntity();
 
-                var currencies = new List<GetCurrencyResponse>();
+                var currencies = new List<GetCountryCurrencyResponse>();
 
                 if (categoryId == null)
                 {
                     currencies = currencyList
-                                            .Where(cc => cc.Country3Iso == country3Iso && cc.Status && cc.Currency.Status)
-                                            .Select(cc => new GetCurrencyResponse
+                                            .Where(cc => cc.Country3Iso == country3Iso && cc.Currency.Status)
+                                            .Select(cc => new GetCountryCurrencyResponse
                                             {
-                                                CurrencyName = cc.Currency.CurrencyName,
-                                                CurrencyIso = cc.Currency.CurrencyIso,
-                                                Decimal = cc.Currency.Decimal,
-                                                VolatilityRange = cc.Currency.VolatilityRange,
-                                                Status = cc.Currency.Status
+                                                CountryCurrencyID = cc.Id,
+                                                CountryIso2 = cc.Country3IsoNavigation.Country2Iso,
+                                                CountryIso3 = cc.Country3Iso,
+                                                IsPrimary = cc.IsPrimaryCur,
+                                                Category = cc.CountryCurrencyCategory.Definition,
+                                                Status = cc.Status
                                             })
                                             .ToList();
                 }
                 else
                 {
                     currencies = currencyList
-                                                .Where(cc => cc.Country3Iso == country3Iso && cc.Status && cc.Currency.Status && cc.CountryCurrencyCategoryId == categoryId)
-                                                .Select(cc => new GetCurrencyResponse
+                                                .Where(cc => cc.Country3Iso == country3Iso && cc.Currency.Status && cc.CountryCurrencyCategoryId == categoryId)
+                                                .Select(cc => new GetCountryCurrencyResponse
                                                 {
-                                                    CurrencyName = cc.Currency.CurrencyName,
-                                                    CurrencyIso = cc.Currency.CurrencyIso,
-                                                    Decimal = cc.Currency.Decimal,
-                                                    VolatilityRange = cc.Currency.VolatilityRange,
-                                                    Status = cc.Currency.Status
-                                                })
-                                                .ToList();
+                                                    CountryCurrencyID = cc.Id,
+                                                    CountryIso2 = cc.Country3IsoNavigation.Country2Iso,
+                                                    CountryIso3 = cc.Country3Iso,
+                                                    IsPrimary = cc.IsPrimaryCur,
+                                                    Category = cc.CountryCurrencyCategory.Definition,
+                                                    Status = cc.Status
+                                                }).ToList();
 
                 }
-                var response = new ApiResponse<List<GetCurrencyResponse>>()
+                var response = new ApiResponse<List<GetCountryCurrencyResponse>>()
                 {
                     Status = true,
                     Message = "Currencies fetched",
@@ -103,7 +105,7 @@ namespace Fincompare.Application.Services
                 var response = new ApiResponse<string>()
                 {
                     Status = true,
-                    Message = $"Update Currencies for Country {model.Country3Iso}"
+                    Message = $"Country Currencies Created successfully"
                 };
                 return response;
             }
