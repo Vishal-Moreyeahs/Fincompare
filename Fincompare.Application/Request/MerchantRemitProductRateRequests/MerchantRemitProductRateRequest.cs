@@ -44,8 +44,8 @@ namespace Fincompare.Application.Request.MerchantRemitProductRateRequests
         [Required]
         public double Rate { get; set; }
 
-        [Required]
-        public double PromoRate { get; set; }
+
+        public double PromoRate { get; set; } = 0;
 
         [Required]
         public DateTime ValidityExpiry { get; set; }
