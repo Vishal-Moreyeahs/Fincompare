@@ -20,7 +20,7 @@ namespace Fincompare.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<List<GetCountryCurrencyResponse>>> GetCurrenciesbyCountry3Iso(string country3Iso, string? categoryId)
+        public async Task<ApiResponse<List<GetCountryCurrencyResponse>>> GetCurrenciesbyCountry3Iso(string? country3Iso, string? categoryId)
         {
             try
             {
@@ -28,29 +28,39 @@ namespace Fincompare.Application.Services
 
                 var currencies = new List<GetCountryCurrencyResponse>();
 
+                currencies = currencyList.Select(cc => new GetCountryCurrencyResponse
+                                    {
+                                        Id = cc.Id,
+                                        CurrencyIso = cc.CurrencyIso,
+                                        Country3Iso = cc.Country3Iso,
+                                        IsPrimary = cc.IsPrimaryCur,
+                                        Category = cc.CountryCurrencyCategoryId,
+                                        Status = cc.Status
+                                    }).ToList();
+
                 if (!string.IsNullOrEmpty(categoryId))
                 {
                     currencies = currencyList
-                                            .Where(cc => cc.Country3Iso == country3Iso)
+                                            .Where(cc => cc.CountryCurrencyCategoryId == categoryId)
                                             .Select(cc => new GetCountryCurrencyResponse
                                             {
-                                                CountryCurrencyID = cc.Id,
+                                                Id = cc.Id,
                                                 CurrencyIso = cc.CurrencyIso,
-                                                CountryIso3 = cc.Country3Iso,
+                                                Country3Iso = cc.Country3Iso,
                                                 IsPrimary = cc.IsPrimaryCur,
                                                 Category = cc.CountryCurrencyCategoryId,
                                                 Status = cc.Status
                                             }).ToList();
                 }
-                else
+                if(!string.IsNullOrEmpty(country3Iso))
                 {
                     currencies = currencyList
-                                                .Where(cc => cc.Country3Iso == country3Iso && cc.CountryCurrencyCategoryId == categoryId)
+                                                .Where(cc => cc.Country3Iso == country3Iso)
                                                 .Select(cc => new GetCountryCurrencyResponse
                                                 {
-                                                    CountryCurrencyID = cc.Id,
+                                                    Id = cc.Id,
                                                     CurrencyIso = cc.CurrencyIso,
-                                                    CountryIso3 = cc.Country3Iso,
+                                                    Country3Iso = cc.Country3Iso,
                                                     IsPrimary = cc.IsPrimaryCur,
                                                     Category = cc.CountryCurrencyCategoryId,
                                                     Status = cc.Status
@@ -103,9 +113,9 @@ namespace Fincompare.Application.Services
 
                 var data = newCountryCurrencies.Select(cc => new GetCountryCurrencyResponse
                                     {
-                                        CountryCurrencyID = cc.Id,
+                                        Id = cc.Id,
                                         CurrencyIso = cc.CurrencyIso,
-                                        CountryIso3 = cc.Country3Iso,
+                                        Country3Iso = cc.Country3Iso,
                                         IsPrimary = cc.IsPrimaryCur,
                                         Category = cc.CountryCurrencyCategoryId,
                                         Status = cc.Status
@@ -145,9 +155,9 @@ namespace Fincompare.Application.Services
 
                 var data = new GetCountryCurrencyResponse
                 {
-                    CountryCurrencyID = checkCountryCurrency.Id,
+                    Id = checkCountryCurrency.Id,
                     CurrencyIso = checkCountryCurrency.CurrencyIso,
-                    CountryIso3 = checkCountryCurrency.Country3Iso,
+                    Country3Iso = checkCountryCurrency.Country3Iso,
                     IsPrimary = checkCountryCurrency.IsPrimaryCur,
                     Category = checkCountryCurrency.CountryCurrencyCategoryId,
                     Status = checkCountryCurrency.Status
