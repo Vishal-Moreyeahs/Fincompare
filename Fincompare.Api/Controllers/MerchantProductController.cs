@@ -1,5 +1,7 @@
 ﻿using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MerchantProductRequests;
+using Fincompare.Domain.Enums;
+using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers
@@ -15,6 +17,7 @@ namespace Fincompare.Api.Controllers
             _merchantProductService = merchantProductService;
         }
 
+        [HasPermission(PermissionEnum.CanAccessMerchant)]
         [HttpPost]
         [Route("add-merchant-product")]
         public async Task<IActionResult> AddMerchantProduct(AddMerchantProductRequest model)
@@ -23,6 +26,7 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
+        [HasPermission(PermissionEnum.CanAccessMerchant)]
         [HttpPut]
         [Route("update-merchant-product")]
         public async Task<IActionResult> UpdateMerchantProduct(UpdateMerchantProductRequest model)
@@ -52,7 +56,7 @@ namespace Fincompare.Api.Controllers
                                                             [FromQuery] int? instrumentID,
                                                             [FromQuery] bool? status)
         {
-            var merchantProducts =  _merchantProductService.GetMerchantProducts(sendCountry, receiveCountry, sendCurrency, receiveCurrency, merchantID, merchantProductID, productID, serviceCategoryID, instrumentID, status);
+            var merchantProducts = _merchantProductService.GetMerchantProducts(sendCountry, receiveCountry, sendCurrency, receiveCurrency, merchantID, merchantProductID, productID, serviceCategoryID, instrumentID, status);
             return Ok(merchantProducts);
         }
     }

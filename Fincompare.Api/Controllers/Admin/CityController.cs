@@ -1,9 +1,12 @@
 ﻿using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.CityRequest;
+using Fincompare.Domain.Enums;
+using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers.Admin
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class CityController : ControllerBase
@@ -15,6 +18,7 @@ namespace Fincompare.Api.Controllers.Admin
             _cityServices = cityServices;
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
         [Route("add-city")]
         public async Task<IActionResult> AddCity(AddCityRequest model)
@@ -28,6 +32,7 @@ namespace Fincompare.Api.Controllers.Admin
             return Ok(response);
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
         [Route("update-city")]
         public async Task<IActionResult> UpdateCity(UpdateCityRequest model)
@@ -76,6 +81,7 @@ namespace Fincompare.Api.Controllers.Admin
             return Ok(response);
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpDelete]
         [Route("delete-city")]
         public async Task<IActionResult> DeleteCity(int cityId)

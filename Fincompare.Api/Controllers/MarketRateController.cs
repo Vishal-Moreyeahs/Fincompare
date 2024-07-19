@@ -1,5 +1,7 @@
 ﻿using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MarketRateRequest;
+using Fincompare.Domain.Enums;
+using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers
@@ -15,7 +17,7 @@ namespace Fincompare.Api.Controllers
             _marketRateServices = marketRateServices;
         }
 
-
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
         [Route("add-market-rate")]
         public async Task<IActionResult> AddMarketRate(List<AddMarketRate> model)
@@ -24,6 +26,7 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpGet]
         [Route("get-all-market-rate")]
         public async Task<IActionResult> GetAllMarketRates()
@@ -31,6 +34,7 @@ namespace Fincompare.Api.Controllers
             var response = await _marketRateServices.GetAllMarketRates();
             return Ok(response);
         }
+
 
         [HttpGet]
         [Route("get-market-rate-by-id")]
@@ -47,6 +51,7 @@ namespace Fincompare.Api.Controllers
             var response = await _marketRateServices.GetMarketRateBySendCurr(sendCurr);
             return Ok(response);
         }
+
 
         [HttpGet]
         [Route("get-market-rate-by-sendAndReceiveCurr")]

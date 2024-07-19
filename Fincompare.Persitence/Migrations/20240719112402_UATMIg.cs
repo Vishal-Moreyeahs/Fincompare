@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -8,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     /// <inheritdoc />
-    public partial class newDb : Migration
+    public partial class UATMIg : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -1027,8 +1028,8 @@ namespace Fincompare.Persitence.Migrations
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "Email", "FirstName", "IsDeleted", "LastName", "PasswordHash", "Phone", "StatusId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 7, 19, 6, 25, 11, 371, DateTimeKind.Utc).AddTicks(9663), null, "aarya.garg@moreyeahs.com", "Aarya", false, "Garg", new byte[] { 174, 37, 40, 78, 61, 77, 69, 19, 80, 223, 202, 222, 187, 5, 98, 239, 4, 250, 125, 131, 152, 224, 149, 111, 155, 248, 50, 77, 228, 16, 121, 219 }, "1234567890", 1 },
-                    { 2, new DateTime(2024, 7, 19, 6, 25, 11, 371, DateTimeKind.Utc).AddTicks(9673), null, "vishal.pawar@moreyeahs.com", "Vishal", false, "Pawar", new byte[] { 191, 77, 99, 205, 83, 55, 86, 113, 215, 255, 103, 106, 200, 175, 114, 38, 28, 185, 72, 18, 181, 201, 106, 152, 78, 60, 123, 188, 38, 184, 208, 240 }, "9876543216", 1 }
+                    { 1, new DateTime(2024, 7, 19, 11, 24, 1, 981, DateTimeKind.Utc).AddTicks(7371), null, "aarya.garg@moreyeahs.com", "Aarya", false, "Garg", new byte[] { 174, 37, 40, 78, 61, 77, 69, 19, 80, 223, 202, 222, 187, 5, 98, 239, 4, 250, 125, 131, 152, 224, 149, 111, 155, 248, 50, 77, 228, 16, 121, 219 }, "1234567890", 1 },
+                    { 2, new DateTime(2024, 7, 19, 11, 24, 1, 981, DateTimeKind.Utc).AddTicks(7384), null, "vishal.pawar@moreyeahs.com", "Vishal", false, "Pawar", new byte[] { 191, 77, 99, 205, 83, 55, 86, 113, 215, 255, 103, 106, 200, 175, 114, 38, 28, 185, 72, 18, 181, 201, 106, 152, 78, 60, 123, 188, 38, 184, 208, 240 }, "9876543216", 1 }
                 });
 
             migrationBuilder.InsertData(

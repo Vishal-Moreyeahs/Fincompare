@@ -1,4 +1,6 @@
 ﻿using Fincompare.Application.Repositories;
+using Fincompare.Domain.Enums;
+using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using static Fincompare.Application.Request.MerchantProductCouponRequest.MerchantProductRequestViewModel;
 
@@ -15,6 +17,7 @@ namespace Fincompare.Api.Controllers
             _merchantProductCouponService = merchantProductCouponService;
         }
 
+        [HasPermission(PermissionEnum.CanAccessMerchant)]
         [HttpPost]
         [Route("add-merchant-product-coupons")]
         public async Task<IActionResult> CreateMerchantProductCoupons(List<CreateMerchantProductCouponRequest> model)
@@ -22,6 +25,7 @@ namespace Fincompare.Api.Controllers
             var response = await _merchantProductCouponService.CreateMerchantProductCoupons(model);
             return Ok(response);
         }
+
 
         [HttpGet]
         [Route("fetch-merchant-product-coupons")]

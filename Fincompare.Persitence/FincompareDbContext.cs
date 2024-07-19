@@ -954,11 +954,11 @@ namespace Fincompare.Persitence
                         new User
                         {
                             Id = 1,
-                            FirstName = "Aarya",
-                            LastName = "Garg",
-                            Email = "aarya.garg@moreyeahs.com",
+                            FirstName = "Carl",
+                            LastName = "Unni",
+                            Email = "carl.unni@fincomapare.com",
                             Phone = "1234567890",
-                            PasswordHash = EncryptPassword("aarya.garg@moreyeahs.comAdmin@123"),
+                            PasswordHash = EncryptPassword("carl.unni@fincomapare.comAdmin@123"),
                             CreatedAt = DateTime.UtcNow,
                             StatusId = (int)StatusEnum.Enabled,
                             CreatedBy = null
@@ -966,11 +966,11 @@ namespace Fincompare.Persitence
                         new User
                         {
                             Id = 2,
-                            FirstName = "Vishal",
-                            LastName = "Pawar",
-                            Email = "vishal.pawar@moreyeahs.com",
+                            FirstName = "Sailesh",
+                            LastName = "Pillai",
+                            Email = "sailesh.pillai@fincompare.com",
                             Phone = "9876543216",
-                            PasswordHash = EncryptPassword("vishal.pawar@moreyeahs.comAdmin@123"),
+                            PasswordHash = EncryptPassword("sailesh.pillai@fincompare.comcomAdmin@123"),
                             CreatedAt = DateTime.UtcNow,
                             StatusId = (int)StatusEnum.Enabled,
                             CreatedBy = null
@@ -1010,8 +1010,8 @@ namespace Fincompare.Persitence
             {
 
                 entity.HasData(
-                        new Permission { Id = (int)PermissionEnum.CanAccessAdmin, PermissionName = PermissionEnum.CanAccessAdmin.ToString(), IsAdmin = true },
-                        new Permission { Id = (int)PermissionEnum.CanAccessMerchant, PermissionName = PermissionEnum.CanAccessMerchant.ToString(), IsMerchant = true },
+                        new Permission { Id = (int)PermissionEnum.CanAccessAdmin, PermissionName = PermissionEnum.CanAccessAdmin.ToString(), IsAdmin = true, IsMerchant = true, IsVendor = true, IsCustomer = true },
+                        new Permission { Id = (int)PermissionEnum.CanAccessMerchant, PermissionName = PermissionEnum.CanAccessMerchant.ToString(), IsMerchant = true, IsVendor = true },
                         new Permission { Id = (int)PermissionEnum.CanAccessVendor, PermissionName = PermissionEnum.CanAccessVendor.ToString(), IsVendor = true },
                         new Permission { Id = (int)PermissionEnum.CanAccessCustomer, PermissionName = PermissionEnum.CanAccessCustomer.ToString(), IsCustomer = true }
                     );

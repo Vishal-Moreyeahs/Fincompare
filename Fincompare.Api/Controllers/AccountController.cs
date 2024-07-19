@@ -44,7 +44,6 @@ namespace Fincompare.Api.Controllers
             return Ok(_authenticationService.IsTokenValid(token));
         }
 
-        [HasPermission(PermissionEnum.CanAccessVendor)]
         [Authorize]
         [HttpPost, Route("change-password")]
         public async Task<ActionResult> ChangeCurrentPassword(ChangePasswordRequest model)
@@ -61,21 +60,21 @@ namespace Fincompare.Api.Controllers
             return Ok(response.First());
         }
 
-        [HasPermission(PermissionEnum.CanAccessAdmin)]
-        [HttpGet]
-        [Route("test-admin")]
-        public IActionResult TestAdmin()
-        {
-            return Ok("admin authorized");
-        }
+        //[HasPermission(PermissionEnum.CanAccessAdmin)]
+        //[HttpGet]
+        //[Route("test-admin")]
+        //public IActionResult TestAdmin()
+        //{
+        //    return Ok("admin authorized");
+        //}
 
-        [HasPermission(PermissionEnum.CanAccessMerchant)]
-        [HttpGet]
-        [Route("test-merchant")]
-        public IActionResult TestMerchant()
-        {
-            return Ok("Merchant-Authorized");
-        }
+        //[HasPermission(PermissionEnum.CanAccessMerchant)]
+        //[HttpGet]
+        //[Route("test-merchant")]
+        //public IActionResult TestMerchant()
+        //{
+        //    return Ok("Merchant-Authorized");
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Logout()

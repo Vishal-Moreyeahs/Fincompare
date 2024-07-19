@@ -1,5 +1,7 @@
 ﻿using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MerchantRequests;
+using Fincompare.Domain.Enums;
+using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers
@@ -15,7 +17,7 @@ namespace Fincompare.Api.Controllers
             _merchantServices = merchantServices;
         }
 
-
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
         [Route("add-merchant")]
         public async Task<IActionResult> AddMerchant(AddMerchantRequest model)
@@ -29,6 +31,7 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpGet]
         [Route("get-all-merchants")]
         public async Task<IActionResult> GetAllMerchants(int? groupMerchantId, int? merchantId, string? couuntryIso3, bool? status)
@@ -37,13 +40,16 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
+
+
         [HttpGet]
-        [Route("get-market-rate-by-id")]
+        [Route("get-merchant-by-merchantid")]
         public async Task<IActionResult> GetMerchantByMerchantId(int merchantId)
         {
             var response = await _merchantServices.GetMerchantByMerchantId(merchantId);
             return Ok(response);
         }
+
 
         [HttpGet]
         [Route("get-merchant-by-userId")]
@@ -53,6 +59,7 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpDelete]
         [Route("delete-merchant-by-id")]
         public async Task<IActionResult> DeleteMerchant(int merchantId)
@@ -61,6 +68,7 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPut]
         [Route("update-merchant")]
         public async Task<IActionResult> UpdateMerchant(UpdateMerchantRequest model)

@@ -1,5 +1,7 @@
 ﻿using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.CountryRequest;
+using Fincompare.Domain.Enums;
+using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers.Admin
@@ -15,6 +17,7 @@ namespace Fincompare.Api.Controllers.Admin
             _countryServices = countryServices;
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
         [Route("add")]
         public async Task<IActionResult> CreateCompany(CountryRequest request)
@@ -27,9 +30,10 @@ namespace Fincompare.Api.Controllers.Admin
             return Ok(await _countryServices.AddCountry(request));
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
         [Route("update")]
-        public async Task<IActionResult> UpdateCompany(CountryRequest request)
+        public async Task<IActionResult> UpdateCountry(CountryRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -39,9 +43,10 @@ namespace Fincompare.Api.Controllers.Admin
             return Ok(await _countryServices.UpdateCountry(request));
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpDelete]
         [Route("remove")]
-        public async Task<IActionResult> DeleteCompanyById(string country3iso)
+        public async Task<IActionResult> DeleteCountryById(string country3iso)
         {
             return Ok(await _countryServices.RemoveCountry(country3iso));
         }

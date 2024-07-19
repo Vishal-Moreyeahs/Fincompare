@@ -1,5 +1,7 @@
 ﻿using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.CountryCurrencyRequests;
+using Fincompare.Domain.Enums;
+using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers.Admin
@@ -15,6 +17,7 @@ namespace Fincompare.Api.Controllers.Admin
             _countryCurrencyManager = countryCurrencyManager;
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
         [Route("add-currencies-for-country")]
         public async Task<IActionResult> AddCountryWithMultipleCurrencies(UpdateCountryWithMultipleCurrencyRequest model)
@@ -28,6 +31,7 @@ namespace Fincompare.Api.Controllers.Admin
             return Ok(response);
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
         [Route("update-country-currency")]
         public async Task<IActionResult> UpdateCountryCurrency(UpdateCountryCurrencyRequest model)

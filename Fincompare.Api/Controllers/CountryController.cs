@@ -1,11 +1,15 @@
 ﻿using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Domain.Entities;
+using Fincompare.Domain.Enums;
+using Fincompare.Infrastructure.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RestSharp;
 
 namespace Fincompare.Api.Controllers
 {
+    [HasPermission(PermissionEnum.CanAccessAdmin)]
     [Route("api/[controller]")]
     [ApiController]
     public class CountryController : ControllerBase

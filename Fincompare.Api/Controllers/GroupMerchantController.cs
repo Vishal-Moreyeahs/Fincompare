@@ -1,4 +1,6 @@
 ﻿using Fincompare.Application.Repositories;
+using Fincompare.Domain.Enums;
+using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using static Fincompare.Application.Request.GroupMerchantRequest.GroupMerchantBaseModel;
 
@@ -15,6 +17,7 @@ namespace Fincompare.Api.Controllers
             _groupMerchantService = groupMerchantService;
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
         [Route("add-group-merchant")]
         public async Task<IActionResult> AddGroupMerchant(AddGroupMerchantRequestClass model)
@@ -28,6 +31,7 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPut]
         [Route("update-group-merchant")]
         public async Task<IActionResult> UpdateGroupMerchant(UpdateGroupMerchantRequestClass model)
@@ -41,6 +45,8 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
+
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpGet]
         [Route("getall-group-merchant")]
         public async Task<IActionResult> GetAllGroupMerchant(int? groupMerchantId, string? countryIso3, bool? status)
@@ -49,6 +55,7 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
+        [HasPermission(PermissionEnum.CanAccessMerchant)]
         [HttpGet]
         [Route("getby-id-merchant")]
         public async Task<IActionResult> GetByIdGroupMerchant(int id)

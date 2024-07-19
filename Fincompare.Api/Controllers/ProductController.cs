@@ -1,4 +1,6 @@
 ﻿using Fincompare.Application.Repositories;
+using Fincompare.Domain.Enums;
+using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using static Fincompare.Application.Request.ProductRequests.ProductRequestViewModel;
 
@@ -15,6 +17,7 @@ namespace Fincompare.Api.Controllers
             _productService = productService;
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
         [Route("add-product")]
         public async Task<IActionResult> CreateProduct(CreateProductRequest model)
@@ -23,6 +26,7 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
         [Route("update-product")]
         public async Task<IActionResult> UpdateProduct(UpdateProductRequest model)

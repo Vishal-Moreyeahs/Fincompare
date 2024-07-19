@@ -1,5 +1,7 @@
 ﻿using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
+using Fincompare.Domain.Enums;
+using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using static Fincompare.Application.Request.CurrencyRequest.CurrencyRequests;
 namespace Fincompare.Api.Controllers.Admin
@@ -16,7 +18,7 @@ namespace Fincompare.Api.Controllers.Admin
             _currencyServices = currencyServices;
         }
 
-
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
         [Route("add-all-currency")]
         public async Task<IActionResult> AddCurrency(AddCurrencyRequests model)
@@ -30,7 +32,7 @@ namespace Fincompare.Api.Controllers.Admin
             return Ok(response);
         }
 
-
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPut]
         [Route("update-currency")]
         public async Task<IActionResult> UpdateCurrency(UpdateCurrencyRequests model)
@@ -60,6 +62,7 @@ namespace Fincompare.Api.Controllers.Admin
             return Ok(response);
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpDelete]
         [Route("delete-currency")]
         public async Task<IActionResult> DeleteCurrency(string currency3Iso)

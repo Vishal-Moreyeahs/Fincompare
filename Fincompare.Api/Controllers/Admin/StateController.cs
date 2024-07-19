@@ -1,5 +1,7 @@
 ﻿using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.StateRequest;
+using Fincompare.Domain.Enums;
+using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers.Admin
@@ -15,6 +17,7 @@ namespace Fincompare.Api.Controllers.Admin
             _stateService = stateService;
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
         [Route("add-state")]
         public async Task<IActionResult> AddState(AddStateRequest model)
@@ -28,6 +31,7 @@ namespace Fincompare.Api.Controllers.Admin
             return Ok(response);
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
         [Route("update-state")]
         public async Task<IActionResult> UpdateState(UpdateStateRequest model)
@@ -66,6 +70,7 @@ namespace Fincompare.Api.Controllers.Admin
             return Ok(response);
         }
 
+        [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpDelete]
         [Route("delete-state")]
         public async Task<IActionResult> DeleteState(int stateId)
