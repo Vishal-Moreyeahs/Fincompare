@@ -3,6 +3,7 @@ using System;
 using Fincompare.Persitence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-    partial class FincompareDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240719125229_update")]
+    partial class update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1717,7 +1720,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 7, 19, 12, 54, 22, 647, DateTimeKind.Utc).AddTicks(8361),
+                            CreatedAt = new DateTime(2024, 7, 19, 12, 52, 29, 111, DateTimeKind.Utc).AddTicks(8381),
                             Email = "carl.unni@fincompare.com",
                             FirstName = "Carl",
                             IsDeleted = false,
@@ -1729,12 +1732,12 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 7, 19, 12, 54, 22, 647, DateTimeKind.Utc).AddTicks(8378),
+                            CreatedAt = new DateTime(2024, 7, 19, 12, 52, 29, 111, DateTimeKind.Utc).AddTicks(8392),
                             Email = "sailesh.pillai@fincompare.com",
                             FirstName = "Sailesh",
                             IsDeleted = false,
                             LastName = "Pillai",
-                            PasswordHash = new byte[] { 237, 225, 80, 129, 15, 118, 17, 180, 40, 29, 128, 12, 22, 207, 96, 108, 19, 244, 48, 141, 102, 251, 62, 72, 89, 53, 5, 20, 28, 195, 174, 43 },
+                            PasswordHash = new byte[] { 197, 17, 217, 42, 199, 33, 186, 20, 193, 207, 238, 43, 135, 20, 53, 57, 69, 120, 54, 121, 11, 52, 23, 255, 6, 78, 9, 184, 82, 213, 173, 238 },
                             Phone = "9876543216",
                             StatusId = 1
                         });
