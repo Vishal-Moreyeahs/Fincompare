@@ -31,6 +31,7 @@ namespace Fincompare.Application
 
             services.AddTransient<IMerchantCompaignServices, MerchantCompaignServices>();
             services.AddTransient<IRateCardServices, RateCardServices>();
+            services.AddTransient<IClickLeadService, ClickLeadService>();
             
             return services;
         }
