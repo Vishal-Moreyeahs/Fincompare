@@ -3,8 +3,6 @@ using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Request;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities.UserManagementEntities;
-using Fincompare.Domain.Enums;
-using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

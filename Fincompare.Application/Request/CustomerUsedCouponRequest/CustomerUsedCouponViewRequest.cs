@@ -10,6 +10,6 @@
             public bool IsUsed { get; set; }
             public DateTime UsedDateTime { get; set; }
         }
-        
+
     }
 }

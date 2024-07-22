@@ -74,7 +74,7 @@ namespace Fincompare.Application.Services
                     getAllCustomerUsed = getAllCustomerUsed.Where(x => x.CustomerUserId == customerId);
                 if (merchantProductID.HasValue)
                     getAllCustomerUsed = getAllCustomerUsed.Where(x => x.MerchantProductCoupon.MerchantProductId == merchantProductID);
-                if(isUsed.HasValue)
+                if (isUsed.HasValue)
                     getAllCustomerUsed = getAllCustomerUsed.Where(x => x.IsUsed == isUsed);
 
                 //if (startDateTime.HasValue)

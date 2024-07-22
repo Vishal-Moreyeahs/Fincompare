@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers.Admin
 {
-    
+
     [Route("api/[controller]")]
     [ApiController]
     public class CityController : ControllerBase
