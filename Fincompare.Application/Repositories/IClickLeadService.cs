@@ -1,4 +1,6 @@
-﻿using Fincompare.Application.Response;
+﻿using Fincompare.Application.Request.ClickLeadRequests;
+using Fincompare.Application.Response;
+using Fincompare.Application.Response.ClickLeadResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,7 @@ namespace Fincompare.Application.Repositories
 {
     public interface IClickLeadService
     {
-        Task<ApiResponse<string>> AddClickLeadRedirections();
+        Task<ApiResponse<ClickLeadResponseViewModel>> AddClickLeadRedirections(AddClickLeadRequest model);
+        Task<ApiResponse<IEnumerable<ClickLeadResponseViewModel>>> GetAllClickLeadRecords(int? merchantId, int? clickLeadId, int? customerId, string country3iso);
     }
 }

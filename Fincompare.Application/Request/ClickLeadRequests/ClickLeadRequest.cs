@@ -20,7 +20,7 @@ namespace Fincompare.Application.Request.ClickLeadRequests
         [Required]
         public string RoutingParamters { get; set; } = null!;
 
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.UtcNow;
     }
 
     public class AddClickLeadRequest : ClickLeadRequest { }
