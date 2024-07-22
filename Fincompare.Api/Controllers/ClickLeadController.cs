@@ -34,7 +34,7 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("get-click-lead-record")]
         public async Task<IActionResult> GetClickLeadRecord(int? merchantId, int? clickLeadId, int? customerId, string? country3iso)
         {

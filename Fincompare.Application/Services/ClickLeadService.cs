@@ -49,7 +49,6 @@ namespace Fincompare.Application.Services
 
                 throw new ArgumentException(ex.Message);
             }
-            throw new NotImplementedException();
         }
 
         public async Task<ApiResponse<IEnumerable<ClickLeadResponseViewModel>>> GetAllClickLeadRecords(int? merchantId, int? clickLeadId, int? customerId, string country3iso)
