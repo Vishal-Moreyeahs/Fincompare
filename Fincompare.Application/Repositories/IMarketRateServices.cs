@@ -17,7 +17,7 @@ namespace Fincompare.Application.Repositories
 
         Task<ApiResponse<List<MarketRateDto>>> GetMarketRateBySendCurr(string sendCurr);
 
-        //Task<ApiResponse<List<string>>> UpdateDbCurrencyExchangeRates();
+        Task<ApiResponse<List<string>>> UpdateDbCurrencyExchangeRates();
 
         Task<MarketRateStatisticsData> GetAllMarketRatesStatistics(string sendCurr, string receiveCurr);
     }

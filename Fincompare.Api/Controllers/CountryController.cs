@@ -58,6 +58,7 @@ namespace Fincompare.Api.Controllers
                 {
                     if (country.Currencies != null)
                     {
+                        bool isFirstCurrency = true;
                         foreach (var currency in country.Currencies)
                         {
                             countryCurrencyList.Add(new CountryCurrency
@@ -66,9 +67,10 @@ namespace Fincompare.Api.Controllers
                                 CurrencyIso = currencies.Where(x => x.CurrencyIso == currency.Code).First().CurrencyIso,
                                 CreatedDate = DateTime.UtcNow,
                                 UpdatedDate = DateTime.UtcNow,
-                                IsPrimaryCur = false,
+                                IsPrimaryCur = isFirstCurrency,
                                 Status = true
                             });
+                            isFirstCurrency = false;
                         }
                     }
                 }

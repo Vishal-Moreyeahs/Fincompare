@@ -133,7 +133,7 @@ namespace Fincompare.Persitence.Repositories
         {
             var entityType = _context.Model.FindEntityType(typeof(T));
 
-            var query = _context.Set<T>().AsQueryable();
+            var query = _context.Set<T>().Where(x => !x.IsDeleted).AsQueryable();
 
             foreach (var navigation in entityType.GetNavigations())
             {
@@ -147,7 +147,7 @@ namespace Fincompare.Persitence.Repositories
         {
             var entityType = _context.Model.FindEntityType(typeof(T));
 
-            var query = _context.Set<T>().AsQueryable();
+            var query = _context.Set<T>().Where(x => !x.IsDeleted).AsQueryable();
 
             foreach (var navigation in entityType.GetNavigations())
             {
