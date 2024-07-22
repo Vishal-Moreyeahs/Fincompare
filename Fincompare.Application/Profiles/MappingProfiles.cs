@@ -4,6 +4,7 @@ using Fincompare.Application.Request.CityRequest;
 using Fincompare.Application.Request.CountryCurrencyRequests;
 using Fincompare.Application.Request.CountryRequest;
 using Fincompare.Application.Request.MarketRateRequest;
+using Fincompare.Application.Request.MerchantCompaignRequests;
 using Fincompare.Application.Request.MerchantProductRequests;
 using Fincompare.Application.Request.MerchantRemitProductRateRequests;
 using Fincompare.Application.Request.MerchantRequests;
@@ -83,6 +84,10 @@ namespace Fincompare.Application.Profiles
             CreateMap<CreateCouponRequest, Coupon>().ReverseMap();
             CreateMap<UpdateCouponRequest, Coupon>().ReverseMap();
             CreateMap<FetchCouponResponse, Coupon>().ReverseMap();
+
+            CreateMap<AddMerchantCompaignRequest, MerchantCampaign>().ReverseMap();
+            CreateMap<UpdateMerchantCompaignRequest, MerchantCampaign>().ReverseMap();
+            //CreateMap<M, Coupon>().ReverseMap();
 
             CreateMap<CreateMerchantProductCouponRequest, MerchantProductCoupon>().ReverseMap();
             CreateMap<UpdateMerchantProductCouponRequest, MerchantProductCoupon>().ReverseMap();
