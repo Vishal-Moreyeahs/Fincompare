@@ -11,6 +11,7 @@ using Fincompare.Application.Request.MerchantRemitProductRateRequests;
 using Fincompare.Application.Request.MerchantRequests;
 using Fincompare.Application.Request.StateRequest;
 using Fincompare.Application.Response.ClickLeadResponse;
+using Fincompare.Application.Response.CustomerReviewResponse;
 using Fincompare.Application.Response.MerchantProductResponse;
 using Fincompare.Application.Response.MerchantRemitProductRateResponse;
 using Fincompare.Domain.Entities;
@@ -101,6 +102,11 @@ namespace Fincompare.Application.Profiles
             CreateMap<UpdateMerchantProductCouponRequest, MerchantProductCoupon>().ReverseMap();
             CreateMap<GetAllMerchantProductCouponResponse, MerchantProductCoupon>().ForMember(desc => desc.Id, (req => req.MapFrom(src => src.MerchantCouponId))).ReverseMap();
             CreateMap<UpdateMerchantCouponResponseClass, MerchantProductCoupon>().ReverseMap();
+
+            CreateMap<UpdateCustomerReviewRequest, CustomerReview>().ReverseMap();
+            CreateMap<AddCustomerReviewRequest, CustomerReview>().ReverseMap();
+            CreateMap<CustomerReviewResponseViewModel, CustomerReview>().ReverseMap();
+
 
             CreateMap<CreateCustomerUsedCouponRequest, CustomerUsedCoupon>()
                 .ForMember(desc => desc.MerchantProductCouponId, (req => req.MapFrom(src => src.MerchantCouponId))).ReverseMap()
