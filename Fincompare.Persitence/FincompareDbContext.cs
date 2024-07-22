@@ -956,9 +956,9 @@ namespace Fincompare.Persitence
                             Id = 1,
                             FirstName = "Carl",
                             LastName = "Unni",
-                            Email = "carl.unni@fincomapare.com",
+                            Email = "carl.unni@fincompare.com",
                             Phone = "1234567890",
-                            PasswordHash = EncryptPassword("carl.unni@fincomapare.comAdmin@123"),
+                            PasswordHash = EncryptPassword("carl.unni@fincompare.comAdmin@123"),
                             CreatedAt = DateTime.UtcNow,
                             StatusId = (int)StatusEnum.Enabled,
                             CreatedBy = null
@@ -970,7 +970,7 @@ namespace Fincompare.Persitence
                             LastName = "Pillai",
                             Email = "sailesh.pillai@fincompare.com",
                             Phone = "9876543216",
-                            PasswordHash = EncryptPassword("sailesh.pillai@fincompare.comcomAdmin@123"),
+                            PasswordHash = EncryptPassword("sailesh.pillai@fincompare.comAdmin@123"),
                             CreatedAt = DateTime.UtcNow,
                             StatusId = (int)StatusEnum.Enabled,
                             CreatedBy = null
