@@ -16,6 +16,9 @@ namespace Fincompare.Domain.Entities
 
         public bool IsUsed { get; set; }
 
+        public int? MerchantId { get; set; }
+        public string? MerchantCouponBatch { get; set; } = null;
+
         public DateTime ValidityFrom { get; set; }
 
         public DateTime ValidityTo { get; set; }
@@ -23,6 +26,7 @@ namespace Fincompare.Domain.Entities
         public bool Status { get; set; }
 
         public virtual Coupon Coupon { get; set; } = null!;
+        public virtual Merchant Merchant { get; set; } = null!;
 
         public virtual ICollection<CustomerUsedCoupon> CustomerUsedCoupons { get; set; } = new List<CustomerUsedCoupon>();
 

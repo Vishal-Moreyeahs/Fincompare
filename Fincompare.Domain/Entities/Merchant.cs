@@ -56,6 +56,7 @@ namespace Fincompare.Domain.Entities
         public virtual ICollection<MerchantRemitProductFee> MerchantRemitProductFees { get; set; } = new List<MerchantRemitProductFee>();
 
         public virtual ICollection<MerchantRemitProductRate> MerchantRemitProductRates { get; set; } = new List<MerchantRemitProductRate>();
+        public virtual ICollection<MerchantProductCoupon> MerchantProductCoupons { get; set; } = new List<MerchantProductCoupon>();
 
         public virtual User User { get; set; } = null!;
     }

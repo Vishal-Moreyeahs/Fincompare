@@ -1081,6 +1081,14 @@ namespace Fincompare.Persitence.Migrations
                     b.Property<bool>("IsUsed")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("MerchantCouponBatch")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying")
+                        .HasColumnName("Merchant_Coupon_Batch");
+
+                    b.Property<int?>("MerchantId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("MerchantProductId")
                         .HasColumnType("integer")
                         .HasColumnName("MerchantProduct_Id");
@@ -1102,6 +1110,8 @@ namespace Fincompare.Persitence.Migrations
                         .HasName("MerchantProductCoupon_pkey");
 
                     b.HasIndex("CouponId");
+
+                    b.HasIndex("MerchantId");
 
                     b.HasIndex("MerchantProductId");
 
@@ -1717,7 +1727,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 7, 19, 12, 54, 22, 647, DateTimeKind.Utc).AddTicks(8361),
+                            CreatedAt = new DateTime(2024, 7, 22, 9, 17, 23, 535, DateTimeKind.Utc).AddTicks(8055),
                             Email = "carl.unni@fincompare.com",
                             FirstName = "Carl",
                             IsDeleted = false,
@@ -1729,7 +1739,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 7, 19, 12, 54, 22, 647, DateTimeKind.Utc).AddTicks(8378),
+                            CreatedAt = new DateTime(2024, 7, 22, 9, 17, 23, 535, DateTimeKind.Utc).AddTicks(8065),
                             Email = "sailesh.pillai@fincompare.com",
                             FirstName = "Sailesh",
                             IsDeleted = false,
@@ -2177,12 +2187,19 @@ namespace Fincompare.Persitence.Migrations
                         .IsRequired()
                         .HasConstraintName("MerchantProductCoupon_Coupon_Id_fkey");
 
+                    b.HasOne("Fincompare.Domain.Entities.Merchant", "Merchant")
+                        .WithMany("MerchantProductCoupons")
+                        .HasForeignKey("MerchantId")
+                        .HasConstraintName("MerchantProductCoupon_Merchant_Id_fkey");
+
                     b.HasOne("Fincompare.Domain.Entities.MerchantProduct", "MerchantProduct")
                         .WithMany("MerchantProductCoupons")
                         .HasForeignKey("MerchantProductId")
                         .HasConstraintName("MerchantProductCoupon_MerchantProduct_Id_fkey");
 
                     b.Navigation("Coupon");
+
+                    b.Navigation("Merchant");
 
                     b.Navigation("MerchantProduct");
                 });
@@ -2518,6 +2535,8 @@ namespace Fincompare.Persitence.Migrations
                     b.Navigation("CustomerUsedCoupons");
 
                     b.Navigation("MerchantCampaigns");
+
+                    b.Navigation("MerchantProductCoupons");
 
                     b.Navigation("MerchantProducts");
 

@@ -14,6 +14,7 @@ using Fincompare.Domain.Entities;
 using Fincompare.Domain.Entities.UserManagementEntities;
 using static Fincompare.Application.Request.CouponRequest.CouponRequestViewModel;
 using static Fincompare.Application.Request.CurrencyRequest.CurrencyRequests;
+using static Fincompare.Application.Request.CustomerUsedCouponRequest.CustomerUsedCouponViewRequest;
 using static Fincompare.Application.Request.GroupMerchantRequest.GroupMerchantBaseModel;
 using static Fincompare.Application.Request.InstrumentRequest.InstrumentRequestBaseModel;
 using static Fincompare.Application.Request.MerchantProductCouponRequest.MerchantProductRequestViewModel;
@@ -22,6 +23,7 @@ using static Fincompare.Application.Request.ProductRequests.ProductRequestViewMo
 using static Fincompare.Application.Request.ServiceCategoriesRequest.ServiceCategoriesViewModel;
 using static Fincompare.Application.Response.CouponResponse.CouponResponseViewModel;
 using static Fincompare.Application.Response.CurrencyResponse.CurrencyResponseBaseModel;
+using static Fincompare.Application.Response.CustomerUsedCouponResponse.CustomerUsedCouponViewResponse;
 using static Fincompare.Application.Response.GroupMerchantResponse.GroupMerchantViewResponse;
 using static Fincompare.Application.Response.InstrumentResponse.InstrumentResponseBaseClass;
 using static Fincompare.Application.Response.MerchantProductCouponResponse.MerchantProductCouponViewResponse;
@@ -87,6 +89,18 @@ namespace Fincompare.Application.Profiles
             CreateMap<CreateMerchantProductCouponRequest, MerchantProductCoupon>().ReverseMap();
             CreateMap<UpdateMerchantProductCouponRequest, MerchantProductCoupon>().ReverseMap();
             CreateMap<GetAllMerchantProductCouponResponse, MerchantProductCoupon>().ForMember(desc => desc.Id, (req => req.MapFrom(src => src.MerchantCouponId))).ReverseMap();
+            CreateMap<UpdateMerchantCouponResponseClass, MerchantProductCoupon>().ReverseMap();
+
+            CreateMap<CreateCustomerUsedCouponRequest, CustomerUsedCoupon>()
+                .ForMember(desc => desc.MerchantProductCouponId, (req => req.MapFrom(src => src.MerchantCouponId))).ReverseMap()
+                .ForMember(desc => desc.CustomerId, (req => req.MapFrom(src => src.CustomerUserId))).ReverseMap();
+
+            CreateMap<GetAllCustomerUsedCouponResponse, CustomerUsedCoupon>()
+                 .ForMember(desc => desc.MerchantProductCouponId, (req => req.MapFrom(src => src.MerchantCouponId))).ReverseMap()
+                 .ForMember(desc => desc.CustomerId, (req => req.MapFrom(src => src.CustomerUserId))).ReverseMap()
+                 .ForMember(desc => desc.Id, (req => req.MapFrom(src => src.CustomerUsedCouponId))).ReverseMap();
+
+
         }
     }
 }

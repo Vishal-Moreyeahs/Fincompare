@@ -11,6 +11,7 @@ namespace Fincompare.Application.Repositories
         Task<ApiResponse<IEnumerable<MerchantCouponResponseClass>>> GetAllMerchantProductCoupons
             (
             int merchantId,
+            string? merchantCouponBatch,
             int? merchantProductId,
             int? serviceCategoryId,
             int? instrumentId,
@@ -22,5 +23,9 @@ namespace Fincompare.Application.Repositories
             bool? IsUsed,
             bool? status
             );
+
+        Task<ApiResponse<string>> UpdateMerchantProductCoupons(UpdateMerchantProductCouponRequest model);
+
+
     }
 }
