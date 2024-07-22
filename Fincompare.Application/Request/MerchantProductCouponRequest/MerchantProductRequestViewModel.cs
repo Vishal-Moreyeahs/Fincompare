@@ -11,13 +11,14 @@
             public DateTime ValidityFrom { get; set; }
             public DateTime ValidityTo { get; set; }
             public bool Status { get; set; }
+            public string? MerchantCouponBatch { get; set; } = null;
 
         }
 
         public class UpdateMerchantProductCouponRequest : CreateMerchantProductCouponRequest
         {
-            public int Id { get; set; }
-
+            public int MerchantCouponId { get; set; }
+            public int MerchantId { get; set; }
         }
     }
 }

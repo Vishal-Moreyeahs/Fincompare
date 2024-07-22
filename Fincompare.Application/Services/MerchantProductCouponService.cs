@@ -45,6 +45,7 @@ namespace Fincompare.Application.Services
         public async Task<ApiResponse<IEnumerable<MerchantCouponResponseClass>>> GetAllMerchantProductCoupons
             (
             int merchantId,
+            string? merchantCouponBatch,
             int? merchantProductId,
             int? serviceCategoryId,
             int? instrumentId,
@@ -67,6 +68,8 @@ namespace Fincompare.Application.Services
 
                 if (merchantProductId.HasValue)
                     merchantProductCoupons = merchantProductCoupons.Where(mp => mp.MerchantProductId == merchantProductId.Value);
+                if (!string.IsNullOrEmpty(merchantCouponBatch))
+                    merchantProductCoupons = merchantProductCoupons.Where(mp => mp.MerchantCouponBatch == merchantCouponBatch);
                 if (productId.HasValue)
                     merchantProductCoupons = merchantProductCoupons.Where(mp => mp.MerchantProduct.ProductId == productId.Value);
                 if (!string.IsNullOrEmpty(sendCountry))
@@ -97,7 +100,7 @@ namespace Fincompare.Application.Services
                                      MerchantCouponId = merchantProduct.Id,
                                      CouponId = merchantProduct.CouponId,
                                      MerchantProductId = (int)merchantProduct.MerchantProductId,
-                                     MerchantId = mp.MerchantId,
+                                     MerchantId = (int)merchantProduct.MerchantId,
                                      MerchantName = mp.Merchant.MerchantName,
                                      ServiceCategoryId = mp.Product.ServiceCategoryId,
                                      ServiceCategoryName = mp.ServiceCategory.ServCategoryName,
@@ -105,7 +108,7 @@ namespace Fincompare.Application.Services
                                      InstrumentName = mp.Instrument.InstrumentName,
                                      ProductId = mp.ProductId,
                                      ProductName = mp.Product.ProductName,
-                                     //MerchantCouponBatch = merchantProduct.,
+                                     MerchantCouponBatch = merchantProduct.MerchantCouponBatch,
                                      CouponCode = merchantProduct.CouponCode,
                                      IsMultiple = merchantProduct.IsMultiple,
                                      IsUsed = merchantProduct.IsUsed,
@@ -130,5 +133,27 @@ namespace Fincompare.Application.Services
                 throw new ArgumentException(ex.Message);
             }
         }
+
+        public async Task<ApiResponse<string>> UpdateMerchantProductCoupons(UpdateMerchantProductCouponRequest model)
+        {
+            try
+            {
+                var getAllUpdateMerchan = await _unitOfWork.GetRepository<MerchantProductCoupon>().GetAll();
+                var checkMerchantProduct = getAllUpdateMerchan.Where(x => (x.MerchantId == model.MerchantId && x.MerchantCouponBatch == model.MerchantCouponBatch) || x.Id == model.MerchantCouponId).FirstOrDefault();
+                if (checkMerchantProduct == null)
+                    return new ApiResponse<string>() { Status = false, Message = "Merchant product coupon update failed" };
+                var updateData = _mapper.Map<MerchantProductCoupon>(checkMerchantProduct);
+                await _unitOfWork.GetRepository<MerchantProductCoupon>().Upsert(updateData);
+                await _unitOfWork.SaveChangesAsync();
+                return new ApiResponse<string>() { Status = false, Message = "Merchant product coupon updated successfully" };
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new ArgumentException(ex.Message);
+            }
+        }
+
     }
 }

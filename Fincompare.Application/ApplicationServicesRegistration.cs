@@ -27,6 +27,8 @@ namespace Fincompare.Application
             services.AddTransient<IServiceCategory, ServiceCategories>();
             services.AddTransient<ICouponService, CouponServices>();
             services.AddTransient<IMerchantProductCouponService, MerchantProductCouponService>();
+            services.AddTransient<ICustomerUsedCouponService, CustomerUsedCouponService>();
+
             services.AddTransient<IMerchantCompaignServices, MerchantCompaignServices>();
             services.AddTransient<IRateCardServices, RateCardServices>();
             

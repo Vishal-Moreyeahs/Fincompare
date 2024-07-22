@@ -694,9 +694,20 @@ namespace Fincompare.Persitence
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("MerchantProductCoupon_Coupon_Id_fkey");
 
+                entity.HasOne(d => d.Merchant).WithMany(p => p.MerchantProductCoupons)
+                 .HasForeignKey(d => d.MerchantId)
+                 .OnDelete(DeleteBehavior.ClientSetNull)
+                 .HasConstraintName("MerchantProductCoupon_Merchant_Id_fkey");
+
+                entity.Property(e => e.MerchantCouponBatch)
+                  .HasColumnType("character varying")
+                  .HasColumnName("Merchant_Coupon_Batch").HasMaxLength(36);
+
                 entity.HasOne(d => d.MerchantProduct).WithMany(p => p.MerchantProductCoupons)
                     .HasForeignKey(d => d.MerchantProductId)
                     .HasConstraintName("MerchantProductCoupon_MerchantProduct_Id_fkey");
+
+
             });
 
             modelBuilder.Entity<MerchantRemitProductFee>(entity =>

@@ -32,6 +32,7 @@ namespace Fincompare.Api.Controllers
         public async Task<IActionResult> GetAllMerchantProductCoupons
             (
             int merchantId,
+            string? merchantCouponBatch,
             int? merchantProductId,
             int? serviceCategoryId,
             int? instrumentId,
@@ -48,6 +49,7 @@ namespace Fincompare.Api.Controllers
             var response = await _merchantProductCouponService.GetAllMerchantProductCoupons
                 (
                 merchantId,
+                merchantCouponBatch,
                 merchantProductId,
                 serviceCategoryId,
                 instrumentId,
@@ -58,6 +60,15 @@ namespace Fincompare.Api.Controllers
                 receiveCurrency,
                 IsUsed,
                 status);
+            return Ok(response);
+        }
+
+        [HasPermission(PermissionEnum.CanAccessMerchant)]
+        [HttpPost]
+        [Route("update-merchant-product-coupons")]
+        public async Task<IActionResult> UpdateMerchantProductCoupons(UpdateMerchantProductCouponRequest model)
+        {
+            var response = await _merchantProductCouponService.UpdateMerchantProductCoupons(model);
             return Ok(response);
         }
     }

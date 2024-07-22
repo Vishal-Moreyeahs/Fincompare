@@ -83,6 +83,7 @@ namespace Fincompare.Infrastructure.Services
         {
             var user = _unitOfWork.GetRepository<User>().GetAll().Result.Where(x => x.Email == request.Email).FirstOrDefault();
 
+
             if (user == null)
             {
                 throw new ApplicationException($"User with {request.Email} not found.");

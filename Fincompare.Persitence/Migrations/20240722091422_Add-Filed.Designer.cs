@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-    [Migration("20240719112402_UATMIg")]
-    partial class UATMIg
+    [Migration("20240722091422_Add-Filed")]
+    partial class AddFiled
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1084,6 +1084,14 @@ namespace Fincompare.Persitence.Migrations
                     b.Property<bool>("IsUsed")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("MerchantCouponBatch")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying")
+                        .HasColumnName("Merchant_Coupon_Batch");
+
+                    b.Property<int?>("MerchantId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("MerchantProductId")
                         .HasColumnType("integer")
                         .HasColumnName("MerchantProduct_Id");
@@ -1105,6 +1113,8 @@ namespace Fincompare.Persitence.Migrations
                         .HasName("MerchantProductCoupon_pkey");
 
                     b.HasIndex("CouponId");
+
+                    b.HasIndex("MerchantId");
 
                     b.HasIndex("MerchantProductId");
 
@@ -1526,10 +1536,10 @@ namespace Fincompare.Persitence.Migrations
                         {
                             Id = 10,
                             IsAdmin = true,
-                            IsCustomer = false,
+                            IsCustomer = true,
                             IsDeleted = false,
-                            IsMerchant = false,
-                            IsVendor = false,
+                            IsMerchant = true,
+                            IsVendor = true,
                             PermissionName = "CanAccessAdmin"
                         },
                         new
@@ -1539,7 +1549,7 @@ namespace Fincompare.Persitence.Migrations
                             IsCustomer = false,
                             IsDeleted = false,
                             IsMerchant = true,
-                            IsVendor = false,
+                            IsVendor = true,
                             PermissionName = "CanAccessMerchant"
                         },
                         new
@@ -1720,24 +1730,24 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 7, 19, 11, 24, 1, 981, DateTimeKind.Utc).AddTicks(7371),
-                            Email = "aarya.garg@moreyeahs.com",
-                            FirstName = "Aarya",
+                            CreatedAt = new DateTime(2024, 7, 22, 9, 14, 22, 594, DateTimeKind.Utc).AddTicks(7573),
+                            Email = "carl.unni@fincompare.com",
+                            FirstName = "Carl",
                             IsDeleted = false,
-                            LastName = "Garg",
-                            PasswordHash = new byte[] { 174, 37, 40, 78, 61, 77, 69, 19, 80, 223, 202, 222, 187, 5, 98, 239, 4, 250, 125, 131, 152, 224, 149, 111, 155, 248, 50, 77, 228, 16, 121, 219 },
+                            LastName = "Unni",
+                            PasswordHash = new byte[] { 61, 132, 242, 242, 25, 57, 119, 156, 133, 74, 245, 180, 163, 233, 70, 85, 92, 46, 249, 136, 93, 104, 91, 66, 160, 8, 212, 6, 203, 152, 100, 152 },
                             Phone = "1234567890",
                             StatusId = 1
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 7, 19, 11, 24, 1, 981, DateTimeKind.Utc).AddTicks(7384),
-                            Email = "vishal.pawar@moreyeahs.com",
-                            FirstName = "Vishal",
+                            CreatedAt = new DateTime(2024, 7, 22, 9, 14, 22, 594, DateTimeKind.Utc).AddTicks(7584),
+                            Email = "sailesh.pillai@fincompare.com",
+                            FirstName = "Sailesh",
                             IsDeleted = false,
-                            LastName = "Pawar",
-                            PasswordHash = new byte[] { 191, 77, 99, 205, 83, 55, 86, 113, 215, 255, 103, 106, 200, 175, 114, 38, 28, 185, 72, 18, 181, 201, 106, 152, 78, 60, 123, 188, 38, 184, 208, 240 },
+                            LastName = "Pillai",
+                            PasswordHash = new byte[] { 237, 225, 80, 129, 15, 118, 17, 180, 40, 29, 128, 12, 22, 207, 96, 108, 19, 244, 48, 141, 102, 251, 62, 72, 89, 53, 5, 20, 28, 195, 174, 43 },
                             Phone = "9876543216",
                             StatusId = 1
                         });
@@ -2180,12 +2190,19 @@ namespace Fincompare.Persitence.Migrations
                         .IsRequired()
                         .HasConstraintName("MerchantProductCoupon_Coupon_Id_fkey");
 
+                    b.HasOne("Fincompare.Domain.Entities.Merchant", "Merchant")
+                        .WithMany("MerchantProductCoupons")
+                        .HasForeignKey("MerchantId")
+                        .HasConstraintName("MerchantProductCoupon_Merchant_Id_fkey");
+
                     b.HasOne("Fincompare.Domain.Entities.MerchantProduct", "MerchantProduct")
                         .WithMany("MerchantProductCoupons")
                         .HasForeignKey("MerchantProductId")
                         .HasConstraintName("MerchantProductCoupon_MerchantProduct_Id_fkey");
 
                     b.Navigation("Coupon");
+
+                    b.Navigation("Merchant");
 
                     b.Navigation("MerchantProduct");
                 });
@@ -2521,6 +2538,8 @@ namespace Fincompare.Persitence.Migrations
                     b.Navigation("CustomerUsedCoupons");
 
                     b.Navigation("MerchantCampaigns");
+
+                    b.Navigation("MerchantProductCoupons");
 
                     b.Navigation("MerchantProducts");
 

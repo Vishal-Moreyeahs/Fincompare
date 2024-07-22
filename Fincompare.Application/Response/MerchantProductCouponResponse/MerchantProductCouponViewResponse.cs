@@ -13,7 +13,9 @@
             public DateTime ValidityFrom { get; set; }
             public DateTime ValidityTo { get; set; }
             public bool Status { get; set; }
+            public string? MerchantCouponBatch { get; set; }
         }
+
         public class MerchantCouponResponseClass
         {
             public int MerchantCouponId { get; set; }
@@ -35,6 +37,17 @@
             public string ReceiveCountry { get; set; }
             public string SendCurrency { get; set; }
             public string ReceiveCurrency { get; set; }
+            public DateTime ValidityFrom { get; set; }
+            public DateTime ValidityTo { get; set; }
+            public bool Status { get; set; }
+        }
+        public class UpdateMerchantCouponResponseClass
+        {
+            public int CouponId { get; set; }
+            public int? MerchantProductId { get; set; }
+            public string CouponCode { get; set; } = null!;
+            public bool IsMultiple { get; set; }
+            public bool IsUsed { get; set; }
             public DateTime ValidityFrom { get; set; }
             public DateTime ValidityTo { get; set; }
             public bool Status { get; set; }
