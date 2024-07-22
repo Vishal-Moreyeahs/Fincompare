@@ -20,7 +20,7 @@ namespace Fincompare.Infrastructure.RateServices
         }
         public API_Obj Import(string baseCur)
         {
-            var API_KEY = "db0b704c87015ec8c4429397";
+            var API_KEY = "dcaa6d0226879950b8f0ab69";
             API_Obj aPI_Obj = new API_Obj();
             try
             {

@@ -63,7 +63,7 @@ namespace Fincompare.Api.Controllers
 
         [HttpGet]
         [Route("get-market-rate-api")]
-        private async Task<IActionResult> UpdateDbCurrencyExchangeRates()
+        public async Task<IActionResult> UpdateDbCurrencyExchangeRates()
         {
             var response = await _marketRateServices.UpdateDbCurrencyExchangeRates();
             return Ok(response);
