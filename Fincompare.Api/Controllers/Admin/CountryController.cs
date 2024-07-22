@@ -20,7 +20,7 @@ namespace Fincompare.Api.Controllers.Admin
         [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
         [Route("add")]
-        public async Task<IActionResult> CreateCompany(CountryRequest request)
+        public async Task<IActionResult> CreateCountry(CountryRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace Fincompare.Api.Controllers.Admin
 
         [HttpGet]
         [Route("get-by-country3Iso")]
-        public async Task<IActionResult> GetCompanyById(string country3iso)
+        public async Task<IActionResult> GetCountryById(string country3iso)
         {
             return Ok(await _countryServices.GetCountryByCountryName(country3iso));
         }

@@ -22,7 +22,7 @@ namespace Fincompare.Api.Controllers
 
         [HttpPost]
         [Route("add-all-countries")]
-        public async Task<IActionResult> AddCountries()
+        private async Task<IActionResult> AddCountries()
         {
             var list = GetCountryWithCurrency();
 
@@ -44,7 +44,7 @@ namespace Fincompare.Api.Controllers
 
         [HttpPost]
         [Route("add-all-countries-with-currency")]
-        public async Task<IActionResult> AddCountriesWithCurrency()
+        private async Task<IActionResult> AddCountriesWithCurrency()
         {
             try
             {
@@ -88,7 +88,7 @@ namespace Fincompare.Api.Controllers
 
         [HttpPost]
         [Route("add-all-currency")]
-        public async Task<IActionResult> AddCurrency()
+        private async Task<IActionResult> AddCurrency()
         {
             var list = GetWithCurrency();
 

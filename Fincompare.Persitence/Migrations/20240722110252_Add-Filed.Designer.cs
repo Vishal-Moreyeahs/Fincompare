@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-    [Migration("20240722091422_Add-Filed")]
+    [Migration("20240722110252_Add-Filed")]
     partial class AddFiled
     {
         /// <inheritdoc />
@@ -1730,7 +1730,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 7, 22, 9, 14, 22, 594, DateTimeKind.Utc).AddTicks(7573),
+                            CreatedAt = new DateTime(2024, 7, 22, 11, 2, 52, 739, DateTimeKind.Utc).AddTicks(9397),
                             Email = "carl.unni@fincompare.com",
                             FirstName = "Carl",
                             IsDeleted = false,
@@ -1742,7 +1742,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 7, 22, 9, 14, 22, 594, DateTimeKind.Utc).AddTicks(7584),
+                            CreatedAt = new DateTime(2024, 7, 22, 11, 2, 52, 739, DateTimeKind.Utc).AddTicks(9409),
                             Email = "sailesh.pillai@fincompare.com",
                             FirstName = "Sailesh",
                             IsDeleted = false,
