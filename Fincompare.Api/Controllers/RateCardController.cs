@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Fincompare.Application.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers
@@ -7,6 +8,11 @@ namespace Fincompare.Api.Controllers
     [ApiController]
     public class RateCardController : ControllerBase
     {
+        private readonly IRateCardServices _rateCardService;
 
+        public RateCardController(IRateCardServices rateCardServices)
+        {
+            _rateCardService = rateCardServices;
+        }
     }
 }
