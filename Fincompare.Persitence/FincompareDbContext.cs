@@ -360,6 +360,8 @@ namespace Fincompare.Persitence
                 entity.ToTable("CustomerUser");
 
                 entity.Property(e => e.Address).HasColumnType("character varying").HasMaxLength(35);
+                entity.Property(e => e.AuthProvider).HasColumnType("character varying").HasColumnName("Auth_Provider").HasMaxLength(35);
+                entity.Property(e => e.AuthProviderId).HasColumnType("character varying").HasColumnName("Auth_Provider_Id");
                 entity.Property(e => e.City).HasColumnType("character varying");
                 entity.Property(e => e.Country3Iso)
                     .HasColumnType("character varying")

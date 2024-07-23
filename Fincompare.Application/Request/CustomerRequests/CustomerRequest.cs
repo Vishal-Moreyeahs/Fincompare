@@ -23,7 +23,7 @@ namespace Fincompare.Application.Request.CustomerRequests
         public string Phone { get; set; }
         public int? StateId { get; set; }
         public int? CityId { get; set; }
-        public string CountryId { get; set; }
+        public string Country3Iso { get; set; }
 
         public string Password { get; set; } = string.Empty;
         public string RateSubscription { get; set; } = string.Empty;

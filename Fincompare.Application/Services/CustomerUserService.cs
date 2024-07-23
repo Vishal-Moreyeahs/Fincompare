@@ -8,13 +8,6 @@ using Fincompare.Application.Response;
 using Fincompare.Application.Response.CustomerUserResponse;
 using Fincompare.Domain.Entities;
 using Fincompare.Domain.Entities.UserManagementEntities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Fincompare.Application.Services
 {
@@ -59,6 +52,18 @@ namespace Fincompare.Application.Services
 
                 var data = _mapper.Map<CustomerUser>(model);
                 data.UserId = registeredUser.Data.Id;
+
+                if (model.StateId.HasValue)
+                { 
+                    var state = await _unitOfWork.GetRepository<State>().GetById(model.StateId.Value);
+                    data.State = state.StateName;
+                }
+                
+                if (model.CityId.HasValue)
+                { 
+                    var city = await _unitOfWork.GetRepository<City>().GetById(model.CityId.Value);
+                    data.City = city.CityName;
+                }
 
                 await _unitOfWork.GetRepository<CustomerUser>().Add(data);
                 await _unitOfWork.SaveChangesAsync();
