@@ -17,7 +17,7 @@ namespace Fincompare.Api.Controllers
 
         [HttpPost]
         [Route("add-merchantremit-fee")]
-        private async Task<IActionResult> AddMerchantRemitFee(CreateMerchantRemitProductFeeRequest model)
+        public async Task<IActionResult> AddMerchantRemitFee(CreateMerchantRemitProductFeeRequest model)
         {
             var response = await _merchantRemitFee.AddMerchantRemitFee(model);
             return Ok(response);
@@ -26,14 +26,14 @@ namespace Fincompare.Api.Controllers
 
         [HttpPut]
         [Route("update-merchantremit-fee")]
-        private async Task<IActionResult> UpdateMerchantRemitFee(UpdateMerchantRemitProductFeeRequest model)
+        public async Task<IActionResult> UpdateMerchantRemitFee(UpdateMerchantRemitProductFeeRequest model)
         {
             var response = await _merchantRemitFee.UpdateMerchantRemitFee(model);
             return Ok(response);
         }
 
         [HttpGet("Merchant-RemittanceFee/{sendCountry}/{receiveCountry}/{sendCurrency}/{receiveCurrency}")]
-        private async Task<IActionResult> GetMerchantRemittanceFee(
+        public async Task<IActionResult> GetMerchantRemittanceFee(
             string sendCountry,
             string receiveCountry,
             string sendCurrency,
@@ -71,7 +71,7 @@ namespace Fincompare.Api.Controllers
 
 
         [HttpGet("Merchant-RemittanceFee-MerchantId/{merchantId}/{sendCountry}/{receiveCountry}/{sendCurrency}/{receiveCurrency}")]
-        private async Task<IActionResult> GetMerchantRemittanceFeeByMerchant(
+        public async Task<IActionResult> GetMerchantRemittanceFeeByMerchant(
             int merchantId,
             string sendCountry,
             string receiveCountry,
