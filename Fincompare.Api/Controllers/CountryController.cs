@@ -121,7 +121,7 @@ namespace Fincompare.Api.Controllers
 
         [HttpPost]
         [Route("Add-State")]
-        public async Task<IActionResult> AddBulkStates()
+        private async Task<IActionResult> AddBulkStates()
         {
             var list = GetWithState();
             var getAllCountry = (await _unitOfWork.GetRepository<Country>().GetAll()).Select(x => x.Country3Iso);
