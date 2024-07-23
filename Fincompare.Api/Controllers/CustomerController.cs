@@ -40,7 +40,7 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpPut]
-        [Route("update-customer-review")]
+        [Route("update-customer")]
         public async Task<IActionResult> UpdateCustomerRecord(UpdateCustomerRequest model)
         {
             if (!ModelState.IsValid)
