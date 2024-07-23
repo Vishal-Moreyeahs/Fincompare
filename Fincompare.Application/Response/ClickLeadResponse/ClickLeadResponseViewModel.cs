@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Fincompare.Application.Response.ClickLeadResponse
+﻿namespace Fincompare.Application.Response.ClickLeadResponse
 {
     public class ClickLeadResponseViewModel
     {

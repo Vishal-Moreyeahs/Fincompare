@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Fincompare.Application.Request.ClickLeadRequests
 {
@@ -24,7 +19,8 @@ namespace Fincompare.Application.Request.ClickLeadRequests
     }
 
     public class AddClickLeadRequest : ClickLeadRequest { }
-    public class UpdateClickLeadRequest : ClickLeadRequest {
+    public class UpdateClickLeadRequest : ClickLeadRequest
+    {
         [Required]
         public int Id { get; set; }
     }

@@ -17,14 +17,14 @@ namespace Fincompare.Application.Services
         private readonly IMapper _mapper;
         private readonly IAuthService _authService;
         private readonly ICryptographyService _cryptographyService;
-        public CustomerUserService(IUnitOfWork unitOfWork, IMapper mapper, IAuthService authService, ICryptographyService cryptographyService )
+        public CustomerUserService(IUnitOfWork unitOfWork, IMapper mapper, IAuthService authService, ICryptographyService cryptographyService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _authService = authService;
             _cryptographyService = cryptographyService;
         }
-    
+
         public async Task<ApiResponse<CustomerUserResponseViewModel>> AddCustomerAsUser(AddCustomerRequest model)
         {
             try
@@ -54,13 +54,13 @@ namespace Fincompare.Application.Services
                 data.UserId = registeredUser.Data.Id;
 
                 if (model.StateId.HasValue)
-                { 
+                {
                     var state = await _unitOfWork.GetRepository<State>().GetById(model.StateId.Value);
                     data.State = state.StateName;
                 }
-                
+
                 if (model.CityId.HasValue)
-                { 
+                {
                     var city = await _unitOfWork.GetRepository<City>().GetById(model.CityId.Value);
                     data.City = city.CityName;
                 }
@@ -73,7 +73,8 @@ namespace Fincompare.Application.Services
                 return new ApiResponse<CustomerUserResponseViewModel> { Status = true, Message = "Customer registered successfully", Data = responseData };
 
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return new ApiResponse<CustomerUserResponseViewModel> { Status = false, Message = "Customer registration failed" };
 
             }
@@ -102,7 +103,7 @@ namespace Fincompare.Application.Services
             }
             catch (Exception ex)
             {
-                return new ApiResponse<IEnumerable<CustomerUserResponseViewModel>> { Status = false, Message = "Customers fetched failed."};
+                return new ApiResponse<IEnumerable<CustomerUserResponseViewModel>> { Status = false, Message = "Customers fetched failed." };
 
             }
 

@@ -1,7 +1,4 @@
 ﻿using Fincompare.Application.Repositories;
-using Fincompare.Application.Request.MerchantRequests;
-using Fincompare.Application.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers

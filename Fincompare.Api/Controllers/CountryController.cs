@@ -143,7 +143,7 @@ namespace Fincompare.Api.Controllers
                     {
                         StateName = s.Name,
                         Country3Iso = x.Iso3,
-                        Cities = s.Cities.Select(c=> new City
+                        Cities = s.Cities.Select(c => new City
                         {
                             CityName = c.Name,
                             Status = true,

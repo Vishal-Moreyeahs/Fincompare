@@ -3,11 +3,6 @@ using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fincompare.Application.Services
 {
@@ -46,14 +41,15 @@ namespace Fincompare.Application.Services
                     Data = rateCardRequestModel
                 };
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw new ApplicationException($"{ex.Message}");
             }
-            
+
         }
 
         public class RateCardRequestViewModel
-        { 
+        {
             public string Country3Iso { get; set; }
             public string SendCurrency3Iso { get; set; }
             public string ReceiveCurrency3Iso { get; set; }

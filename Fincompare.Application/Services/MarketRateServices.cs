@@ -229,7 +229,7 @@ namespace Fincompare.Application.Services
             List<string> failCurrency = [];
             try
             {
-                var getAllCurrencyCode = (await _currencyServices.GetAllCurrency(null,null,null))
+                var getAllCurrencyCode = (await _currencyServices.GetAllCurrency(null, null, null))
                     .Data.Select(x => x.CurrencyIso).OrderBy(x => x).ToArray();
                 foreach (var currencyCode in getAllCurrencyCode)
                 {

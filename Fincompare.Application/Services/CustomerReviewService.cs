@@ -3,15 +3,8 @@ using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Request;
 using Fincompare.Application.Response;
-using Fincompare.Application.Response.ClickLeadResponse;
 using Fincompare.Application.Response.CustomerReviewResponse;
 using Fincompare.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Fincompare.Application.Response.CouponResponse.CouponResponseViewModel;
 
 namespace Fincompare.Application.Services
 {
@@ -21,7 +14,7 @@ namespace Fincompare.Application.Services
         private readonly IUnitOfWork _unitOfWork;
 
         public CustomerReviewService(IUnitOfWork unitOfWork, IMapper mapper)
-        { 
+        {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
