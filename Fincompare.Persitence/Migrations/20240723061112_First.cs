@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     /// <inheritdoc />
-    public partial class AddFiled : Migration
+    public partial class First : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -1035,8 +1035,8 @@ namespace Fincompare.Persitence.Migrations
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "Email", "FirstName", "IsDeleted", "LastName", "PasswordHash", "Phone", "StatusId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 7, 22, 11, 2, 52, 739, DateTimeKind.Utc).AddTicks(9397), null, "carl.unni@fincompare.com", "Carl", false, "Unni", new byte[] { 61, 132, 242, 242, 25, 57, 119, 156, 133, 74, 245, 180, 163, 233, 70, 85, 92, 46, 249, 136, 93, 104, 91, 66, 160, 8, 212, 6, 203, 152, 100, 152 }, "1234567890", 1 },
-                    { 2, new DateTime(2024, 7, 22, 11, 2, 52, 739, DateTimeKind.Utc).AddTicks(9409), null, "sailesh.pillai@fincompare.com", "Sailesh", false, "Pillai", new byte[] { 237, 225, 80, 129, 15, 118, 17, 180, 40, 29, 128, 12, 22, 207, 96, 108, 19, 244, 48, 141, 102, 251, 62, 72, 89, 53, 5, 20, 28, 195, 174, 43 }, "9876543216", 1 }
+                    { 1, new DateTime(2024, 7, 23, 6, 11, 12, 138, DateTimeKind.Utc).AddTicks(666), null, "carl.unni@fincompare.com", "Carl", false, "Unni", new byte[] { 232, 111, 120, 168, 163, 202, 240, 182, 13, 142, 116, 229, 148, 42, 166, 216, 109, 193, 80, 205, 60, 3, 51, 138, 239, 37, 183, 210, 215, 227, 172, 199 }, "1234567890", 1 },
+                    { 2, new DateTime(2024, 7, 23, 6, 11, 12, 138, DateTimeKind.Utc).AddTicks(686), null, "sailesh.pillai@fincompare.com", "Sailesh", false, "Pillai", new byte[] { 232, 111, 120, 168, 163, 202, 240, 182, 13, 142, 116, 229, 148, 42, 166, 216, 109, 193, 80, 205, 60, 3, 51, 138, 239, 37, 183, 210, 215, 227, 172, 199 }, "9876543216", 1 }
                 });
 
             migrationBuilder.InsertData(
