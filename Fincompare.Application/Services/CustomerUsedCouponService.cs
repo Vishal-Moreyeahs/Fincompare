@@ -58,7 +58,7 @@ namespace Fincompare.Application.Services
             try
             {
                 var getAllCustomerUsed = _unitOfWork.GetRepository<CustomerUsedCoupon>().GetAllRelatedEntity().AsQueryable();
-
+                var getAllMerchantProductCoupan = _unitOfWork.GetRepository<MerchantProductCoupon>().GetAllRelatedEntity().AsQueryable();
                 var getAllMerchantProduct = _unitOfWork.GetRepository<MerchantProduct>().GetAllRelatedEntity().AsQueryable();
 
                 //var joinData = from cus in getAllCustomerUsed
@@ -76,13 +76,18 @@ namespace Fincompare.Application.Services
                     getAllCustomerUsed = getAllCustomerUsed.Where(x => x.MerchantProductCoupon.MerchantProductId == merchantProductID);
                 if (isUsed.HasValue)
                     getAllCustomerUsed = getAllCustomerUsed.Where(x => x.IsUsed == isUsed);
+                if (startDateTime.HasValue)
+                    getAllCustomerUsed = getAllCustomerUsed.Where(x => x.MerchantProductCoupon.ValidityFrom >= startDateTime);
+                if (endDateTime.HasValue)
+                    getAllCustomerUsed = getAllCustomerUsed.Where(x => x.MerchantProductCoupon.ValidityTo >= endDateTime);
 
-                //if (startDateTime.HasValue)
-                //    getAllCustomerUsed = getAllCustomerUsed.Where(x => x.CustomerUserId == customerId);
-                //if (endDateTime.HasValue)
-                //    getAllCustomerUsed = getAllCustomerUsed.Where(x => x.CustomerUserId == customerId);
+                var jionedData = (from cu in getAllCustomerUsed
+                                 join mp in getAllMerchantProduct
+                                 on cu.MerchantProductCoupon.MerchantProductId equals mp.Id
+                                 select cu);
+
                 //if (!string.IsNullOrEmpty(sendCountry))
-                //    getAllCustomerUsed = getAllCustomerUsed.Where(x => x. == customerId);
+                //    getAllCustomerUsed = getAllCustomerUsed.Where(x => x == customerId);
                 //if (!string.IsNullOrEmpty(receiveCountry))
                 //    getAllCustomerUsed = getAllCustomerUsed.Where(x => x.Merchant. == customerId);
                 //if (!string.IsNullOrEmpty(sendCurrency))

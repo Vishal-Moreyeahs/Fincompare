@@ -81,6 +81,7 @@ namespace Fincompare.Application.Profiles
             CreateMap<MerchantRemitProductRateViewModel, MerchantRemitProductRate>().ReverseMap();
             CreateMap<UpdateMerchantRemitProductRateRequest, MerchantRemitProductRate>().ReverseMap();
             CreateMap<AddMerchantRemitProductRateRequest, MerchantRemitProductRate>().ReverseMap();
+            
 
 
             CreateMap<CreateServiceCategoriesRequest, ServiceCategory>().ForMember(desc => desc.ServCategoryName, (req => req.MapFrom(src => src.ServiceCategoryName))).ReverseMap();
