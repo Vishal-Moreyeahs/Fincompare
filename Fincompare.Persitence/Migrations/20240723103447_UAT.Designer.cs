@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-    [Migration("20240723102612_first")]
-    partial class first
+    [Migration("20240723103447_UAT")]
+    partial class UAT
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1737,7 +1737,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 7, 23, 10, 26, 12, 61, DateTimeKind.Utc).AddTicks(2020),
+                            CreatedAt = new DateTime(2024, 7, 23, 10, 34, 47, 501, DateTimeKind.Utc).AddTicks(2145),
                             Email = "carl.unni@fincompare.com",
                             FirstName = "Carl",
                             IsDeleted = false,
@@ -1749,7 +1749,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 7, 23, 10, 26, 12, 61, DateTimeKind.Utc).AddTicks(2040),
+                            CreatedAt = new DateTime(2024, 7, 23, 10, 34, 47, 501, DateTimeKind.Utc).AddTicks(2185),
                             Email = "sailesh.pillai@fincompare.com",
                             FirstName = "Sailesh",
                             IsDeleted = false,
