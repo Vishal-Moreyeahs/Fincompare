@@ -58,15 +58,6 @@ namespace Fincompare.Application.Services
             try
             {
                 var getAllCustomerUsed = _unitOfWork.GetRepository<CustomerUsedCoupon>().GetAllRelatedEntity().AsQueryable();
-                var getAllMerchantProductCoupan = _unitOfWork.GetRepository<MerchantProductCoupon>().GetAllRelatedEntity().AsQueryable();
-                var getAllMerchantProduct = _unitOfWork.GetRepository<MerchantProduct>().GetAllRelatedEntity().AsQueryable();
-
-                //var joinData = from cus in getAllCustomerUsed
-                //               join mp in getAllMerchantProduct
-                //               on cus.Merchant.Id equals mp.MerchantId
-                //               select cus;
-
-
 
                 if (merchantId.HasValue)
                     getAllCustomerUsed = getAllCustomerUsed.Where(x => x.MerchantId == merchantId);
@@ -79,29 +70,39 @@ namespace Fincompare.Application.Services
                 if (startDateTime.HasValue)
                     getAllCustomerUsed = getAllCustomerUsed.Where(x => x.MerchantProductCoupon.ValidityFrom >= startDateTime);
                 if (endDateTime.HasValue)
-                    getAllCustomerUsed = getAllCustomerUsed.Where(x => x.MerchantProductCoupon.ValidityTo >= endDateTime);
+                    getAllCustomerUsed = getAllCustomerUsed.Where(x => x.MerchantProductCoupon.ValidityTo <= endDateTime);
 
-                var jionedData = (from cu in getAllCustomerUsed
-                                  join mp in getAllMerchantProduct
-                                  on cu.MerchantProductCoupon.MerchantProductId equals mp.Id
-                                  select new
-                                  {
-                                      SendCountry = ""
-                                  });
+                var getAllMerchantProductCoupan = _unitOfWork.GetRepository<MerchantProductCoupon>().GetAllRelatedEntity().AsQueryable();
+                var getAllMerchantProduct = _unitOfWork.GetRepository<MerchantProduct>().GetAllRelatedEntity().AsQueryable();
 
-                //if (!string.IsNullOrEmpty(sendCountry))
-                //    getAllCustomerUsed = getAllCustomerUsed.Where(x => x == customerId);
-                //if (!string.IsNullOrEmpty(receiveCountry))
-                //    getAllCustomerUsed = getAllCustomerUsed.Where(x => x.Merchant. == customerId);
+                var result = from customerUsed in getAllCustomerUsed
+                             join merchantProductCoupon in getAllMerchantProductCoupan
+                             on customerUsed.MerchantProductCouponId equals merchantProductCoupon.Id into custProdCoupGroup
+                             from merchantProductCoupon in custProdCoupGroup.DefaultIfEmpty()
+                             join merchantProduct in getAllMerchantProduct
+                             on merchantProductCoupon.MerchantProductId equals merchantProduct.Id into prodGroup
+                             from merchantProduct in prodGroup.DefaultIfEmpty()
+                             select new ResponseView
+                             {
+                                 CustomerUsedCoupan = customerUsed,
+                                 MerchantProductCoupon = merchantProductCoupon,
+                                 MerchantProduct = merchantProduct
+                             };
+
+                if (!string.IsNullOrEmpty(sendCountry))
+                    result = result.Where(x => x.MerchantProduct.SendCountry3Iso == sendCountry);
+                if (!string.IsNullOrEmpty(receiveCountry))
+                    result = result.Where(x => x.MerchantProduct.ReceiveCountry3Iso == receiveCountry);
+                if (serviceCategoryId.HasValue)
+                    result = result.Where(x => x.MerchantProduct.ServiceCategoryId == serviceCategoryId);
+                if (instrumentId.HasValue)
+                    result = result.Where(x => x.MerchantProduct.InstrumentId == instrumentId);
                 //if (!string.IsNullOrEmpty(sendCurrency))
                 //    getAllCustomerUsed = getAllCustomerUsed.Where(x => x.Merchant.MerchantProductCoupons == customerId);
                 //if (!string.IsNullOrEmpty(receiveCurrency))
                 //    getAllCustomerUsed = getAllCustomerUsed.Where(x => x.Merchant. == customerId);
-                //if (serviceCategoryId.HasValue)
-                //    getAllCustomerUsed = getAllCustomerUsed.Where(x => x.mer == customerId);
-                //if (instrumentId.HasValue)
-                //    getAllCustomerUsed = getAllCustomerUsed.Where(x => x.Merchant. == customerId);
 
+                getAllCustomerUsed = result.Select(x => x.CustomerUsedCoupan);
 
                 var response = _mapper.Map<IEnumerable<GetAllCustomerUsedCouponResponse>>(getAllCustomerUsed);
 
@@ -116,6 +117,13 @@ namespace Fincompare.Application.Services
                 throw new ApplicationException(ex.Message);
 
             }
+        }
+
+        public class ResponseView
+        { 
+            public CustomerUsedCoupon CustomerUsedCoupan { get; set; }
+            public MerchantProductCoupon MerchantProductCoupon { get; set; }
+            public MerchantProduct MerchantProduct { get; set; }
         }
 
     }
