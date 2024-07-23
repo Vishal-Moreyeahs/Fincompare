@@ -27,7 +27,7 @@ namespace Fincompare.Domain.Entities
 
         public bool Status { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
         public int UserId { get; set; }
 

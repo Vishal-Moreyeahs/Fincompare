@@ -4,6 +4,7 @@ using Fincompare.Application.Request.CityRequest;
 using Fincompare.Application.Request.ClickLeadRequests;
 using Fincompare.Application.Request.CountryCurrencyRequests;
 using Fincompare.Application.Request.CountryRequest;
+using Fincompare.Application.Request.CustomerRequests;
 using Fincompare.Application.Request.MarketRateRequest;
 using Fincompare.Application.Request.MerchantCompaignRequests;
 using Fincompare.Application.Request.MerchantProductRequests;
@@ -12,6 +13,7 @@ using Fincompare.Application.Request.MerchantRequests;
 using Fincompare.Application.Request.StateRequest;
 using Fincompare.Application.Response.ClickLeadResponse;
 using Fincompare.Application.Response.CustomerReviewResponse;
+using Fincompare.Application.Response.CustomerUserResponse;
 using Fincompare.Application.Response.MerchantProductResponse;
 using Fincompare.Application.Response.MerchantRemitProductRateResponse;
 using Fincompare.Domain.Entities;
@@ -106,6 +108,11 @@ namespace Fincompare.Application.Profiles
             CreateMap<UpdateCustomerReviewRequest, CustomerReview>().ReverseMap();
             CreateMap<AddCustomerReviewRequest, CustomerReview>().ReverseMap();
             CreateMap<CustomerReviewResponseViewModel, CustomerReview>().ReverseMap();
+
+            CreateMap<CustomerUserResponseViewModel, AddCustomerRequest>().ReverseMap();
+            CreateMap<CustomerUserResponseViewModel, CustomerUser>().ReverseMap();
+            CreateMap<AddCustomerRequest, CustomerUser>().ReverseMap();
+            CreateMap<UpdateCustomerRequest, CustomerUser>().ReverseMap();
 
 
             CreateMap<CreateCustomerUsedCouponRequest, CustomerUsedCoupon>()
