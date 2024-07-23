@@ -124,7 +124,8 @@ namespace Fincompare.Api.Controllers
         public async Task<IActionResult> AddBulkStates()
         {
             var list = GetWithState();
-
+            var getAllCountry = (await _unitOfWork.GetRepository<Country>().GetAll()).Select(x => x.Country3Iso);
+            list = list.Where(x => getAllCountry.Contains(x.Iso3)).ToList();
             await UpdateStatesAsync(list);
 
             return Ok("insertData success");
@@ -134,63 +135,24 @@ namespace Fincompare.Api.Controllers
         {
             try
             {
-                foreach (var updateStateModel in updateStateModels)
+
+                List<State> obj = new List<State>();
+                updateStateModels.ForEach(x =>
                 {
-                    foreach (var state2 in updateStateModel.States)
+                    obj.AddRange(x.States.Select(s => new State
                     {
-                        // Check if the state exists in the database
-                        //var state = await _unitOfWork.GetRepository<>
-                        //var state = await _context.States
-                        //    .FirstOrDefaultAsync(s => s.StateName == state2.Name && s.Country3Iso == updateStateModel.Iso3);
-
-                        //if (state == null)
-                        //{
-                        // If the state does not exist, create a new one
-                        if (updateStateModel.States != null && updateStateModel.States.Count > 0)
+                        StateName = s.Name,
+                        Country3Iso = x.Iso3,
+                        Cities = s.Cities.Select(c=> new City
                         {
-                            var state = new State
-                            {
-                                StateName = state2.Name,
-                                Country3Iso = updateStateModel.Iso3,
-                                Status = true
-                            };
-                            await _unitOfWork.GetRepository<State>().Add(state);
-                            await _unitOfWork.SaveChangesAsync(); // Save to get the State Id
-                                                                  //}
-                            if (state2.Cities != null && state2.Cities.Count > 0)
-                            {
-                                foreach (var city2 in state2.Cities)
-                                {
-                                    // Check if the city exists in the database
-                                    //var city = await _context.Cities
-                                    //    .FirstOrDefaultAsync(c => c.CityName == city2.Name && c.StateId == state.Id);
+                            CityName = c.Name,
+                            Status = true,
+                        }).ToList()
+                    }));
+                });
+                await _unitOfWork.GetRepository<State>().AddRange(obj);
+                await _unitOfWork.SaveChangesAsync();
 
-                                    //if (city == null)
-                                    //{
-                                    // If the city does not exist, create a new one
-                                    var city = new City
-                                    {
-                                        CityName = string.IsNullOrEmpty(city2.Name) ? "" : city2.Name,
-                                        StateId = state.Id,
-                                        Status = true
-                                    };
-                                    await _unitOfWork.GetRepository<City>().Add(city);
-                                    //}
-                                    //else
-                                    //{
-                                    //    // Update the city if it already exists
-                                    //    city.CityName = city2.Name;
-                                    //    city.Status = true;
-                                    //    _context.Cities.Update(city);
-                                    //}
-                                }
-                            }
-                        }
-
-
-                        await _unitOfWork.SaveChangesAsync();
-                    }
-                }
             }
             catch (Exception ex)
             {
