@@ -12,13 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-<<<<<<<< HEAD:Fincompare.Persitence/Migrations/20240723061112_First.Designer.cs
-    [Migration("20240723061112_First")]
-    partial class First
-========
-    [Migration("20240723060621_23072024")]
-    partial class _23072024
->>>>>>>> 99ae3ed7f48984669f46edd6d28c8c066985280f:Fincompare.Persitence/Migrations/20240723060621_23072024.Designer.cs
+    [Migration("20240723102612_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -566,8 +561,16 @@ namespace Fincompare.Persitence.Migrations
                         .HasMaxLength(35)
                         .HasColumnType("character varying");
 
+                    b.Property<string>("AuthProvider")
+                        .HasMaxLength(35)
+                        .HasColumnType("character varying")
+                        .HasColumnName("Auth_Provider");
+
+                    b.Property<string>("AuthProviderId")
+                        .HasColumnType("character varying")
+                        .HasColumnName("Auth_Provider_Id");
+
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("character varying");
 
                     b.Property<string>("Country3Iso")
@@ -607,7 +610,6 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnName("Rate_Subscription");
 
                     b.Property<string>("State")
-                        .IsRequired()
                         .HasColumnType("character varying");
 
                     b.Property<bool>("Status")
@@ -1735,11 +1737,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-<<<<<<<< HEAD:Fincompare.Persitence/Migrations/20240723061112_First.Designer.cs
-                            CreatedAt = new DateTime(2024, 7, 23, 6, 11, 12, 138, DateTimeKind.Utc).AddTicks(666),
-========
-                            CreatedAt = new DateTime(2024, 7, 23, 6, 6, 20, 646, DateTimeKind.Utc).AddTicks(1787),
->>>>>>>> 99ae3ed7f48984669f46edd6d28c8c066985280f:Fincompare.Persitence/Migrations/20240723060621_23072024.Designer.cs
+                            CreatedAt = new DateTime(2024, 7, 23, 10, 26, 12, 61, DateTimeKind.Utc).AddTicks(2020),
                             Email = "carl.unni@fincompare.com",
                             FirstName = "Carl",
                             IsDeleted = false,
@@ -1751,11 +1749,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-<<<<<<<< HEAD:Fincompare.Persitence/Migrations/20240723061112_First.Designer.cs
-                            CreatedAt = new DateTime(2024, 7, 23, 6, 11, 12, 138, DateTimeKind.Utc).AddTicks(686),
-========
-                            CreatedAt = new DateTime(2024, 7, 23, 6, 6, 20, 646, DateTimeKind.Utc).AddTicks(1800),
->>>>>>>> 99ae3ed7f48984669f46edd6d28c8c066985280f:Fincompare.Persitence/Migrations/20240723060621_23072024.Designer.cs
+                            CreatedAt = new DateTime(2024, 7, 23, 10, 26, 12, 61, DateTimeKind.Utc).AddTicks(2040),
                             Email = "sailesh.pillai@fincompare.com",
                             FirstName = "Sailesh",
                             IsDeleted = false,

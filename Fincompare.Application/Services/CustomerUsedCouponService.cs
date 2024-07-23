@@ -82,9 +82,12 @@ namespace Fincompare.Application.Services
                     getAllCustomerUsed = getAllCustomerUsed.Where(x => x.MerchantProductCoupon.ValidityTo >= endDateTime);
 
                 var jionedData = (from cu in getAllCustomerUsed
-                                 join mp in getAllMerchantProduct
-                                 on cu.MerchantProductCoupon.MerchantProductId equals mp.Id
-                                 select cu);
+                                  join mp in getAllMerchantProduct
+                                  on cu.MerchantProductCoupon.MerchantProductId equals mp.Id
+                                  select new
+                                  {
+                                      SendCountry = ""
+                                  });
 
                 //if (!string.IsNullOrEmpty(sendCountry))
                 //    getAllCustomerUsed = getAllCustomerUsed.Where(x => x == customerId);

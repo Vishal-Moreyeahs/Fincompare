@@ -558,8 +558,16 @@ namespace Fincompare.Persitence.Migrations
                         .HasMaxLength(35)
                         .HasColumnType("character varying");
 
+                    b.Property<string>("AuthProvider")
+                        .HasMaxLength(35)
+                        .HasColumnType("character varying")
+                        .HasColumnName("Auth_Provider");
+
+                    b.Property<string>("AuthProviderId")
+                        .HasColumnType("character varying")
+                        .HasColumnName("Auth_Provider_Id");
+
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("character varying");
 
                     b.Property<string>("Country3Iso")
@@ -599,7 +607,6 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnName("Rate_Subscription");
 
                     b.Property<string>("State")
-                        .IsRequired()
                         .HasColumnType("character varying");
 
                     b.Property<bool>("Status")
@@ -1727,7 +1734,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 7, 23, 6, 11, 12, 138, DateTimeKind.Utc).AddTicks(666),
+                            CreatedAt = new DateTime(2024, 7, 23, 10, 26, 12, 61, DateTimeKind.Utc).AddTicks(2020),
                             Email = "carl.unni@fincompare.com",
                             FirstName = "Carl",
                             IsDeleted = false,
@@ -1739,7 +1746,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 7, 23, 6, 11, 12, 138, DateTimeKind.Utc).AddTicks(686),
+                            CreatedAt = new DateTime(2024, 7, 23, 10, 26, 12, 61, DateTimeKind.Utc).AddTicks(2040),
                             Email = "sailesh.pillai@fincompare.com",
                             FirstName = "Sailesh",
                             IsDeleted = false,
