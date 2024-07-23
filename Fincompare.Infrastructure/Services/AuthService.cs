@@ -43,8 +43,8 @@ namespace Fincompare.Infrastructure.Services
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Name, string.Concat(user.FirstName," ",user.LastName)),
-               new Claim("RoleId", userRole.RoleId.ToString()),
-               new Claim(ClaimTypes.Role, roleName.RoleName)
+                new Claim("RoleId", userRole.RoleId.ToString()),
+                new Claim(ClaimTypes.Role, roleName.RoleName)
             };
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
@@ -88,7 +88,7 @@ namespace Fincompare.Infrastructure.Services
             {
                 throw new ApplicationException($"User with {request.Email} not found.");
             }
-            var userEncryptedPassword = _cryptographyService.EncryptPassword(request.Email + request.Password);
+            var userEncryptedPassword = _cryptographyService.EncryptPassword(request.Password);
 
             var isValid = _cryptographyService.ValidatePassword(user.PasswordHash, userEncryptedPassword);
 
@@ -130,7 +130,7 @@ namespace Fincompare.Infrastructure.Services
             //AddUser
             var user = _mapper.Map<User>(request);
             user.CreatedBy = loggedInUser == null ? request.CreatedBy : loggedInUser.Id;
-            user.PasswordHash = _cryptographyService.EncryptPassword(request.Email + request.Password);
+            user.PasswordHash = _cryptographyService.EncryptPassword(request.Password);
 
             await _unitOfWork.GetRepository<User>().Add(user);
             var isDataAdded = await _unitOfWork.SaveChangesAsync();
