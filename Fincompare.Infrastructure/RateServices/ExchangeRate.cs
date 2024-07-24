@@ -1,9 +1,11 @@
 ﻿using Fincompare.Application.Contracts.Infrastructure;
 using Fincompare.Application.Contracts.Persistence;
+using Fincompare.Application.Models;
 using Fincompare.Application.Models.RateModel;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace Fincompare.Infrastructure.RateServices
@@ -12,15 +14,16 @@ namespace Fincompare.Infrastructure.RateServices
     {
         private readonly ICurrencyServices _currencyServices;
         private readonly IUnitOfWork _unitOfWork;
-
-        public ExchangeRate(ICurrencyServices currencyServices, IUnitOfWork unitOfWork)
+        private readonly MarketRateSettings _marketRateSettings;
+        public ExchangeRate(ICurrencyServices currencyServices, IUnitOfWork unitOfWork, IOptions<MarketRateSettings> marketRateSettings)
         {
             _currencyServices = currencyServices;
+            _marketRateSettings = marketRateSettings.Value;
             _unitOfWork = unitOfWork;
         }
         public API_Obj Import(string baseCur)
         {
-            var API_KEY = "dcaa6d0226879950b8f0ab69";
+            var API_KEY = _marketRateSettings.MarketRateApiKey;
             API_Obj aPI_Obj = new API_Obj();
             try
             {
