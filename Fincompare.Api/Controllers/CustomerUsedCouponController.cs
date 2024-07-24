@@ -26,8 +26,8 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
-        [HasPermission(PermissionEnum.CanAccessAdmin)]
-        [HttpPost]
+        //[HasPermission(PermissionEnum.CanAccessAdmin)]
+        [HttpGet]
         [Route("fetch-used-coupons")]
         public async Task<IActionResult> GetAllCustomerUsedCoupons
             (

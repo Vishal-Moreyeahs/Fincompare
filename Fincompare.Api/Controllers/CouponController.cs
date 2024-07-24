@@ -27,7 +27,7 @@ namespace Fincompare.Api.Controllers
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
-        [HttpPost]
+        [HttpPut]
         [Route("update-coupon")]
         public async Task<IActionResult> UpdateCoupon(UpdateCouponRequest model)
         {

@@ -109,7 +109,7 @@ namespace Fincompare.Application.Services
                     var response = new ApiResponse<IEnumerable<CityDto>>()
                     {
                         Status = false,
-                        Message = "City Not Found !"
+                        Message = "Cities Not Found !"
                     };
                     return response;
                 }
@@ -117,7 +117,7 @@ namespace Fincompare.Application.Services
                 return new ApiResponse<IEnumerable<CityDto>>()
                 {
                     Status = true,
-                    Message = "City Found !",
+                    Message = "Cities Fetched Successfully",
                     Data = data
                 };
             }

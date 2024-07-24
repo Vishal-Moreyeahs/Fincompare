@@ -64,7 +64,7 @@ namespace Fincompare.Api.Controllers
         }
 
         [HasPermission(PermissionEnum.CanAccessMerchant)]
-        [HttpPost]
+        [HttpPut]
         [Route("update-merchant-product-coupons")]
         public async Task<IActionResult> UpdateMerchantProductCoupons(UpdateMerchantProductCouponRequest model)
         {

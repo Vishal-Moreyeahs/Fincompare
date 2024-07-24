@@ -27,7 +27,7 @@ namespace Fincompare.Api.Controllers
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
-        [HttpPost]
+        [HttpPut]
         [Route("update-instrument")]
         public async Task<IActionResult> UpdateInstrument(UpdateInstrumentRequest model)
         {
@@ -36,19 +36,19 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpGet]
-        [Route("getall-instrument")]
+        [Route("fetch-instrument")]
         public async Task<IActionResult> GetAllInstrument(int? idInstrument, bool? status)
         {
             var response = await _instrumentService.GetAllInstrument(idInstrument, status);
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("getby-id-instrument")]
-        public async Task<IActionResult> GetInstrumentById(int id)
-        {
-            var response = await _instrumentService.GetInstrumentById(id);
-            return Ok(response);
-        }
+        //[HttpGet]
+        //[Route("getby-id-instrument")]
+        //public async Task<IActionResult> GetInstrumentById(int id)
+        //{
+        //    var response = await _instrumentService.GetInstrumentById(id);
+        //    return Ok(response);
+        //}
     }
 }

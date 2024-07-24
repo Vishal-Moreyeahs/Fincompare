@@ -32,7 +32,7 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-click-lead-record")]
+        [Route("fetch-click-lead-record")]
         public async Task<IActionResult> GetCustomerReviewRecord(int? merchantId)
         {
             if (!ModelState.IsValid)

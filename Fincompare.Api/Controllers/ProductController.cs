@@ -27,7 +27,7 @@ namespace Fincompare.Api.Controllers
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
-        [HttpPost]
+        [HttpPut]
         [Route("update-product")]
         public async Task<IActionResult> UpdateProduct(UpdateProductRequest model)
         {
@@ -36,19 +36,19 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpGet]
-        [Route("getall-product")]
+        [Route("fetch-product")]
         public async Task<IActionResult> GetAllProduct(string? countryIso3, int? idProduct, int? idServCategory, bool? status)
         {
             var response = await _productService.GetAllProduct(countryIso3, idProduct, idServCategory, status);
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("getby-id-product")]
-        public async Task<IActionResult> GetProductById(int id)
-        {
-            var response = await _productService.GetProductById(id);
-            return Ok(response);
-        }
+        //[HttpGet]
+        //[Route("fetch-id-product")]
+        //public async Task<IActionResult> GetProductById(int id)
+        //{
+        //    var response = await _productService.GetProductById(id);
+        //    return Ok(response);
+        //}
     }
 }

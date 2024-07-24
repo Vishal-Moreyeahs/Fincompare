@@ -34,7 +34,7 @@ namespace Fincompare.Api.Controllers
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
-        [HttpPost]
+        [HttpPut]
         [Route("update-service-categories")]
         public async Task<IActionResult> UpdateServiceCategories(UpdateServiceCategoriesRequest model)
         {

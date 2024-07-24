@@ -46,7 +46,7 @@ namespace Fincompare.Api.Controllers
         }
 
 
-        [HasPermission(PermissionEnum.CanAccessAdmin)]
+        //[HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpGet]
         [Route("getall-group-merchant")]
         public async Task<IActionResult> GetAllGroupMerchant(int? groupMerchantId, string? countryIso3, bool? status)
@@ -55,14 +55,14 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
-        [HasPermission(PermissionEnum.CanAccessMerchant)]
-        [HttpGet]
-        [Route("getby-id-merchant")]
-        public async Task<IActionResult> GetByIdGroupMerchant(int id)
-        {
-            var response = await _groupMerchantService.GetByIdGroupMerchant(id);
-            return Ok(response);
-        }
+        //[HasPermission(PermissionEnum.CanAccessMerchant)]
+        //[HttpGet]
+        //[Route("getby-id-merchant")]
+        //public async Task<IActionResult> GetByIdGroupMerchant(int id)
+        //{
+        //    var response = await _groupMerchantService.GetByIdGroupMerchant(id);
+        //    return Ok(response);
+        //}
 
 
     }

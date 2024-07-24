@@ -32,7 +32,7 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-customers")]
+        [Route("fetch-customers")]
         public async Task<IActionResult> GetCustomerRecord(int? customerId)
         {
             var response = await _customerUserService.GetCustomerAsUser(customerId);

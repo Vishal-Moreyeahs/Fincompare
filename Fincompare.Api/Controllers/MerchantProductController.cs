@@ -36,7 +36,7 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-merchant-product-by-merchantId/{merchantId}")]
+        [Route("fetch-merchant-product-by-merchantId/{merchantId}")]
         public async Task<IActionResult> GetMerchantProductByMerchantId(int merchantId)
         {
             var response = await _merchantProductService.GetMerchantProductByMerchantId(merchantId);

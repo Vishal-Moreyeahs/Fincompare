@@ -1,4 +1,6 @@
 ﻿using Fincompare.Application.Repositories;
+using Fincompare.Domain.Enums;
+using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using static Fincompare.Application.Request.MerchantRemitProductFeeRequests.MerchantRemitProductFeeRequestViewModel;
 
@@ -15,6 +17,7 @@ namespace Fincompare.Api.Controllers
             _merchantRemitFee = merchantRemitFee;
         }
 
+        [HasPermission(PermissionEnum.CanAccessMerchant)]
         [HttpPost]
         [Route("add-merchantremit-fee")]
         public async Task<IActionResult> AddMerchantRemitFee(CreateMerchantRemitProductFeeRequest model)

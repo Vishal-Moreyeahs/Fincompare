@@ -51,7 +51,7 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-user")]
+        [Route("fetch-user")]
         public IActionResult GetUser()
         {
             var response = _unitOfWork.GetRepository<User>().GetAllRelatedEntity();

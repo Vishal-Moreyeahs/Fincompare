@@ -47,20 +47,20 @@ namespace Fincompare.Api.Controllers.Admin
         }
 
         [HttpGet]
-        [Route("get-all-currency")]
+        [Route("fetch-all-currency")]
         public async Task<IActionResult> GetAllCurrency(string? country3Iso, string? currencyIso, bool? status)
         {
             var response = await _currencyServices.GetAllCurrency(country3Iso, currencyIso, status);
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("get-by-currencyid")]
-        public async Task<IActionResult> GetByCurrencyId(string currency3Iso)
-        {
-            var response = await _currencyServices.GetByCurrencyId(currency3Iso);
-            return Ok(response);
-        }
+        //[HttpGet]
+        //[Route("get-by-currencyid")]
+        //public async Task<IActionResult> GetByCurrencyId(string currency3Iso)
+        //{
+        //    var response = await _currencyServices.GetByCurrencyId(currency3Iso);
+        //    return Ok(response);
+        //}
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpDelete]

@@ -33,7 +33,7 @@ namespace Fincompare.Api.Controllers.Admin
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
-        [HttpPost]
+        [HttpPut]
         [Route("update-city")]
         public async Task<IActionResult> UpdateCity(UpdateCityRequest model)
         {
@@ -47,7 +47,7 @@ namespace Fincompare.Api.Controllers.Admin
         }
 
         [HttpGet]
-        [Route("get-all-cities")]
+        [Route("fetch-all-cities")]
         public async Task<IActionResult> GetAllCity(string? countryIso3, int? StateId, int? CityId, bool? Status)
         {
             if (!ModelState.IsValid)
@@ -60,26 +60,26 @@ namespace Fincompare.Api.Controllers.Admin
         }
 
 
-        [HttpGet]
-        [Route("get-city-by-stateid")]
-        public async Task<IActionResult> GetCityByStateId(int stateId)
-        {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
-            var response = await _cityServices.GetCityByStateId(stateId);
-            return Ok(response);
-        }
+        //[HttpGet]
+        //[Route("get-city-by-stateid")]
+        //public async Task<IActionResult> GetCityByStateId(int stateId)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        // Return a 400 Bad Request response with validation errors
+        //        return BadRequest(ModelState);
+        //    }
+        //    var response = await _cityServices.GetCityByStateId(stateId);
+        //    return Ok(response);
+        //}
 
-        [HttpGet]
-        [Route("get-by-cityid")]
-        public async Task<IActionResult> GetByCityId(int cityId)
-        {
-            var response = await _cityServices.GetCityByStateId(cityId);
-            return Ok(response);
-        }
+        //[HttpGet]
+        //[Route("get-by-cityid")]
+        //public async Task<IActionResult> GetByCityId(int cityId)
+        //{
+        //    var response = await _cityServices.GetCityByStateId(cityId);
+        //    return Ok(response);
+        //}
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpDelete]

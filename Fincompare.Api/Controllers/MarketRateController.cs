@@ -26,9 +26,9 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
-        [HasPermission(PermissionEnum.CanAccessAdmin)]
+        //[HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpGet]
-        [Route("get-all-market-rate")]
+        [Route("fetch-all-market-rate")]
         public async Task<IActionResult> GetAllMarketRates()
         {
             var response = await _marketRateServices.GetAllMarketRates();
@@ -37,7 +37,7 @@ namespace Fincompare.Api.Controllers
 
 
         [HttpGet]
-        [Route("get-market-rate-by-id")]
+        [Route("fetch-market-rate-by-id")]
         public async Task<IActionResult> GetMarketRatesById(int marketRateId)
         {
             var response = await _marketRateServices.GetMarketRateById(marketRateId);
@@ -45,7 +45,7 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-market-rate-by-sendCurr")]
+        [Route("fetch-market-rate-by-sendCurr")]
         public async Task<IActionResult> GetMarketRatesBySourceCurrency(string sendCurr)
         {
             var response = await _marketRateServices.GetMarketRateBySendCurr(sendCurr);
@@ -54,15 +54,15 @@ namespace Fincompare.Api.Controllers
 
 
         [HttpGet]
-        [Route("get-market-rate-by-sendAndReceiveCurr")]
+        [Route("fetch-market-rate-by-sendAndReceiveCurr")]
         public async Task<IActionResult> GetMarketRateBySourceAndDestCurr(string sendCurr, string receiveCurr)
         {
             var response = await _marketRateServices.GetMarketRateBySourceAndDestCurr(sendCurr, receiveCurr);
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("get-market-rate-api")]
+        [HttpPost]
+        [Route("update-market-rate-api")]
         private async Task<IActionResult> UpdateDbCurrencyExchangeRates()
         {
             var response = await _marketRateServices.UpdateDbCurrencyExchangeRates();

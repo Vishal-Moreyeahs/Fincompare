@@ -31,7 +31,7 @@ namespace Fincompare.Api.Controllers.Admin
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
-        [HttpPost]
+        [HttpPut]
         [Route("update")]
         public async Task<IActionResult> UpdateCountry(CountryRequest request)
         {
@@ -52,17 +52,17 @@ namespace Fincompare.Api.Controllers.Admin
         }
 
         [HttpGet]
-        [Route("get-all-countries")]
+        [Route("fetch-all-countries")]
         public async Task<IActionResult> GetAllCountry(string? country3iso, bool? status)
         {
             return Ok(await _countryServices.GetAllCountry(country3iso, status));
         }
 
-        [HttpGet]
-        [Route("get-by-country3Iso")]
-        public async Task<IActionResult> GetCountryById(string country3iso)
-        {
-            return Ok(await _countryServices.GetCountryByCountryName(country3iso));
-        }
+        //[HttpGet]
+        //[Route("get-by-country3Iso")]
+        //public async Task<IActionResult> GetCountryById(string country3iso)
+        //{
+        //    return Ok(await _countryServices.GetCountryByCountryName(country3iso));
+        //}
     }
 }

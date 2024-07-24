@@ -32,7 +32,7 @@ namespace Fincompare.Api.Controllers.Admin
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
-        [HttpPost]
+        [HttpPut]
         [Route("update-country-currency")]
         public async Task<IActionResult> UpdateCountryCurrency(UpdateCountryCurrencyRequest model)
         {
@@ -46,7 +46,7 @@ namespace Fincompare.Api.Controllers.Admin
         }
 
         [HttpGet]
-        [Route("get-currencies-by-country3iso")]
+        [Route("fetch-currencies-by-country3iso")]
         public async Task<IActionResult> GetCurrenciesbyCountry(string? country3iso, string? categoryId)
         {
             var response = await _countryCurrencyManager.GetCurrenciesbyCountry3Iso(country3iso, categoryId);

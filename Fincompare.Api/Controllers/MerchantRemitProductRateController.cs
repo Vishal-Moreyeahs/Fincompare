@@ -30,8 +30,8 @@ namespace Fincompare.Api.Controllers
 
 
         [HttpPut]
-        [Route("get-merchant-rates-by-merchantid/{merchantId}")]
-        private async Task<IActionResult> UpdateMerchantRemitFee(int merchantId)
+        [Route("fetch-merchant-rates-by-merchantid/{merchantId}")]
+        private async Task<IActionResult> GetMerchantRateByMerchant(int merchantId)
         {
             var response = await _merchantRemitProductRateService.GetAllMerchantRemitProductRateByMerchant(merchantId);
             return Ok(response);

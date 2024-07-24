@@ -28,30 +28,27 @@ namespace Fincompare.Application.Services
                 {
                     return new ApiResponse<CountryRequest>()
                     {
-                        Status = true,
+                        Status = false,
                         Message = "Country already exist"
                     };
                 }
 
                 var country = _mapper.Map<Country>(addCountry);
-                //country.CreatedDate = DateTime.UtcNow;
-                //country.UpdatedDate = DateTime.UtcNow;
                 await _unitOfWork.GetRepository<Country>().Add(country);
                 await _unitOfWork.SaveChangesAsync();
                 var data = _mapper.Map<CountryRequest>(country);
                 var response = new ApiResponse<CountryRequest>()
                 {
                     Status = true,
-                    Message = "Country Created Successfully",
+                    Message = "Country created successfully",
                     Data = data
                 };
                 return response;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Country not created");
+                throw new ApplicationException("country creation failed");
             }
-
         }
 
         public async Task<ApiResponse<List<GetCountryDto>>> GetAllCountry(string? country3iso, bool? status)
