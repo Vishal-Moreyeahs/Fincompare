@@ -1,4 +1,5 @@
-﻿using Fincompare.Application.Repositories;
+﻿using Fincompare.Api.Middleware;
+using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MarketRateRequest;
 using Fincompare.Domain.Enums;
 using Fincompare.Infrastructure.Authentication;
@@ -19,6 +20,7 @@ namespace Fincompare.Api.Controllers
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
+        [ValidateModelState]
         [Route("add-market-rate")]
         public async Task<IActionResult> AddMarketRate(List<AddMarketRate> model)
         {

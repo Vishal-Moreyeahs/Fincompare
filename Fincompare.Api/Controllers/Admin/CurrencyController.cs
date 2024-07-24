@@ -1,4 +1,5 @@
-﻿using Fincompare.Application.Contracts.Persistence;
+﻿using Fincompare.Api.Middleware;
+using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Domain.Enums;
 using Fincompare.Infrastructure.Authentication;
@@ -19,29 +20,21 @@ namespace Fincompare.Api.Controllers.Admin
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
+        [ValidateModelState]
         [HttpPost]
         [Route("add-all-currency")]
         public async Task<IActionResult> AddCurrency(AddCurrencyRequests model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _currencyServices.AddCurrency(model);
             return Ok(response);
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
+        [ValidateModelState]
         [HttpPut]
         [Route("update-currency")]
         public async Task<IActionResult> UpdateCurrency(UpdateCurrencyRequests model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _currencyServices.UpdateCurrency(model);
             return Ok(response);
         }

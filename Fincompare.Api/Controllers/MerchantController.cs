@@ -1,4 +1,5 @@
-﻿using Fincompare.Application.Repositories;
+﻿using Fincompare.Api.Middleware;
+using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MerchantRequests;
 using Fincompare.Domain.Enums;
 using Fincompare.Infrastructure.Authentication;
@@ -19,14 +20,10 @@ namespace Fincompare.Api.Controllers
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
+        [ValidateModelState]
         [Route("add-merchant")]
         public async Task<IActionResult> AddMerchant(AddMerchantRequest model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _merchantServices.AddMerchant(model);
             return Ok(response);
         }
@@ -70,14 +67,10 @@ namespace Fincompare.Api.Controllers
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPut]
+        [ValidateModelState]
         [Route("update-merchant")]
         public async Task<IActionResult> UpdateMerchant(UpdateMerchantRequest model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _merchantServices.EditMerchantProfile(model);
             return Ok(response);
         }

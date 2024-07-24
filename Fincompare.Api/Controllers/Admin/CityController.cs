@@ -1,4 +1,5 @@
-﻿using Fincompare.Application.Repositories;
+﻿using Fincompare.Api.Middleware;
+using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.CityRequest;
 using Fincompare.Domain.Enums;
 using Fincompare.Infrastructure.Authentication;
@@ -19,29 +20,21 @@ namespace Fincompare.Api.Controllers.Admin
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
+        [ValidateModelState]
         [HttpPost]
         [Route("add-city")]
         public async Task<IActionResult> AddCity(AddCityRequest model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _cityServices.AddCity(model);
             return Ok(response);
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
+        [ValidateModelState]
         [HttpPut]
         [Route("update-city")]
         public async Task<IActionResult> UpdateCity(UpdateCityRequest model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _cityServices.UpdateCity(model);
             return Ok(response);
         }
@@ -50,11 +43,6 @@ namespace Fincompare.Api.Controllers.Admin
         [Route("fetch-all-cities")]
         public async Task<IActionResult> GetAllCity(string? countryIso3, int? StateId, int? CityId, bool? Status)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _cityServices.GetAllCity(countryIso3, StateId, CityId, Status);
             return Ok(response);
         }

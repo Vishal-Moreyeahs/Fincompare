@@ -1,4 +1,5 @@
-﻿using Fincompare.Application.Repositories;
+﻿using Fincompare.Api.Middleware;
+using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.ClickLeadRequests;
 using Fincompare.Application.Services;
 using Fincompare.Domain.Enums;
@@ -22,14 +23,10 @@ namespace Fincompare.Api.Controllers
 
         //[HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
+        [ValidateModelState]
         [Route("add-click-lead-record")]
         public async Task<IActionResult> AddClickLeadRecord(AddClickLeadRequest model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _clickLeadService.AddClickLeadRedirections(model);
             return Ok(response);
         }

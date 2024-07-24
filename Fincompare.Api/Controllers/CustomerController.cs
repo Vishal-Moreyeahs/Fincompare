@@ -1,4 +1,5 @@
-﻿using Fincompare.Application.Repositories;
+﻿using Fincompare.Api.Middleware;
+using Fincompare.Application.Repositories;
 using Fincompare.Application.Request;
 using Fincompare.Application.Request.CustomerRequests;
 using Fincompare.Application.Services;
@@ -19,14 +20,10 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpPost]
+        [ValidateModelState]
         [Route("add-customer")]
         public async Task<IActionResult> AddCustomerRecord(AddCustomerRequest model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _customerUserService.AddCustomerAsUser(model);
             return Ok(response);
         }
@@ -40,14 +37,10 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpPut]
+        [ValidateModelState]
         [Route("update-customer")]
         public async Task<IActionResult> UpdateCustomerRecord(UpdateCustomerRequest model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _customerUserService.UpdateCustomerAsUser(model);
 
             return Ok(response);
