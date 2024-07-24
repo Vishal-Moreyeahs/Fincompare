@@ -25,6 +25,13 @@ namespace Fincompare.Api.Controllers.Admin
         {
             if (!ModelState.IsValid)
             {
+                var validationErrors = ModelState.Keys
+                .SelectMany(key => ModelState[key].Errors.Select(x => new
+                {
+                    Field = key,
+                    Error = x.ErrorMessage
+                }))
+                .ToList();
                 // Return a 400 Bad Request response with validation errors
                 return BadRequest(ModelState);
             }
