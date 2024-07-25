@@ -24,18 +24,17 @@ namespace Fincompare.Application.Services
             try
             {
                 if (model == null)
-                    return new ApiResponse<CreateInstrumentRequest>() { Success = false, Message = "Request Not Accepted !" };
+                    return new ApiResponse<CreateInstrumentRequest>() { Success = false, Message = "instrument creation failed" };
                 var createInstrument = _mapper.Map<Instrument>(model);
                 await _unitOfWork.GetRepository<Instrument>().Add(createInstrument);
                 await _unitOfWork.SaveChangesAsync();
                 var response = _mapper.Map<CreateInstrumentRequest>(createInstrument);
-                return new ApiResponse<CreateInstrumentRequest>() { Success = true, Message = "Instrument creation Successfully !", Data = response };
+                return new ApiResponse<CreateInstrumentRequest>() { Success = true, Message = "instrument record created successfully", Data = response };
 
             }
             catch (Exception ex)
             {
-
-                throw new ArgumentException(ex.Message);
+                throw new ArgumentException($"instrument creation failed {ex.Message}");
             }
         }
 
@@ -45,16 +44,16 @@ namespace Fincompare.Application.Services
             {
                 var checkInstrument = await _unitOfWork.GetRepository<Instrument>().GetById(model.Id);
                 if (checkInstrument == null)
-                    return new ApiResponse<CreateInstrumentRequest>() { Success = false, Message = "Request Not Accepted" };
+                    return new ApiResponse<CreateInstrumentRequest>() { Success = false, Message = "instrument not found" };
                 var updateDate = _mapper.Map(model, checkInstrument);
                 await _unitOfWork.GetRepository<Instrument>().Upsert(updateDate);
                 await _unitOfWork.SaveChangesAsync();
                 var response = _mapper.Map<CreateInstrumentRequest>(updateDate);
-                return new ApiResponse<CreateInstrumentRequest>() { Success = true, Message = "Instrument Updated Successfully !", Data = response };
+                return new ApiResponse<CreateInstrumentRequest>() { Success = true, Message = "instrument record updated successfully", Data = response };
             }
             catch (Exception ex)
             {
-                throw new ArgumentException(ex.Message);
+                throw new ArgumentException($"instrument update failed {ex.Message}");
             }
         }
 
@@ -82,8 +81,8 @@ namespace Fincompare.Application.Services
                     }).ToList();
 
                 if (getListOfAllInstrument.Count == 0)
-                    return new ApiResponse<IEnumerable<GetAllInstrumentResponse>>() { Success = false, Message = "Instrument Not Found!" };
-                return new ApiResponse<IEnumerable<GetAllInstrumentResponse>>() { Success = true, Message = "Instrument Found!", Data = getListOfAllInstrument };
+                    return new ApiResponse<IEnumerable<GetAllInstrumentResponse>>() { Success = false, Message = "instrument fetch failed" };
+                return new ApiResponse<IEnumerable<GetAllInstrumentResponse>>() { Success = true, Message = "instrument record fetched successfully", Data = getListOfAllInstrument };
             }
             catch (Exception ex)
             {

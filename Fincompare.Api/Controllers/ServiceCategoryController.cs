@@ -17,6 +17,7 @@ namespace Fincompare.Api.Controllers
         {
             _serviceCategory = serviceCategory;
         }
+
         [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
         [ValidateModelState]

@@ -24,15 +24,15 @@ namespace Fincompare.Application.Services
             try
             {
                 if (model == null)
-                    return new ApiResponse<string>() { Success = false, Message = "Coupon usage failed" };
+                    return new ApiResponse<string>() { Success = false, Message = "customer used coupon creation failed" };
                 var usedCoupon = _mapper.Map<CustomerUsedCoupon>(model);
                 await _unitOfWork.GetRepository<CustomerUsedCoupon>().Add(usedCoupon);
                 await _unitOfWork.SaveChangesAsync();
-                return new ApiResponse<string>() { Success = true, Message = "Coupon captured successfully" };
+                return new ApiResponse<string>() { Success = true, Message = "customer used coupon record created successfully" };
             }
             catch (Exception ex)
             {
-                throw new ApplicationException(ex.Message);
+                throw new ApplicationException($"customer used coupon creation failed {ex.Message}");
 
             }
 
@@ -107,14 +107,14 @@ namespace Fincompare.Application.Services
                 var response = _mapper.Map<IEnumerable<GetAllCustomerUsedCouponResponse>>(getAllCustomerUsed);
 
                 if (getAllCustomerUsed.ToList().Count > 0)
-                    return new ApiResponse<IEnumerable<GetAllCustomerUsedCouponResponse>>() { Success = true, Message = "Fetch All Used Coupons Successfully!", Data = response };
-                return new ApiResponse<IEnumerable<GetAllCustomerUsedCouponResponse>>() { Success = true, Message = "Used Coupons Fetch Failed!" };
+                    return new ApiResponse<IEnumerable<GetAllCustomerUsedCouponResponse>>() { Success = true, Message = "customer used coupon record fetched successfully", Data = response };
+                return new ApiResponse<IEnumerable<GetAllCustomerUsedCouponResponse>>() { Success = false, Message = "customer used coupon fetch failed" };
 
             }
             catch (Exception ex)
             {
 
-                throw new ApplicationException(ex.Message);
+                throw new ApplicationException($"customer used coupon fetch failed {ex.Message}");
 
             }
         }

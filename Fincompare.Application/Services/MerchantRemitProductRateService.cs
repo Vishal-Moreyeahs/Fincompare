@@ -22,7 +22,7 @@ namespace Fincompare.Application.Services
             try
             {
                 if (model == null)
-                    return new ApiResponse<MerchantRemitProductRateViewModel>() { Success = false, Message = "Request are invalid !" };
+                    return new ApiResponse<MerchantRemitProductRateViewModel>() { Success = false, Message = "merchant product remmitance rate creation failed" };
 
                 var requestData = _mapper.Map<MerchantRemitProductRate>(model);
 
@@ -58,12 +58,12 @@ namespace Fincompare.Application.Services
                     Status = true
                 };
 
-                return new ApiResponse<MerchantRemitProductRateViewModel>() { Success = true, Message = "Merchant Remittance Product Rate created successfully!", Data = data };
+                return new ApiResponse<MerchantRemitProductRateViewModel>() { Success = true, Message = "Merchant Remittance Product Rate record created successfully!", Data = data };
 
             }
             catch (Exception ex)
             {
-                throw new NotImplementedException(ex.Message);
+                throw new NotImplementedException($"merchant product remmitance rate creation failed {ex.Message}");
             }
         }
 
@@ -135,13 +135,13 @@ namespace Fincompare.Application.Services
 
 
                 if (innerData.Count > 0)
-                    return new ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>() { Success = true, Message = "Remittance Rate Fetch Successfully!", Data = innerData };
-                return new ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>() { Success = false, Message = "Remittance Rate Not Found!" };
+                    return new ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>() { Success = true, Message = "merchant product remmitance rate record fetched successfully", Data = innerData };
+                return new ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>() { Success = false, Message = "merchant product remmitance rate fetch failed" };
 
             }
             catch (Exception ex)
             {
-                throw new ApplicationException(ex.Message);
+                throw new ApplicationException($"merchant product remmitance rate fetch failed {ex.Message}");
             }
 
         }
@@ -189,13 +189,13 @@ namespace Fincompare.Application.Services
 
 
                 if (innerData.Count > 0)
-                    return new ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>() { Success = true, Message = "Remittance Rate Fetch Successfully!", Data = innerData };
-                return new ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>() { Success = false, Message = "Remittance Rate Not Found!" };
+                    return new ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>() { Success = true, Message = "merchant product remmitance rate record fetched successfully", Data = innerData };
+                return new ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>() { Success = false, Message = "merchant product remmitance rate fetch failed" };
 
             }
             catch (Exception ex)
             {
-                throw new ApplicationException(ex.Message);
+                throw new ApplicationException($"merchant product remmitance rate fetch failed {ex.Message}");
             }
 
         }
@@ -264,12 +264,12 @@ namespace Fincompare.Application.Services
 
 
                 if (innerData.Count > 0)
-                    return new ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>() { Success = true, Message = "Remittance Rate Fetch Successfully!", Data = innerData };
-                return new ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>() { Success = false, Message = "Remittance Rate Not Found!" };
+                    return new ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>() { Success = true, Message = "merchant product remmitance rate record fetched successfully", Data = innerData };
+                return new ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>() { Success = false, Message = "merchant product remmitance rate fetch failed" };
             }
             catch (Exception ex)
             {
-                throw new ApplicationException(ex.Message);
+                throw new ApplicationException($"merchant product remmitance rate fetch failed {ex.Message}");
             }
 
         }

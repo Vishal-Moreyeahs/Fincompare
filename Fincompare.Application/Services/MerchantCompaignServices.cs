@@ -150,8 +150,8 @@ namespace Fincompare.Application.Services
 
 
             if (data.Count > 0)
-                return new ApiResponse<IEnumerable<MerchantCompaignResponseViewModel>>() { Success = true, Message = "Merchant campaign Fetched Successfully!", Data = data };
-            return new ApiResponse<IEnumerable<MerchantCompaignResponseViewModel>>() { Success = false, Message = "Merchant campaign Not Found!" };
+                return new ApiResponse<IEnumerable<MerchantCompaignResponseViewModel>>() { Success = true, Message = "Merchant campaign record fetched successfully", Data = data };
+            return new ApiResponse<IEnumerable<MerchantCompaignResponseViewModel>>() { Success = false, Message = "Merchant campaign fetch failed" };
         }
 
         public async Task<ApiResponse<MerchantCompaignResponseViewModel>> UpdateMerchantCompaign(UpdateMerchantCompaignRequest model)

@@ -26,59 +26,75 @@ namespace Fincompare.Application.Services
         {
             // Validate request
 
-
-            // Validate foreign keys
-            if (model.Count == 0)
-                return new ApiResponse<string>() { Success = false, Data = "Mid-market rate creation failed" };
-
-            //var sendCurrency = await _unitOfWork.GetRepository<Currency>().GetById(model.SendCur);
-
-            //if (sendCurrency == null)
-            //{
-            //    throw new ArgumentException("Invalid Send Currency.");
-            //}
-
-            //var receiveCurrency = await _unitOfWork.GetRepository<Currency>().GetById(model.ReceiveCur);
-            //if (receiveCurrency == null)
-            //{
-            //    throw new ArgumentException("Invalid Receive Currency.");
-            //}
-
-            // Map request to entity
-            var marketRate = _mapper.Map<List<MarketRate>>(model);
-            // Add to database
-            await _unitOfWork.GetRepository<MarketRate>().AddRange(marketRate);
-
-            // Save changes asynchronously
-            await _unitOfWork.SaveChangesAsync();
-
-            var response = new ApiResponse<string>()
+            try
             {
-                Success = true,
-                Message = "Mid-market rate created successfully"
-            };
+                if (model.Count == 0)
+                    return new ApiResponse<string>() { Success = false, Data = "Mid-market rate creation failed" };
 
-            return response;
+                //var sendCurrency = await _unitOfWork.GetRepository<Currency>().GetById(model.SendCur);
+
+                //if (sendCurrency == null)
+                //{
+                //    throw new ArgumentException("Invalid Send Currency.");
+                //}
+
+                //var receiveCurrency = await _unitOfWork.GetRepository<Currency>().GetById(model.ReceiveCur);
+                //if (receiveCurrency == null)
+                //{
+                //    throw new ArgumentException("Invalid Receive Currency.");
+                //}
+
+                // Map request to entity
+                var marketRate = _mapper.Map<List<MarketRate>>(model);
+                // Add to database
+                await _unitOfWork.GetRepository<MarketRate>().AddRange(marketRate);
+
+                // Save changes asynchronously
+                await _unitOfWork.SaveChangesAsync();
+
+                var response = new ApiResponse<string>()
+                {
+                    Success = true,
+                    Message = "Mid-market rate record created successfully"
+                };
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException($"Mid-market rate creation failed {ex.Message}");
+            }
+            // Validate foreign keys
+            
         }
 
         public async Task<ApiResponse<IEnumerable<MarketRateDto>>> GetAllMarketRates()
         {
-            var marketRates = await _unitOfWork.GetRepository<MarketRate>().GetAll();
-
-            if (marketRates == null || marketRates.ToList().Count == 0)
+            try
             {
-                throw new ApplicationException("Market Rates not found");
+                var marketRates = await _unitOfWork.GetRepository<MarketRate>().GetAll();
+
+                if (marketRates == null || marketRates.ToList().Count == 0)
+                {
+                    throw new ApplicationException("Mid-Market Rates fetch failed");
+                }
+
+                var data = _mapper.Map<IEnumerable<MarketRateDto>>(marketRates);
+
+                var response = new ApiResponse<IEnumerable<MarketRateDto>>()
+                {
+                    Success = true,
+                    Message = "Mid-Market rate record fetched successfully",
+                    Data = data
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException($"Mid-market rate fetch failed {ex.Message}");
+
             }
 
-            var data = _mapper.Map<IEnumerable<MarketRateDto>>(marketRates);
-
-            var response = new ApiResponse<IEnumerable<MarketRateDto>>()
-            {
-                Success = true,
-                Message = "Market Rates Fetched",
-                Data = data
-            };
-            return response;
         }
 
         public async Task<MarketRateStatisticsData> GetAllMarketRatesStatistics(string sendCurr, string receiveCurr)
@@ -112,22 +128,29 @@ namespace Fincompare.Application.Services
 
         public async Task<ApiResponse<MarketRateDto>> GetMarketRateById(int id)
         {
-            var marketRate = await _unitOfWork.GetRepository<MarketRate>().GetById(id);
-
-            if (marketRate == null)
+            try
             {
-                throw new ApplicationException("Market Rate not found");
+                var marketRate = await _unitOfWork.GetRepository<MarketRate>().GetById(id);
+
+                if (marketRate == null)
+                {
+                    throw new ApplicationException("Mid-Market rate fetch failed");
+                }
+
+                var data = _mapper.Map<MarketRateDto>(marketRate);
+
+                var response = new ApiResponse<MarketRateDto>()
+                {
+                    Success = true,
+                    Message = "Mid-Market Rate record fetched successfully",
+                    Data = data
+                };
+                return response;
+            }
+            catch (Exception ex) {
+                throw new ApplicationException($"Mid-market rate fetch failed {ex.Message}");
             }
 
-            var data = _mapper.Map<MarketRateDto>(marketRate);
-
-            var response = new ApiResponse<MarketRateDto>()
-            {
-                Success = true,
-                Message = "Market Rate Fetched",
-                Data = data
-            };
-            return response;
         }
 
         public async Task<ApiResponse<List<MarketRateDto>>> GetMarketRateBySendCurr(string sendCurr)
@@ -162,7 +185,7 @@ namespace Fincompare.Application.Services
                 var data = _mapper.Map<List<MarketRateDto>>(marketCurrRates);
 
                 response.Success = true;
-                response.Message = "Market Rate Fetched";
+                response.Message = "Market Rate record fetched successfully";
                 response.Data = data;
             }
             catch (Exception ex)
@@ -170,7 +193,7 @@ namespace Fincompare.Application.Services
                 // Log the exception (you can replace this with your logging framework)
 
                 response.Success = false;
-                response.Message = "An error occurred while fetching market rates.";
+                response.Message = "Mid-Market rate fetch failed";
             }
 
             return response;
@@ -209,7 +232,7 @@ namespace Fincompare.Application.Services
                 var data = _mapper.Map<MarketRateDto>(marketCurrRates);
 
                 response.Success = true;
-                response.Message = "Market Rate Fetched";
+                response.Message = "Market Rate record fetched successfully";
                 response.Data = data;
             }
             catch (Exception ex)
@@ -217,7 +240,7 @@ namespace Fincompare.Application.Services
                 // Log the exception (you can replace this with your logging framework)
 
                 response.Success = false;
-                response.Message = "An error occurred while fetching market rates.";
+                response.Message = "Mid-Market rate fetch failed";
             }
 
             return response;

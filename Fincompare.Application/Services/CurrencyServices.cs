@@ -27,7 +27,7 @@ namespace Fincompare.Application.Services
 
 
                 if (checkCurrency != null)
-                    return new ApiResponse<Currency>() { Success = false, Message = "Currency already exists" };
+                    return new ApiResponse<Currency>() { Success = false, Message = "currency creation failed" };
                 var currency = _mapper.Map<Currency>(model);
                 await _unitOfWork.GetRepository<Currency>().Add(currency);
                 await _unitOfWork.SaveChangesAsync();
@@ -35,13 +35,13 @@ namespace Fincompare.Application.Services
                 return new ApiResponse<Currency>()
                 {
                     Success = true,
-                    Message = "Currency Created Successfully !",
+                    Message = "currency record created successfully",
                     Data = currency
                 };
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new ApplicationException($"currency creation failed {ex.Message}");
             }
 
         }
@@ -55,7 +55,7 @@ namespace Fincompare.Application.Services
                     return new ApiResponse<Currency>()
                     {
                         Success = false,
-                        Message = "Currency Not Found !"
+                        Message = "currency update failed"
                     };
 
                 var updateCurrency = _mapper.Map(model, checkCurrency);
@@ -64,14 +64,14 @@ namespace Fincompare.Application.Services
                 return new ApiResponse<Currency>()
                 {
                     Success = true,
-                    Message = "Currency Update Successfully !",
+                    Message = "currency record updated successfully",
                     Data = updateCurrency
                 };
             }
             catch (Exception ex)
             {
 
-                throw ex;
+                throw new ApplicationException($"currency update failed {ex.Message}");
             }
         }
 
@@ -121,20 +121,19 @@ namespace Fincompare.Application.Services
                     return new ApiResponse<IEnumerable<GetAllCurrencyResponse>>()
                     {
                         Success = true,
-                        Message = "Currency Found !",
+                        Message = "currency record fetched successfully",
                         Data = getData
                     };
                 return new ApiResponse<IEnumerable<GetAllCurrencyResponse>>()
                 {
                     Success = false,
-                    Message = "Currency Not Found !",
+                    Message = "currency fetch failed",
                     Data = getData
                 };
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                throw new ApplicationException($"currency fetch failed {ex.Message}");
             }
 
         }
@@ -164,17 +163,17 @@ namespace Fincompare.Application.Services
             {
                 var checkCurrency = await _unitOfWork.GetRepository<Currency>().GetById(id);
                 if (checkCurrency == null)
-                    return new ApiResponse<string>() { Success = false, Message = "Currency Not Found !" };
+                    return new ApiResponse<string>() { Success = false, Message = "currency delete failed" };
 
                 //checkCurrency.Status = false;
                 checkCurrency.IsDeleted = true;
                 await _unitOfWork.GetRepository<Currency>().Upsert(checkCurrency);
                 await _unitOfWork.SaveChangesAsync();
-                return new ApiResponse<string>() { Success = true, Message = "Currency Deleted Successfully !" };
+                return new ApiResponse<string>() { Success = true, Message = "currency record deleted successfully" };
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new ApplicationException($"currency delete failed {ex.Message}");
             }
         }
 
