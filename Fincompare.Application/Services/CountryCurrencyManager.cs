@@ -85,7 +85,7 @@ namespace Fincompare.Application.Services
 
                 var response = new ApiResponse<List<GetCountryCurrencyResponse>>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = "Currencies fetched",
                     Data = currencies
                 };
@@ -139,7 +139,7 @@ namespace Fincompare.Application.Services
 
                 var response = new ApiResponse<List<GetCountryCurrencyResponse>>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = $"Country Currencies Created successfully",
                     Data = data
                 };
@@ -181,7 +181,7 @@ namespace Fincompare.Application.Services
                 };
 
                 response.Message = "country currency updated successfully";
-                response.Status = true;
+                response.Success = true;
                 response.Data = data;
                 return response;
             }

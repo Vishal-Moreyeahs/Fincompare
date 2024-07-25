@@ -26,7 +26,7 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<GetAllGroupMerchantResponse>()
                     {
-                        Status = true,
+                        Success = true,
                         Message = "Merchant Group Creation Failed"
                     };
                 var createdData = _mapper.Map<GroupMerchant>(model);
@@ -34,7 +34,7 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.SaveChangesAsync();
 
                 var data = _mapper.Map<GetAllGroupMerchantResponse>(createdData);
-                return new ApiResponse<GetAllGroupMerchantResponse>() { Status = true, Message = "Group Merchant Created Successfully", Data = data };
+                return new ApiResponse<GetAllGroupMerchantResponse>() { Success = true, Message = "Group Merchant Created Successfully", Data = data };
 
                 //var response = new ApiResponse<string>()
                 //{
@@ -56,12 +56,12 @@ namespace Fincompare.Application.Services
             {
                 var checkGroup = await _unitOfWork.GetRepository<GroupMerchant>().GetById(model.Id);
                 if (checkGroup == null)
-                    return new ApiResponse<UpdateGroupMerchantRequestClass>() { Status = false, Message = "Group Updating Failed" };
+                    return new ApiResponse<UpdateGroupMerchantRequestClass>() { Success = false, Message = "Group Updating Failed" };
                 var groupData = _mapper.Map(model, checkGroup);
                 await _unitOfWork.GetRepository<GroupMerchant>().Upsert(groupData);
                 await _unitOfWork.SaveChangesAsync();
                 var data = _mapper.Map<UpdateGroupMerchantRequestClass>(model);
-                return new ApiResponse<UpdateGroupMerchantRequestClass>() { Status = true, Message = "group merchant updated successfully", Data = data };
+                return new ApiResponse<UpdateGroupMerchantRequestClass>() { Success = true, Message = "group merchant updated successfully", Data = data };
 
             }
             catch (Exception ex)
@@ -102,8 +102,8 @@ namespace Fincompare.Application.Services
                         Status = x.Status
                     }).ToList();
                 if (getData.Count == 0)
-                    return new ApiResponse<IEnumerable<GetAllGroupMerchantResponse>>() { Status = false, Message = "Group Not Found!" };
-                return new ApiResponse<IEnumerable<GetAllGroupMerchantResponse>>() { Status = true, Message = "Merchant Group Found!", Data = getData };
+                    return new ApiResponse<IEnumerable<GetAllGroupMerchantResponse>>() { Success = false, Message = "Group Not Found!" };
+                return new ApiResponse<IEnumerable<GetAllGroupMerchantResponse>>() { Success = true, Message = "Merchant Group Found!", Data = getData };
             }
             catch (Exception ex)
             {
@@ -119,8 +119,8 @@ namespace Fincompare.Application.Services
                 var getData = await _unitOfWork.GetRepository<GroupMerchant>().GetById(id);
                 var getGroupData = _mapper.Map<GetAllGroupMerchantResponse>(getData);
                 if (getGroupData == null)
-                    return new ApiResponse<GetAllGroupMerchantResponse>() { Status = false, Message = "Group Not Found !" };
-                return new ApiResponse<GetAllGroupMerchantResponse>() { Status = true, Message = "Merchant Group Found !", Data = getGroupData };
+                    return new ApiResponse<GetAllGroupMerchantResponse>() { Success = false, Message = "Group Not Found !" };
+                return new ApiResponse<GetAllGroupMerchantResponse>() { Success = true, Message = "Merchant Group Found !", Data = getGroupData };
             }
             catch (Exception ex)
             {

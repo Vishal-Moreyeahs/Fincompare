@@ -27,14 +27,14 @@ namespace Fincompare.Application.Services
 
 
                 if (checkCurrency != null)
-                    return new ApiResponse<Currency>() { Status = false, Message = "Currency already exists" };
+                    return new ApiResponse<Currency>() { Success = false, Message = "Currency already exists" };
                 var currency = _mapper.Map<Currency>(model);
                 await _unitOfWork.GetRepository<Currency>().Add(currency);
                 await _unitOfWork.SaveChangesAsync();
 
                 return new ApiResponse<Currency>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = "Currency Created Successfully !",
                     Data = currency
                 };
@@ -54,7 +54,7 @@ namespace Fincompare.Application.Services
                 if (checkCurrency == null)
                     return new ApiResponse<Currency>()
                     {
-                        Status = false,
+                        Success = false,
                         Message = "Currency Not Found !"
                     };
 
@@ -63,7 +63,7 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.SaveChangesAsync();
                 return new ApiResponse<Currency>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = "Currency Update Successfully !",
                     Data = updateCurrency
                 };
@@ -120,13 +120,13 @@ namespace Fincompare.Application.Services
                 if (getData.Count > 0)
                     return new ApiResponse<IEnumerable<GetAllCurrencyResponse>>()
                     {
-                        Status = true,
+                        Success = true,
                         Message = "Currency Found !",
                         Data = getData
                     };
                 return new ApiResponse<IEnumerable<GetAllCurrencyResponse>>()
                 {
-                    Status = false,
+                    Success = false,
                     Message = "Currency Not Found !",
                     Data = getData
                 };
@@ -146,13 +146,13 @@ namespace Fincompare.Application.Services
             if (getAllCurrency == null)
                 return new ApiResponse<GetCurrencyResponse>()
                 {
-                    Status = false,
+                    Success = false,
                     Message = "Currency Not Found !",
                 };
             var getData = _mapper.Map<GetCurrencyResponse>(getAllCurrency);
             return new ApiResponse<GetCurrencyResponse>()
             {
-                Status = true,
+                Success = true,
                 Message = "Currency Found !",
                 Data = getData
             };
@@ -164,13 +164,13 @@ namespace Fincompare.Application.Services
             {
                 var checkCurrency = await _unitOfWork.GetRepository<Currency>().GetById(id);
                 if (checkCurrency == null)
-                    return new ApiResponse<string>() { Status = false, Message = "Currency Not Found !" };
+                    return new ApiResponse<string>() { Success = false, Message = "Currency Not Found !" };
 
                 //checkCurrency.Status = false;
                 checkCurrency.IsDeleted = true;
                 await _unitOfWork.GetRepository<Currency>().Upsert(checkCurrency);
                 await _unitOfWork.SaveChangesAsync();
-                return new ApiResponse<string>() { Status = true, Message = "Currency Deleted Successfully !" };
+                return new ApiResponse<string>() { Success = true, Message = "Currency Deleted Successfully !" };
             }
             catch (Exception ex)
             {

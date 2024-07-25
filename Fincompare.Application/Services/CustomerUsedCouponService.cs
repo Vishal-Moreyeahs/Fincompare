@@ -24,11 +24,11 @@ namespace Fincompare.Application.Services
             try
             {
                 if (model == null)
-                    return new ApiResponse<string>() { Status = false, Message = "Coupon usage failed" };
+                    return new ApiResponse<string>() { Success = false, Message = "Coupon usage failed" };
                 var usedCoupon = _mapper.Map<CustomerUsedCoupon>(model);
                 await _unitOfWork.GetRepository<CustomerUsedCoupon>().Add(usedCoupon);
                 await _unitOfWork.SaveChangesAsync();
-                return new ApiResponse<string>() { Status = true, Message = "Coupon captured successfully" };
+                return new ApiResponse<string>() { Success = true, Message = "Coupon captured successfully" };
             }
             catch (Exception ex)
             {
@@ -107,8 +107,8 @@ namespace Fincompare.Application.Services
                 var response = _mapper.Map<IEnumerable<GetAllCustomerUsedCouponResponse>>(getAllCustomerUsed);
 
                 if (getAllCustomerUsed.ToList().Count > 0)
-                    return new ApiResponse<IEnumerable<GetAllCustomerUsedCouponResponse>>() { Status = true, Message = "Fetch All Used Coupons Successfully!", Data = response };
-                return new ApiResponse<IEnumerable<GetAllCustomerUsedCouponResponse>>() { Status = true, Message = "Used Coupons Fetch Failed!" };
+                    return new ApiResponse<IEnumerable<GetAllCustomerUsedCouponResponse>>() { Success = true, Message = "Fetch All Used Coupons Successfully!", Data = response };
+                return new ApiResponse<IEnumerable<GetAllCustomerUsedCouponResponse>>() { Success = true, Message = "Used Coupons Fetch Failed!" };
 
             }
             catch (Exception ex)

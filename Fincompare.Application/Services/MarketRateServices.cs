@@ -29,7 +29,7 @@ namespace Fincompare.Application.Services
 
             // Validate foreign keys
             if (model.Count == 0)
-                return new ApiResponse<string>() { Status = false, Data = "Mid-market rate creation failed" };
+                return new ApiResponse<string>() { Success = false, Data = "Mid-market rate creation failed" };
 
             //var sendCurrency = await _unitOfWork.GetRepository<Currency>().GetById(model.SendCur);
 
@@ -54,7 +54,7 @@ namespace Fincompare.Application.Services
 
             var response = new ApiResponse<string>()
             {
-                Status = true,
+                Success = true,
                 Message = "Mid-market rate created successfully"
             };
 
@@ -74,7 +74,7 @@ namespace Fincompare.Application.Services
 
             var response = new ApiResponse<IEnumerable<MarketRateDto>>()
             {
-                Status = true,
+                Success = true,
                 Message = "Market Rates Fetched",
                 Data = data
             };
@@ -123,7 +123,7 @@ namespace Fincompare.Application.Services
 
             var response = new ApiResponse<MarketRateDto>()
             {
-                Status = true,
+                Success = true,
                 Message = "Market Rate Fetched",
                 Data = data
             };
@@ -137,7 +137,7 @@ namespace Fincompare.Application.Services
 
             if (string.IsNullOrEmpty(sendCurr))
             {
-                response.Status = false;
+                response.Success = false;
                 response.Message = "Send currency is required.";
                 return response;
             }
@@ -153,7 +153,7 @@ namespace Fincompare.Application.Services
 
                 if (marketCurrRates == null || !marketCurrRates.Any())
                 {
-                    response.Status = false;
+                    response.Success = false;
                     response.Message = "No market rates found for the specified send currency.";
                     return response;
                 }
@@ -161,7 +161,7 @@ namespace Fincompare.Application.Services
                 // Map the filtered data to the DTO
                 var data = _mapper.Map<List<MarketRateDto>>(marketCurrRates);
 
-                response.Status = true;
+                response.Success = true;
                 response.Message = "Market Rate Fetched";
                 response.Data = data;
             }
@@ -169,7 +169,7 @@ namespace Fincompare.Application.Services
             {
                 // Log the exception (you can replace this with your logging framework)
 
-                response.Status = false;
+                response.Success = false;
                 response.Message = "An error occurred while fetching market rates.";
             }
 
@@ -184,7 +184,7 @@ namespace Fincompare.Application.Services
 
             if (string.IsNullOrEmpty(sourceCurr) || string.IsNullOrEmpty(destCurr))
             {
-                response.Status = false;
+                response.Success = false;
                 response.Message = "Send and Receive currency is required.";
                 return response;
             }
@@ -200,7 +200,7 @@ namespace Fincompare.Application.Services
 
                 if (marketCurrRates == null)
                 {
-                    response.Status = false;
+                    response.Success = false;
                     response.Message = "No market rates found for the specified send and receive currency.";
                     return response;
                 }
@@ -208,7 +208,7 @@ namespace Fincompare.Application.Services
                 // Map the filtered data to the DTO
                 var data = _mapper.Map<MarketRateDto>(marketCurrRates);
 
-                response.Status = true;
+                response.Success = true;
                 response.Message = "Market Rate Fetched";
                 response.Data = data;
             }
@@ -216,7 +216,7 @@ namespace Fincompare.Application.Services
             {
                 // Log the exception (you can replace this with your logging framework)
 
-                response.Status = false;
+                response.Success = false;
                 response.Message = "An error occurred while fetching market rates.";
             }
 
@@ -264,7 +264,7 @@ namespace Fincompare.Application.Services
                 return new ApiResponse<List<string>>()
                 {
                     Message = "Success",
-                    Status = true,
+                    Success = true,
                     Data = failCurrency,
                 };
             }

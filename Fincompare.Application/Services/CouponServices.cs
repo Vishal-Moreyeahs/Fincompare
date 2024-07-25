@@ -24,7 +24,7 @@ namespace Fincompare.Application.Services
             try
             {
                 if (model == null)
-                    return new ApiResponse<FetchCouponResponse>() { Status = false, Message = "Coupon Format creation failed" };
+                    return new ApiResponse<FetchCouponResponse>() { Success = false, Message = "Coupon Format creation failed" };
 
                 var addCoupon = _mapper.Map<Coupon>(model);
                 await _unitOfWork.GetRepository<Coupon>().Add(addCoupon);
@@ -32,7 +32,7 @@ namespace Fincompare.Application.Services
 
                 var response = _mapper.Map<FetchCouponResponse>(addCoupon);
 
-                return new ApiResponse<FetchCouponResponse>() { Status = true, Message = "Coupon Format created successfully", Data = response };
+                return new ApiResponse<FetchCouponResponse>() { Success = true, Message = "Coupon Format created successfully", Data = response };
 
             }
             catch (Exception ex)
@@ -47,15 +47,15 @@ namespace Fincompare.Application.Services
             try
             {
                 if (model == null)
-                    return new ApiResponse<FetchCouponResponse>() { Status = false, Message = "Coupon Format update  failed" };
+                    return new ApiResponse<FetchCouponResponse>() { Success = false, Message = "Coupon Format update  failed" };
                 var getCoupon = await _unitOfWork.GetRepository<Coupon>().GetById(model.Id);
                 if (getCoupon == null)
-                    return new ApiResponse<FetchCouponResponse>() { Status = false, Message = "Coupon Not Found !" };
+                    return new ApiResponse<FetchCouponResponse>() { Success = false, Message = "Coupon Not Found !" };
                 var updateCoupon = _mapper.Map<Coupon>(model);
                 await _unitOfWork.GetRepository<Coupon>().Upsert(updateCoupon);
                 await _unitOfWork.SaveChangesAsync();
                 var response = _mapper.Map<FetchCouponResponse>(updateCoupon);
-                return new ApiResponse<FetchCouponResponse>() { Status = true, Message = "Coupon Format updated successfully", Data = response };
+                return new ApiResponse<FetchCouponResponse>() { Success = true, Message = "Coupon Format updated successfully", Data = response };
             }
             catch (Exception ex)
             {
@@ -79,8 +79,8 @@ namespace Fincompare.Application.Services
                 }
                 var response = _mapper.Map<IEnumerable<FetchCouponResponse>>(getAllCoupon);
                 if (getAllCoupon.ToList().Count > 0)
-                    return new ApiResponse<IEnumerable<FetchCouponResponse>>() { Status = true, Message = "couponId or Coupon Format found", Data = response };
-                return new ApiResponse<IEnumerable<FetchCouponResponse>>() { Status = false, Message = "Specified couponId or Coupon Format not found" };
+                    return new ApiResponse<IEnumerable<FetchCouponResponse>>() { Success = true, Message = "couponId or Coupon Format found", Data = response };
+                return new ApiResponse<IEnumerable<FetchCouponResponse>>() { Success = false, Message = "Specified couponId or Coupon Format not found" };
 
             }
             catch (Exception ex)

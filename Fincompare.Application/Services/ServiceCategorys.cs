@@ -24,11 +24,11 @@ namespace Fincompare.Application.Services
             try
             {
                 if (model == null)
-                    return new ApiResponse<CreateServiceCategoriesRequest>() { Status = false, Message = "Request Invalid", Data = model };
+                    return new ApiResponse<CreateServiceCategoriesRequest>() { Success = false, Message = "Request Invalid", Data = model };
                 var addService = _mapper.Map<ServiceCategory>(model);
                 await _unitOfWork.GetRepository<ServiceCategory>().Add(addService);
                 await _unitOfWork.SaveChangesAsync();
-                return new ApiResponse<CreateServiceCategoriesRequest>() { Status = true, Message = "Service Category created successfully", Data = model };
+                return new ApiResponse<CreateServiceCategoriesRequest>() { Success = true, Message = "Service Category created successfully", Data = model };
             }
             catch (Exception)
             {
@@ -59,8 +59,8 @@ namespace Fincompare.Application.Services
 
 
                 if (getAllServiceCategories.ToList().Count > 0)
-                    return new ApiResponse<IEnumerable<GetAllServiceCategoriesResponse>>() { Status = true, Message = "Service Categories Fetch Successfully", Data = response };
-                return new ApiResponse<IEnumerable<GetAllServiceCategoriesResponse>>() { Status = true, Message = "Service Categories Not Found" };
+                    return new ApiResponse<IEnumerable<GetAllServiceCategoriesResponse>>() { Success = true, Message = "Service Categories Fetch Successfully", Data = response };
+                return new ApiResponse<IEnumerable<GetAllServiceCategoriesResponse>>() { Success = true, Message = "Service Categories Not Found" };
 
             }
             catch (Exception)
@@ -76,12 +76,12 @@ namespace Fincompare.Application.Services
             {
                 var getServiceCategories = await _unitOfWork.GetRepository<ServiceCategory>().GetById(model.Id);
                 if (getServiceCategories == null)
-                    return new ApiResponse<CreateServiceCategoriesRequest>() { Status = false, Message = "Service Categories Not Found" };
+                    return new ApiResponse<CreateServiceCategoriesRequest>() { Success = false, Message = "Service Categories Not Found" };
                 var updateResponse = _mapper.Map<ServiceCategory>(model);
                 await _unitOfWork.GetRepository<ServiceCategory>().Upsert(updateResponse);
                 await _unitOfWork.SaveChangesAsync();
                 var response = _mapper.Map<CreateServiceCategoriesRequest>(updateResponse);
-                return new ApiResponse<CreateServiceCategoriesRequest>() { Status = true, Message = "Service Categories Updated Successfully", Data = response };
+                return new ApiResponse<CreateServiceCategoriesRequest>() { Success = true, Message = "Service Categories Updated Successfully", Data = response };
 
             }
             catch (Exception)

@@ -32,7 +32,7 @@ namespace Fincompare.Application.Services
 
                 return new ApiResponse<StateDTO>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = "State created Successfully",
                     Data = data
                 };
@@ -57,7 +57,7 @@ namespace Fincompare.Application.Services
                     await _unitOfWork.SaveChangesAsync();
                     var response = new ApiResponse<string>()
                     {
-                        Status = true,
+                        Success = true,
                         Message = "State Deleted Successfully"
                     };
                     return response;
@@ -66,7 +66,7 @@ namespace Fincompare.Application.Services
                 {
                     var response = new ApiResponse<string>()
                     {
-                        Status = false,
+                        Success = false,
                         Message = "State not found"
                     };
                     return response;
@@ -89,7 +89,7 @@ namespace Fincompare.Application.Services
                 {
                     var response = new ApiResponse<IEnumerable<StateDTO>>()
                     {
-                        Status = false,
+                        Success = false,
                         Message = "State Not Found !"
                     };
                     return response;
@@ -106,7 +106,7 @@ namespace Fincompare.Application.Services
                 var data = _mapper.Map<IEnumerable<StateDTO>>(getAllState);
                 return new ApiResponse<IEnumerable<StateDTO>>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = "State Found !",
                     Data = data
                 };
@@ -128,7 +128,7 @@ namespace Fincompare.Application.Services
                 {
                     var response = new ApiResponse<StateDTO>()
                     {
-                        Status = false,
+                        Success = false,
                         Message = "State Not Found !"
                     };
                     return response;
@@ -138,7 +138,7 @@ namespace Fincompare.Application.Services
 
                 return new ApiResponse<StateDTO>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = "State Found !",
                     Data = data
                 };
@@ -159,7 +159,7 @@ namespace Fincompare.Application.Services
                 if (checkState == null)
                     return new ApiResponse<IEnumerable<StateDTO>>()
                     {
-                        Status = false,
+                        Success = false,
                         Message = "State Not Found !"
                     };
 
@@ -167,14 +167,14 @@ namespace Fincompare.Application.Services
                 if (state == null)
                     return new ApiResponse<IEnumerable<StateDTO>>()
                     {
-                        Status = false,
+                        Success = false,
                         Message = "State Not Found !"
                     };
                 var data = _mapper.Map<IEnumerable<StateDTO>>(state);
 
                 return new ApiResponse<IEnumerable<StateDTO>>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = "State Found !",
                     Data = data
                 };
@@ -193,7 +193,7 @@ namespace Fincompare.Application.Services
                 if (checkState == null)
                     return new ApiResponse<StateDTO>()
                     {
-                        Status = false,
+                        Success = false,
                         Message = "State Not Found !"
                     };
 
@@ -206,7 +206,7 @@ namespace Fincompare.Application.Services
 
                 return new ApiResponse<StateDTO>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = "State Update Successfully !",
                     Data = data
                 };

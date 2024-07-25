@@ -35,7 +35,7 @@ namespace Fincompare.Application.Services
                 var merchant = await _unitOfWork.GetRepository<Merchant>().GetById(merchantId);
                 if (merchant == null)
                 {
-                    response.Status = false;
+                    response.Success = false;
                     response.Message = "Merchant not exists.";
                     return response;
                 }
@@ -56,7 +56,7 @@ namespace Fincompare.Application.Services
                     //    await _unitOfWork.SaveChangesAsync();
 
                     //}
-                    response.Status = true;
+                    response.Success = true;
                 response.Message = "Merchant Removed";
                 return response;
             }
@@ -86,7 +86,7 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.SaveChangesAsync();
 
                 // Prepare the response
-                response.Status = true;
+                response.Success = true;
                 response.Message = "Merchant Updated Successfully";
                 response.Data = _mapper.Map<MerchantDto>(merchant);
             }
@@ -94,7 +94,7 @@ namespace Fincompare.Application.Services
             {
                 // Log the exception details for troubleshooting
                 // Logger.LogError(ex, "Merchant Update failed");
-                response.Status = false;
+                response.Success = false;
                 response.Message = "Merchant Update failed";
             }
 
@@ -112,7 +112,7 @@ namespace Fincompare.Application.Services
                 var merchants = await _unitOfWork.GetRepository<Merchant>().GetAll();
                 if (merchants == null)
                 {
-                    response.Status = false;
+                    response.Success = false;
                     response.Message = "Merchants not found";
                     return response;
                 }
@@ -127,7 +127,7 @@ namespace Fincompare.Application.Services
                     merchants = merchants.Where(mp => mp.Status == status.Value);
 
                 var merchantsResponse = _mapper.Map<IEnumerable<MerchantDto>>(merchants);
-                response.Status = true;
+                response.Success = true;
                 response.Data = merchantsResponse;
                 response.Message = "Merchants fetched successfully";
                 return response;
@@ -149,13 +149,13 @@ namespace Fincompare.Application.Services
                 var merchants = await _unitOfWork.GetRepository<Merchant>().GetById(merchantId);
                 if (merchants == null)
                 {
-                    response.Status = false;
+                    response.Success = false;
                     response.Message = "Merchant not found";
                     return response;
                 }
 
                 var merchantsResponse = _mapper.Map<MerchantDto>(merchants);
-                response.Status = true;
+                response.Success = true;
                 response.Data = merchantsResponse;
                 response.Message = "Merchant found";
                 return response;
@@ -178,13 +178,13 @@ namespace Fincompare.Application.Services
                 var merchant = merchants.FirstOrDefault(x => x.UserId == userId);
                 if (merchant == null)
                 {
-                    response.Status = false;
+                    response.Success = false;
                     response.Message = "Merchant not found";
                     return response;
                 }
 
                 var merchantsResponse = _mapper.Map<MerchantDto>(merchants);
-                response.Status = true;
+                response.Success = true;
                 response.Data = merchantsResponse;
                 response.Message = "Merchant found";
                 return response;
@@ -209,7 +209,7 @@ namespace Fincompare.Application.Services
                 var checkMerchant = merchants.FirstOrDefault(x => x.MerchantCsem == model.MerchantCsem);
                 if (checkMerchant != null)
                 {
-                    response.Status = false;
+                    response.Success = false;
                     response.Message = "Merchant email already exists.";
                     return response;
                 }
@@ -219,7 +219,7 @@ namespace Fincompare.Application.Services
                 var checkGroup = await _unitOfWork.GetRepository<GroupMerchant>().GetById(model.GroupMerchantId);
                 if (checkGroup == null)
                 {
-                    response.Status = false;
+                    response.Success = false;
                     response.Message = "Invalid Group. Please enter valid group id.";
                     return response;
                 }
@@ -247,7 +247,7 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.SaveChangesAsync();
 
                 var merchantData = _mapper.Map<MerchantDto>(merchant);
-                response.Status = true;
+                response.Success = true;
                 response.Message = "Merchant created successfully";
                 response.Data = merchantData;
                 return response;

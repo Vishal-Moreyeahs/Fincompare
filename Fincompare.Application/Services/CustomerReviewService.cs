@@ -31,7 +31,7 @@ namespace Fincompare.Application.Services
             try
             {
                 if (model == null)
-                    return new ApiResponse<CustomerReviewResponseViewModel>() { Status = false, Message = "customer review creation failed" };
+                    return new ApiResponse<CustomerReviewResponseViewModel>() { Success = false, Message = "customer review creation failed" };
 
                 var addReview = _mapper.Map<CustomerReview>(model);
                 await _unitOfWork.GetRepository<CustomerReview>().Add(addReview);
@@ -41,7 +41,7 @@ namespace Fincompare.Application.Services
                 var response = _mapper.Map<CustomerReviewResponseViewModel>(data);
                 response.MerchantName = data.Merchant.MerchantName;
 
-                return new ApiResponse<CustomerReviewResponseViewModel>() { Status = true, Message = "Click lead created successfully", Data = response };
+                return new ApiResponse<CustomerReviewResponseViewModel>() { Success = true, Message = "Click lead created successfully", Data = response };
 
             }
             catch (Exception ex)
@@ -73,8 +73,8 @@ namespace Fincompare.Application.Services
                     }).ToList();
 
                 if (getData.Count == 0)
-                    return new ApiResponse<IEnumerable<CustomerReviewResponseViewModel>>() { Status = false, Message = "Customer review records not found!" };
-                return new ApiResponse<IEnumerable<CustomerReviewResponseViewModel>>() { Status = true, Message = "customer review records Found!", Data = getData };
+                    return new ApiResponse<IEnumerable<CustomerReviewResponseViewModel>>() { Success = false, Message = "Customer review records not found!" };
+                return new ApiResponse<IEnumerable<CustomerReviewResponseViewModel>>() { Success = true, Message = "customer review records Found!", Data = getData };
             }
             catch (Exception ex)
             {
@@ -88,17 +88,17 @@ namespace Fincompare.Application.Services
             try
             {
                 if (model == null)
-                    return new ApiResponse<CustomerReviewResponseViewModel>() { Status = false, Message = "customer review update  failed" };
+                    return new ApiResponse<CustomerReviewResponseViewModel>() { Success = false, Message = "customer review update  failed" };
                 var getCustomerReview = await _unitOfWork.GetRepository<Coupon>().GetById(model.Id);
                 if (getCustomerReview == null)
-                    return new ApiResponse<CustomerReviewResponseViewModel>() { Status = false, Message = "Customer review Not Found !" };
+                    return new ApiResponse<CustomerReviewResponseViewModel>() { Success = false, Message = "Customer review Not Found !" };
                 var updateReview = _mapper.Map<CustomerReview>(model);
                 await _unitOfWork.GetRepository<CustomerReview>().Upsert(updateReview);
                 await _unitOfWork.SaveChangesAsync();
                 var data = await _unitOfWork.GetRepository<CustomerReview>().GetByPrimaryKeyWithRelatedEntitiesAsync(updateReview.Id);
                 var response = _mapper.Map<CustomerReviewResponseViewModel>(updateReview);
                 response.MerchantName = data.Merchant.MerchantName;
-                return new ApiResponse<CustomerReviewResponseViewModel>() { Status = true, Message = "customer review updated successfully", Data = response };
+                return new ApiResponse<CustomerReviewResponseViewModel>() { Success = true, Message = "customer review updated successfully", Data = response };
             }
             catch (Exception ex)
             {

@@ -22,7 +22,7 @@ namespace Fincompare.Application.Services
             try
             {
                 if (model == null)
-                    return new ApiResponse<MerchantRemittanceFee>() { Status = false, Message = "Request are UnVailed !" };
+                    return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "Request are UnVailed !" };
 
                 var requestData = _mapper.Map<MerchantRemitProductFee>(model);
 
@@ -58,7 +58,7 @@ namespace Fincompare.Application.Services
                     ValidityExpiry = merchantRemitFee.ValidityExpiry,
                 };
 
-                return new ApiResponse<MerchantRemittanceFee>() { Status = true, Message = "Merchant Remittance Fee created successfully!", Data = data };
+                return new ApiResponse<MerchantRemittanceFee>() { Success = true, Message = "Merchant Remittance Fee created successfully!", Data = data };
 
             }
             catch (Exception ex)
@@ -153,8 +153,8 @@ namespace Fincompare.Application.Services
                         }).ToList();
 
             if (data.Count > 0)
-                return new ApiResponse<IEnumerable<MerchantRemittanceFee>>() { Status = true, Message = "Remittance Fee Fetch Successfully!", Data = data };
-            return new ApiResponse<IEnumerable<MerchantRemittanceFee>>() { Status = false, Message = "Remittance Fee Not Found!" };
+                return new ApiResponse<IEnumerable<MerchantRemittanceFee>>() { Success = true, Message = "Remittance Fee Fetch Successfully!", Data = data };
+            return new ApiResponse<IEnumerable<MerchantRemittanceFee>>() { Success = false, Message = "Remittance Fee Not Found!" };
 
         }
 
@@ -225,8 +225,8 @@ namespace Fincompare.Application.Services
 
 
             if (innerData.Count > 0)
-                return new ApiResponse<IEnumerable<MerchantRemittanceFee>>() { Status = true, Message = "Remittance Fee Fetch Successfully!", Data = innerData };
-            return new ApiResponse<IEnumerable<MerchantRemittanceFee>>() { Status = false, Message = "Remittance Fee Not Found!" };
+                return new ApiResponse<IEnumerable<MerchantRemittanceFee>>() { Success = true, Message = "Remittance Fee Fetch Successfully!", Data = innerData };
+            return new ApiResponse<IEnumerable<MerchantRemittanceFee>>() { Success = false, Message = "Remittance Fee Not Found!" };
 
 
         }
@@ -237,10 +237,10 @@ namespace Fincompare.Application.Services
             try
             {
                 if (model == null)
-                    return new ApiResponse<MerchantRemittanceFee>() { Status = false, Message = "Request are UnVailed !" };
+                    return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "Request are UnVailed !" };
                 var checkData = await _unitOfWork.GetRepository<MerchantRemitProductFee>().GetById(model.Id);
                 if (checkData == null)
-                    return new ApiResponse<MerchantRemittanceFee>() { Status = false, Message = "Merchant Remittance Fee Not Found!" };
+                    return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "Merchant Remittance Fee Not Found!" };
 
                 var requestData = _mapper.Map(model, checkData);
                 await _unitOfWork.GetRepository<MerchantRemitProductFee>().Upsert(requestData);
@@ -275,7 +275,7 @@ namespace Fincompare.Application.Services
 
                 };
 
-                return new ApiResponse<MerchantRemittanceFee>() { Status = true, Message = "Merchant Remittance Fee updated successfully!", Data = data };
+                return new ApiResponse<MerchantRemittanceFee>() { Success = true, Message = "Merchant Remittance Fee updated successfully!", Data = data };
 
             }
             catch (Exception ex)

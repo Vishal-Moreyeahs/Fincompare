@@ -32,7 +32,7 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<MerchantCompaignResponseViewModel>()
                     {
-                        Status = false,
+                        Success = false,
                         Message = "Merchant Compaign Creation Failed"
                     };
                 //var checkMerchantExist = await _unitOfWork.GetRepository<Merchant>().GetById(model.MerchantId);
@@ -70,7 +70,7 @@ namespace Fincompare.Application.Services
 
                 var response = new ApiResponse<MerchantCompaignResponseViewModel>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = "Merchant compaign created successfully",
                     Data = merchantResponseData
 
@@ -150,8 +150,8 @@ namespace Fincompare.Application.Services
 
 
             if (data.Count > 0)
-                return new ApiResponse<IEnumerable<MerchantCompaignResponseViewModel>>() { Status = true, Message = "Merchant campaign Fetched Successfully!", Data = data };
-            return new ApiResponse<IEnumerable<MerchantCompaignResponseViewModel>>() { Status = false, Message = "Merchant campaign Not Found!" };
+                return new ApiResponse<IEnumerable<MerchantCompaignResponseViewModel>>() { Success = true, Message = "Merchant campaign Fetched Successfully!", Data = data };
+            return new ApiResponse<IEnumerable<MerchantCompaignResponseViewModel>>() { Success = false, Message = "Merchant campaign Not Found!" };
         }
 
         public async Task<ApiResponse<MerchantCompaignResponseViewModel>> UpdateMerchantCompaign(UpdateMerchantCompaignRequest model)
@@ -161,12 +161,12 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<MerchantCompaignResponseViewModel>()
                     {
-                        Status = false,
+                        Success = false,
                         Message = "Merchant Compaign Updation Failed"
                     };
                 var checkData = await _unitOfWork.GetRepository<MerchantCampaign>().GetById(model.Id);
                 if (checkData == null)
-                    return new ApiResponse<MerchantCompaignResponseViewModel>() { Status = false, Message = "Merchant compaign Not Found!" };
+                    return new ApiResponse<MerchantCompaignResponseViewModel>() { Success = false, Message = "Merchant compaign Not Found!" };
 
                 var requestData = _mapper.Map(model, checkData);
                 await _unitOfWork.GetRepository<MerchantCampaign>().Upsert(requestData);
@@ -202,7 +202,7 @@ namespace Fincompare.Application.Services
 
                 var response = new ApiResponse<MerchantCompaignResponseViewModel>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = "Merchant compaign updated successfully",
                     Data = merchantResponseData
 

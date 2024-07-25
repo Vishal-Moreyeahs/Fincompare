@@ -24,12 +24,12 @@ namespace Fincompare.Application.Services
             try
             {
                 if (model == null)
-                    return new ApiResponse<GetAllProductResponse>() { Status = false, Message = "Request Not Accepted" };
+                    return new ApiResponse<GetAllProductResponse>() { Success = false, Message = "Request Not Accepted" };
                 var addRequest = _mapper.Map<Product>(model);
                 await _unitOfWork.GetRepository<Product>().Add(addRequest);
                 await _unitOfWork.SaveChangesAsync();
                 var response = _mapper.Map<GetAllProductResponse>(addRequest);
-                return new ApiResponse<GetAllProductResponse>() { Status = true, Message = "Product created successfully!", Data = response };
+                return new ApiResponse<GetAllProductResponse>() { Success = true, Message = "Product created successfully!", Data = response };
 
             }
             catch (Exception ex)
@@ -45,12 +45,12 @@ namespace Fincompare.Application.Services
             {
                 var checkProduct = await _unitOfWork.GetRepository<Product>().GetById(model.Id);
                 if (checkProduct == null)
-                    return new ApiResponse<CreateProductRequest>() { Status = false, Message = "Product Not Found !" };
+                    return new ApiResponse<CreateProductRequest>() { Success = false, Message = "Product Not Found !" };
                 var updateRequest = _mapper.Map(model, checkProduct);
                 await _unitOfWork.GetRepository<Product>().Upsert(updateRequest);
                 await _unitOfWork.SaveChangesAsync();
                 var response = _mapper.Map<CreateProductRequest>(updateRequest);
-                return new ApiResponse<CreateProductRequest>() { Status = true, Message = "product updated successfully!", Data = response };
+                return new ApiResponse<CreateProductRequest>() { Success = true, Message = "product updated successfully!", Data = response };
 
             }
             catch (Exception ex)
@@ -81,8 +81,8 @@ namespace Fincompare.Application.Services
             }
             var getProductList = _mapper.Map<IEnumerable<GetAllProductResponse>>(getData).ToList();
             if (getProductList.Count == 0)
-                return new ApiResponse<IEnumerable<GetAllProductResponse>>() { Status = false, Message = "Product Not Found !" };
-            return new ApiResponse<IEnumerable<GetAllProductResponse>>() { Status = false, Message = "Product List Found !", Data = getProductList };
+                return new ApiResponse<IEnumerable<GetAllProductResponse>>() { Success = false, Message = "Product Not Found !" };
+            return new ApiResponse<IEnumerable<GetAllProductResponse>>() { Success = false, Message = "Product List Found !", Data = getProductList };
 
         }
         public async Task<ApiResponse<GetAllProductResponse>> GetProductById(int id)
@@ -90,8 +90,8 @@ namespace Fincompare.Application.Services
             var getData = await _unitOfWork.GetRepository<Product>().GetById(id);
             var getProductList = _mapper.Map<GetAllProductResponse>(getData);
             if (getProductList == null)
-                return new ApiResponse<GetAllProductResponse>() { Status = false, Message = "Product Not Found !" };
-            return new ApiResponse<GetAllProductResponse>() { Status = true, Message = "Product Found !", Data = getProductList };
+                return new ApiResponse<GetAllProductResponse>() { Success = false, Message = "Product Not Found !" };
+            return new ApiResponse<GetAllProductResponse>() { Success = true, Message = "Product Found !", Data = getProductList };
 
         }
     }

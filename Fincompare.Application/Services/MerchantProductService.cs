@@ -26,7 +26,7 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<MerchantProductViewModel>()
                     {
-                        Status = true,
+                        Success = true,
                         Message = "Merchant Product Creation Failed"
                     };
                 //var checkMerchantExist = await _unitOfWork.GetRepository<Merchant>().GetById(model.MerchantId);
@@ -57,7 +57,7 @@ namespace Fincompare.Application.Services
 
                 var response = new ApiResponse<MerchantProductViewModel>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = "Merchant Product Created Successfully",
                     Data = merchantResponseData
 
@@ -104,7 +104,7 @@ namespace Fincompare.Application.Services
                     response.Message = "merchant products not found";
                     return response;
                 }
-                response.Status = true;
+                response.Success = true;
                 response.Message = "Merchant product fetched";
                 response.Data = merchantProductList;
                 return response;
@@ -167,7 +167,7 @@ namespace Fincompare.Application.Services
                 Status = x.Status
             }).ToList();
 
-            response.Status = true;
+            response.Success = true;
             response.Message = "Merchant Products found";
             response.Data = data;
             return response;
@@ -180,7 +180,7 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<MerchantProductViewModel>()
                     {
-                        Status = true,
+                        Success = true,
                         Message = "Merchant Product Update Failed"
                     };
                 //var checkMerchantExist = await _unitOfWork.GetRepository<Merchant>().GetById(model.MerchantId);
@@ -211,7 +211,7 @@ namespace Fincompare.Application.Services
 
                 var response = new ApiResponse<MerchantProductViewModel>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = "Merchant Product updated Successfully",
                     Data = merchantResponseData
 

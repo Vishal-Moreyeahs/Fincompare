@@ -41,7 +41,7 @@ namespace Fincompare.Application.Services
 
                 return new ApiResponse<IEnumerable<RateCardRequestViewModel>>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = " Rates Fetched successfully",
                     Data = rateCardRequestModel
                 };

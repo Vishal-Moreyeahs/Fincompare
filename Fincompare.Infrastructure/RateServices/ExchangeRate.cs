@@ -85,7 +85,7 @@ namespace Fincompare.Infrastructure.RateServices
                 return new ApiResponse<List<string>>()
                 {
                     Message = "Success",
-                    Status = true,
+                    Success = true,
                     Data = failCurrency,
                 };
             }
