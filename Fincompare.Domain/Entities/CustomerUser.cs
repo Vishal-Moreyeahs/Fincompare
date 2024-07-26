@@ -26,7 +26,6 @@ namespace Fincompare.Domain.Entities
         public bool PromoSubscription { get; set; }
         public string? AuthProvider { get; set; }
         public string? AuthProviderId { get; set; }
-
         public bool Status { get; set; }
 
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
