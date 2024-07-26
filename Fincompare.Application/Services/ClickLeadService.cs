@@ -5,14 +5,6 @@ using Fincompare.Application.Request.ClickLeadRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.ClickLeadResponse;
 using Fincompare.Domain.Entities;
-using Fincompare.Domain.Entities.UserManagementEntities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Fincompare.Application.Response.CouponResponse.CouponResponseViewModel;
-using static Fincompare.Application.Response.GroupMerchantResponse.GroupMerchantViewResponse;
 
 namespace Fincompare.Application.Services
 {
@@ -22,7 +14,7 @@ namespace Fincompare.Application.Services
         private readonly IMapper _mapper;
 
         public ClickLeadService(IUnitOfWork unitOfWork, IMapper mapper)
-        { 
+        {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
@@ -37,7 +29,7 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.GetRepository<ClickLead>().Add(addClick);
                 await _unitOfWork.SaveChangesAsync();
                 var data = await _unitOfWork.GetRepository<ClickLead>().GetByPrimaryKeyWithRelatedEntitiesAsync(addClick.Id);
-               
+
                 var response = _mapper.Map<ClickLeadResponseViewModel>(data);
                 response.MerchantName = data.Merchant.MerchantName;
 

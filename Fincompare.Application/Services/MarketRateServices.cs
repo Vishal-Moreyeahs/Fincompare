@@ -65,7 +65,7 @@ namespace Fincompare.Application.Services
                 throw new ApplicationException($"Mid-market rate creation failed {ex.Message}");
             }
             // Validate foreign keys
-            
+
         }
 
         public async Task<ApiResponse<IEnumerable<MarketRateDto>>> GetAllMarketRates()
@@ -147,7 +147,8 @@ namespace Fincompare.Application.Services
                 };
                 return response;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw new ApplicationException($"Mid-market rate fetch failed {ex.Message}");
             }
 
@@ -252,7 +253,7 @@ namespace Fincompare.Application.Services
             List<string> failCurrency = [];
             try
             {
-                var getAllCurrencyCode = (await _currencyServices.GetAllCurrency(null,null,null))
+                var getAllCurrencyCode = (await _currencyServices.GetAllCurrency(null, null, null))
                     .Data.Select(x => x.CurrencyIso).OrderBy(x => x).ToArray();
                 foreach (var currencyCode in getAllCurrencyCode)
                 {

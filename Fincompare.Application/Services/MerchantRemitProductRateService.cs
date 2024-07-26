@@ -89,9 +89,9 @@ namespace Fincompare.Application.Services
                 if (instrumentId.HasValue)
                     merchantRemitRates = merchantRemitRates.Where(mp => mp.MerchantProduct.InstrumentId == instrumentId.Value);
                 if (sendMinLimit.HasValue)
-                    merchantRemitRates = merchantRemitRates.Where(mp => mp.SendMinLimit == sendMinLimit.Value);
+                    merchantRemitRates = merchantRemitRates.Where(mp => mp.SendMinLimit >= sendMinLimit.Value);
                 if (receiveMinLimit.HasValue)
-                    merchantRemitRates = merchantRemitRates.Where(mp => mp.ReceiveMinLimit == receiveMinLimit.Value);
+                    merchantRemitRates = merchantRemitRates.Where(mp => mp.ReceiveMinLimit <= receiveMinLimit.Value);
                 if (status.HasValue)
                     merchantRemitRates = merchantRemitRates.Where(mp => mp.Status == status.Value);
                 //if (isValid.HasValue)
@@ -127,7 +127,7 @@ namespace Fincompare.Application.Services
                                      SendCur = merchantRemitRate.SendCur,
                                      ReceiveCur = merchantRemitRate.ReceiveCur,
                                      SendMinLimit = merchantRemitRate.SendMinLimit,
-                                     SendMaxLimit = merchantRemitRate.SendMinLimit,
+                                     SendMaxLimit = merchantRemitRate.SendMaxLimit,
                                      ReceiveMinLimit = merchantRemitRate.ReceiveMinLimit,
                                      ReceiveMaxLimit = merchantRemitRate.ReceiveMaxLimit,
                                      ValidityExpiry = merchantRemitRate.ValidityExpiry
@@ -181,7 +181,7 @@ namespace Fincompare.Application.Services
                                      SendCur = merchantRemitRate.SendCur,
                                      ReceiveCur = merchantRemitRate.ReceiveCur,
                                      SendMinLimit = merchantRemitRate.SendMinLimit,
-                                     SendMaxLimit = merchantRemitRate.SendMinLimit,
+                                     SendMaxLimit = merchantRemitRate.SendMaxLimit,
                                      ReceiveMinLimit = merchantRemitRate.ReceiveMinLimit,
                                      ReceiveMaxLimit = merchantRemitRate.ReceiveMaxLimit,
                                      ValidityExpiry = merchantRemitRate.ValidityExpiry
@@ -256,7 +256,7 @@ namespace Fincompare.Application.Services
                                      SendCur = merchantRemitRate.SendCur,
                                      ReceiveCur = merchantRemitRate.ReceiveCur,
                                      SendMinLimit = merchantRemitRate.SendMinLimit,
-                                     SendMaxLimit = merchantRemitRate.SendMinLimit,
+                                     SendMaxLimit = merchantRemitRate.SendMaxLimit,
                                      ReceiveMinLimit = merchantRemitRate.ReceiveMinLimit,
                                      ReceiveMaxLimit = merchantRemitRate.ReceiveMaxLimit,
                                      ValidityExpiry = merchantRemitRate.ValidityExpiry

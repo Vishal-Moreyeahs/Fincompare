@@ -4,7 +4,6 @@ using Fincompare.Application.Request.CountryRequest;
 using Fincompare.Domain.Enums;
 using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using System.Text;
 
 namespace Fincompare.Api.Controllers.Admin
 {

@@ -83,7 +83,8 @@ namespace Fincompare.Application.Services
 
                 }
 
-                if (currencies.Count > 0) { 
+                if (currencies.Count > 0)
+                {
                     return new ApiResponse<List<GetCountryCurrencyResponse>>()
                     {
                         Success = true,
@@ -97,7 +98,7 @@ namespace Fincompare.Application.Services
                     Success = false,
                     Message = "country currencies fetch failed",
                     Data = currencies
-                }; 
+                };
             }
             catch (Exception ex)
             {

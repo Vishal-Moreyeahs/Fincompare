@@ -44,7 +44,7 @@ namespace Fincompare.Application.Services
                 //return response;
             }
             catch (Exception ex)
-            {   
+            {
 
                 throw new ApplicationException($"merchant group creation failed {ex.Message}");
             }

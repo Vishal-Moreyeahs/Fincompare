@@ -1,8 +1,6 @@
 ﻿using Fincompare.Api.Middleware;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Request;
-using Fincompare.Application.Request.ClickLeadRequests;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers

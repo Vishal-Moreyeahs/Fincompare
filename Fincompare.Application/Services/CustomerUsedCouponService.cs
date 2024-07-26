@@ -120,7 +120,7 @@ namespace Fincompare.Application.Services
         }
 
         public class ResponseView
-        { 
+        {
             public CustomerUsedCoupon CustomerUsedCoupan { get; set; }
             public MerchantProductCoupon MerchantProductCoupon { get; set; }
             public MerchantProduct MerchantProduct { get; set; }
