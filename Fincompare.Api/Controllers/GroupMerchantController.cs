@@ -1,4 +1,5 @@
-﻿using Fincompare.Application.Repositories;
+﻿using Fincompare.Api.Middleware;
+using Fincompare.Application.Repositories;
 using Fincompare.Domain.Enums;
 using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -19,34 +20,26 @@ namespace Fincompare.Api.Controllers
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
+        [ValidateModelState]
         [Route("add-group-merchant")]
         public async Task<IActionResult> AddGroupMerchant(AddGroupMerchantRequestClass model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _groupMerchantService.AddGroupMerchant(model);
             return Ok(response);
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPut]
+        [ValidateModelState]
         [Route("update-group-merchant")]
         public async Task<IActionResult> UpdateGroupMerchant(UpdateGroupMerchantRequestClass model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _groupMerchantService.UpdateGroupMerchant(model);
             return Ok(response);
         }
 
 
-        [HasPermission(PermissionEnum.CanAccessAdmin)]
+        //[HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpGet]
         [Route("getall-group-merchant")]
         public async Task<IActionResult> GetAllGroupMerchant(int? groupMerchantId, string? countryIso3, bool? status)
@@ -55,14 +48,14 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
-        [HasPermission(PermissionEnum.CanAccessMerchant)]
-        [HttpGet]
-        [Route("getby-id-merchant")]
-        public async Task<IActionResult> GetByIdGroupMerchant(int id)
-        {
-            var response = await _groupMerchantService.GetByIdGroupMerchant(id);
-            return Ok(response);
-        }
+        //[HasPermission(PermissionEnum.CanAccessMerchant)]
+        //[HttpGet]
+        //[Route("getby-id-merchant")]
+        //public async Task<IActionResult> GetByIdGroupMerchant(int id)
+        //{
+        //    var response = await _groupMerchantService.GetByIdGroupMerchant(id);
+        //    return Ok(response);
+        //}
 
 
     }

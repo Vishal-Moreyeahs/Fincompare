@@ -83,18 +83,25 @@ namespace Fincompare.Application.Services
 
                 }
 
-                var response = new ApiResponse<List<GetCountryCurrencyResponse>>()
-                {
-                    Status = true,
-                    Message = "Currencies fetched",
-                    Data = currencies
-                };
+                if (currencies.Count > 0) { 
+                    return new ApiResponse<List<GetCountryCurrencyResponse>>()
+                    {
+                        Success = true,
+                        Message = "country currencies record fetched successfully",
+                        Data = currencies
+                    };
+                }
 
-                return response;
+                return new ApiResponse<List<GetCountryCurrencyResponse>>()
+                {
+                    Success = false,
+                    Message = "country currencies fetch failed",
+                    Data = currencies
+                }; 
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new ApplicationException($"country currencies fetch failed {ex.Message}");
             }
         }
 
@@ -109,7 +116,7 @@ namespace Fincompare.Application.Services
 
                 if (country == null)
                 {
-                    throw new ApplicationException("Country not found");
+                    throw new ApplicationException("country currencies creation failed");
                 }
 
                 // Add new CountryCurrencies
@@ -139,15 +146,15 @@ namespace Fincompare.Application.Services
 
                 var response = new ApiResponse<List<GetCountryCurrencyResponse>>()
                 {
-                    Status = true,
-                    Message = $"Country Currencies Created successfully",
+                    Success = true,
+                    Message = $"country Currencies record created successfully",
                     Data = data
                 };
                 return response;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new ApplicationException($"country currencies creation failed {ex.Message}");
             }
         }
 
@@ -160,7 +167,7 @@ namespace Fincompare.Application.Services
 
                 if (checkCountryCurrency == null)
                 {
-                    response.Message = "Country Currency not found";
+                    response.Message = "country currency update failed";
                     return response;
                 }
 
@@ -180,15 +187,15 @@ namespace Fincompare.Application.Services
                     Status = checkCountryCurrency.Status
                 };
 
-                response.Message = "country currency updated successfully";
-                response.Status = true;
+                response.Message = "country currency record updated successfully";
+                response.Success = true;
                 response.Data = data;
                 return response;
             }
 
             catch (Exception ex)
             {
-                throw new ApplicationException($"{ex.Message}");
+                throw new ApplicationException($"country currency update failed {ex.Message}");
             }
 
 

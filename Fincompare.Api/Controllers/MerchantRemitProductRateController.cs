@@ -1,4 +1,5 @@
-﻿using Fincompare.Application.Repositories;
+﻿using Fincompare.Api.Middleware;
+using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MerchantRemitProductRateRequests;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,22 +17,18 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpPost]
+        [ValidateModelState]
         [Route("add-merchantremit-rate")]
         private async Task<IActionResult> AddMerchantRemitRate(AddMerchantRemitProductRateRequest model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _merchantRemitProductRateService.AddMerchantRemitProductRate(model);
             return Ok(response);
         }
 
 
-        [HttpPut]
-        [Route("get-merchant-rates-by-merchantid/{merchantId}")]
-        private async Task<IActionResult> UpdateMerchantRemitFee(int merchantId)
+        [HttpGet]
+        [Route("fetch-merchant-rates-by-merchantid/{merchantId}")]
+        private async Task<IActionResult> GetMerchantRateByMerchant(int merchantId)
         {
             var response = await _merchantRemitProductRateService.GetAllMerchantRemitProductRateByMerchant(merchantId);
             return Ok(response);

@@ -1,4 +1,5 @@
-﻿using Fincompare.Application.Repositories;
+﻿using Fincompare.Api.Middleware;
+using Fincompare.Application.Repositories;
 using Fincompare.Domain.Enums;
 using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ namespace Fincompare.Api.Controllers
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
+        [ValidateModelState]
         [HttpPost]
         [Route("customer-used-coupons")]
         public async Task<IActionResult> CustomerUsedCoupons(CreateCustomerUsedCouponRequest model)
@@ -26,8 +28,8 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
-        [HasPermission(PermissionEnum.CanAccessAdmin)]
-        [HttpPost]
+        //[HasPermission(PermissionEnum.CanAccessAdmin)]
+        [HttpGet]
         [Route("fetch-used-coupons")]
         public async Task<IActionResult> GetAllCustomerUsedCoupons
             (

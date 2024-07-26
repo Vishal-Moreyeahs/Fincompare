@@ -1,4 +1,5 @@
-﻿using Fincompare.Application.Repositories;
+﻿using Fincompare.Api.Middleware;
+using Fincompare.Application.Repositories;
 using Fincompare.Domain.Enums;
 using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ namespace Fincompare.Api.Controllers
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
+        [ValidateModelState]
         [Route("add-coupon")]
         public async Task<IActionResult> CreateCoupon(CreateCouponRequest model)
         {
@@ -27,7 +29,8 @@ namespace Fincompare.Api.Controllers
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
-        [HttpPost]
+        [HttpPut]
+        [ValidateModelState]
         [Route("update-coupon")]
         public async Task<IActionResult> UpdateCoupon(UpdateCouponRequest model)
         {

@@ -1,8 +1,10 @@
-﻿using Fincompare.Application.Repositories;
+﻿using Fincompare.Api.Middleware;
+using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.CountryRequest;
 using Fincompare.Domain.Enums;
 using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 namespace Fincompare.Api.Controllers.Admin
 {
@@ -19,27 +21,19 @@ namespace Fincompare.Api.Controllers.Admin
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
+        [ValidateModelState]
         [Route("add")]
         public async Task<IActionResult> CreateCountry(CountryRequest request)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             return Ok(await _countryServices.AddCountry(request));
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
-        [HttpPost]
+        [ValidateModelState]
+        [HttpPut]
         [Route("update")]
         public async Task<IActionResult> UpdateCountry(CountryRequest request)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             return Ok(await _countryServices.UpdateCountry(request));
         }
 
@@ -52,17 +46,17 @@ namespace Fincompare.Api.Controllers.Admin
         }
 
         [HttpGet]
-        [Route("get-all-countries")]
+        [Route("fetch-all-countries")]
         public async Task<IActionResult> GetAllCountry(string? country3iso, bool? status)
         {
             return Ok(await _countryServices.GetAllCountry(country3iso, status));
         }
 
-        [HttpGet]
-        [Route("get-by-country3Iso")]
-        public async Task<IActionResult> GetCountryById(string country3iso)
-        {
-            return Ok(await _countryServices.GetCountryByCountryName(country3iso));
-        }
+        //[HttpGet]
+        //[Route("get-by-country3Iso")]
+        //public async Task<IActionResult> GetCountryById(string country3iso)
+        //{
+        //    return Ok(await _countryServices.GetCountryByCountryName(country3iso));
+        //}
     }
 }

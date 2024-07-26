@@ -1,4 +1,5 @@
-﻿using Fincompare.Application.Repositories;
+﻿using Fincompare.Api.Middleware;
+using Fincompare.Application.Repositories;
 using Fincompare.Application.Request;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,20 +18,16 @@ namespace Fincompare.Api.Controllers
 
         //[HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
+        [ValidateModelState]
         [Route("add-customer-review")]
         public async Task<IActionResult> AddCustomerReviewRecord(AddCustomerReviewRequest model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _customerReviewService.AddCustomerReviewRecord(model);
             return Ok(response);
         }
 
         [HttpGet]
-        [Route("get-click-lead-record")]
+        [Route("fetch-click-lead-record")]
         public async Task<IActionResult> GetCustomerReviewRecord(int? merchantId)
         {
             if (!ModelState.IsValid)
@@ -43,14 +40,10 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpPut]
+        [ValidateModelState]
         [Route("update-customer-review")]
         public async Task<IActionResult> UpdateCustomerReviewRecord(UpdateCustomerReviewRequest model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _customerReviewService.UpdateCustomerReviewRecord(model);
 
             return Ok(response);

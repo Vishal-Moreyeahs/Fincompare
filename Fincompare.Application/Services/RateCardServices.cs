@@ -36,14 +36,13 @@ namespace Fincompare.Application.Services
 
                 return new ApiResponse<IEnumerable<RateCardRequestViewModel>>()
                 {
-                    Status = true,
-                    Message = " Rates Fetched successfully",
+                    Success = true,
+                    Message = " Rate Card record fetched successfully",
                     Data = rateCardRequestModel
                 };
             }
-            catch (Exception ex)
-            {
-                throw new ApplicationException($"{ex.Message}");
+            catch (Exception ex) {
+                throw new ApplicationException($"Rate card rates fetch failed{ex.Message}");
             }
 
         }

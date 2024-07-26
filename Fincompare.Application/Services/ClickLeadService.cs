@@ -23,7 +23,7 @@ namespace Fincompare.Application.Services
             try
             {
                 if (model == null)
-                    return new ApiResponse<ClickLeadResponseViewModel>() { Status = false, Message = "click redirection creation failed" };
+                    return new ApiResponse<ClickLeadResponseViewModel>() { Success = false, Message = "click lead creation failed" };
 
                 var addClick = _mapper.Map<ClickLead>(model);
                 await _unitOfWork.GetRepository<ClickLead>().Add(addClick);
@@ -33,13 +33,12 @@ namespace Fincompare.Application.Services
                 var response = _mapper.Map<ClickLeadResponseViewModel>(data);
                 response.MerchantName = data.Merchant.MerchantName;
 
-                return new ApiResponse<ClickLeadResponseViewModel>() { Status = true, Message = "Click lead created successfully", Data = response };
+                return new ApiResponse<ClickLeadResponseViewModel>() { Success = true, Message = "Click lead record created successfully", Data = response };
 
             }
             catch (Exception ex)
             {
-
-                throw new ArgumentException(ex.Message);
+                throw new ArgumentException($"click lead creation failed {ex.Message}");
             }
         }
 
@@ -70,14 +69,14 @@ namespace Fincompare.Application.Services
                         Country3Iso = x.Country3Iso,
                         RoutingParamters = x.RoutingParamters,
                     }).ToList();
-                if (getData.Count == 0)
-                    return new ApiResponse<IEnumerable<ClickLeadResponseViewModel>>() { Status = false, Message = "Click Lead records not found!" };
-                return new ApiResponse<IEnumerable<ClickLeadResponseViewModel>>() { Status = true, Message = "Click lead records Found!", Data = getData };
+                if (getData.Count == 0 || getData == null)
+                    return new ApiResponse<IEnumerable<ClickLeadResponseViewModel>>() { Success = false, Message = "click lead fetch failed" };
+                return new ApiResponse<IEnumerable<ClickLeadResponseViewModel>>() { Success = true, Message = "click lead record fetched successfully", Data = getData };
             }
             catch (Exception ex)
             {
 
-                throw new ApplicationException(ex.Message);
+                throw new ApplicationException($"click lead fetch failed {ex.Message}");
             }
         }
     }

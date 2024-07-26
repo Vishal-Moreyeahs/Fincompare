@@ -1,4 +1,5 @@
-﻿using Fincompare.Application.Repositories;
+﻿using Fincompare.Api.Middleware;
+using Fincompare.Application.Repositories;
 using Fincompare.Domain.Enums;
 using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +17,10 @@ namespace Fincompare.Api.Controllers
         {
             _serviceCategory = serviceCategory;
         }
+
         [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
+        [ValidateModelState]
         [Route("add-service-categories")]
         public async Task<IActionResult> CreateServiceCategories(CreateServiceCategoriesRequest model)
         {
@@ -34,7 +37,8 @@ namespace Fincompare.Api.Controllers
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
-        [HttpPost]
+        [HttpPut]
+        [ValidateModelState]
         [Route("update-service-categories")]
         public async Task<IActionResult> UpdateServiceCategories(UpdateServiceCategoriesRequest model)
         {
