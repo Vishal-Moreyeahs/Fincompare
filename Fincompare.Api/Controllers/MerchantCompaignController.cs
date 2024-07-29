@@ -1,5 +1,4 @@
 ﻿using Fincompare.Application.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers
@@ -11,7 +10,7 @@ namespace Fincompare.Api.Controllers
         private readonly IMerchantCompaignServices _merchantCompaignService;
 
         public MerchantCompaignController(IMerchantCompaignServices merchantCompaignServices)
-        { 
+        {
             _merchantCompaignService = merchantCompaignServices;
         }
 
@@ -27,8 +26,8 @@ namespace Fincompare.Api.Controllers
             [FromQuery] int? serviceCategoryId,
             [FromQuery] int? instrumentId,
             [FromQuery] DateTime? dateValidity)
-            //[FromQuery] decimal? SendMinLimit,
-            //[FromQuery] decimal? ReceiveMinLimit)
+        //[FromQuery] decimal? SendMinLimit,
+        //[FromQuery] decimal? ReceiveMinLimit)
         {
             // Your logic to get merchant campaigns based on the parameters
             var result = _merchantCompaignService.GetMerchantCampaigns(
@@ -42,8 +41,8 @@ namespace Fincompare.Api.Controllers
                 serviceCategoryId,
                 instrumentId,
                 dateValidity
-                //SendMinLimit,
-                //ReceiveMinLimit
+            //SendMinLimit,
+            //ReceiveMinLimit
             );
 
             if (result == null)

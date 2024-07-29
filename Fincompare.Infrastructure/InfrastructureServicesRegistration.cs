@@ -23,6 +23,7 @@ namespace Fincompare.Infrastructure
             //services.AddSingleton<MarketRateBackgroundService>();
             // Corrected code: Check if JwtSettings is present in your configuration
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+            services.Configure<MarketRateSettings>(configuration.GetSection("MarketRateSettings"));
 
             //services.AddSingleton<IHostedService, MarketRateBackgroundService>();
             services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();

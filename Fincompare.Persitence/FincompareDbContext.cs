@@ -444,6 +444,11 @@ namespace Fincompare.Persitence
                 entity.Property(e => e.Country3Iso)
                     .HasColumnType("character varying")
                     .HasColumnName("Country_3_iso");
+
+                entity.Property(e => e.InstrumentType)
+                    .HasColumnType("character varying")
+                    .HasColumnName("Instrument_Type").HasMaxLength(30);
+
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("timestamp with time zone")
                     .HasColumnName("Created_Date");
@@ -533,6 +538,9 @@ namespace Fincompare.Persitence
                 entity.Property(e => e.WebUrl)
                     .HasColumnType("character varying")
                     .HasColumnName("Web_Url").HasMaxLength(300);
+                entity.Property(e => e.MerchantType)
+                    .HasColumnType("character varying")
+                    .HasColumnName("Merchant_Type").HasMaxLength(30);
 
                 entity.HasOne(d => d.Country3IsoNavigation).WithMany(p => p.Merchants)
                     .HasForeignKey(d => d.Country3Iso)
@@ -725,6 +733,8 @@ namespace Fincompare.Persitence
                 entity.Property(e => e.FeesName)
                     .HasColumnType("character varying")
                     .HasColumnName("Fees_Name").HasMaxLength(35);
+                entity.Property(e => e.VariableFee)
+                    .HasColumnName("Variable_Fee");
                 entity.Property(e => e.MerchantId).HasColumnName("Merchant_Id");
                 entity.Property(e => e.MerchantProductId).HasColumnName("MerchantProduct_Id");
                 entity.Property(e => e.PromoFees).HasColumnName("Promo_Fees");
@@ -759,10 +769,16 @@ namespace Fincompare.Persitence
                     .HasForeignKey(d => d.MerchantProductId)
                     .HasConstraintName("MerchantRemitProductFee_MerchantProduct_Id_fkey");
 
+
                 entity.HasOne(d => d.ReceiveCountry3IsoNavigation).WithMany(p => p.MerchantRemitProductFeeReceiveCountry3IsoNavigations)
                     .HasForeignKey(d => d.ReceiveCountry3Iso)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("MerchantRemitProductFee_Receive_Country_3_iso_fkey");
+
+                entity.HasOne(d => d.Instruments).WithMany(p => p.MerchantRemitProductFees)
+                    .HasForeignKey(d => d.PayInInstrumentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("MerchantRemitProductFee_PayInInstrumentId_fkey");
 
                 entity.HasOne(d => d.ReceiveCurrencyNavigation).WithMany(p => p.MerchantRemitProductFeeReceiveCurrencyNavigations)
                     .HasForeignKey(d => d.ReceiveCurrency)

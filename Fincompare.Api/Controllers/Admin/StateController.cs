@@ -1,4 +1,5 @@
-﻿using Fincompare.Application.Repositories;
+﻿using Fincompare.Api.Middleware;
+using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.StateRequest;
 using Fincompare.Domain.Enums;
 using Fincompare.Infrastructure.Authentication;
@@ -18,29 +19,21 @@ namespace Fincompare.Api.Controllers.Admin
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
+        [ValidateModelState]
         [HttpPost]
         [Route("add-state")]
         public async Task<IActionResult> AddState(AddStateRequest model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _stateService.AddState(model);
             return Ok(response);
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
+        [ValidateModelState]
         [HttpPut]
         [Route("update-state")]
         public async Task<IActionResult> UpdateState(UpdateStateRequest model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             var response = await _stateService.UpdateState(model);
             return Ok(response);
         }

@@ -24,16 +24,16 @@ namespace Fincompare.Application.Services
             try
             {
                 if (model == null)
-                    return new ApiResponse<CreateServiceCategoriesRequest>() { Status = false, Message = "Request Invalid", Data = model };
+                    return new ApiResponse<CreateServiceCategoriesRequest>() { Success = false, Message = "service category creation failed", Data = model };
                 var addService = _mapper.Map<ServiceCategory>(model);
                 await _unitOfWork.GetRepository<ServiceCategory>().Add(addService);
                 await _unitOfWork.SaveChangesAsync();
-                return new ApiResponse<CreateServiceCategoriesRequest>() { Status = true, Message = "Service Category created successfully", Data = model };
+                return new ApiResponse<CreateServiceCategoriesRequest>() { Success = true, Message = "Service Category record created successfully", Data = model };
             }
             catch (Exception)
             {
 
-                throw;
+                throw new ApplicationException("service category creation failed");
             }
         }
 
@@ -59,14 +59,14 @@ namespace Fincompare.Application.Services
 
 
                 if (getAllServiceCategories.ToList().Count > 0)
-                    return new ApiResponse<IEnumerable<GetAllServiceCategoriesResponse>>() { Status = true, Message = "Service Categories Fetch Successfully", Data = response };
-                return new ApiResponse<IEnumerable<GetAllServiceCategoriesResponse>>() { Status = true, Message = "Service Categories Not Found" };
+                    return new ApiResponse<IEnumerable<GetAllServiceCategoriesResponse>>() { Success = true, Message = "Service Categories record fetched successfully", Data = response };
+                return new ApiResponse<IEnumerable<GetAllServiceCategoriesResponse>>() { Success = true, Message = "Service Category fetch failed" };
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw new ApplicationException("service category fetch failed");
             }
         }
 
@@ -76,18 +76,18 @@ namespace Fincompare.Application.Services
             {
                 var getServiceCategories = await _unitOfWork.GetRepository<ServiceCategory>().GetById(model.Id);
                 if (getServiceCategories == null)
-                    return new ApiResponse<CreateServiceCategoriesRequest>() { Status = false, Message = "Service Categories Not Found" };
+                    return new ApiResponse<CreateServiceCategoriesRequest>() { Success = false, Message = "Service Category update failed" };
                 var updateResponse = _mapper.Map<ServiceCategory>(model);
                 await _unitOfWork.GetRepository<ServiceCategory>().Upsert(updateResponse);
                 await _unitOfWork.SaveChangesAsync();
                 var response = _mapper.Map<CreateServiceCategoriesRequest>(updateResponse);
-                return new ApiResponse<CreateServiceCategoriesRequest>() { Status = true, Message = "Service Categories Updated Successfully", Data = response };
+                return new ApiResponse<CreateServiceCategoriesRequest>() { Success = true, Message = "Service Category record updated successfully", Data = response };
 
             }
             catch (Exception)
             {
 
-                throw;
+                throw new ApplicationException("service category update failed");
             }
         }
 

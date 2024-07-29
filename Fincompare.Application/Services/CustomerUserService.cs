@@ -17,14 +17,14 @@ namespace Fincompare.Application.Services
         private readonly IMapper _mapper;
         private readonly IAuthService _authService;
         private readonly ICryptographyService _cryptographyService;
-        public CustomerUserService(IUnitOfWork unitOfWork, IMapper mapper, IAuthService authService, ICryptographyService cryptographyService )
+        public CustomerUserService(IUnitOfWork unitOfWork, IMapper mapper, IAuthService authService, ICryptographyService cryptographyService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _authService = authService;
             _cryptographyService = cryptographyService;
         }
-    
+
         public async Task<ApiResponse<CustomerUserResponseViewModel>> AddCustomerAsUser(AddCustomerRequest model)
         {
             try
@@ -33,7 +33,7 @@ namespace Fincompare.Application.Services
 
                 if (emailExist.Any(x => x.EmailId == model.EmailId))
                 {
-                    return new ApiResponse<CustomerUserResponseViewModel> { Status = false, Message = "Email Id already exist." };
+                    return new ApiResponse<CustomerUserResponseViewModel> { Success = false, Message = "email id already exist." };
                 }
 
                 //var hashedPassword = _cryptographyService.EncryptPassword(model.Password);
@@ -54,13 +54,13 @@ namespace Fincompare.Application.Services
                 data.UserId = registeredUser.Data.Id;
 
                 if (model.StateId.HasValue)
-                { 
+                {
                     var state = await _unitOfWork.GetRepository<State>().GetById(model.StateId.Value);
                     data.State = state.StateName;
                 }
-                
+
                 if (model.CityId.HasValue)
-                { 
+                {
                     var city = await _unitOfWork.GetRepository<City>().GetById(model.CityId.Value);
                     data.City = city.CityName;
                 }
@@ -70,11 +70,12 @@ namespace Fincompare.Application.Services
 
                 var responseData = _mapper.Map<CustomerUserResponseViewModel>(model);
                 responseData.CustomerId = data.Id;
-                return new ApiResponse<CustomerUserResponseViewModel> { Status = true, Message = "Customer registered successfully", Data = responseData };
+                return new ApiResponse<CustomerUserResponseViewModel> { Success = true, Message = "customer record created successfully", Data = responseData };
 
             }
-            catch (Exception ex) {
-                return new ApiResponse<CustomerUserResponseViewModel> { Status = false, Message = "Customer registration failed" };
+            catch (Exception ex)
+            {
+                return new ApiResponse<CustomerUserResponseViewModel> { Success = false, Message = "customer creation failed" };
 
             }
 
@@ -88,7 +89,7 @@ namespace Fincompare.Application.Services
 
                 if (customers == null)
                 {
-                    return new ApiResponse<IEnumerable<CustomerUserResponseViewModel>> { Status = false, Message = "Customers not found." };
+                    return new ApiResponse<IEnumerable<CustomerUserResponseViewModel>> { Success = false, Message = "customer not found." };
 
                 }
 
@@ -97,12 +98,12 @@ namespace Fincompare.Application.Services
 
                 var data = _mapper.Map<IEnumerable<CustomerUserResponseViewModel>>(customers);
 
-                return new ApiResponse<IEnumerable<CustomerUserResponseViewModel>> { Status = true, Message = "Customers fetched.", Data = data };
+                return new ApiResponse<IEnumerable<CustomerUserResponseViewModel>> { Success = true, Message = "customer record fetched successfully", Data = data };
 
             }
             catch (Exception ex)
             {
-                return new ApiResponse<IEnumerable<CustomerUserResponseViewModel>> { Status = false, Message = "Customers fetched failed."};
+                return new ApiResponse<IEnumerable<CustomerUserResponseViewModel>> { Success = false, Message = "Customer fetch failed." };
 
             }
 
@@ -116,14 +117,14 @@ namespace Fincompare.Application.Services
 
                 if (emailExist == null)
                 {
-                    return new ApiResponse<UpdateCustomerRequest> { Status = false, Message = "Customer not found." };
+                    return new ApiResponse<UpdateCustomerRequest> { Success = false, Message = "customer not found." };
                 }
 
                 var user = await _unitOfWork.GetRepository<User>().GetById(emailExist.UserId);
 
                 if (emailExist == null)
                 {
-                    return new ApiResponse<UpdateCustomerRequest> { Status = false, Message = "User not found." };
+                    return new ApiResponse<UpdateCustomerRequest> { Success = false, Message = "user not found." };
                 }
                 var updateCustomer = _mapper.Map(model, emailExist);
                 await _unitOfWork.GetRepository<CustomerUser>().Upsert(updateCustomer);
@@ -136,13 +137,13 @@ namespace Fincompare.Application.Services
 
                 await _unitOfWork.GetRepository<User>().Upsert(user);
                 await _unitOfWork.SaveChangesAsync();
-                return new ApiResponse<UpdateCustomerRequest> { Status = true, Message = "Customer updated successfully", Data = model };
+                return new ApiResponse<UpdateCustomerRequest> { Success = true, Message = "customer record updated successfully", Data = model };
 
 
             }
             catch (Exception ex)
             {
-                return new ApiResponse<UpdateCustomerRequest> { Status = false, Message = "Customer updated failed" };
+                return new ApiResponse<UpdateCustomerRequest> { Success = false, Message = "customer update failed" };
 
             }
 

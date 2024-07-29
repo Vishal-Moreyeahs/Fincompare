@@ -26,8 +26,8 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<MerchantProductViewModel>()
                     {
-                        Status = true,
-                        Message = "Merchant Product Creation Failed"
+                        Success = true,
+                        Message = "merchant product creation failed"
                     };
                 //var checkMerchantExist = await _unitOfWork.GetRepository<Merchant>().GetById(model.MerchantId);
                 var createdData = _mapper.Map<MerchantProduct>(model);
@@ -57,8 +57,8 @@ namespace Fincompare.Application.Services
 
                 var response = new ApiResponse<MerchantProductViewModel>()
                 {
-                    Status = true,
-                    Message = "Merchant Product Created Successfully",
+                    Success = true,
+                    Message = "merchant product record created successfully",
                     Data = merchantResponseData
 
                 };
@@ -67,7 +67,7 @@ namespace Fincompare.Application.Services
             catch (Exception ex)
             {
 
-                throw new ApplicationException("Error in adding merchant product");
+                throw new ApplicationException("merchant product creation failed");
             }
         }
 
@@ -101,22 +101,22 @@ namespace Fincompare.Application.Services
 
                 if (merchantProductList == null || merchantProductList.Count == 0)
                 {
-                    response.Message = "merchant products not found";
+                    response.Message = "merchant product fetch failed";
                     return response;
                 }
-                response.Status = true;
-                response.Message = "Merchant product fetched";
+                response.Success = true;
+                response.Message = "Merchant product record fetched successfully";
                 response.Data = merchantProductList;
                 return response;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Process failed to fetch merchant products");
+                throw new ApplicationException("merchant product fetch failed");
             }
 
         }
 
-        public ApiResponse<IEnumerable<MerchantProductViewModel>> GetMerchantProducts(string sendCountry, string receiveCountry, string sendCurrency, string receiveCurrency, int? merchantID, int? merchantProductID, int? productID, int? serviceCategoryID, int? instrumentID, bool? status)
+        public async Task<ApiResponse<IEnumerable<MerchantProductViewModel>>> GetMerchantProducts(string sendCountry, string receiveCountry, string sendCurrency, string receiveCurrency, int? merchantID, int? merchantProductID, int? productID, int? serviceCategoryID, int? instrumentID, bool? status)
         {
             var response = new ApiResponse<IEnumerable<MerchantProductViewModel>>();
             var merchantProducts = _unitOfWork.GetRepository<MerchantProduct>().GetAllRelatedEntity().AsQueryable();
@@ -145,7 +145,7 @@ namespace Fincompare.Application.Services
 
             if (!merchantProducts.Any())
             {
-                response.Message = "merchant products not found";
+                response.Message = "merchant product fetch failed";
                 return response;
             }
             var data = merchantProducts.Select(x => new MerchantProductViewModel
@@ -167,8 +167,8 @@ namespace Fincompare.Application.Services
                 Status = x.Status
             }).ToList();
 
-            response.Status = true;
-            response.Message = "Merchant Products found";
+            response.Success = true;
+            response.Message = "merchant product record fetched successfully";
             response.Data = data;
             return response;
         }
@@ -180,7 +180,7 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<MerchantProductViewModel>()
                     {
-                        Status = true,
+                        Success = true,
                         Message = "Merchant Product Update Failed"
                     };
                 //var checkMerchantExist = await _unitOfWork.GetRepository<Merchant>().GetById(model.MerchantId);
@@ -211,8 +211,8 @@ namespace Fincompare.Application.Services
 
                 var response = new ApiResponse<MerchantProductViewModel>()
                 {
-                    Status = true,
-                    Message = "Merchant Product updated Successfully",
+                    Success = true,
+                    Message = "Merchant Product record updated Successfully",
                     Data = merchantResponseData
 
                 };
@@ -221,7 +221,7 @@ namespace Fincompare.Application.Services
             catch (Exception ex)
             {
 
-                throw new ApplicationException("Error in adding merchant product");
+                throw new ApplicationException("merchant product update failed");
             }
         }
     }

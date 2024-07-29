@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Fincompare.Application.Request.CustomerRequests
 {
@@ -27,21 +22,22 @@ namespace Fincompare.Application.Request.CustomerRequests
 
         public string Password { get; set; } = string.Empty;
         public string RateSubscription { get; set; } = string.Empty;
-        public string PromoSubscription { get; set; } = string.Empty ;
+        public string PromoSubscription { get; set; } = string.Empty;
         public string AuthProvider { get; set; } = string.Empty;
-        public string AuthProviderId { get; set; } = string.Empty ;
+        public string AuthProviderId { get; set; } = string.Empty;
         public bool Status { get; set; } = false;
     }
 
     public class AddCustomerRequest : CustomerRequest { }
 
-    public class UpdateCustomerRequest {
+    public class UpdateCustomerRequest
+    {
         [Required]
         public int Id { get; set; }
 
         public string? CustomerName { get; set; }
 
-        
+
         public string? EmailId { get; set; }
 
 

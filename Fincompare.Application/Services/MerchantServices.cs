@@ -35,8 +35,8 @@ namespace Fincompare.Application.Services
                 var merchant = await _unitOfWork.GetRepository<Merchant>().GetById(merchantId);
                 if (merchant == null)
                 {
-                    response.Status = false;
-                    response.Message = "Merchant not exists.";
+                    response.Success = false;
+                    response.Message = "merchant delete failed";
                     return response;
                 }
 
@@ -56,13 +56,13 @@ namespace Fincompare.Application.Services
                     //    await _unitOfWork.SaveChangesAsync();
 
                     //}
-                    response.Status = true;
-                response.Message = "Merchant Removed";
+                    response.Success = true;
+                response.Message = "merchant record deleted successfully";
                 return response;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Merchant Deletion Failed");
+                throw new ApplicationException("merchant delete failed");
             }
 
         }
@@ -76,7 +76,7 @@ namespace Fincompare.Application.Services
                 var merchant = await _unitOfWork.GetRepository<Merchant>().GetById(model.Id);
                 if (merchant == null)
                 {
-                    response.Message = "Merchant Not Found";
+                    response.Message = "merchant update failed";
                     return response;
                 }
 
@@ -86,23 +86,23 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.SaveChangesAsync();
 
                 // Prepare the response
-                response.Status = true;
-                response.Message = "Merchant Updated Successfully";
+                response.Success = true;
+                response.Message = "merchant record updated successfully";
                 response.Data = _mapper.Map<MerchantDto>(merchant);
             }
             catch (Exception ex)
             {
                 // Log the exception details for troubleshooting
                 // Logger.LogError(ex, "Merchant Update failed");
-                response.Status = false;
-                response.Message = "Merchant Update failed";
+                response.Success = false;
+                response.Message = "merchant update failed";
             }
 
             return response;
         }
 
 
-        public async Task<ApiResponse<IEnumerable<MerchantDto>>> GetAllMerchants(int? groupMerchantId, int? merchantId, string? countryIso3, bool? status)
+        public async Task<ApiResponse<IEnumerable<MerchantDto>>> GetAllMerchants(int? groupMerchantId, int? merchantId,string? merchantType ,string? countryIso3, bool? status)
         {
             var response = new ApiResponse<IEnumerable<MerchantDto>>();
 
@@ -112,8 +112,8 @@ namespace Fincompare.Application.Services
                 var merchants = await _unitOfWork.GetRepository<Merchant>().GetAll();
                 if (merchants == null)
                 {
-                    response.Status = false;
-                    response.Message = "Merchants not found";
+                    response.Success = false;
+                    response.Message = "merchant fetch failed";
                     return response;
                 }
 
@@ -125,17 +125,19 @@ namespace Fincompare.Application.Services
                     merchants = merchants.Where(mp => mp.Country3Iso == countryIso3);
                 if (status.HasValue)
                     merchants = merchants.Where(mp => mp.Status == status.Value);
+                if (status.HasValue)
+                    merchants = merchants.Where(mp => mp.MerchantType == merchantType);
 
                 var merchantsResponse = _mapper.Map<IEnumerable<MerchantDto>>(merchants);
-                response.Status = true;
+                response.Success = true;
                 response.Data = merchantsResponse;
-                response.Message = "Merchants fetched successfully";
+                response.Message = "merchant record fetched successfully";
                 return response;
             }
             catch (Exception ex)
             {
 
-                throw new ApplicationException("Error in getting merchants");
+                throw new ApplicationException($"merchant fetch failed {ex.Message}");
             }
         }
 
@@ -149,21 +151,21 @@ namespace Fincompare.Application.Services
                 var merchants = await _unitOfWork.GetRepository<Merchant>().GetById(merchantId);
                 if (merchants == null)
                 {
-                    response.Status = false;
-                    response.Message = "Merchant not found";
+                    response.Success = false;
+                    response.Message = "merchant fetch failed";
                     return response;
                 }
 
                 var merchantsResponse = _mapper.Map<MerchantDto>(merchants);
-                response.Status = true;
+                response.Success = true;
                 response.Data = merchantsResponse;
-                response.Message = "Merchant found";
+                response.Message = "merchant record fetched successfully";
                 return response;
             }
             catch (Exception ex)
             {
 
-                throw new ApplicationException("Error in getting merchant");
+                throw new ApplicationException("merchant fetch failed");
             }
         }
 
@@ -178,21 +180,21 @@ namespace Fincompare.Application.Services
                 var merchant = merchants.FirstOrDefault(x => x.UserId == userId);
                 if (merchant == null)
                 {
-                    response.Status = false;
-                    response.Message = "Merchant not found";
+                    response.Success = false;
+                    response.Message = "merchant fetch failed";
                     return response;
                 }
 
                 var merchantsResponse = _mapper.Map<MerchantDto>(merchants);
-                response.Status = true;
+                response.Success = true;
                 response.Data = merchantsResponse;
-                response.Message = "Merchant found";
+                response.Message = "merchant record fetched successfully";
                 return response;
             }
             catch (Exception ex)
             {
 
-                throw new ApplicationException("Error in getting merchant by user id");
+                throw new ApplicationException("merchant fetch failed");
             }
 
         }
@@ -209,7 +211,7 @@ namespace Fincompare.Application.Services
                 var checkMerchant = merchants.FirstOrDefault(x => x.MerchantCsem == model.MerchantCsem);
                 if (checkMerchant != null)
                 {
-                    response.Status = false;
+                    response.Success = false;
                     response.Message = "Merchant email already exists.";
                     return response;
                 }
@@ -219,7 +221,7 @@ namespace Fincompare.Application.Services
                 var checkGroup = await _unitOfWork.GetRepository<GroupMerchant>().GetById(model.GroupMerchantId);
                 if (checkGroup == null)
                 {
-                    response.Status = false;
+                    response.Success = false;
                     response.Message = "Invalid Group. Please enter valid group id.";
                     return response;
                 }
@@ -247,15 +249,15 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.SaveChangesAsync();
 
                 var merchantData = _mapper.Map<MerchantDto>(merchant);
-                response.Status = true;
-                response.Message = "Merchant created successfully";
+                response.Success = true;
+                response.Message = "Merchant record created successfully";
                 response.Data = merchantData;
                 return response;
             }
             catch (Exception ex)
             {
 
-                throw new ApplicationException("Merchant Onboarding Failed " + ex.Message);
+                throw new ApplicationException("Merchant creation failed " + ex.Message);
             }
 
         }

@@ -1,4 +1,5 @@
-﻿using Fincompare.Application.Repositories;
+﻿using Fincompare.Api.Middleware;
+using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.CountryRequest;
 using Fincompare.Domain.Enums;
 using Fincompare.Infrastructure.Authentication;
@@ -19,18 +20,15 @@ namespace Fincompare.Api.Controllers.Admin
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
+        [ValidateModelState]
         [Route("add")]
         public async Task<IActionResult> CreateCountry(CountryRequest request)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return a 400 Bad Request response with validation errors
-                return BadRequest(ModelState);
-            }
             return Ok(await _countryServices.AddCountry(request));
         }
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
+        [ValidateModelState]
         [HttpPut]
         [Route("update")]
         public async Task<IActionResult> UpdateCountry(CountryRequest request)

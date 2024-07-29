@@ -24,7 +24,7 @@ namespace Fincompare.Application.Services
             try
             {
                 if (model.Count == 0)
-                    return new ApiResponse<IEnumerable<GetAllMerchantProductCouponResponse>>() { Status = false, Message = "Merchant product coupon creation failed" };
+                    return new ApiResponse<IEnumerable<GetAllMerchantProductCouponResponse>>() { Success = false, Message = "Merchant product coupon creation failed" };
 
                 var addProductCouponse = _mapper.Map<IEnumerable<MerchantProductCoupon>>(model);
 
@@ -32,12 +32,12 @@ namespace Fincompare.Application.Services
                 await _unitOfWork.SaveChangesAsync();
 
                 var response = _mapper.Map<IEnumerable<GetAllMerchantProductCouponResponse>>(addProductCouponse);
-                return new ApiResponse<IEnumerable<GetAllMerchantProductCouponResponse>>() { Status = true, Message = "Merchant product coupon created successfully", Data = response };
+                return new ApiResponse<IEnumerable<GetAllMerchantProductCouponResponse>>() { Success = true, Message = "Merchant product coupon record created successfully", Data = response };
             }
             catch (Exception ex)
             {
 
-                throw new ArgumentException(ex.Message);
+                throw new ArgumentException($"Merchant product coupon creation failed {ex.Message}");
 
             }
         }
@@ -124,13 +124,13 @@ namespace Fincompare.Application.Services
 
 
                 if (innerData.Count > 0)
-                    return new ApiResponse<IEnumerable<MerchantCouponResponseClass>>() { Status = true, Message = "Merchant product coupon fetch successfully!", Data = innerData };
-                return new ApiResponse<IEnumerable<MerchantCouponResponseClass>>() { Status = false, Message = "Merchant product coupon not found!" };
+                    return new ApiResponse<IEnumerable<MerchantCouponResponseClass>>() { Success = true, Message = "Merchant product coupon record fetch successfully", Data = innerData };
+                return new ApiResponse<IEnumerable<MerchantCouponResponseClass>>() { Success = false, Message = "Merchant product coupon fetch failed" };
             }
             catch (Exception ex)
             {
 
-                throw new ArgumentException(ex.Message);
+                throw new ArgumentException($"Merchant product coupon fetch failed {ex.Message}");
             }
         }
 
@@ -141,17 +141,17 @@ namespace Fincompare.Application.Services
                 var getAllUpdateMerchan = await _unitOfWork.GetRepository<MerchantProductCoupon>().GetAll();
                 var checkMerchantProduct = getAllUpdateMerchan.Where(x => (x.MerchantId == model.MerchantId && x.MerchantCouponBatch == model.MerchantCouponBatch) || x.Id == model.MerchantCouponId).FirstOrDefault();
                 if (checkMerchantProduct == null)
-                    return new ApiResponse<string>() { Status = false, Message = "Merchant product coupon update failed" };
+                    return new ApiResponse<string>() { Success = false, Message = "Merchant product coupon update failed" };
                 var updateData = _mapper.Map<MerchantProductCoupon>(checkMerchantProduct);
                 await _unitOfWork.GetRepository<MerchantProductCoupon>().Upsert(updateData);
                 await _unitOfWork.SaveChangesAsync();
-                return new ApiResponse<string>() { Status = false, Message = "Merchant product coupon updated successfully" };
+                return new ApiResponse<string>() { Success = false, Message = "Merchant product coupon record updated successfully" };
 
             }
             catch (Exception ex)
             {
 
-                throw new ArgumentException(ex.Message);
+                throw new ArgumentException($"Merchant product coupon update failed {ex.Message}");
             }
         }
 

@@ -3,11 +3,6 @@ using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fincompare.Application.Services
 {
@@ -41,19 +36,20 @@ namespace Fincompare.Application.Services
 
                 return new ApiResponse<IEnumerable<RateCardRequestViewModel>>()
                 {
-                    Status = true,
-                    Message = " Rates Fetched successfully",
+                    Success = true,
+                    Message = " Rate Card record fetched successfully",
                     Data = rateCardRequestModel
                 };
             }
-            catch (Exception ex) {
-                throw new ApplicationException($"{ex.Message}");
+            catch (Exception ex)
+            {
+                throw new ApplicationException($"Rate card rates fetch failed{ex.Message}");
             }
-            
+
         }
 
         public class RateCardRequestViewModel
-        { 
+        {
             public string Country3Iso { get; set; }
             public string SendCurrency3Iso { get; set; }
             public string ReceiveCurrency3Iso { get; set; }

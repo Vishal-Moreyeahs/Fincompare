@@ -24,8 +24,8 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<UpdateCityRequest>()
                     {
-                        Status = true,
-                        Message = "Request invalid !",
+                        Success = false,
+                        Message = "city creation failed",
                     };
 
                 var city = _mapper.Map<City>(model);
@@ -35,8 +35,8 @@ namespace Fincompare.Application.Services
                 var response = _mapper.Map<UpdateCityRequest>(city);
                 return new ApiResponse<UpdateCityRequest>()
                 {
-                    Status = true,
-                    Message = "City Created Successfully !",
+                    Success = true,
+                    Message = "city record created successfully",
                     Data = response
                 };
             }
@@ -60,8 +60,8 @@ namespace Fincompare.Application.Services
                     await _unitOfWork.SaveChangesAsync();
                     var response = new ApiResponse<string>()
                     {
-                        Status = true,
-                        Message = "City Deleted Successfully"
+                        Success = true,
+                        Message = "city record deleted successfully"
                     };
                     return response;
                 }
@@ -69,8 +69,8 @@ namespace Fincompare.Application.Services
                 {
                     var response = new ApiResponse<string>()
                     {
-                        Status = false,
-                        Message = "City not found"
+                        Success = false,
+                        Message = "city delete failed"
                     };
                     return response;
                 }
@@ -108,16 +108,16 @@ namespace Fincompare.Application.Services
                 {
                     var response = new ApiResponse<IEnumerable<CityDto>>()
                     {
-                        Status = false,
-                        Message = "Cities Not Found !"
+                        Success = false,
+                        Message = "city fetch failed"
                     };
                     return response;
                 }
                 var data = _mapper.Map<IEnumerable<CityDto>>(getAllCity);
                 return new ApiResponse<IEnumerable<CityDto>>()
                 {
-                    Status = true,
-                    Message = "Cities Fetched Successfully",
+                    Success = true,
+                    Message = "city record fetched successfully",
                     Data = data
                 };
             }
@@ -138,8 +138,8 @@ namespace Fincompare.Application.Services
                 {
                     var response = new ApiResponse<CityDto>()
                     {
-                        Status = false,
-                        Message = "State Not Found !"
+                        Success = false,
+                        Message = "city fetch failed"
                     };
                     return response;
                 }
@@ -148,8 +148,8 @@ namespace Fincompare.Application.Services
 
                 return new ApiResponse<CityDto>()
                 {
-                    Status = true,
-                    Message = "State Found !",
+                    Success = true,
+                    Message = "city fetched successfully",
                     Data = data
                 };
             }
@@ -168,7 +168,7 @@ namespace Fincompare.Application.Services
                 if (checkCity == null)
                     return new ApiResponse<CityDto>()
                     {
-                        Status = false,
+                        Success = false,
                         Message = "City Not Found !"
                     };
 
@@ -176,14 +176,14 @@ namespace Fincompare.Application.Services
                 if (city == null)
                     return new ApiResponse<CityDto>()
                     {
-                        Status = false,
+                        Success = false,
                         Message = "City Not Found !"
                     };
                 var data = _mapper.Map<CityDto>(city);
 
                 return new ApiResponse<CityDto>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = "City Found !",
                     Data = data
                 };
@@ -202,8 +202,8 @@ namespace Fincompare.Application.Services
                 if (checkCity == null)
                     return new ApiResponse<UpdateCityRequest>()
                     {
-                        Status = false,
-                        Message = "City Not Found !"
+                        Success = false,
+                        Message = "city update failed"
                     };
 
                 var updateCity = _mapper.Map(model, checkCity);
@@ -212,8 +212,8 @@ namespace Fincompare.Application.Services
                 var response = _mapper.Map<UpdateCityRequest>(updateCity);
                 return new ApiResponse<UpdateCityRequest>()
                 {
-                    Status = true,
-                    Message = "City Update Successfully !",
+                    Success = true,
+                    Message = "city record updated successfully",
                     Data = response
                 };
             }

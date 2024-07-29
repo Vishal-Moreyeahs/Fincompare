@@ -1,12 +1,6 @@
-﻿using Fincompare.Application.Request.CityRequest;
-using Fincompare.Application.Request.MerchantCompaignRequests;
+﻿using Fincompare.Application.Request.MerchantCompaignRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.MerchantCompaignResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fincompare.Application.Repositories
 {
@@ -28,5 +22,5 @@ namespace Fincompare.Application.Repositories
             //decimal? SendMinLimit,
             /*decimal? ReceiveMinLimit*/);
     };
-    
+
 }

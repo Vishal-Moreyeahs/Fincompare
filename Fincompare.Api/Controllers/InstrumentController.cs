@@ -1,4 +1,5 @@
-﻿using Fincompare.Application.Repositories;
+﻿using Fincompare.Api.Middleware;
+using Fincompare.Application.Repositories;
 using Fincompare.Domain.Enums;
 using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ namespace Fincompare.Api.Controllers
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPost]
+        [ValidateModelState]
         [Route("add-instrument")]
         public async Task<IActionResult> CreateInstrument(CreateInstrumentRequest model)
         {
@@ -28,6 +30,7 @@ namespace Fincompare.Api.Controllers
 
         [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpPut]
+        [ValidateModelState]
         [Route("update-instrument")]
         public async Task<IActionResult> UpdateInstrument(UpdateInstrumentRequest model)
         {
@@ -37,9 +40,9 @@ namespace Fincompare.Api.Controllers
 
         [HttpGet]
         [Route("fetch-instrument")]
-        public async Task<IActionResult> GetAllInstrument(int? idInstrument, bool? status)
+        public async Task<IActionResult> GetAllInstrument(int? idInstrument, bool? status, string? instrumentType)
         {
-            var response = await _instrumentService.GetAllInstrument(idInstrument, status);
+            var response = await _instrumentService.GetAllInstrument(idInstrument, status, instrumentType);
             return Ok(response);
         }
 

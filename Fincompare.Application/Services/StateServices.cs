@@ -32,14 +32,14 @@ namespace Fincompare.Application.Services
 
                 return new ApiResponse<StateDTO>()
                 {
-                    Status = true,
-                    Message = "State created Successfully",
+                    Success = true,
+                    Message = "state record created successfully",
                     Data = data
                 };
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new ApplicationException($"state creation failed {ex.Message}");
             }
         }
 
@@ -57,8 +57,8 @@ namespace Fincompare.Application.Services
                     await _unitOfWork.SaveChangesAsync();
                     var response = new ApiResponse<string>()
                     {
-                        Status = true,
-                        Message = "State Deleted Successfully"
+                        Success = true,
+                        Message = "state record deleted successfully"
                     };
                     return response;
                 }
@@ -66,15 +66,15 @@ namespace Fincompare.Application.Services
                 {
                     var response = new ApiResponse<string>()
                     {
-                        Status = false,
-                        Message = "State not found"
+                        Success = false,
+                        Message = "state delete failed"
                     };
                     return response;
                 }
             }
             catch (Exception ex)
             {
-                throw new ApplicationException($"{ex.Message}");
+                throw new ApplicationException($" state delete failed {ex.Message}");
             }
 
         }
@@ -89,8 +89,8 @@ namespace Fincompare.Application.Services
                 {
                     var response = new ApiResponse<IEnumerable<StateDTO>>()
                     {
-                        Status = false,
-                        Message = "State Not Found !"
+                        Success = false,
+                        Message = "state fetch failed"
                     };
                     return response;
                 }
@@ -106,15 +106,15 @@ namespace Fincompare.Application.Services
                 var data = _mapper.Map<IEnumerable<StateDTO>>(getAllState);
                 return new ApiResponse<IEnumerable<StateDTO>>()
                 {
-                    Status = true,
-                    Message = "State Found !",
+                    Success = true,
+                    Message = "state record fetched successfully",
                     Data = data
                 };
             }
             catch (Exception ex)
             {
 
-                throw ex;
+                throw new ApplicationException($"state fetch failed {ex.Message}");
             }
         }
 
@@ -128,7 +128,7 @@ namespace Fincompare.Application.Services
                 {
                     var response = new ApiResponse<StateDTO>()
                     {
-                        Status = false,
+                        Success = false,
                         Message = "State Not Found !"
                     };
                     return response;
@@ -138,7 +138,7 @@ namespace Fincompare.Application.Services
 
                 return new ApiResponse<StateDTO>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = "State Found !",
                     Data = data
                 };
@@ -159,7 +159,7 @@ namespace Fincompare.Application.Services
                 if (checkState == null)
                     return new ApiResponse<IEnumerable<StateDTO>>()
                     {
-                        Status = false,
+                        Success = false,
                         Message = "State Not Found !"
                     };
 
@@ -167,14 +167,14 @@ namespace Fincompare.Application.Services
                 if (state == null)
                     return new ApiResponse<IEnumerable<StateDTO>>()
                     {
-                        Status = false,
+                        Success = false,
                         Message = "State Not Found !"
                     };
                 var data = _mapper.Map<IEnumerable<StateDTO>>(state);
 
                 return new ApiResponse<IEnumerable<StateDTO>>()
                 {
-                    Status = true,
+                    Success = true,
                     Message = "State Found !",
                     Data = data
                 };
@@ -193,8 +193,8 @@ namespace Fincompare.Application.Services
                 if (checkState == null)
                     return new ApiResponse<StateDTO>()
                     {
-                        Status = false,
-                        Message = "State Not Found !"
+                        Success = false,
+                        Message = "state update failed"
                     };
 
                 var updateState = _mapper.Map(model, checkState);
@@ -206,14 +206,14 @@ namespace Fincompare.Application.Services
 
                 return new ApiResponse<StateDTO>()
                 {
-                    Status = true,
-                    Message = "State Update Successfully !",
+                    Success = true,
+                    Message = "state record update successfully",
                     Data = data
                 };
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new ApplicationException($"state update failed {ex.Message}");
             }
         }
     }

@@ -35,6 +35,9 @@ namespace Fincompare.Domain.Entities
         public double ReceiveMaxLimit { get; set; }
 
         public DateTime ValidityExpiry { get; set; }
+        public int? PayInInstrumentId { get; set; }
+
+        public int? VariableFee { get; set; }
 
         public bool Status { get; set; }
 
@@ -43,6 +46,7 @@ namespace Fincompare.Domain.Entities
         public virtual Merchant Merchant { get; set; } = null!;
 
         public virtual MerchantProduct? MerchantProduct { get; set; }
+        public virtual Instrument? Instruments { get; set; }
 
         public virtual Country ReceiveCountry3IsoNavigation { get; set; } = null!;
 

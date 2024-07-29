@@ -28,8 +28,8 @@ namespace Fincompare.Application.Services
                 {
                     return new ApiResponse<CountryRequest>()
                     {
-                        Status = false,
-                        Message = "Country already exist"
+                        Success = false,
+                        Message = "country creation failed"
                     };
                 }
 
@@ -39,8 +39,8 @@ namespace Fincompare.Application.Services
                 var data = _mapper.Map<CountryRequest>(country);
                 var response = new ApiResponse<CountryRequest>()
                 {
-                    Status = true,
-                    Message = "Country created successfully",
+                    Success = true,
+                    Message = "country record created successfully",
                     Data = data
                 };
                 return response;
@@ -61,8 +61,8 @@ namespace Fincompare.Application.Services
 
                     var res = new ApiResponse<List<GetCountryDto>>()
                     {
-                        Status = false,
-                        Message = "Countries not found"
+                        Success = false,
+                        Message = "country fetch failed"
                     };
                     return res;
                 }
@@ -75,15 +75,15 @@ namespace Fincompare.Application.Services
                 var data = _mapper.Map<List<GetCountryDto>>(countries);
                 var response = new ApiResponse<List<GetCountryDto>>()
                 {
-                    Status = true,
-                    Message = "Get countries",
+                    Success = true,
+                    Message = "country record fetched successfully",
                     Data = data
                 };
                 return response;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException($"{ex.Message}");
+                throw new ApplicationException($"country fetch failed {ex.Message}");
             }
         }
 
@@ -98,7 +98,7 @@ namespace Fincompare.Application.Services
                     var data = _mapper.Map<GetCountryDto>(country);
                     var response = new ApiResponse<GetCountryDto>()
                     {
-                        Status = true,
+                        Success = true,
                         Message = "Country Found",
                         Data = data
                     };
@@ -108,7 +108,7 @@ namespace Fincompare.Application.Services
                 {
                     var response = new ApiResponse<GetCountryDto>()
                     {
-                        Status = false,
+                        Success = false,
                         Message = "Country not found"
                     };
                     return response;
@@ -135,8 +135,8 @@ namespace Fincompare.Application.Services
                     await _unitOfWork.SaveChangesAsync();
                     var response = new ApiResponse<string>()
                     {
-                        Status = true,
-                        Message = "Country Deleted Successfully"
+                        Success = true,
+                        Message = "country record deleted successfully"
                     };
                     return response;
                 }
@@ -144,15 +144,15 @@ namespace Fincompare.Application.Services
                 {
                     var response = new ApiResponse<string>()
                     {
-                        Status = false,
-                        Message = "Country not found"
+                        Success = false,
+                        Message = "country delete failed"
                     };
                     return response;
                 }
             }
             catch (Exception ex)
             {
-                throw new ApplicationException($"{ex.Message}");
+                throw new ApplicationException($"country delete failed {ex.Message}");
             }
 
         }
@@ -165,8 +165,8 @@ namespace Fincompare.Application.Services
                 if (countryData == null)
                     return new ApiResponse<CountryRequest>()
                     {
-                        Status = false,
-                        Message = "Country not found"
+                        Success = false,
+                        Message = "country update failed"
                     };
                 var country = _mapper.Map(request, countryData);
                 await _unitOfWork.GetRepository<Country>().Upsert(country);
@@ -175,15 +175,15 @@ namespace Fincompare.Application.Services
                 var data = _mapper.Map<CountryRequest>(country);
                 var response = new ApiResponse<CountryRequest>()
                 {
-                    Status = true,
-                    Message = "Country Updated Successfully",
+                    Success = true,
+                    Message = "country record updated successfully",
                     Data = data
                 };
                 return response;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Country not created" + ex.Message);
+                throw new ApplicationException("country update failed " + ex.Message);
             }
         }
     }

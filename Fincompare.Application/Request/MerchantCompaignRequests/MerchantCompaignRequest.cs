@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Fincompare.Application.Request.MerchantCompaignRequests
 {
@@ -21,7 +16,7 @@ namespace Fincompare.Application.Request.MerchantCompaignRequests
         [Required]
         public int ServiceCategoryId { get; set; }
 
-        
+
         public int? MerchantProductId { get; set; }
 
         [Required]
@@ -42,8 +37,9 @@ namespace Fincompare.Application.Request.MerchantCompaignRequests
         public DateTime DateValidity { get; set; }
     }
 
-    public class AddMerchantCompaignRequest : MerchantCompaignRequest{ }
-    public class UpdateMerchantCompaignRequest : MerchantCompaignRequest{
+    public class AddMerchantCompaignRequest : MerchantCompaignRequest { }
+    public class UpdateMerchantCompaignRequest : MerchantCompaignRequest
+    {
         [Required]
         public int Id { get; set; }
     }
