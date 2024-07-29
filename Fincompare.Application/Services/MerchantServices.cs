@@ -102,7 +102,7 @@ namespace Fincompare.Application.Services
         }
 
 
-        public async Task<ApiResponse<IEnumerable<MerchantDto>>> GetAllMerchants(int? groupMerchantId, int? merchantId, string? countryIso3, bool? status)
+        public async Task<ApiResponse<IEnumerable<MerchantDto>>> GetAllMerchants(int? groupMerchantId, int? merchantId,string? merchantType ,string? countryIso3, bool? status)
         {
             var response = new ApiResponse<IEnumerable<MerchantDto>>();
 
@@ -125,6 +125,8 @@ namespace Fincompare.Application.Services
                     merchants = merchants.Where(mp => mp.Country3Iso == countryIso3);
                 if (status.HasValue)
                     merchants = merchants.Where(mp => mp.Status == status.Value);
+                if (status.HasValue)
+                    merchants = merchants.Where(mp => mp.MerchantType == merchantType);
 
                 var merchantsResponse = _mapper.Map<IEnumerable<MerchantDto>>(merchants);
                 response.Success = true;

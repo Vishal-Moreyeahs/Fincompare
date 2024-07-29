@@ -1,8 +1,12 @@
-﻿using Fincompare.Domain.Entities.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Fincompare.Domain.Entities
+namespace Fincompare.Application.Response.ActiveAssetResponse
 {
-    public partial class ActiveAsset : ActionBase
+    public class ActiveAssetResponseViewModel
     {
         public int Id { get; set; }
 
@@ -27,13 +31,5 @@ namespace Fincompare.Domain.Entities
         public DateTime DateValidity { get; set; }
         public int? MerchantAssetPriority { get; set; }
 
-        public virtual AssetsMaster AssetsMaster { get; set; } = null!;
-
-        public virtual Country Country3IsoNavigation { get; set; } = null!;
-
-        public virtual Merchant Merchant { get; set; } = null!;
-
-        public virtual ServiceCategory ServiceCategory { get; set; } = null!;
     }
-
 }

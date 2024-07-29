@@ -73,7 +73,8 @@ namespace Fincompare.Application.Services
                 return new ApiResponse<CustomerUserResponseViewModel> { Success = true, Message = "customer record created successfully", Data = responseData };
 
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return new ApiResponse<CustomerUserResponseViewModel> { Success = false, Message = "customer creation failed" };
 
             }
@@ -102,7 +103,7 @@ namespace Fincompare.Application.Services
             }
             catch (Exception ex)
             {
-                return new ApiResponse<IEnumerable<CustomerUserResponseViewModel>> { Success = false, Message = "Customer fetch failed."};
+                return new ApiResponse<IEnumerable<CustomerUserResponseViewModel>> { Success = false, Message = "Customer fetch failed." };
 
             }
 

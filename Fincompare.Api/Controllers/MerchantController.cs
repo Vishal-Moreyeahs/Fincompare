@@ -31,9 +31,9 @@ namespace Fincompare.Api.Controllers
         //[HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpGet]
         [Route("fetch-all-merchants")]
-        public async Task<IActionResult> GetAllMerchants(int? groupMerchantId, int? merchantId, string? couuntryIso3, bool? status)
+        public async Task<IActionResult> GetAllMerchants(int? groupMerchantId, int? merchantId, string? merchantType, string? couuntryIso3, bool? status)
         {
-            var response = await _merchantServices.GetAllMerchants(groupMerchantId, merchantId, couuntryIso3, status);
+            var response = await _merchantServices.GetAllMerchants(groupMerchantId, merchantId, merchantType, couuntryIso3, status);
             return Ok(response);
         }
 

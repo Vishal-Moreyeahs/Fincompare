@@ -8,7 +8,7 @@ namespace Fincompare.Application.Repositories
     {
         Task<ApiResponse<CreateInstrumentRequest>> CreateInstrument(CreateInstrumentRequest model);
         Task<ApiResponse<CreateInstrumentRequest>> UpdateInstrument(UpdateInstrumentRequest model);
-        Task<ApiResponse<IEnumerable<GetAllInstrumentResponse>>> GetAllInstrument(int? idInstrument, bool? status);
+        Task<ApiResponse<IEnumerable<GetAllInstrumentResponse>>> GetAllInstrument(int? idInstrument, bool? status, string? instrumentType);
         Task<ApiResponse<GetAllInstrumentResponse>> GetInstrumentById(int id);
     }
 }

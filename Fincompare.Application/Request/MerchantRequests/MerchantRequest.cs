@@ -41,6 +41,8 @@ namespace Fincompare.Application.Request.MerchantRequests
         public bool Status { get; set; } = true;
 
         public string WebUrl { get; set; } = null!;
+        public string? MerchantType { get; set; }
+
 
     }
 

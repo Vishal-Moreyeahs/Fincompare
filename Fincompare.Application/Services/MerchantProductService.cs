@@ -116,7 +116,7 @@ namespace Fincompare.Application.Services
 
         }
 
-        public ApiResponse<IEnumerable<MerchantProductViewModel>> GetMerchantProducts(string sendCountry, string receiveCountry, string sendCurrency, string receiveCurrency, int? merchantID, int? merchantProductID, int? productID, int? serviceCategoryID, int? instrumentID, bool? status)
+        public async Task<ApiResponse<IEnumerable<MerchantProductViewModel>>> GetMerchantProducts(string sendCountry, string receiveCountry, string sendCurrency, string receiveCurrency, int? merchantID, int? merchantProductID, int? productID, int? serviceCategoryID, int? instrumentID, bool? status)
         {
             var response = new ApiResponse<IEnumerable<MerchantProductViewModel>>();
             var merchantProducts = _unitOfWork.GetRepository<MerchantProduct>().GetAllRelatedEntity().AsQueryable();

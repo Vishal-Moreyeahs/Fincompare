@@ -65,7 +65,7 @@ namespace Fincompare.Application.Services
                 throw new ApplicationException($"Mid-market rate creation failed {ex.Message}");
             }
             // Validate foreign keys
-            
+
         }
 
         public async Task<ApiResponse<IEnumerable<MarketRateDto>>> GetAllMarketRates()
@@ -147,7 +147,8 @@ namespace Fincompare.Application.Services
                 };
                 return response;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw new ApplicationException($"Mid-market rate fetch failed {ex.Message}");
             }
 

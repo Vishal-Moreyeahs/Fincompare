@@ -41,7 +41,8 @@ namespace Fincompare.Application.Services
                     Data = rateCardRequestModel
                 };
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw new ApplicationException($"Rate card rates fetch failed{ex.Message}");
             }
 

@@ -30,7 +30,7 @@ namespace Fincompare.Api.Controllers
         [Route("fetch-click-lead-record")]
         public async Task<IActionResult> GetClickLeadRecord(int? merchantId, int? clickLeadId, int? customerId, string? country3iso)
         {
-            var response = await _clickLeadService.GetAllClickLeadRecords(merchantId,clickLeadId,customerId,country3iso);
+            var response = await _clickLeadService.GetAllClickLeadRecords(merchantId, clickLeadId, customerId, country3iso);
             return Ok(response);
         }
     }

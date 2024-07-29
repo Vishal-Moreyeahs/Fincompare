@@ -29,8 +29,10 @@
         public string RoutingParameters { get; set; } = null!;
 
         public bool Status { get; set; }
-
+        
         public string WebUrl { get; set; } = null!;
+        public string? MerchantType { get; set; }
+
 
         //public int UserId { get; set; }
     }

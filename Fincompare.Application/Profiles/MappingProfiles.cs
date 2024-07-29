@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Fincompare.Application.Request;
+using Fincompare.Application.Request.ActiveAssetRequests;
 using Fincompare.Application.Request.CityRequest;
 using Fincompare.Application.Request.ClickLeadRequests;
 using Fincompare.Application.Request.CountryCurrencyRequests;
@@ -11,6 +12,7 @@ using Fincompare.Application.Request.MerchantProductRequests;
 using Fincompare.Application.Request.MerchantRemitProductRateRequests;
 using Fincompare.Application.Request.MerchantRequests;
 using Fincompare.Application.Request.StateRequest;
+using Fincompare.Application.Response.ActiveAssetResponse;
 using Fincompare.Application.Response.ClickLeadResponse;
 using Fincompare.Application.Response.CustomerReviewResponse;
 using Fincompare.Application.Response.CustomerUserResponse;
@@ -94,6 +96,10 @@ namespace Fincompare.Application.Profiles
             CreateMap<CreateCouponRequest, Coupon>().ReverseMap();
             CreateMap<UpdateCouponRequest, Coupon>().ReverseMap();
             CreateMap<FetchCouponResponse, Coupon>().ReverseMap();
+
+            CreateMap<AddActiveAssetRequest, ActiveAsset>().ReverseMap();
+            CreateMap<UpdateActiveAssetRequest, ActiveAsset>().ReverseMap();
+            CreateMap<ActiveAssetResponseViewModel, ActiveAsset>().ReverseMap();
 
             CreateMap<AddMerchantCompaignRequest, MerchantCampaign>().ReverseMap();
             CreateMap<UpdateMerchantCompaignRequest, MerchantCampaign>().ReverseMap();
