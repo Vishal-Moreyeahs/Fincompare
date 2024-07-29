@@ -1,4 +1,5 @@
 ﻿using Fincompare.Application.Repositories;
+using System.Text.RegularExpressions;
 
 namespace Fincompare.Application.Services
 {
@@ -36,6 +37,8 @@ namespace Fincompare.Application.Services
             var merchantProductRates = merchantProductRateTask.Data;
             var merchantProductFees = merchantProductFeeTask.Data;
             var merchants = merchantTask.Data;
+            var midMarketData = await ConversionMidMarketRateForSourceAndDestCurrency(sendCur,receiveCur,sendAmount);
+
 
             var joinedData = (from mp in merchantProducts
                               join mpr in merchantProductRates
@@ -70,7 +73,9 @@ namespace Fincompare.Application.Services
                                   SendCurrency = mp.SendCurrencyId,
                                   RoutingParameters = m.RoutingParameters,
                                   WebUrl = m.WebUrl,
-                                  ServiceLevels = mp.ServiceLevels
+                                  ServiceLevels = mp.ServiceLevels,
+                                  TransferSpeed = ConvertServiceLevel(mp.ServiceLevels),
+                                  TransferFee = CalculateCustomerTransactionFee(mpf.Fees,mpf.VariableFee.Value,sendAmount)
                               }).ToList();
 
             //var tasks = joinedData.Select(async merchantRate =>
@@ -147,8 +152,49 @@ namespace Fincompare.Application.Services
                 // Log the exception if necessary
                 // Example: _logger.LogError(ex, "Error occurred while calculating markup");
 
-                throw new InvalidOperationException("An error occurred while calculating the markup", ex);
+                throw new InvalidOperationException("An error occurred while calculating the markup "+ ex.Message.ToString());
             }
+        }
+
+        public double CalculateCustomerTransactionFee(double productFee, double variableFeePercentage, double sendAmount)
+        {
+            double variableFee = (sendAmount - productFee) * (variableFeePercentage / 100);
+            double customerTransactionFee = productFee + variableFee;
+            return customerTransactionFee;
+        }
+
+        public string ConvertServiceLevel(string serviceLevel)
+        {
+            if (string.IsNullOrEmpty(serviceLevel))
+                return string.Empty;
+
+            var daysMatch = Regex.Match(serviceLevel, @"(\d+)D", RegexOptions.IgnoreCase);
+            var hoursMatch = Regex.Match(serviceLevel, @"(\d+)H", RegexOptions.IgnoreCase);
+            var minutesMatch = Regex.Match(serviceLevel, @"(\d+)M", RegexOptions.IgnoreCase);
+
+            string result = string.Empty;
+
+            if (daysMatch.Success)
+            {
+                int days = int.Parse(daysMatch.Groups[1].Value);
+                result += days == 1 ? "1 Day" : $"{days} Days";
+            }
+
+            if (hoursMatch.Success)
+            {
+                int hours = int.Parse(hoursMatch.Groups[1].Value);
+                if (!string.IsNullOrEmpty(result)) result += " ";
+                result += hours == 1 ? "1 Hour" : $"{hours} Hours";
+            }
+
+            if (minutesMatch.Success)
+            {
+                int minutes = int.Parse(minutesMatch.Groups[1].Value);
+                if (!string.IsNullOrEmpty(result)) result += " and ";
+                result += minutes == 1 ? "1 Minute" : $"{minutes} Minutes";
+            }
+
+            return result;
         }
 
 
@@ -250,6 +296,10 @@ namespace Fincompare.Application.Services
             public string PayInInstrumentName { get; set; }
             public double Rate { get; set; }
             public double PromoRate { get; set; }
+            
+            public double TransferFee { get; set; }
+            public string TransferSpeed { get; set; }
+
         }
 
     }
