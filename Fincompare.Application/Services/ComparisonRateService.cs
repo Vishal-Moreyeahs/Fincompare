@@ -17,22 +17,21 @@ namespace Fincompare.Application.Services
             _merchantRemitProductRateService = merchantRemitProductRateService;
         }
 
-        public async Task<List<MarkupCalculationResult>> GetMerchantRatesFromTable(string sendCountry, string receiveCountry, string sendCur, string receiveCur, double sendAmount, int? productId, int? serviceCategoryId, int? instrumentId)
+        public async Task<List<MarkupCalculationResult>> GetMerchantRatesFromTable(string sendCountry, string receiveCountry, string sendCur, string receiveCur, double sendAmount, double receiveAmount, int? productId, int? serviceCategoryId, int? instrumentId)
         {
-            var merchantProductTask = _merchantProductService.GetMerchantProducts(sendCountry, receiveCountry, sendCur, receiveCur, null, null, productId, serviceCategoryId, instrumentId, true);
-            var merchantProductRateTask = _merchantRemitProductRateService.GetAllMerchantRemitProductRate(sendCountry, receiveCountry, sendCur, receiveCur, null, null, null, serviceCategoryId, instrumentId, sendAmount, null, true);
-            var merchantProductFeeTask = _merchantRemitFeeService.GetMerchantRemittanceFee(sendCountry, receiveCountry, sendCur, receiveCur, null, null, null, serviceCategoryId, instrumentId, sendAmount, null, true, true);
+            var merchantProductTask = await _merchantProductService.GetMerchantProducts(sendCountry, receiveCountry, sendCur, receiveCur, null, null, productId, serviceCategoryId, instrumentId, true);
+            var merchantProductRateTask =await _merchantRemitProductRateService.GetAllMerchantRemitProductRate(sendCountry, receiveCountry, sendCur, receiveCur, null, null, null, serviceCategoryId, instrumentId, sendAmount, null, true);
+            var merchantProductFeeTask = await _merchantRemitFeeService.GetMerchantRemittanceFee(sendCountry, receiveCountry, sendCur, receiveCur, null, null, null, serviceCategoryId, instrumentId, sendAmount, null, true, true);
 
-            await Task.WhenAll(merchantProductTask, merchantProductRateTask, merchantProductFeeTask);
 
-            var merchantProducts = merchantProductTask.Result.Data;
+            var merchantProducts = merchantProductTask.Data;
             if (!merchantProducts.Any())
             {
                 throw new ApplicationException("Merchant Products not found");
             }
 
-            var merchantProductRates = merchantProductRateTask.Result.Data;
-            var merchantProductFees = merchantProductFeeTask.Result.Data;
+            var merchantProductRates = merchantProductRateTask.Data;
+            var merchantProductFees = merchantProductFeeTask.Data;
 
             var joinedData = (from mp in merchantProducts
                               join mpr in merchantProductRates
