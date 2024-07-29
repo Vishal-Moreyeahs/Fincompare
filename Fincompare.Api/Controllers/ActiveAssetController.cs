@@ -42,9 +42,9 @@ namespace Fincompare.Api.Controllers
 
         [HttpGet]
         [Route("fetch-active-asset-record")]
-        public async Task<IActionResult> FetchActiveAssetRecords(string? country3iso, int? assetMasterId, int? serviceCategoryId, int? merchantId, DateTime? dateActive, DateTime? dateValidity, bool? status)
+        public async Task<IActionResult> FetchActiveAssetRecords( int? assetMasterId, int? merchantId, bool? status )
         {
-            var response = await _activeAssetService.GetAllActiveAssetRecord(country3iso, assetMasterId,serviceCategoryId,merchantId,dateActive,dateValidity,status);
+            var response = await _activeAssetService.GetAllActiveAssetRecord(assetMasterId,merchantId,status);
             return Ok(response);
         }
     }

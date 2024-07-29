@@ -58,7 +58,7 @@ namespace Fincompare.Application.Services
         }
 
 
-        public async Task<ApiResponse<IEnumerable<GetAllInstrumentResponse>>> GetAllInstrument(int? idInstrument, bool? status)
+        public async Task<ApiResponse<IEnumerable<GetAllInstrumentResponse>>> GetAllInstrument(int? idInstrument, bool? status, string? instrumentType)
         {
             try
             {
@@ -71,11 +71,16 @@ namespace Fincompare.Application.Services
                 {
                     getInstrument = getInstrument.Where(x => x.Status == status.Value);
                 }
+                if (!string.IsNullOrEmpty(instrumentType))
+                {
+                    getInstrument = getInstrument.Where(x => x.InstrumentType == instrumentType);
+                }
                 var getListOfAllInstrument = getInstrument
                     .Select(x => new GetAllInstrumentResponse
                     {
                         Id = x.Id,
                         InstrumentName = x.InstrumentName,
+                        InstrumentType = x.InstrumentType,
                         Country3Iso = x.Country3Iso,
                         Status = x.Status
                     }).ToList();

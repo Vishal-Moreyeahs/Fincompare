@@ -50,14 +50,17 @@ namespace Fincompare.Application.Services
             }
         }
 
-        public async Task<ApiResponse<IEnumerable<ActiveAssetResponseViewModel>>> GetAllActiveAssetRecord(string countryIso3, int? assetMasterId, int? serviceCategoryId, int? merchantId, DateTime? dateActive, DateTime? dateValidity, bool? status)
+        public async Task<ApiResponse<IEnumerable<ActiveAssetResponseViewModel>>> GetAllActiveAssetRecord(int? assetMasterId, int? merchantId, bool? status)
         {
             var response = new ApiResponse<IEnumerable<ActiveAssetResponseViewModel>>();
 
             try
             {
+                var dateTime = DateTime.UtcNow;
+
                 //Get All Merchant 
                 var activeAssets = await _unitOfWork.GetRepository<ActiveAsset>().GetAll();
+                activeAssets = activeAssets.Where(x => x.DateValidity <= dateTime);
                 if (activeAssets == null)
                 {
                     response.Success = false;
@@ -65,20 +68,21 @@ namespace Fincompare.Application.Services
                     return response;
                 }
 
+
                 if (assetMasterId.HasValue)
                     activeAssets = activeAssets.Where(mp => mp.AssetsMasterId == assetMasterId.Value);
-                if (serviceCategoryId.HasValue)
-                    activeAssets = activeAssets.Where(mp => mp.ServiceCategoryId == serviceCategoryId.Value);
+                //if (serviceCategoryId.HasValue)
+                //    activeAssets = activeAssets.Where(mp => mp.ServiceCategoryId == serviceCategoryId.Value);
                 if (merchantId.HasValue)
                     activeAssets = activeAssets.Where(mp => mp.Id == merchantId.Value);
-                if (!string.IsNullOrEmpty(countryIso3))
-                    activeAssets = activeAssets.Where(mp => mp.Country3Iso == countryIso3);
+                //if (!string.IsNullOrEmpty(countryIso3))
+                //    activeAssets = activeAssets.Where(mp => mp.Country3Iso == countryIso3);
                 if (status.HasValue)
                     activeAssets = activeAssets.Where(mp => mp.Status == status.Value);
-                if (dateActive.HasValue)
-                    activeAssets = activeAssets.Where(mp => mp.DateActive >= dateActive.Value);
-                if (dateValidity.HasValue)
-                    activeAssets = activeAssets.Where(mp => mp.DateValidity <= dateValidity.Value);
+                //if (dateActive.HasValue)
+                //    activeAssets = activeAssets.Where(mp => mp.DateActive >= dateActive.Value);
+                //if (dateValidity.HasValue)
+                //    activeAssets = activeAssets.Where(mp => mp.DateValidity <= dateValidity.Value);
 
                 var merchantsResponse = _mapper.Map<IEnumerable<ActiveAssetResponseViewModel>>(activeAssets);
                 response.Success = true;

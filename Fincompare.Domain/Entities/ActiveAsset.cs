@@ -25,6 +25,7 @@ namespace Fincompare.Domain.Entities
         public DateTime DateActive { get; set; }
 
         public DateTime DateValidity { get; set; }
+        public int? MerchantAssetPriority { get; set; }
 
         public virtual AssetsMaster AssetsMaster { get; set; } = null!;
 

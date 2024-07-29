@@ -37,6 +37,9 @@ namespace Fincompare.Application.Request.ActiveAssetRequests
 
         [Required]
         public DateTime DateValidity { get; set; }
+
+        public int? MerchantAssetPriority { get; set; }
+
     }
 
     public class AddActiveAssetRequest : ActiveAssetRequest { }

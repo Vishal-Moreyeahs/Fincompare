@@ -29,6 +29,7 @@ namespace Fincompare.Application.Response.ActiveAssetResponse
         public DateTime DateActive { get; set; }
 
         public DateTime DateValidity { get; set; }
+        public int? MerchantAssetPriority { get; set; }
 
     }
 }
