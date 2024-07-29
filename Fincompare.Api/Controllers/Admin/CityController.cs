@@ -25,6 +25,18 @@ namespace Fincompare.Api.Controllers.Admin
         [Route("add-city")]
         public async Task<IActionResult> AddCity(AddCityRequest model)
         {
+            if (!ModelState.IsValid)
+            {
+                var validationErrors = ModelState.Keys
+                .SelectMany(key => ModelState[key].Errors.Select(x => new
+                {
+                    Field = key,
+                    Error = x.ErrorMessage
+                }))
+                .ToList();
+                // Return a 400 Bad Request response with validation errors
+                return BadRequest(ModelState);
+            }
             var response = await _cityServices.AddCity(model);
             return Ok(response);
         }

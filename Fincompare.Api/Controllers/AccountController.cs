@@ -1,4 +1,5 @@
-﻿using Fincompare.Application.Contracts.Infrastructure;
+﻿using AutoMapper;
+using Fincompare.Application.Contracts.Infrastructure;
 using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Request;
 using Fincompare.Application.Response;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using static Fincompare.Application.Response.UserResponse.UserResponseViewClass;
 
 namespace Fincompare.Api.Controllers
 {
@@ -17,11 +19,13 @@ namespace Fincompare.Api.Controllers
         private readonly IAuthService _authenticationService;
         private readonly IUserManagerServices _userManagerServices;
         private readonly IUnitOfWork _unitOfWork;
-        public AccountController(IAuthService authenticationService, IUserManagerServices userManagerServices, IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public AccountController(IAuthService authenticationService, IUserManagerServices userManagerServices, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _authenticationService = authenticationService;
             _userManagerServices = userManagerServices;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         [HttpPost("login")]
@@ -52,10 +56,11 @@ namespace Fincompare.Api.Controllers
 
         [HttpGet]
         [Route("fetch-user")]
-        public IActionResult GetUser()
+        public async Task<IActionResult> GetUser()
         {
-            var response = _unitOfWork.GetRepository<User>().GetAllRelatedEntity();
-            return Ok(response.First());
+            var response = await _unitOfWork.GetRepository<User>().GetAll();
+            var data = _mapper.Map<IEnumerable<CreateUserResponseClass>>(response);
+            return Ok(data);
         }
 
         //[HasPermission(PermissionEnum.CanAccessAdmin)]

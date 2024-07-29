@@ -33,6 +33,7 @@ namespace Fincompare.Api.Controllers.Admin
         [Route("update")]
         public async Task<IActionResult> UpdateCountry(CountryRequest request)
         {
+            
             return Ok(await _countryServices.UpdateCountry(request));
         }
 

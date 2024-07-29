@@ -185,7 +185,7 @@ namespace Fincompare.Application.Services
                     return response;
                 }
 
-                var merchantsResponse = _mapper.Map<MerchantDto>(merchants);
+                var merchantsResponse = _mapper.Map<MerchantDto>(merchant);
                 response.Success = true;
                 response.Data = merchantsResponse;
                 response.Message = "merchant record fetched successfully";
