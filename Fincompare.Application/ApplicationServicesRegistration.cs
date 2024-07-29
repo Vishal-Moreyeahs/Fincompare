@@ -35,6 +35,7 @@ namespace Fincompare.Application
             services.AddTransient<IClickLeadService, ClickLeadService>();
             services.AddTransient<ICustomerReviewService, CustomerReviewService>();
             services.AddTransient<ICustomerUserService, CustomerUserService>();
+            services.AddTransient<IActiveAssetService, ActiveAssetService>();
 
             return services;
         }
