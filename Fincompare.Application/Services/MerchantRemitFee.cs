@@ -52,10 +52,13 @@ namespace Fincompare.Application.Services
                     SendCurrency = merchantRemitFee.SendCurrency,
                     ReceiveCurrency = merchantRemitFee.ReceiveCurrency,
                     SendMinLimit = merchantRemitFee.SendMinLimit,
-                    SendMaxLimit = merchantRemitFee.SendMinLimit,
+                    SendMaxLimit = merchantRemitFee.SendMaxLimit,
                     ReceiveMinLimit = merchantRemitFee.ReceiveMinLimit,
                     ReceiveMaxLimit = merchantRemitFee.ReceiveMaxLimit,
                     ValidityExpiry = merchantRemitFee.ValidityExpiry,
+                    PayInInstrumentId = merchantRemitFee.PayInInstrumentId,
+                    PayInInstrumentName = merchantRemitFee.Instruments.InstrumentName,
+                    VariableFee = merchantRemitFee.VariableFee
                 };
 
                 return new ApiResponse<MerchantRemittanceFee>() { Success = true, Message = "Merchant Product Remittance Fee record created successfully!", Data = data };
@@ -142,14 +145,17 @@ namespace Fincompare.Application.Services
                             PromoFees = merchantRemitFee.PromoFees,
                             MerchantProductID = merchantRemitFee.MerchantProductId,
                             SendCountry = merchantRemitFee.SendCountry3Iso,
-                            ReceiveCountry = merchantRemitFee.ReceiveCurrency,
+                            ReceiveCountry = merchantRemitFee.ReceiveCountry3Iso,
                             SendCurrency = merchantRemitFee.SendCurrency,
                             ReceiveCurrency = merchantRemitFee.ReceiveCurrency,
                             SendMinLimit = merchantRemitFee.SendMinLimit,
-                            SendMaxLimit = merchantRemitFee.SendMinLimit,
+                            SendMaxLimit = merchantRemitFee.SendMaxLimit,
                             ReceiveMinLimit = merchantRemitFee.ReceiveMinLimit,
                             ReceiveMaxLimit = merchantRemitFee.ReceiveMaxLimit,
-                            ValidityExpiry = merchantRemitFee.ValidityExpiry
+                            ValidityExpiry = merchantRemitFee.ValidityExpiry,
+                            PayInInstrumentId = merchantRemitFee.PayInInstrumentId,
+                            PayInInstrumentName = merchantRemitFee.Instruments.InstrumentName,
+                            VariableFee = merchantRemitFee.VariableFee
                         }).ToList();
 
             if (data.Count > 0)
@@ -213,11 +219,11 @@ namespace Fincompare.Application.Services
                                  PromoFees = merchantRemitFee.PromoFees,
                                  MerchantProductID = merchantRemitFee.MerchantProductId,
                                  SendCountry = merchantRemitFee.SendCountry3Iso,
-                                 ReceiveCountry = merchantRemitFee.ReceiveCurrency,
+                                 ReceiveCountry = merchantRemitFee.ReceiveCountry3Iso,
                                  SendCurrency = merchantRemitFee.SendCurrency,
                                  ReceiveCurrency = merchantRemitFee.ReceiveCurrency,
                                  SendMinLimit = merchantRemitFee.SendMinLimit,
-                                 SendMaxLimit = merchantRemitFee.SendMinLimit,
+                                 SendMaxLimit = merchantRemitFee.SendMaxLimit,
                                  ReceiveMinLimit = merchantRemitFee.ReceiveMinLimit,
                                  ReceiveMaxLimit = merchantRemitFee.ReceiveMaxLimit,
                                  ValidityExpiry = merchantRemitFee.ValidityExpiry
@@ -264,11 +270,11 @@ namespace Fincompare.Application.Services
                     PromoFees = merchantRemitFee.PromoFees,
                     MerchantProductID = merchantRemitFee.MerchantProductId,
                     SendCountry = merchantRemitFee.SendCountry3Iso,
-                    ReceiveCountry = merchantRemitFee.ReceiveCurrency,
+                    ReceiveCountry = merchantRemitFee.ReceiveCountry3Iso,
                     SendCurrency = merchantRemitFee.SendCurrency,
                     ReceiveCurrency = merchantRemitFee.ReceiveCurrency,
                     SendMinLimit = merchantRemitFee.SendMinLimit,
-                    SendMaxLimit = merchantRemitFee.SendMinLimit,
+                    SendMaxLimit = merchantRemitFee.SendMaxLimit,
                     ReceiveMinLimit = merchantRemitFee.ReceiveMinLimit,
                     ReceiveMaxLimit = merchantRemitFee.ReceiveMaxLimit,
                     ValidityExpiry = merchantRemitFee.ValidityExpiry,
