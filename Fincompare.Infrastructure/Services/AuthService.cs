@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using static Fincompare.Application.Response.UserResponse.UserResponseViewClass;
 
 namespace Fincompare.Infrastructure.Services
 {
@@ -114,7 +115,7 @@ namespace Fincompare.Infrastructure.Services
             return response;
         }
 
-        public async Task<Response<User>> Register(RegisterUserRequest request)
+        public async Task<ApiResponse<CreateUserResponseClass>> Register(RegisterUserRequest request)
         {
             var existingUser = _unitOfWork.GetRepository<User>().GetAll().Result.Where(x => x.Email == request.Email).ToList();
 
@@ -124,6 +125,18 @@ namespace Fincompare.Infrastructure.Services
                 //return null;
                 throw new ApplicationException($"User '{request.Email}' already exists.");
             }
+
+
+            var checkUserRole = await _unitOfWork.GetRepository<Role>().GetAll();
+            if (!checkUserRole.ToList().Any(x => x.RoleName.Equals(request.Role)))
+            {
+                return new ApiResponse<CreateUserResponseClass>()
+                {
+                    Success = false,
+                    Message = $"{request.Role} Role Not Exits",
+                };
+            }
+           
 
             var loggedInUser = await _authenticatedUserService.GetLoggedInUser();
 
@@ -153,14 +166,23 @@ namespace Fincompare.Infrastructure.Services
             await AssignDefaultPermissionsToUserAsync(user, request.Role);
             //Assign Permissions
 
-            var response = new Response<User>
-            {
-                Status = true,
-                Message = "User Created Successfully",
-                Data = user
-            };
+            //var response = new Response<User>
+            //{
+            //    Status = true,
+            //    Message = "User Created Successfully",
+            //    Data = user
+            //};
 
-            return response;
+            //return response;
+
+            var response = _mapper.Map<CreateUserResponseClass>(user);
+
+            return new ApiResponse<CreateUserResponseClass>()
+            {
+                Success = true,
+                Message = "User Created Successfully",
+                Data = response
+            };
         }
 
 

@@ -38,13 +38,13 @@ namespace Fincompare.Infrastructure.Services
                 throw new ApplicationException("Invalid Current Password");
             }
 
-            user.PasswordHash = _cryptographyService.EncryptPassword(string.Concat(user.Email, request.NewPassword));
+            user.PasswordHash = _cryptographyService.EncryptPassword(request.NewPassword);
             await _unitOfWork.GetRepository<User>().Upsert(user);
             await _unitOfWork.SaveChangesAsync();
             var response = new Response<string>
             {
                 Status = true,
-                Message = "Password Change Successfully",
+                Message = "Password Changed Successfully",
                 Data = null
             };
 
