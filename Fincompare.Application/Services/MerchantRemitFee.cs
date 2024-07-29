@@ -101,9 +101,9 @@ namespace Fincompare.Application.Services
             if (instrumentId.HasValue)
                 merchantRemitFees = merchantRemitFees.Where(mp => mp.MerchantProduct.InstrumentId == instrumentId.Value);
             if (sendMinLimit.HasValue)
-                merchantRemitFees = merchantRemitFees.Where(mp => mp.SendMinLimit == sendMinLimit.Value);
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.SendMinLimit >= sendMinLimit.Value);
             if (receiveMinLimit.HasValue)
-                merchantRemitFees = merchantRemitFees.Where(mp => mp.ReceiveMinLimit == receiveMinLimit.Value);
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.ReceiveMinLimit <= receiveMinLimit.Value);
             if (status.HasValue)
                 merchantRemitFees = merchantRemitFees.Where(mp => mp.Status == status.Value);
             //if (isValid.HasValue)
@@ -177,9 +177,9 @@ namespace Fincompare.Application.Services
             if (instrumentId.HasValue)
                 merchantRemitFees = merchantRemitFees.Where(mp => mp.MerchantProduct.InstrumentId == instrumentId.Value);
             if (sendMinLimit.HasValue)
-                merchantRemitFees = merchantRemitFees.Where(mp => mp.SendMinLimit == sendMinLimit.Value);
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.SendMinLimit >= sendMinLimit.Value);
             if (receiveMinLimit.HasValue)
-                merchantRemitFees = merchantRemitFees.Where(mp => mp.ReceiveMinLimit == receiveMinLimit.Value);
+                merchantRemitFees = merchantRemitFees.Where(mp => mp.ReceiveMinLimit <= receiveMinLimit.Value);
             if (status.HasValue)
                 merchantRemitFees = merchantRemitFees.Where(mp => mp.Status == status.Value);
             //if (isValid.HasValue)
