@@ -2,6 +2,7 @@
 using Fincompare.Application.Request;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities.UserManagementEntities;
+using static Fincompare.Application.Response.UserResponse.UserResponseViewClass;
 
 namespace Fincompare.Application.Contracts.Infrastructure
 {
@@ -9,7 +10,7 @@ namespace Fincompare.Application.Contracts.Infrastructure
     {
         Task<Response<AuthResponse>> Login(AuthRequest request);
 
-        Task<Response<User>> Register(RegisterUserRequest request);
+        Task<ApiResponse<CreateUserResponseClass>> Register(RegisterUserRequest request);
 
         Task<string> GenerateToken(User user);
 

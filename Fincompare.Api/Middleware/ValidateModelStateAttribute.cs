@@ -1,7 +1,6 @@
 ﻿using Fincompare.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Text;
 
 namespace Fincompare.Api.Middleware
 {

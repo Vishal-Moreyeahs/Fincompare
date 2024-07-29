@@ -35,6 +35,7 @@ using static Fincompare.Application.Response.InstrumentResponse.InstrumentRespon
 using static Fincompare.Application.Response.MerchantProductCouponResponse.MerchantProductCouponViewResponse;
 using static Fincompare.Application.Response.ProductResponse.ProductResponseBaseClass;
 using static Fincompare.Application.Response.ServiceCategoriesResponse.ServiceCategoriesViewResponse;
+using static Fincompare.Application.Response.UserResponse.UserResponseViewClass;
 
 namespace Fincompare.Application.Profiles
 {
@@ -43,6 +44,7 @@ namespace Fincompare.Application.Profiles
         public MappingProfiles()
         {
             CreateMap<RegisterUserRequest, User>().ReverseMap();
+            CreateMap<CreateUserResponseClass, User>().ReverseMap();
             CreateMap<CountryRequest, Country>().ReverseMap();
             CreateMap<GetCountryDto, Country>().ReverseMap();
             CreateMap<AddCurrencyRequests, Currency>().ReverseMap();
