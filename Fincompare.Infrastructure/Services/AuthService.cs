@@ -126,6 +126,18 @@ namespace Fincompare.Infrastructure.Services
                 throw new ApplicationException($"User '{request.Email}' already exists.");
             }
 
+
+            var checkUserRole = await _unitOfWork.GetRepository<Role>().GetAll();
+            if (!checkUserRole.ToList().Any(x => x.RoleName.Equals(request.Role)))
+            {
+                return new ApiResponse<CreateUserResponseClass>()
+                {
+                    Success = false,
+                    Message = $"{request.Role} Role Not Exits",
+                };
+            }
+           
+
             var loggedInUser = await _authenticatedUserService.GetLoggedInUser();
 
             //AddUser
@@ -163,7 +175,7 @@ namespace Fincompare.Infrastructure.Services
 
             //return response;
 
-            var response =  _mapper.Map<CreateUserResponseClass>(user);    
+            var response = _mapper.Map<CreateUserResponseClass>(user);
 
             return new ApiResponse<CreateUserResponseClass>()
             {
