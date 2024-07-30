@@ -89,13 +89,14 @@ namespace Fincompare.Infrastructure.Services
             {
                 throw new ApplicationException($"User with {request.Email} not found.");
             }
+
             var userEncryptedPassword = _cryptographyService.EncryptPassword(request.Password);
 
             var isValid = _cryptographyService.ValidatePassword(user.PasswordHash, userEncryptedPassword);
 
             if (!isValid)
             {
-                throw new ApplicationException($"Credentials for '{request.Email} aren't valid.");
+                throw new ApplicationException($"Password for '{request.Email} is't valid.");
             }
 
             var jwtSecurityToken = await GenerateToken(user);
@@ -117,8 +118,9 @@ namespace Fincompare.Infrastructure.Services
 
         public async Task<ApiResponse<CreateUserResponseClass>> Register(RegisterUserRequest request)
         {
-            var existingUser = _unitOfWork.GetRepository<User>().GetAll().Result.Where(x => x.Email == request.Email).ToList();
-
+            var users = await _unitOfWork.GetRepository<User>().GetAll();
+            var existingUser = users.Where(x => x.Email.Trim() == request.Email.Trim()).ToList();
+            
 
             if (existingUser.Count > 0)
             {
@@ -126,7 +128,11 @@ namespace Fincompare.Infrastructure.Services
                 throw new ApplicationException($"User '{request.Email}' already exists.");
             }
 
-
+            if (users.Any(x => x.Phone.Trim() == request.Phone.Trim()))
+            {
+                //return null;
+                throw new ApplicationException($"phone number {request.Phone.Trim()} already exists.");
+            }
             var checkUserRole = await _unitOfWork.GetRepository<Role>().GetAll();
             if (!checkUserRole.ToList().Any(x => x.RoleName.Equals(request.Role)))
             {

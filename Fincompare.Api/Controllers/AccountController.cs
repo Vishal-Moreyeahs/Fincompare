@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Fincompare.Api.Middleware;
 using Fincompare.Application.Contracts.Infrastructure;
 using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Request;
@@ -29,12 +30,14 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpPost("login")]
+        [ValidateModelState]
         public async Task<ActionResult<AuthResponse>> Login(AuthRequest request)
         {
             return Ok(await _authenticationService.Login(request));
         }
 
         [HttpPost("add-user")]
+        [ValidateModelState]
         public async Task<ActionResult<int>> Register(RegisterUserRequest user)
         {
             return Ok(await _authenticationService.Register(user));
@@ -48,6 +51,7 @@ namespace Fincompare.Api.Controllers
 
         [Authorize]
         [HttpPost, Route("change-password")]
+        [ValidateModelState]
         public async Task<ActionResult> ChangeCurrentPassword(ChangePasswordRequest model)
         {
             var response = await _userManagerServices.ChangeExistingPassword(model);

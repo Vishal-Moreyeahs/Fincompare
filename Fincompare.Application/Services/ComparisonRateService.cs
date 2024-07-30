@@ -41,8 +41,8 @@ namespace Fincompare.Application.Services
                 var merchants = merchantTask.Data;
 
                 var joinedData = (from mp in merchantProducts
-                                  //join mpr in merchantProductRates
-                                  //on mp.Id equals mpr.MerchantProductId
+                                  join mpr in merchantProductRates
+                                  on mp.Id equals mpr.MerchantProductId
                                   join mpf in merchantProductFees
                                   on mp.Id equals mpf.MerchantProductID
                                   join m in merchants
@@ -65,15 +65,17 @@ namespace Fincompare.Application.Services
                                       PayOutInstrumentName = mpf.InstrumentName,
                                       ProductId = mp.ProductId,
                                       ProductName = mp.ProductName,
-                                      //Rate = mpr != null ? mpr.Rate : 0,
-                                      //PromoRate = mpr != null ? mpr.PromoRate : 0,
+                                      Rate = mpr != null ? mpr.Rate : 0,
+                                      PromoRate = mpr != null ? mpr.PromoRate : 0,
                                       ReceiveCountry = mp.ReceiveCountry3Iso,
                                       SendCountry = mp.SendCountry3Iso,
                                       ReceiveCurrency = mp.ReceiveCurrencyId,
                                       SendCurrency = mp.SendCurrencyId,
                                       RoutingParameters = m.RoutingParameters,
                                       WebUrl = m.WebUrl,
-                                      ServiceLevels = mp.ServiceLevels
+                                      ServiceLevels = mp.ServiceLevels,
+                                      TransferFee = CalculateCustomerTransactionFee(mpf.Fees,mpf.VariableFee.Value,sendAmount),
+                                      TransferSpeed = ConvertServiceLevel(mp.ServiceLevels)
                                   }).ToList();
 
                 //var tasks = joinedData.Select(async merchantRate =>

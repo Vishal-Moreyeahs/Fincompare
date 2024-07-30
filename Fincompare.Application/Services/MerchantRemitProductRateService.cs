@@ -41,8 +41,11 @@ namespace Fincompare.Application.Services
                     MerchantId = merchantRemitRate.MerchantId,
                     MerchantName = merchantRemitRate.Merchant.MerchantName,
                     MerchantProductId = merchantRemitRate.MerchantProductId.HasValue ? merchantRemitRate.MerchantProductId.Value : null,
+                    ProductId = merchantProduct.ProductId,
                     ProductName = merchantProduct == null ? "" : merchantProduct.Product.ProductName,
+                    InstrumentId = merchantProduct.InstrumentId,
                     InstrumentName = merchantProduct == null ? "" : merchantProduct.Instrument.InstrumentName,
+                    ServiceCategoryId = merchantProduct.ServiceCategoryId,
                     ServiceCategoryName = merchantProduct == null ? "" : merchantProduct.ServiceCategory.ServCategoryName,
                     SendCountry3Iso = merchantRemitRate.SendCountry3Iso,
                     ReceiveCountry3Iso = merchantRemitRate.ReceiveCountry3Iso,
@@ -55,7 +58,7 @@ namespace Fincompare.Application.Services
                     Rate = merchantRemitRate.Rate,
                     PromoRate = merchantRemitRate.PromoRate,
                     ValidityExpiry = merchantRemitRate.ValidityExpiry,
-                    Status = true
+                    Status = merchantProduct.Status
                 };
 
                 return new ApiResponse<MerchantRemitProductRateViewModel>() { Success = true, Message = "Merchant Remittance Product Rate record created successfully!", Data = data };

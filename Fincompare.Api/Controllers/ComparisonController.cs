@@ -28,7 +28,7 @@ namespace Fincompare.Api.Controllers
                                                             [FromQuery] bool? status)
         {
             var response = await _comparisonRateService.GetMerchantRatesFromTable(sendCountry,receiveCountry,sendCurrency,receiveCurrency,sendAmount,productID,serviceCategoryID,instrumentID);
-            return Ok();
+            return Ok(response);
         }
     }
 }
