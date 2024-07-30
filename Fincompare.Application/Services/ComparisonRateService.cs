@@ -19,67 +19,75 @@ namespace Fincompare.Application.Services
             _merchantServices = merchantServices;
         }
 
-        public async Task<List<MerchantDetails>> GetMerchantRatesFromTable(string sendCountry, string receiveCountry, string sendCur, string receiveCur, double sendAmount, double receiveAmount, int? productId, int? serviceCategoryId, int? instrumentId)
+        public async Task<List<MerchantDetails>> GetMerchantRatesFromTable(string sendCountry, string receiveCountry, string sendCur, string receiveCur, double sendAmount,/* double receiveAmount,*/ int? productId, int? serviceCategoryId, int? instrumentId)
         {
-            var merchantProductTask = await _merchantProductService.GetMerchantProducts(sendCountry, receiveCountry, sendCur, receiveCur, null, null, productId, serviceCategoryId, instrumentId, true);
-            var merchantProductRateTask =await _merchantRemitProductRateService.GetAllMerchantRemitProductRate(sendCountry, receiveCountry, sendCur, receiveCur, null, null, null, serviceCategoryId, instrumentId, sendAmount, receiveAmount, true);
-            var merchantProductFeeTask = await _merchantRemitFeeService.GetMerchantRemittanceFee(sendCountry, receiveCountry, sendCur, receiveCur, null, null, null, serviceCategoryId, instrumentId, sendAmount, receiveAmount, true, true);
-            var merchantTask = await _merchantServices.GetAllMerchants(null,null,null,null,null);
-
-
-            var merchantProducts = merchantProductTask.Data;
-            if (!merchantProducts.Any())
+            try
             {
-                throw new ApplicationException("Merchant Products not found");
+                var merchantProductTask = await _merchantProductService.GetMerchantProducts(sendCountry, receiveCountry, sendCur, receiveCur, null, null, productId, serviceCategoryId, instrumentId, true);
+                var merchantProductRateTask = await _merchantRemitProductRateService.GetAllMerchantRemitProductRate(sendCountry, receiveCountry, sendCur, receiveCur, null, null, null, serviceCategoryId, instrumentId, sendAmount, null, true);
+                var merchantProductFeeTask = await _merchantRemitFeeService.GetMerchantRemittanceFee(sendCountry, receiveCountry, sendCur, receiveCur, null, null, null, serviceCategoryId, instrumentId, sendAmount, null, true, true);
+                var merchantTask = await _merchantServices.GetAllMerchants(null, null, null, null, null);
+
+
+                var merchantProducts = merchantProductTask.Data;
+                if (!merchantProducts.Any())
+                {
+                    throw new ApplicationException("Merchant Products not found");
+                }
+
+                var merchantProductRates = merchantProductRateTask.Data;
+                var merchantProductFees = merchantProductFeeTask.Data;
+                var merchants = merchantTask.Data;
+
+                var joinedData = (from mp in merchantProducts
+                                  //join mpr in merchantProductRates
+                                  //on mp.Id equals mpr.MerchantProductId
+                                  join mpf in merchantProductFees
+                                  on mp.Id equals mpf.MerchantProductID
+                                  join m in merchants
+                                  on mp.MerchantId equals m.Id
+                                  select new MerchantDetails
+                                  {
+                                      MerchantId = m.Id,
+                                      MerchantName = mp.MerchantName,
+                                      AffiliateId = m.AffiliateId,
+                                      Fees = mpf.Fees,
+                                      FeesCurrency = mpf.FeesCurrency,
+                                      PromoFees = mpf.Fees,
+                                      VariableFee = mpf.VariableFee.HasValue ? mpf.VariableFee.Value : 0,
+                                      MerchantLogo = "?",
+                                      MerchantProductId = mp.Id,
+                                      MerchantType = m.MerchantType,
+                                      PayInInstrumentId = mpf.PayInInstrumentId.HasValue ? mpf.PayInInstrumentId.Value : 0,
+                                      PayInInstrumentName = mpf.PayInInstrumentName,
+                                      PayOutInstrumentId = mpf.InstrumentId,
+                                      PayOutInstrumentName = mpf.InstrumentName,
+                                      ProductId = mp.ProductId,
+                                      ProductName = mp.ProductName,
+                                      //Rate = mpr != null ? mpr.Rate : 0,
+                                      //PromoRate = mpr != null ? mpr.PromoRate : 0,
+                                      ReceiveCountry = mp.ReceiveCountry3Iso,
+                                      SendCountry = mp.SendCountry3Iso,
+                                      ReceiveCurrency = mp.ReceiveCurrencyId,
+                                      SendCurrency = mp.SendCurrencyId,
+                                      RoutingParameters = m.RoutingParameters,
+                                      WebUrl = m.WebUrl,
+                                      ServiceLevels = mp.ServiceLevels
+                                  }).ToList();
+
+                //var tasks = joinedData.Select(async merchantRate =>
+                //{
+                //    return await CalculateMarkupAsync(sendCur, receiveCur, sendAmount, merchantRate.MerchantRate, merchantRate.MerchantTransferFee);
+                //});
+
+                //var list = await Task.WhenAll(tasks);
+                return joinedData;
             }
-
-            var merchantProductRates = merchantProductRateTask.Data;
-            var merchantProductFees = merchantProductFeeTask.Data;
-            var merchants = merchantTask.Data;
-
-            var joinedData = (from mp in merchantProducts
-                              join mpr in merchantProductRates
-                              on mp.Id equals mpr.MerchantProductId
-                              join mpf in merchantProductFees
-                              on mp.Id equals mpf.MerchantProductID
-                              join m in merchants
-                              on mp.MerchantId equals m.Id
-                              select new MerchantDetails
-                              {
-                                  MerchantId = mp.MerchantId,
-                                  MerchantName = mp.MerchantName,
-                                  AffiliateId = m.AffiliateId,
-                                  Fees = mpf.Fees,
-                                  FeesCurrency = mpf.FeesCurrency,
-                                  PromoFees = mpf.Fees,
-                                  VariableFee = mpf.VariableFee.HasValue ? mpf.VariableFee.Value : 0,
-                                  MerchantLogo = "?",
-                                  MerchantProductId = mp.Id,
-                                  MerchantType = m.MerchantType,
-                                  PayInInstrumentId = mpf.PayInInstrumentId.HasValue ? mpf.PayInInstrumentId.Value : 0,
-                                  PayInInstrumentName = mpf.PayInInstrumentName,
-                                  PayOutInstrumentId = mpf.InstrumentId,
-                                  PayOutInstrumentName = mpf.InstrumentName,
-                                  ProductId = mp.ProductId,
-                                  ProductName = mp.ProductName,
-                                  Rate = mpr.Rate,
-                                  PromoRate = mpr.PromoRate,
-                                  ReceiveCountry = mp.ReceiveCountry3Iso,
-                                  SendCountry = mp.SendCountry3Iso,
-                                  ReceiveCurrency = mp.ReceiveCurrencyId,
-                                  SendCurrency = mp.SendCurrencyId,
-                                  RoutingParameters = m.RoutingParameters,
-                                  WebUrl = m.WebUrl,
-                                  ServiceLevels = mp.ServiceLevels
-                              }).ToList();
-
-            //var tasks = joinedData.Select(async merchantRate =>
-            //{
-            //    return await CalculateMarkupAsync(sendCur, receiveCur, sendAmount, merchantRate.MerchantRate, merchantRate.MerchantTransferFee);
-            //});
-
-            //var list = await Task.WhenAll(tasks);
-            return joinedData;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
         }
 
         public async Task<MarkupCalculationResult> CalculateMarkupAsync(string sendCur, string destCur, double sendAmount, double merchantRate, double merchantTransferFee)
