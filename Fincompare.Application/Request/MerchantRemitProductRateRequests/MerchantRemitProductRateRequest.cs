@@ -13,15 +13,19 @@ namespace Fincompare.Application.Request.MerchantRemitProductRateRequests
         public int? MerchantProductId { get; set; }
 
         [Required]
+        [StringLength(3, MinimumLength = 3, ErrorMessage = "The SendCountry3Iso field must be exactly 3 characters long.")]
         public string SendCountry3Iso { get; set; } = null!;
 
         [Required]
+        [StringLength(3, MinimumLength = 3, ErrorMessage = "The ReceiveCountry3Iso field must be exactly 3 characters long.")]
         public string ReceiveCountry3Iso { get; set; } = null!;
 
         [Required]
+        [StringLength(3, MinimumLength = 3, ErrorMessage = "The SendCurrency3Iso field must be exactly 3 characters long.")]
         public string SendCur { get; set; }
 
         [Required]
+        [StringLength(3, MinimumLength = 3, ErrorMessage = "The ReceiveCurrency3Iso field must be exactly 3 characters long.")]
         public string ReceiveCur { get; set; }
 
         [Required]

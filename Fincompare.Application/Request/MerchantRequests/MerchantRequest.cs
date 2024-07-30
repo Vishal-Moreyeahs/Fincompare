@@ -14,7 +14,7 @@ namespace Fincompare.Application.Request.MerchantRequests
         public int GroupMerchantId { get; set; }
 
         [Required]
-        [[DataType(DataType.PhoneNumber)]
+        [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^(\+[0-9]{2}|\+[0-9]{2}\(0\)|\(\+[0-9]{2}\)\(0\)|00[0-9]{2}|0)?([0-9]{9}|[0-9\-]{9,18})$", ErrorMessage = "Not a valid phone number")]
         [DefaultValue("1234567890")]
         public string MerchantCsph { get; set; } = null!;

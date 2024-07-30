@@ -10,6 +10,7 @@ namespace Fincompare.Application.Request.CurrencyRequest
             public string CurrencyName { get; set; } = string.Empty;
 
             [Required]
+            [StringLength(3, MinimumLength = 3, ErrorMessage = "The CurrencyIso field must be exactly 3 characters long.")]
             public string? CurrencyIso { get; set; }
 
             [Required]

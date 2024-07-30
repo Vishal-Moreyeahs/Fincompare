@@ -1,16 +1,20 @@
-﻿namespace Fincompare.Application.Request.MerchantProductCouponRequest
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Fincompare.Application.Request.MerchantProductCouponRequest
 {
     public class MerchantProductRequestViewModel
     {
         public class CreateMerchantProductCouponRequest
         {
+            [Required]
             public int CouponId { get; set; }
             public int? MerchantProductId { get; set; }
+            [Required]
             public string CouponCode { get; set; } = null!;
-            public bool IsMultiple { get; set; }
+            public bool IsMultiple { get; set; } = false;
             public DateTime ValidityFrom { get; set; }
             public DateTime ValidityTo { get; set; }
-            public bool Status { get; set; }
+            public bool Status { get; set; } = true;
             public string? MerchantCouponBatch { get; set; } = null;
 
         }

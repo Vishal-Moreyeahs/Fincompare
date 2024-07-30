@@ -180,10 +180,18 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<MerchantProductViewModel>()
                     {
-                        Success = true,
+                        Success = false,
                         Message = "Merchant Product Update Failed"
                     };
-                //var checkMerchantExist = await _unitOfWork.GetRepository<Merchant>().GetById(model.MerchantId);
+                var checkMerchantProductExist = await _unitOfWork.GetRepository<Merchant>().GetById(model.Id);
+                if (checkMerchantProductExist == null)
+                {
+                    return new ApiResponse<MerchantProductViewModel>()
+                    {
+                        Success = false,
+                        Message = "Merchant Product Update Failed"
+                    };
+                }
                 var updatedData = _mapper.Map<MerchantProduct>(model);
                 await _unitOfWork.GetRepository<MerchantProduct>().Upsert(updatedData);
                 await _unitOfWork.SaveChangesAsync();
