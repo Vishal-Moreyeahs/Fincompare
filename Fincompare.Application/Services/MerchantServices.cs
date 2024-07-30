@@ -208,7 +208,7 @@ namespace Fincompare.Application.Services
                 //check if merchant already exist or not
 
                 var merchants = await _unitOfWork.GetRepository<Merchant>().GetAll();
-                var checkMerchant = merchants.FirstOrDefault(x => x.MerchantCsem == model.MerchantCsem);
+                var checkMerchant = merchants.FirstOrDefault(x => x.MerchantCsem.ToLower() == model.MerchantCsem.ToLower());
                 if (checkMerchant != null)
                 {
                     response.Success = false;
