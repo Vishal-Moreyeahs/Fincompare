@@ -119,7 +119,7 @@ namespace Fincompare.Infrastructure.Services
         public async Task<ApiResponse<CreateUserResponseClass>> Register(RegisterUserRequest request)
         {
             var users = await _unitOfWork.GetRepository<User>().GetAll();
-            var existingUser = users.Where(x => x.Email.Trim() == request.Email.Trim()).ToList();
+            var existingUser = users.Where(x => x.Email.ToLower() == request.Email.ToLower()).ToList();
             
 
             if (existingUser.Count > 0)
