@@ -39,10 +39,10 @@ namespace Fincompare.Api.Controllers.Admin
         }
 
         [HttpGet]
-        [Route("fetch-currencies-by-country3iso")]
-        public async Task<IActionResult> GetCurrenciesbyCountry(string? country3iso, string? categoryId)
+        [Route("fetch-currencies-by-countryIso3")]
+        public async Task<IActionResult> GetCurrenciesbyCountry(string? countryIso3, string? categoryId)
         {
-            var response = await _countryCurrencyManager.GetCurrenciesbyCountry3Iso(country3iso, categoryId);
+            var response = await _countryCurrencyManager.GetCurrenciesbyCountry3Iso(countryIso3, categoryId);
             return Ok(response);
         }
     }

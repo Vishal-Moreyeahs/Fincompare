@@ -40,16 +40,16 @@ namespace Fincompare.Api.Controllers.Admin
         [HasPermission(PermissionEnum.CanAccessAdmin)]
         [HttpDelete]
         [Route("remove")]
-        public async Task<IActionResult> DeleteCountryById(string country3iso)
+        public async Task<IActionResult> DeleteCountryById(string countryIso3)
         {
-            return Ok(await _countryServices.RemoveCountry(country3iso));
+            return Ok(await _countryServices.RemoveCountry(countryIso3));
         }
 
         [HttpGet]
         [Route("fetch-all-countries")]
-        public async Task<IActionResult> GetAllCountry(string? country3iso, bool? status)
+        public async Task<IActionResult> GetAllCountry(string? countryIso3, bool? status)
         {
-            return Ok(await _countryServices.GetAllCountry(country3iso, status));
+            return Ok(await _countryServices.GetAllCountry(countryIso3, status));
         }
 
         //[HttpGet]

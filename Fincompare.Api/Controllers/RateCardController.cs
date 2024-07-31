@@ -15,10 +15,10 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpGet]
-        [Route("fetch-rates-from-country3iso")]
-        public async Task<IActionResult> GetRatesFromSendCountry(string country3iso)
+        [Route("fetch-rates-from-countryIso3")]
+        public async Task<IActionResult> GetRatesFromSendCountry(string countryIso3)
         {
-            var response = await _rateCardService.GetRateCardByCountry3Iso(country3iso);
+            var response = await _rateCardService.GetRateCardByCountry3Iso(countryIso3);
             return Ok(response);
         }
     }

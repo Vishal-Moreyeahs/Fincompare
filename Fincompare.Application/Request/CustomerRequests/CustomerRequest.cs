@@ -19,7 +19,7 @@ namespace Fincompare.Application.Request.CustomerRequests
         public int? StateId { get; set; }
         public int? CityId { get; set; }
 
-        [StringLength(3, MinimumLength = 3, ErrorMessage = "The Country3Iso field must be exactly 3 characters long.")]
+        [StringLength(3, MinimumLength = 3, ErrorMessage = "The CountryIso3 field must be exactly 3 characters long.")]
         public string Country3Iso { get; set; }
 
         public string Password { get; set; } = string.Empty;

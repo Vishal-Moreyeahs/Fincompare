@@ -31,7 +31,7 @@ namespace Fincompare.Application.Request.CountryCurrencyRequests
     public class UpdateCountryCurrencyRequest : MultipleCurrencyRequest
     {
         [Required]
-        [StringLength(3, MinimumLength = 3, ErrorMessage = "The Country3Iso field must be exactly 3 characters long.")]
+        [StringLength(3, MinimumLength = 3, ErrorMessage = "The CountryIso3 field must be exactly 3 characters long.")]
         public string Country3Iso { get; set; } = null!;
 
         [Required]

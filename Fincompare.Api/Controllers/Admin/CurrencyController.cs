@@ -41,9 +41,9 @@ namespace Fincompare.Api.Controllers.Admin
 
         [HttpGet]
         [Route("fetch-all-currency")]
-        public async Task<IActionResult> GetAllCurrency(string? country3Iso, string? currencyIso, bool? status)
+        public async Task<IActionResult> GetAllCurrency(string? countryIso3, string? currencyIso, bool? status)
         {
-            var response = await _currencyServices.GetAllCurrency(country3Iso, currencyIso, status);
+            var response = await _currencyServices.GetAllCurrency(countryIso3, currencyIso, status);
             return Ok(response);
         }
 
