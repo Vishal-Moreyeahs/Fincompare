@@ -44,6 +44,12 @@ namespace Fincompare.Application.Response.ComparisonResponse
             public decimal RateSendMaxLimit { get; set; }
             public decimal RateReceiveMinLimit { get; set; }
             public decimal RateReceiveMaxLimit { get; set; }
+            public string TransferSpeed { get; set; }
+            public decimal MerchantTotalRate { get; set; }
+            public decimal MarketRate { get; set; }
+            public decimal RecipientGet { get; set; }
+            public decimal RecipientCommulativeFactor { get; set; }
+            public decimal TotalCost { get; set; }
         }
 
     }

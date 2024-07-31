@@ -34,9 +34,25 @@ namespace Fincompare.Application.Services
             int? serviceCategoryId,
             int? instrumentId)
         {
+            var data = await GetDataFromPostgreFunction(sendCountry3Iso, receiveCountry3Iso, sendCurrencyId, receiveCurrencyId, sendAmount, productId, serviceCategoryId, instrumentId);
+
+            return data;
+
+        }
+
+
+        private async Task<List<MerchantProductComparisonDto>> GetDataFromPostgreFunction(string sendCountry3Iso,
+            string receiveCountry3Iso,
+            string sendCurrencyId,
+            string receiveCurrencyId,
+            double sendAmount,/* double receiveAmount,*/
+            int? productId,
+            int? serviceCategoryId,
+            int? instrumentId)
+        {
             try
             {
-                
+
                 var merchantProducts = new List<MerchantProductComparisonDto>();
                 using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("DBConnection")))
                 {
@@ -107,7 +123,11 @@ namespace Fincompare.Application.Services
                                     RateSendMinLimit = reader.GetDecimal(reader.GetOrdinal("Rate_SendMinLimit")),
                                     RateSendMaxLimit = reader.GetDecimal(reader.GetOrdinal("Rate_SendMaxLimit")),
                                     RateReceiveMinLimit = reader.GetDecimal(reader.GetOrdinal("Rate_ReceiveMinLimit")),
-                                    RateReceiveMaxLimit = reader.GetDecimal(reader.GetOrdinal("Rate_ReceiveMaxLimit"))
+                                    RateReceiveMaxLimit = reader.GetDecimal(reader.GetOrdinal("Rate_ReceiveMaxLimit")),
+                                    TransferSpeed = ConvertServiceLevel(reader.GetString(reader.GetOrdinal("Service_Levels"))),
+                                    MerchantTotalRate = reader.GetDecimal(reader.GetOrdinal("MerchantMarketRate")),
+                                    MarketRate = reader.GetDecimal(reader.GetOrdinal("MarketRate")),
+                                    RecipientGet = (Convert.ToDecimal(sendAmount) - reader.GetDecimal(reader.GetOrdinal("TransferFee"))) * reader.GetDecimal(reader.GetOrdinal("Rate")) // receii currenc
                                 };
 
                                 merchantProducts.Add(merchantProduct);
@@ -115,18 +135,24 @@ namespace Fincompare.Application.Services
                         }
                     }
                 }
+                var data = merchantProducts.OrderByDescending(x => x.RecipientGet).ToList();
+                var bestPriceMerchant = data.FirstOrDefault().RecipientGet;
+                //data = data.Select(x => bestPriceMerchant - x.RecipientGet / x.MarketRate).ToList();
 
-                return merchantProducts;
+                data.ForEach(x =>
+                {
+                    x.RecipientCommulativeFactor = Math.Round(((bestPriceMerchant - x.RecipientGet) / x.MarketRate), 3);
+                    x.TotalCost = Math.Round(((Convert.ToDecimal(sendAmount) * x.MarketRate) - x.RecipientGet) / x.MarketRate, 3);
+                });
 
+                return data.OrderBy(x => x.RecipientCommulativeFactor).ToList();
 
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
         }
-
         public async Task<MarkupCalculationResult> CalculateMarkupAsync(string sendCur, string destCur, double sendAmount, double merchantRate, double merchantTransferFee)
         {
             if (string.IsNullOrWhiteSpace(sendCur))
@@ -212,6 +238,18 @@ namespace Fincompare.Application.Services
             var hoursMatch = Regex.Match(serviceLevel, @"(\d+)H", RegexOptions.IgnoreCase);
             var minutesMatch = Regex.Match(serviceLevel, @"(\d+)M", RegexOptions.IgnoreCase);
 
+            if (string.IsNullOrEmpty(daysMatch.Value) && string.IsNullOrEmpty(hoursMatch.Value))
+            {
+                if (!string.IsNullOrEmpty(minutesMatch.Value))
+                {
+                    var replace = int.Parse(minutesMatch.Value.Replace("M", ""));
+                    if (replace <= 5)
+                    {
+                        return "Instant";
+                    }
+                }
+            }
+
             string result = string.Empty;
 
             if (daysMatch.Success)
@@ -233,7 +271,6 @@ namespace Fincompare.Application.Services
                 if (!string.IsNullOrEmpty(result)) result += " and ";
                 result += minutes == 1 ? "1 Minute" : $"{minutes} Minutes";
             }
-
             return result;
         }
 
