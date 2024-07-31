@@ -94,6 +94,7 @@ namespace Fincompare.Application.Services
                                     PromoFees = reader.GetDecimal(reader.GetOrdinal("Promo_Fees")),
                                     PayInInstrumentId = reader.GetInt32(reader.GetOrdinal("PayInInstrumentId")),
                                     VariableFee = reader.GetDecimal(reader.GetOrdinal("Variable_Fee")),
+                                    TransferFee = reader.GetDecimal(reader.GetOrdinal("TransferFee")),
                                     FeeValidityExpiry = reader.GetFieldValue<DateTimeOffset>(reader.GetOrdinal("Fee_ValidityExpiry")),
                                     FeeSendMinLimit = reader.GetDecimal(reader.GetOrdinal("Fee_SendMinLimit")),
                                     FeeSendMaxLimit = reader.GetDecimal(reader.GetOrdinal("Fee_SendMaxLimit")),
