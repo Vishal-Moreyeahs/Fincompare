@@ -49,6 +49,7 @@ namespace Fincompare.Application.Request.MerchantRequests
         ErrorMessage = "Email is required and must be properly formatted.")]
         public string? MerchantEm2 { get; set; }
 
+        [Required]
         public string RoutingParameters { get; set; } = null!;
 
         public bool Status { get; set; } = true;
