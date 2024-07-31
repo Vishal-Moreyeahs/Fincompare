@@ -114,6 +114,16 @@ namespace Fincompare.Application.Services
                     return response;
                 }
                 var data = _mapper.Map<IEnumerable<CityDto>>(getAllCity);
+
+                if (data == null || data.ToList().Count == 0)
+                {
+                    return new ApiResponse<IEnumerable<CityDto>>()
+                    {
+                        Success = false,
+                        Message = "city record fetch failed"
+                    };
+                }
+
                 return new ApiResponse<IEnumerable<CityDto>>()
                 {
                     Success = true,

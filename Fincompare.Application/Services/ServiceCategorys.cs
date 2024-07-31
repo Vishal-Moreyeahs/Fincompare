@@ -60,12 +60,11 @@ namespace Fincompare.Application.Services
 
                 if (getAllServiceCategories.ToList().Count > 0)
                     return new ApiResponse<IEnumerable<GetAllServiceCategoriesResponse>>() { Success = true, Message = "Service Categories record fetched successfully", Data = response };
-                return new ApiResponse<IEnumerable<GetAllServiceCategoriesResponse>>() { Success = true, Message = "Service Category fetch failed" };
+                return new ApiResponse<IEnumerable<GetAllServiceCategoriesResponse>>() { Success = false, Message = "Service Category fetch failed" };
 
             }
             catch (Exception ex)
             {
-
                 throw new ApplicationException("service category fetch failed");
             }
         }

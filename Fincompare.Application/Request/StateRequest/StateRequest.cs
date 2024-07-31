@@ -21,7 +21,4 @@ namespace Fincompare.Application.Request.StateRequest
         [Required]
         public int Id { get; set; }
     }
-
-
-
 }

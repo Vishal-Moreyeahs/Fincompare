@@ -85,6 +85,13 @@ namespace Fincompare.Application.Services
                 //    activeAssets = activeAssets.Where(mp => mp.DateValidity <= dateValidity.Value);
 
                 var merchantsResponse = _mapper.Map<IEnumerable<ActiveAssetResponseViewModel>>(activeAssets);
+
+                if (merchantsResponse == null || merchantsResponse.ToList().Count == 0)
+                {
+                    response.Success = false;
+                    response.Message = "active asset fetch failed";
+                    return response;
+                }
                 response.Success = true;
                 response.Data = merchantsResponse;
                 response.Message = "active asset record fetched successfully";

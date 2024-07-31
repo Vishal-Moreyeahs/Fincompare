@@ -81,6 +81,15 @@ namespace Fincompare.Application.Services
 
                 var data = _mapper.Map<IEnumerable<MarketRateDto>>(marketRates);
 
+                if (data == null || data.ToList().Count == 0)
+                {
+                    return new ApiResponse<IEnumerable<MarketRateDto>>()
+                    {
+                        Success = false,
+                        Message = "Mid-Market rate fetch failed"
+                    };
+                }
+
                 var response = new ApiResponse<IEnumerable<MarketRateDto>>()
                 {
                     Success = true,
@@ -92,7 +101,6 @@ namespace Fincompare.Application.Services
             catch (Exception ex)
             {
                 throw new ApplicationException($"Mid-market rate fetch failed {ex.Message}");
-
             }
 
         }
@@ -184,7 +192,14 @@ namespace Fincompare.Application.Services
 
                 // Map the filtered data to the DTO
                 var data = _mapper.Map<List<MarketRateDto>>(marketCurrRates);
-
+                if (data == null || data.ToList().Count == 0)
+                {
+                    return new ApiResponse<List<MarketRateDto>>()
+                    {
+                        Success = false,
+                        Message = "Mid-Market rate fetch failed"
+                    };
+                }
                 response.Success = true;
                 response.Message = "Market Rate record fetched successfully";
                 response.Data = data;

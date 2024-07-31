@@ -129,6 +129,14 @@ namespace Fincompare.Application.Services
                     merchants = merchants.Where(mp => mp.MerchantType == merchantType);
 
                 var merchantsResponse = _mapper.Map<IEnumerable<MerchantDto>>(merchants);
+
+                if (merchantsResponse == null || merchantsResponse.ToList().Count == 0)
+                {
+                    response.Success = false;
+                    response.Message = "merchant fetch failed";
+                    return response;
+                }
+
                 response.Success = true;
                 response.Data = merchantsResponse;
                 response.Message = "merchant record fetched successfully";

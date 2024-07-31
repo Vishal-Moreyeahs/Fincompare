@@ -80,9 +80,9 @@ namespace Fincompare.Application.Services
                 getData = getData.Where(x => x.Status == status).ToList();
             }
             var getProductList = _mapper.Map<IEnumerable<GetAllProductResponse>>(getData).ToList();
-            if (getProductList.Count == 0)
+            if (getProductList.Count == 0 || getProductList == null)
                 return new ApiResponse<IEnumerable<GetAllProductResponse>>() { Success = false, Message = "product fetch failed" };
-            return new ApiResponse<IEnumerable<GetAllProductResponse>>() { Success = false, Message = "product record fetched successfully", Data = getProductList };
+            return new ApiResponse<IEnumerable<GetAllProductResponse>>() { Success = true, Message = "product record fetched successfully", Data = getProductList };
 
         }
         public async Task<ApiResponse<GetAllProductResponse>> GetProductById(int id)

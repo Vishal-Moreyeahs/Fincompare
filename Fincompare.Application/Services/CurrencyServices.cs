@@ -127,8 +127,7 @@ namespace Fincompare.Application.Services
                 return new ApiResponse<IEnumerable<GetAllCurrencyResponse>>()
                 {
                     Success = false,
-                    Message = "currency fetch failed",
-                    Data = getData
+                    Message = "currency fetch failed"
                 };
             }
             catch (Exception ex)

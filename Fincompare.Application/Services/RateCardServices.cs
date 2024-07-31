@@ -32,7 +32,16 @@ namespace Fincompare.Application.Services
                                                 Country3Iso = x.Country3Iso,
                                                 Rate = countryRates.Data.Where(e => e.ReceiveCur == x.Rate_Card.Substring(x.Rate_Card.Length - 3, 3).ToString()).First().ReceiveCur,
                                                 Status = x.Status
-                                            });
+                                            }).ToList();
+
+                if (rateCardRequestModel == null || rateCardRequestModel.Count == 0)
+                {
+                    return new ApiResponse<IEnumerable<RateCardRequestViewModel>>()
+                    {
+                        Success = false,
+                        Message = " Rate Card fetch failed"
+                    };
+                }
 
                 return new ApiResponse<IEnumerable<RateCardRequestViewModel>>()
                 {

@@ -73,6 +73,16 @@ namespace Fincompare.Application.Services
 
 
                 var data = _mapper.Map<List<GetCountryDto>>(countries);
+
+                if (data == null || data.ToList().Count == 0)
+                {
+                    return new ApiResponse<List<GetCountryDto>>()
+                    {
+                        Success = false,
+                        Message = "country fetch failed"
+                    };
+                }
+
                 var response = new ApiResponse<List<GetCountryDto>>()
                 {
                     Success = true,

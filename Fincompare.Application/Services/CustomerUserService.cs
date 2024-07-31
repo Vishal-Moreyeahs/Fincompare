@@ -98,6 +98,11 @@ namespace Fincompare.Application.Services
 
                 var data = _mapper.Map<IEnumerable<CustomerUserResponseViewModel>>(customers);
 
+                if (data == null || data.ToList().Count == 0)
+                {
+                    return new ApiResponse<IEnumerable<CustomerUserResponseViewModel>> { Success = false, Message = "Customer fetch failed." };
+                }
+
                 return new ApiResponse<IEnumerable<CustomerUserResponseViewModel>> { Success = true, Message = "customer record fetched successfully", Data = data };
 
             }

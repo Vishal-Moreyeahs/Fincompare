@@ -105,7 +105,7 @@ namespace Fincompare.Application.Services
                     return response;
                 }
                 response.Success = true;
-                response.Message = "Merchant product record fetched successfully";
+                response.Message = "merchant product record fetched successfully";
                 response.Data = merchantProductList;
                 return response;
             }
@@ -166,6 +166,12 @@ namespace Fincompare.Application.Services
                 ServiceLevels = x.ServiceLevels,
                 Status = x.Status
             }).ToList();
+
+            if (data == null || data.Count == 0)
+            {
+                response.Message = "merchant product fetch failed";
+                return response;
+            }
 
             response.Success = true;
             response.Message = "merchant product record fetched successfully";
