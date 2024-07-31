@@ -13,14 +13,16 @@ namespace Fincompare.Application.Services
         private readonly IMerchantRemitFee _merchantRemitFeeService;
         private readonly IMerchantProductService _merchantProductService;
         private readonly IMerchantServices _merchantServices;
+        private readonly IActiveAssetService _activeAssets;
         private readonly IConfiguration _configuration;
-        public ComparisonRateService(IConfiguration configuration, IMarketRateServices marketRateServices, IMerchantRemitProductRateService merchantRemitProductRateService, IMerchantProductService merchantProductService, IMerchantRemitFee merchantRemitFee, IMerchantServices merchantServices)
+        public ComparisonRateService(IConfiguration configuration, IActiveAssetService activeAssets, IMarketRateServices marketRateServices, IMerchantRemitProductRateService merchantRemitProductRateService, IMerchantProductService merchantProductService, IMerchantRemitFee merchantRemitFee, IMerchantServices merchantServices)
         {
             _marketRateServices = marketRateServices;
             _merchantProductService = merchantProductService;
             _merchantRemitFeeService = merchantRemitFee;
             _merchantRemitProductRateService = merchantRemitProductRateService;
             _merchantServices = merchantServices;
+            _activeAssets = activeAssets;
             _configuration = configuration;
         }
 
@@ -144,6 +146,24 @@ namespace Fincompare.Application.Services
                     x.RecipientCommulativeFactor = Math.Round(((bestPriceMerchant - x.RecipientGet) / x.MarketRate), 3);
                     x.TotalCost = Math.Round(((Convert.ToDecimal(sendAmount) * x.MarketRate) - x.RecipientGet) / x.MarketRate, 3);
                 });
+
+
+
+                ////For FeaturedMerchant
+                //var activeAssets = await _activeAssets.GetAllActiveAssetRecord(_configuration.GetValue<int>("AssetMerchantFeaturedId"),null,true);
+
+                //if (activeAssets.Data != null)
+                //{ 
+                //    //for a country for now  only 1 featured merchant available
+                //    var activeAssetRecord = activeAssets.Data.ToList();
+                //    var merchantFeatured = data.DistinctBy(x => x.Id).ToList();
+                //    var featuredMerchants = (from merchantFeature in merchantFeatured
+                //                            join activeAsset in activeAssetRecord
+                //                            on merchantFeature.Id equals activeAsset.MerchantId
+                //                            select merchantFeature).ToList();
+
+
+                //}
 
                 return data.OrderBy(x => x.RecipientCommulativeFactor).ToList();
 
