@@ -1,5 +1,4 @@
 ﻿using Fincompare.Application.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers
@@ -11,23 +10,23 @@ namespace Fincompare.Api.Controllers
         private readonly IComparisonRateService _comparisonRateService;
 
         public ComparisonController(IComparisonRateService comparisonRateService)
-        { 
+        {
             _comparisonRateService = comparisonRateService;
         }
 
         [HttpGet]
         [Route("{sendCountry}/{receiveCountry}/{sendCurrency}/{receiveCurrency}/{sendAmount}")]
-        public async Task<IActionResult> GetComparisonResult(string sendCountry,
-                                                            string receiveCountry,
-                                                            string sendCurrency,
-                                                            string receiveCurrency,
-                                                            double sendAmount,
-                                                            [FromQuery] int? productID,
-                                                            [FromQuery] int? serviceCategoryID,
-                                                            [FromQuery] int? instrumentID,
-                                                            [FromQuery] bool? status)
+        public async Task<IActionResult> GetMerchantRatesFromTable(
+                    string sendCountry,
+                    string receiveCountry,
+                    string sendCurrency,
+                    string receiveCurrency,
+                    double sendAmount,/* double receiveAmount,*/
+                    int? productId,
+                    int? serviceCategoryId,
+                    int? instrumentId)
         {
-            var response = await _comparisonRateService.GetMerchantRatesFromTable(sendCountry,receiveCountry,sendCurrency,receiveCurrency,sendAmount,productID,serviceCategoryID,instrumentID);
+            var response = await _comparisonRateService.GetMerchantRatesFromTable(sendCountry, receiveCountry, sendCurrency, receiveCurrency, sendAmount, productId, serviceCategoryId, instrumentId);
             return Ok(response);
         }
     }
