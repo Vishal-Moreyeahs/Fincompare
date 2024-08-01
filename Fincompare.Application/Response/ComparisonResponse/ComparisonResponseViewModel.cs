@@ -50,6 +50,11 @@ namespace Fincompare.Application.Response.ComparisonResponse
             public decimal RecipientGet { get; set; }
             public decimal RecipientCommulativeFactor { get; set; }
             public decimal TotalCost { get; set; }
+            public string InstrumentName { get; set; }
+            public string ProductName { get; set; }
+            public string ServiceCategoryName { get; set; }
+            public string PayInInstrumentName { get; set; }
+
         }
 
     }

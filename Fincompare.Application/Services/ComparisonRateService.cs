@@ -129,7 +129,11 @@ namespace Fincompare.Application.Services
                                     TransferSpeed = ConvertServiceLevel(reader.GetString(reader.GetOrdinal("Service_Levels"))),
                                     MerchantTotalRate = reader.GetDecimal(reader.GetOrdinal("MerchantMarketRate")),
                                     MarketRate = reader.GetDecimal(reader.GetOrdinal("MarketRate")),
-                                    RecipientGet = (Convert.ToDecimal(sendAmount) - reader.GetDecimal(reader.GetOrdinal("TransferFee"))) * reader.GetDecimal(reader.GetOrdinal("Rate")) // receii currenc
+                                    RecipientGet = (Convert.ToDecimal(sendAmount) - reader.GetDecimal(reader.GetOrdinal("TransferFee"))) * reader.GetDecimal(reader.GetOrdinal("Rate")), // receii currenc
+                                    InstrumentName = reader.GetString(reader.GetOrdinal("InstrumentName")),
+                                    ProductName = reader.GetString(reader.GetOrdinal("ProductName")),
+                                    PayInInstrumentName = reader.GetString(reader.GetOrdinal("PayInInstrumentName")),
+                                    ServiceCategoryName = reader.GetString(reader.GetOrdinal("ServiceCategoryName"))
                                 };
 
                                 merchantProducts.Add(merchantProduct);
