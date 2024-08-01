@@ -152,7 +152,7 @@ namespace Fincompare.Application.Services
                 ////For FeaturedMerchant
                 //var activeAssets = await _activeAssets.GetAllActiveAssetRecord(_configuration.GetValue<int>("AssetMerchantFeaturedId"),null,true);
 
-                //if (activeAssets.Data != null)
+                //if (activeAssets.Data != null )
                 //{ 
                 //    //for a country for now  only 1 featured merchant available
                 //    var activeAssetRecord = activeAssets.Data.ToList();
