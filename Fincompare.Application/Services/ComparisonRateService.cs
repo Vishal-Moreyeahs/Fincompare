@@ -1,4 +1,5 @@
 ﻿using Fincompare.Application.Repositories;
+using Fincompare.Application.Response;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using System.Text.RegularExpressions;
@@ -26,7 +27,7 @@ namespace Fincompare.Application.Services
             _configuration = configuration;
         }
 
-        public async Task<List<MerchantProductComparisonDto>> GetMerchantRatesFromTable(
+        public async Task<ApiResponse<List<MerchantProductComparisonDto>>> GetMerchantRatesFromTable(
             string sendCountry3Iso,
             string receiveCountry3Iso,
             string sendCurrencyId,
@@ -36,10 +37,19 @@ namespace Fincompare.Application.Services
             int? serviceCategoryId,
             int? instrumentId)
         {
+
+            var response = new ApiResponse<List<MerchantProductComparisonDto>>();
             var data = await GetDataFromPostgreFunction(sendCountry3Iso, receiveCountry3Iso, sendCurrencyId, receiveCurrencyId, sendAmount, productId, serviceCategoryId, instrumentId);
 
-            return data;
+            if (data == null || data.Count ==0)
+            {
+                response.Message = "comparison fetch failed";
+            }
 
+            response.Success = true;
+            response.Message = "comparison record fetched successfully";
+            response.Data = data;
+            return response;
         }
 
 
@@ -151,25 +161,31 @@ namespace Fincompare.Application.Services
                     x.TotalCost = Math.Round(((Convert.ToDecimal(sendAmount) * x.MarketRate) - x.RecipientGet) / x.MarketRate, 3);
                 });
 
+                data = data.OrderBy(x => x.RecipientCommulativeFactor).ToList();
 
+                //For FeaturedMerchant
+                var activeAssets = await _activeAssets.GetAllActiveAssetRecord(_configuration.GetValue<int>("AssetMerchantFeaturedId"), null, true);
 
-                ////For FeaturedMerchant
-                //var activeAssets = await _activeAssets.GetAllActiveAssetRecord(_configuration.GetValue<int>("AssetMerchantFeaturedId"),null,true);
+                if (activeAssets.Data != null)
+                {
+                    //for a country for now  only 1 featured merchant available
+                    var activeAssetRecord = activeAssets.Data.ToList();
+                    var merchantFeatured = data.DistinctBy(x => x.Id).ToList();
+                    var featuredMerchants = (from merchantFeature in merchantFeatured
+                                             join activeAsset in activeAssetRecord
+                                             on merchantFeature.Id equals activeAsset.MerchantId
+                                             select activeAsset.MerchantId).ToList();
+                    data.ForEach(x =>
+                    {
+                        if (featuredMerchants.Contains(x.Id))
+                        { 
+                            x.FeaturedMerchant = true;
+                        }
+                    });
 
-                //if (activeAssets.Data != null )
-                //{ 
-                //    //for a country for now  only 1 featured merchant available
-                //    var activeAssetRecord = activeAssets.Data.ToList();
-                //    var merchantFeatured = data.DistinctBy(x => x.Id).ToList();
-                //    var featuredMerchants = (from merchantFeature in merchantFeatured
-                //                            join activeAsset in activeAssetRecord
-                //                            on merchantFeature.Id equals activeAsset.MerchantId
-                //                            select merchantFeature).ToList();
+                }
 
-
-                //}
-
-                return data.OrderBy(x => x.RecipientCommulativeFactor).ToList();
+                return data.OrderBy(x => x.FeaturedMerchant).ThenBy(x => x.RecipientCommulativeFactor).ToList();
 
             }
             catch (Exception ex)

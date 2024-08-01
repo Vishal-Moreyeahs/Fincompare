@@ -54,6 +54,7 @@ namespace Fincompare.Application.Response.ComparisonResponse
             public string ProductName { get; set; }
             public string ServiceCategoryName { get; set; }
             public string PayInInstrumentName { get; set; }
+            public bool FeaturedMerchant { get; set; }
 
         }
 

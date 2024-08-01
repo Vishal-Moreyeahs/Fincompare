@@ -1,11 +1,12 @@
-﻿using static Fincompare.Application.Response.ComparisonResponse.ComparisonResponseViewModel;
+﻿using Fincompare.Application.Response;
+using static Fincompare.Application.Response.ComparisonResponse.ComparisonResponseViewModel;
 using static Fincompare.Application.Services.ComparisonRateService;
 
 namespace Fincompare.Application.Repositories
 {
     public interface IComparisonRateService
     {
-        Task<List<MerchantProductComparisonDto>> GetMerchantRatesFromTable(
+        Task<ApiResponse<List<MerchantProductComparisonDto>>> GetMerchantRatesFromTable(
                     string sendCountry3Iso,
                     string receiveCountry3Iso,
                     string sendCurrencyId,
