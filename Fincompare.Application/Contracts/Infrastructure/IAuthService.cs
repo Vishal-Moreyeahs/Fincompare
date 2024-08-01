@@ -13,7 +13,6 @@ namespace Fincompare.Application.Contracts.Infrastructure
         Task<ApiResponse<CreateUserResponseClass>> Register(RegisterUserRequest request);
 
         Task<string> GenerateToken(User user);
-
         Task<bool> IsTokenValid(string jwtToken);
     }
 }
