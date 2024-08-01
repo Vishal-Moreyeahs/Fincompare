@@ -14,7 +14,7 @@ namespace Fincompare.Application.Request.ActiveAssetRequests
         public int AssetsMasterId { get; set; }
 
         [Required]
-        public int AssetDescription { get; set; }
+        public string AssetDescription { get; set; }
 
         [Required]
         public int MerchantId { get; set; }
