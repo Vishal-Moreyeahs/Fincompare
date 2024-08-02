@@ -3,6 +3,7 @@ using System;
 using Fincompare.Persitence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-    partial class FincompareDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240802121242_deleteField")]
+    partial class deleteField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,12 +32,6 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AssetDescription")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("Asset_Description");
 
                     b.Property<string>("AssetMerchantUrl")
                         .IsRequired()
@@ -1757,7 +1754,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 8, 2, 12, 15, 53, 579, DateTimeKind.Utc).AddTicks(5004),
+                            CreatedAt = new DateTime(2024, 8, 2, 12, 12, 42, 339, DateTimeKind.Utc).AddTicks(8717),
                             Email = "carl.unni@fincompare.com",
                             FirstName = "Carl",
                             IsDeleted = false,
@@ -1769,7 +1766,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 8, 2, 12, 15, 53, 579, DateTimeKind.Utc).AddTicks(5026),
+                            CreatedAt = new DateTime(2024, 8, 2, 12, 12, 42, 339, DateTimeKind.Utc).AddTicks(8757),
                             Email = "sailesh.pillai@fincompare.com",
                             FirstName = "Sailesh",
                             IsDeleted = false,

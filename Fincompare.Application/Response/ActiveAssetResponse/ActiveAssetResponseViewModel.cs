@@ -12,7 +12,7 @@ namespace Fincompare.Application.Response.ActiveAssetResponse
 
         public int AssetsMasterId { get; set; }
 
-        public int AssetDescription { get; set; }
+        public string AssetDescription { get; set; }
 
         public int MerchantId { get; set; }
 

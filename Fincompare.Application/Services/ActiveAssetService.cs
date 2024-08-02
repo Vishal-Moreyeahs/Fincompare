@@ -60,7 +60,7 @@ namespace Fincompare.Application.Services
 
                 //Get All Merchant 
                 var activeAssets = await _unitOfWork.GetRepository<ActiveAsset>().GetAll();
-                activeAssets = activeAssets.Where(x => x.DateValidity <= dateTime);
+                activeAssets = activeAssets.Where(x => x.DateValidity >= dateTime);
                 if (activeAssets == null)
                 {
                     response.Success = false;

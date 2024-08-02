@@ -8,7 +8,7 @@ namespace Fincompare.Domain.Entities
 
         public int AssetsMasterId { get; set; }
 
-        public int AssetDescription { get; set; }
+        public string AssetDescription { get; set; } = null!;
 
         public int MerchantId { get; set; }
 
