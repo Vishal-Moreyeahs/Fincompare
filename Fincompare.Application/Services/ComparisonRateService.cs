@@ -16,7 +16,9 @@ namespace Fincompare.Application.Services
         private readonly IMerchantServices _merchantServices;
         private readonly IActiveAssetService _activeAssets;
         private readonly IConfiguration _configuration;
-        public ComparisonRateService(IConfiguration configuration, IActiveAssetService activeAssets, IMarketRateServices marketRateServices, IMerchantRemitProductRateService merchantRemitProductRateService, IMerchantProductService merchantProductService, IMerchantRemitFee merchantRemitFee, IMerchantServices merchantServices)
+        public ComparisonRateService(IConfiguration configuration, IActiveAssetService activeAssets, IMarketRateServices marketRateServices,
+                                IMerchantRemitProductRateService merchantRemitProductRateService, IMerchantProductService merchantProductService,
+                                IMerchantRemitFee merchantRemitFee, IMerchantServices merchantServices)
         {
             _marketRateServices = marketRateServices;
             _merchantProductService = merchantProductService;

@@ -29,6 +29,46 @@ namespace Fincompare.Application.Services
                         Success = false,
                         Message = "merchant group creation failed"
                     };
+
+                var groupMerchants = await _unitOfWork.GetRepository<GroupMerchant>().GetAll();
+                var duplicateName = groupMerchants.Any(e => e.GroupMerchantName.Trim() == model.GroupMerchantName.Trim());
+                var duplicateEmail = groupMerchants.Any(g =>
+                                                    g.GroupCsem == model.GroupCsem ||
+                                                    g.GroupEm1 == model.GroupEm1 ||
+                                                    (model.GroupEm2 != null && g.GroupEm2 == model.GroupEm2));
+
+                var duplicatePhone = groupMerchants.Any(g =>
+                                                    g.GroupCsph == model.GroupCsph ||
+                                                    g.GroupPh1 == model.GroupPh1 ||
+                                                    (model.GroupPh2 != null && g.GroupPh2 == model.GroupPh2));
+
+                if (duplicateName)
+                {
+                    return new ApiResponse<GetAllGroupMerchantResponse>()
+                    {
+                        Success = false,
+                        Message = "merchant group with same name already exist"
+                    };
+                }
+
+                if (duplicateEmail)
+                {
+                    return new ApiResponse<GetAllGroupMerchantResponse>()
+                    {
+                        Success = false,
+                        Message = "merchant group record with same email already exist"
+                    };
+                }
+
+                if (duplicatePhone)
+                {
+                    return new ApiResponse<GetAllGroupMerchantResponse>()
+                    {
+                        Success = false,
+                        Message = "merchant group record with same phone already exist"
+                    };
+                }
+
                 var createdData = _mapper.Map<GroupMerchant>(model);
                 await _unitOfWork.GetRepository<GroupMerchant>().Add(createdData);
                 await _unitOfWork.SaveChangesAsync();
