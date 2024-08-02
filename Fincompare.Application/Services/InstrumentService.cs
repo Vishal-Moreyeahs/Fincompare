@@ -25,6 +25,11 @@ namespace Fincompare.Application.Services
             {
                 if (model == null)
                     return new ApiResponse<CreateInstrumentRequest>() { Success = false, Message = "instrument creation failed" };
+                var checkDuplication = (await _unitOfWork.GetRepository<Instrument>().GetAll())
+                    .Where(x => x.Country3Iso == model.Country3Iso && x.InstrumentName.ToUpper().Trim() == model.InstrumentName.ToUpper().Trim())
+                    .ToList();
+                if (checkDuplication.Count > 0)
+                    return new ApiResponse<CreateInstrumentRequest>() { Success = false, Message = model.InstrumentName + " +  record already exits", };
                 var createInstrument = _mapper.Map<Instrument>(model);
                 await _unitOfWork.GetRepository<Instrument>().Add(createInstrument);
                 await _unitOfWork.SaveChangesAsync();
