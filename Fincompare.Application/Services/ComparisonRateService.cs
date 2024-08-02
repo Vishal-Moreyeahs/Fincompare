@@ -187,7 +187,7 @@ namespace Fincompare.Application.Services
 
                 }
 
-                return data.OrderBy(x => x.FeaturedMerchant).ThenBy(x => x.RecipientCommulativeFactor).ToList();
+                return data.OrderByDescending(x => x.FeaturedMerchant).ThenBy(x => x.RecipientCommulativeFactor).ToList();
 
             }
             catch (Exception ex)
