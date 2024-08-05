@@ -136,8 +136,8 @@ namespace Fincompare.Application.Services
 
                         return new CountryCurrency
                         {
-                            Country3Iso = model.Country3Iso,
-                            CurrencyIso = c.CurrencyIso,
+                            Country3Iso = model.Country3Iso.Trim().ToUpper(),
+                            CurrencyIso = c.CurrencyIso.Trim().ToUpper(),
                             IsPrimaryCur = c.IsPrimary,
                             CountryCurrencyCategoryId = c.Category
                         };
