@@ -25,6 +25,14 @@ namespace Fincompare.Application.Services
             {
                 if (model == null)
                     return new ApiResponse<CreateServiceCategoriesRequest>() { Success = false, Message = "service category creation failed", Data = model };
+
+                var getAllServiceCategories = await _unitOfWork.GetRepository<ServiceCategory>().GetAll();
+
+                if (getAllServiceCategories.Any(x => x.ServCategoryName == model.ServiceCategoryName && x.Country3Iso == model.Country3Iso))
+                {
+                    return new ApiResponse<CreateServiceCategoriesRequest>() { Success = false, Message = "Service category with the same name and country already exists", Data = model };
+                }
+
                 var addService = _mapper.Map<ServiceCategory>(model);
                 await _unitOfWork.GetRepository<ServiceCategory>().Add(addService);
                 await _unitOfWork.SaveChangesAsync();

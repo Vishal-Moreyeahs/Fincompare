@@ -131,7 +131,7 @@ namespace Fincompare.Application.Services
                         // Check if the category is valid (case-insensitive)
                         if (!allowedCategories.Contains(c.Category.Trim(), StringComparer.OrdinalIgnoreCase))
                         {
-                            throw new ArgumentException($"Invalid category: {c.Category}. Allowed categories are '1_Orig' and '1_Dest'.");
+                            var response = new ApiResponse<List<GetCountryCurrencyResponse>>() { Success = false, Message = $"Invalid category: {c.Category}. Allowed categories are '1_Orig' and '1_Dest'." };
                         }
 
                         return new CountryCurrency
@@ -176,6 +176,15 @@ namespace Fincompare.Application.Services
             {
                 var response = new ApiResponse<GetCountryCurrencyResponse>();
                 var checkCountryCurrency = await _unitOfWork.GetRepository<CountryCurrency>().GetById(model.Id);
+
+                var allowedCategories = new[] { "1_Orig", "1_Dest" };
+
+                // Check if the category is valid (case-insensitive)
+                if (!allowedCategories.Contains(model.Category.Trim(), StringComparer.OrdinalIgnoreCase))
+                {
+                    throw new ArgumentException($"Invalid category: {model.Category}. Allowed categories are '1_Orig' and '1_Dest'.");
+                }
+
 
                 if (checkCountryCurrency == null)
                 {
