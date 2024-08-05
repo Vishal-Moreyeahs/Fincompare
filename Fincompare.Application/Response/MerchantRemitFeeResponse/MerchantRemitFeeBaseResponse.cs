@@ -27,7 +27,7 @@
             public double ReceiveMinLimit { get; set; }
             public double ReceiveMaxLimit { get; set; }
             public DateTime ValidityExpiry { get; set; }
-            public double? VariableFee { get; set; }
+            public decimal? VariableFee { get; set; }
             public int? PayInInstrumentId { get; set; }
             public string? PayInInstrumentName { get; set; }
         }

@@ -3,6 +3,7 @@ using System;
 using Fincompare.Persitence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-    partial class FincompareDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240805130353_DropVariabelee")]
+    partial class DropVariabelee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1229,10 +1232,6 @@ namespace Fincompare.Persitence.Migrations
                     b.Property<DateTime>("ValidityExpiry")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<decimal?>("VariableFee")
-                        .HasColumnType("numeric")
-                        .HasColumnName("Variable_Fee");
-
                     b.HasKey("Id")
                         .HasName("MerchantRemitProductFee_pkey");
 
@@ -1757,7 +1756,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 8, 5, 13, 5, 58, 902, DateTimeKind.Utc).AddTicks(5525),
+                            CreatedAt = new DateTime(2024, 8, 5, 13, 3, 52, 605, DateTimeKind.Utc).AddTicks(9880),
                             Email = "carl.unni@fincompare.com",
                             FirstName = "Carl",
                             IsDeleted = false,
@@ -1769,7 +1768,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 8, 5, 13, 5, 58, 902, DateTimeKind.Utc).AddTicks(5535),
+                            CreatedAt = new DateTime(2024, 8, 5, 13, 3, 52, 605, DateTimeKind.Utc).AddTicks(9893),
                             Email = "sailesh.pillai@fincompare.com",
                             FirstName = "Sailesh",
                             IsDeleted = false,
