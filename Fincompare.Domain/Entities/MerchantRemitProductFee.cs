@@ -37,7 +37,7 @@ namespace Fincompare.Domain.Entities
         public DateTime ValidityExpiry { get; set; }
         public int? PayInInstrumentId { get; set; }
 
-        public int? VariableFee { get; set; }
+        public decimal? VariableFee { get; set; }
 
         public bool Status { get; set; }
 
