@@ -113,24 +113,35 @@ namespace Fincompare.Application.Services
                 // Find the country by ISO code
                 var countries = _unitOfWork.GetRepository<Country>().GetAllRelatedEntity();
 
-                var country = countries.FirstOrDefault(c => c.Country3Iso == model.Country3Iso);
+                var country = countries.FirstOrDefault(c => c.Country3Iso.Trim().ToLower() == model.Country3Iso.Trim().ToLower());
+
 
                 if (country == null)
                 {
                     throw new ApplicationException("country currencies creation failed");
                 }
 
+
+                var allowedCategories = new[] { "1_Orig", "1_Dest" };
+
                 // Add new CountryCurrencies
-                var newCountryCurrencies = model.Currencies.Select(c => new CountryCurrency
-                {
-                    Country3Iso = model.Country3Iso,
-                    //CurrencyId = c.Id,
-                    CurrencyIso = c.CurrencyIso,
-                    IsPrimaryCur = c.IsPrimary,
-                    CountryCurrencyCategoryId = c.Category,
-                    //UpdatedDate = DateTime.UtcNow,
-                    //CreatedDate = DateTime.UtcNow
-                }).ToList();
+                var newCountryCurrencies = model.Currencies
+                    .Select(c =>
+                    {
+                        // Check if the category is valid (case-insensitive)
+                        if (!allowedCategories.Contains(c.Category.Trim(), StringComparer.OrdinalIgnoreCase))
+                        {
+                            throw new ArgumentException($"Invalid category: {c.Category}. Allowed categories are '1_Orig' and '1_Dest'.");
+                        }
+
+                        return new CountryCurrency
+                        {
+                            Country3Iso = model.Country3Iso,
+                            CurrencyIso = c.CurrencyIso,
+                            IsPrimaryCur = c.IsPrimary,
+                            CountryCurrencyCategoryId = c.Category
+                        };
+                    }).ToList();
 
                 await _unitOfWork.GetRepository<CountryCurrency>().AddRange(newCountryCurrencies);
                 await _unitOfWork.SaveChangesAsync();

@@ -40,9 +40,9 @@ namespace Fincompare.Api.Controllers
 
         [HttpGet]
         [Route("fetch-instrument")]
-        public async Task<IActionResult> GetAllInstrument(int? idInstrument, bool? status, string? instrumentType)
+        public async Task<IActionResult> GetAllInstrument(int? idInstrument, bool? status, string? instrumentType, string? countryIso3)
         {
-            var response = await _instrumentService.GetAllInstrument(idInstrument, status, instrumentType);
+            var response = await _instrumentService.GetAllInstrument(idInstrument, status, instrumentType, countryIso3);
             return Ok(response);
         }
 

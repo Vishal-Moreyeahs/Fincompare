@@ -9,11 +9,11 @@ namespace Fincompare.Application.Request.GroupMerchantRequest
         {
             [Required]
             [MinLength(5)]
-            [MaxLength(20)]
+            [MaxLength(55)]
             public string GroupMerchantName { get; set; } = null!;
 
             [Required]
-            [MaxLength(10)]
+            [MaxLength(25)]
             public string GroupMerchantShortName { get; set; } = null!;
 
 
