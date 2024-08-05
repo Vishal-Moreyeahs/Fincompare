@@ -180,8 +180,12 @@ namespace Fincompare.Application.Services
                 var marketRates = await _unitOfWork.GetRepository<MarketRate>()
                                                        .GetAll();
 
-                var marketCurrRates = marketRates.Where(x => x.SendCur == sendCurr && x.Date >= oneHourAgo)
-                                                       .ToList();
+                var marketCurrRates = marketRates.ToList()
+                            .Where(mr => mr.SendCur == sendCurr)
+                            .GroupBy(mr => new { mr.SendCur, mr.ReceiveCur })
+                            .Select(g => g.OrderByDescending(mr => mr.Date).FirstOrDefault())
+                            .ToList();
+
 
                 if (marketCurrRates == null || !marketCurrRates.Any())
                 {
@@ -234,7 +238,7 @@ namespace Fincompare.Application.Services
                 var marketRates = await _unitOfWork.GetRepository<MarketRate>()
                                                        .GetAll();
 
-                var marketCurrRates = marketRates.Where(x => x.SendCur == sourceCurr && x.ReceiveCur == destCurr && x.Date >= oneHourAgo)
+                var marketCurrRates = marketRates.Where(x => x.SendCur == sourceCurr && x.ReceiveCur == destCurr).OrderByDescending(x => x.Date)
                                                        .FirstOrDefault();
 
                 if (marketCurrRates == null)
