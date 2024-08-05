@@ -39,6 +39,7 @@ namespace Fincompare.Application.Response.ComparisonResponse
 
             public decimal VariableFee { get; set; }
             public decimal TransferFee { get; set; }
+            public string FeeStatus { get; set; }
             public DateTimeOffset FeeValidityExpiry { get; set; }
             public decimal FeeSendMinLimit { get; set; }
             public decimal FeeSendMaxLimit { get; set; }
