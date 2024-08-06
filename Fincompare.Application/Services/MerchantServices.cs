@@ -102,7 +102,7 @@ namespace Fincompare.Application.Services
         }
 
 
-        public async Task<ApiResponse<IEnumerable<MerchantDto>>> GetAllMerchants(int? groupMerchantId, int? merchantId,string? merchantType ,string? countryIso3, bool? status)
+        public async Task<ApiResponse<IEnumerable<MerchantDto>>> GetAllMerchants(int? groupMerchantId, int? merchantId, string? merchantType, string? countryIso3, bool? status)
         {
             var response = new ApiResponse<IEnumerable<MerchantDto>>();
 
@@ -125,8 +125,8 @@ namespace Fincompare.Application.Services
                     merchants = merchants.Where(mp => mp.Country3Iso == countryIso3);
                 if (status.HasValue)
                     merchants = merchants.Where(mp => mp.Status == status.Value);
-                if (status.HasValue)
-                    merchants = merchants.Where(mp => mp.MerchantType == merchantType);
+                if (!string.IsNullOrEmpty(merchantType))
+                    merchants = merchants.Where(mp => mp.MerchantType.ToLower().Trim() == merchantType.ToLower().Trim());
 
                 var merchantsResponse = _mapper.Map<IEnumerable<MerchantDto>>(merchants);
 
@@ -226,7 +226,20 @@ namespace Fincompare.Application.Services
                     response.Message = "Merchant email already exists.";
                     return response;
                 }
-
+                var checkPhone = merchants.FirstOrDefault(x => x.MerchantPh1 == model.MerchantPh1);
+                if (checkPhone != null)
+                {
+                    response.Success = false;
+                    response.Message = "Merchant phone number already exists.";
+                    return response;
+                }
+                var checkAffiliatedId = merchants.FirstOrDefault(x => x.AffiliateId.Trim().ToUpper() == model.AffiliateId.Trim().ToUpper());
+                if (checkAffiliatedId != null)
+                {
+                    response.Success = false;
+                    response.Message = "Merchant Affiliated id already exists.";
+                    return response;
+                }
 
                 //if not then check its group exist or not if not then create.(Assign it to group)
                 var checkGroup = await _unitOfWork.GetRepository<GroupMerchant>().GetById(model.GroupMerchantId);
