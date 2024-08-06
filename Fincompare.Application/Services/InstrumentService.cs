@@ -68,6 +68,19 @@ namespace Fincompare.Application.Services
             try
             {
                 var getInstrument = await _unitOfWork.GetRepository<Instrument>().GetAll();
+
+                if (idInstrument.HasValue)
+                {
+                    if (instrumentType?.ToLower() == "payout" || instrumentType?.ToLower() == "payin")
+                    {
+                        // Proceed with the valid instrument type
+                    }
+                    else
+                    {
+                        return new ApiResponse<IEnumerable<GetAllInstrumentResponse>>() { Success = false, Message = "Invalid instrument type. Must be either 'payout' or 'payin'." };
+                    }
+                }
+
                 if (idInstrument.HasValue)
                 {
                     getInstrument = getInstrument.Where(x => x.Id == idInstrument.Value);

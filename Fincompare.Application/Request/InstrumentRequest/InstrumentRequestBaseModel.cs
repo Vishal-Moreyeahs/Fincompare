@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Fincompare.Application.Request.InstrumentRequest
 {
@@ -15,7 +16,10 @@ namespace Fincompare.Application.Request.InstrumentRequest
             public string Country3Iso { get; set; } = null!;
 
             [Required]
+            [RegularExpression("^(?i)(Payin|Payout)$", ErrorMessage = "InstrumentType must be either 'Payin' or 'Payout'.")]
+            [DisplayName("Payin/Payout")]
             public string InstrumentType { get; set; } = null!;
+
             public bool Status { get; set; } = true;
         }
 
