@@ -126,7 +126,7 @@ namespace Fincompare.Application.Services
                 if (status.HasValue)
                     merchants = merchants.Where(mp => mp.Status == status.Value);
                 if (!string.IsNullOrEmpty(merchantType))
-                    merchants = merchants.Where(mp => mp.MerchantType == merchantType);
+                    merchants = merchants.Where(mp => mp.MerchantType.ToLower().Trim() == merchantType.ToLower().Trim());
 
                 var merchantsResponse = _mapper.Map<IEnumerable<MerchantDto>>(merchants);
 

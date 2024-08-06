@@ -32,7 +32,7 @@
         
         public string WebUrl { get; set; } = null!;
         public string? MerchantType { get; set; }
-
+        public int? UserId { get; set; } = null;
 
         //public int UserId { get; set; }
     }
