@@ -57,10 +57,35 @@ namespace Fincompare.Application.Request.MerchantRequests
         [Required]
         public string WebUrl { get; set; } = null!;
 
+        private string? _merchantType;
+
         [Required]
-        public string? MerchantType { get; set; }
+        [RegularExpression("^(?i)(Instore|Online)$", ErrorMessage = "MerchantType must be either 'Instore' or 'Online'.")]
+        [DisplayName("Instore/Online")]
+        public string? MerchantType
+        {
+            get => _merchantType;
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _merchantType = value.ToLower() switch
+                    {
+                        "instore" => "Instore",
+                        "online" => "Online",
+                        _ => value
+                    };
+                }
+            }
+        }
 
 
+    }
+
+    public enum MerchantType
+    {
+        Instore,
+        Online
     }
 
     public class AddMerchantRequest : MerchantRequest { }

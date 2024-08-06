@@ -24,9 +24,7 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<MerchantRemitProductRateViewModel>() { Success = false, Message = "merchant product remmitance rate creation failed" };
 
-                var merchantProductIdCheck = (await _unitOfWork.GetRepository<MerchantRemitProductRate>()
-                    .GetAll())
-                    .Where(x => x.MerchantProductId == model.MerchantProductId).FirstOrDefault();
+                var merchantProductIdCheck = (await _unitOfWork.GetRepository<MerchantProduct>().GetById(model.MerchantProductId.Value));
                 if (merchantProductIdCheck == null)
                     return new ApiResponse<MerchantRemitProductRateViewModel>() { Success = false, Message = "merchant product remmitance rate not found" };
 
@@ -39,20 +37,20 @@ namespace Fincompare.Application.Services
                     { Success = false, Message = "The specified 'SendCountry3Iso' does not match the merchant product's value." };
                 }
                 if
-                (merchantProductIdCheck.ReceiveCountry3Iso.Trim().ToUpper() == model.ReceiveCountry3Iso.Trim().ToUpper())
+                (merchantProductIdCheck.ReceiveCountry3Iso.Trim().ToUpper() != model.ReceiveCountry3Iso.Trim().ToUpper())
                 {
 
                     return new ApiResponse<MerchantRemitProductRateViewModel>()
                     { Success = false, Message = "The specified 'ReceiveCountry3Iso' does not match the merchant product's value." };
                 }
                 if
-                (merchantProductIdCheck.SendCur.Trim().ToUpper() == model.SendCur.Trim().ToUpper())
+                (merchantProductIdCheck.SendCurrencyId.Trim().ToUpper() != model.SendCur.Trim().ToUpper())
                 {
                     return new ApiResponse<MerchantRemitProductRateViewModel>()
                     { Success = false, Message = "The specified 'SendCurrency' does not match the merchant product's value." };
                 }
                 if
-                (merchantProductIdCheck.ReceiveCur.Trim().ToUpper() == model.ReceiveCur.Trim().ToUpper())
+                (merchantProductIdCheck.ReceiveCurrencyId.Trim().ToUpper() != model.ReceiveCur.Trim().ToUpper())
                 {
                     return new ApiResponse<MerchantRemitProductRateViewModel>()
                     { Success = false, Message = "The specified 'ReceiveCurrency' does not match the merchant product's value." }; ;

@@ -40,7 +40,7 @@ namespace Fincompare.Application.Services
             catch (Exception ex)
             {
 
-                throw new ArgumentException($"product creation failed {ex.Message}");
+                throw ex;
             }
         }
 

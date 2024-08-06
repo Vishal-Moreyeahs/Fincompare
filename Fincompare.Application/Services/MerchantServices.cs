@@ -213,6 +213,9 @@ namespace Fincompare.Application.Services
 
             try
             {
+
+
+
                 //check if merchant already exist or not
 
                 var merchants = await _unitOfWork.GetRepository<Merchant>().GetAll();
@@ -265,7 +268,7 @@ namespace Fincompare.Application.Services
             catch (Exception ex)
             {
 
-                throw new ApplicationException("Merchant creation failed " + ex.Message);
+                throw ex;
             }
 
         }
