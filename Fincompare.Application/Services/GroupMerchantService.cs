@@ -30,6 +30,8 @@ namespace Fincompare.Application.Services
                         Message = "merchant group creation failed"
                     };
 
+
+
                 var groupMerchants = await _unitOfWork.GetRepository<GroupMerchant>().GetAll();
                 var duplicateName = groupMerchants.Any(e => e.GroupMerchantName.Trim() == model.GroupMerchantName.Trim());
                 var duplicateEmail = groupMerchants.Any(g =>
@@ -95,6 +97,45 @@ namespace Fincompare.Application.Services
             try
             {
                 var checkGroup = await _unitOfWork.GetRepository<GroupMerchant>().GetById(model.Id);
+
+                var groupMerchants = await _unitOfWork.GetRepository<GroupMerchant>().GetAll();
+                var duplicateName = groupMerchants.Any(e => e.GroupMerchantName.Trim() == model.GroupMerchantName.Trim());
+                var duplicateEmail = groupMerchants.Any(g =>
+                                                    g.GroupCsem == model.GroupCsem ||
+                                                    g.GroupEm1 == model.GroupEm1 ||
+                                                    (model.GroupEm2 != null && g.GroupEm2 == model.GroupEm2));
+
+                var duplicatePhone = groupMerchants.Any(g =>
+                                                    g.GroupCsph == model.GroupCsph ||
+                                                    g.GroupPh1 == model.GroupPh1 ||
+                                                    (model.GroupPh2 != null && g.GroupPh2 == model.GroupPh2));
+
+                if (duplicateName)
+                {
+                    return new ApiResponse<UpdateGroupMerchantRequestClass>()
+                    {
+                        Success = false,
+                        Message = "merchant group with same name already exist"
+                    };
+                }
+
+                if (duplicateEmail)
+                {
+                    return new ApiResponse<UpdateGroupMerchantRequestClass>()
+                    {
+                        Success = false,
+                        Message = "merchant group record with same email already exist"
+                    };
+                }
+
+                if (duplicatePhone)
+                {
+                    return new ApiResponse<UpdateGroupMerchantRequestClass>()
+                    {
+                        Success = false,
+                        Message = "merchant group record with same phone already exist"
+                    };
+                }
                 if (checkGroup == null)
                     return new ApiResponse<UpdateGroupMerchantRequestClass>() { Success = false, Message = "group merchant update failed" };
                 var groupData = _mapper.Map(model, checkGroup);

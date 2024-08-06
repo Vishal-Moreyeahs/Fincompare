@@ -9,10 +9,13 @@ namespace Fincompare.Application.Request.GroupMerchantRequest
         {
             [Required]
             [MinLength(5)]
+            [RegularExpression("^[a-zA-Z][a-zA-Z0-9]*$",
+        ErrorMessage = "GroupMerchantName is required and must have alpha numeric string.")]
             [MaxLength(55)]
             public string GroupMerchantName { get; set; } = null!;
 
             [Required]
+            [MinLength(3)]
             [MaxLength(25)]
             public string GroupMerchantShortName { get; set; } = null!;
 
@@ -60,7 +63,7 @@ namespace Fincompare.Application.Request.GroupMerchantRequest
             [Required]
             [StringLength(3, MinimumLength = 3, ErrorMessage = "The CountryIso3 field must be exactly 3 characters long.")]
             public string Country3Iso { get; set; } = null!;
-            public bool Status { get; set; }
+            public bool Status { get; set; } = true;
         }
         public class UpdateGroupMerchantRequestClass : AddGroupMerchantRequestClass
         {
