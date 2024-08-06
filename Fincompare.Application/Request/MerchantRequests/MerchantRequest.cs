@@ -31,7 +31,7 @@ namespace Fincompare.Application.Request.MerchantRequests
         [StringLength(3, MinimumLength = 3, ErrorMessage = "The CountryIso3 field must be exactly 3 characters long.")]
         public string Country3Iso { get; set; } = null!;
 
-        [MinLength(3, ErrorMessage = "The AffiliateId field must be exactly 3 characters long.")]
+        [MinLength(3, ErrorMessage = "The AffiliateId field minimum 3 characters long.")]
         public string? AffiliateId { get; set; }
 
         [Required]
