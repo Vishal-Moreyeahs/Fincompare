@@ -8,6 +8,8 @@ namespace Fincompare.Application.Request.MerchantRequests
         [Required]
         public string MerchantName { get; set; } = null!;
 
+        [Required]
+        [MinLength(2,  ErrorMessage = "The MerchantShortName field minimnum 2 characters long.")]
         public string MerchantShortName { get; set; } = null!;
 
         [Required]
@@ -29,13 +31,16 @@ namespace Fincompare.Application.Request.MerchantRequests
         [StringLength(3, MinimumLength = 3, ErrorMessage = "The CountryIso3 field must be exactly 3 characters long.")]
         public string Country3Iso { get; set; } = null!;
 
+        [MinLength(3, ErrorMessage = "The AffiliateId field must be exactly 3 characters long.")]
         public string? AffiliateId { get; set; }
 
         [Required]
+        [MinLength(3, ErrorMessage = "The Phone field minimnum 3 characters long.")]
         [Phone]
         public string MerchantPh1 { get; set; } = null!;
 
         [Phone]
+        [MinLength(3, ErrorMessage = "The Phone field minimnum 3 characters long.")]
         public string? MerchantPh2 { get; set; }
 
         [Required]

@@ -226,7 +226,20 @@ namespace Fincompare.Application.Services
                     response.Message = "Merchant email already exists.";
                     return response;
                 }
-
+                var checkPhone = merchants.FirstOrDefault(x => x.MerchantPh1 == model.MerchantPh1);
+                if (checkPhone != null)
+                {
+                    response.Success = false;
+                    response.Message = "Merchant phone number already exists.";
+                    return response;
+                }
+                var checkAffiliatedId = merchants.FirstOrDefault(x => x.AffiliateId.Trim().ToUpper() == model.AffiliateId.Trim().ToUpper());
+                if (checkAffiliatedId != null)
+                {
+                    response.Success = false;
+                    response.Message = "Merchant Affiliated id already exists.";
+                    return response;
+                }
 
                 //if not then check its group exist or not if not then create.(Assign it to group)
                 var checkGroup = await _unitOfWork.GetRepository<GroupMerchant>().GetById(model.GroupMerchantId);
