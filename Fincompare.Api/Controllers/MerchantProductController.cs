@@ -64,26 +64,6 @@ namespace Fincompare.Api.Controllers
             return Ok(merchantProducts);
         }
 
-        public async Task<bool> DoesRecordExistAsync(
-                                        int serviceCategoryId,
-                                        int instrumentId,
-                                        int productId,
-                                        int merchantId,
-                                        string sendCountry3Iso,
-                                        string receiveCountry3Iso,
-                                        int sendCurrencyId,
-                                        int receiveCurrencyId)
-        {
-            return await _context.YourEntity
-                .AnyAsync(x => x.ServiceCategoryId == serviceCategoryId &&
-                               x.InstrumentId == instrumentId &&
-                               x.ProductId == productId &&
-                               x.MerchantId == merchantId &&
-                               x.SendCountry3Iso == sendCountry3Iso &&
-                               x.ReceiveCountry3Iso == receiveCountry3Iso &&
-                               x.SendCurrencyId == sendCurrencyId &&
-                               x.ReceiveCurrencyId == receiveCurrencyId);
-        }
 
     }
 }

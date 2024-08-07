@@ -3,6 +3,7 @@ using System;
 using Fincompare.Persitence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-    partial class FincompareDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240807111852_UAT-DroppedMaxLimit")]
+    partial class UATDroppedMaxLimit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1294,14 +1297,6 @@ namespace Fincompare.Persitence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("Receive_Cur");
 
-                    b.Property<decimal>("ReceiveMaxLimit")
-                        .HasColumnType("numeric")
-                        .HasColumnName("receive_max_limit");
-
-                    b.Property<decimal>("ReceiveMinLimit")
-                        .HasColumnType("numeric")
-                        .HasColumnName("receive_min_limit");
-
                     b.Property<string>("SendCountry3Iso")
                         .IsRequired()
                         .HasColumnType("character varying")
@@ -1311,14 +1306,6 @@ namespace Fincompare.Persitence.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("Send_Cur");
-
-                    b.Property<decimal>("SendMaxLimit")
-                        .HasColumnType("numeric")
-                        .HasColumnName("Send_Max_Limit");
-
-                    b.Property<decimal>("SendMinLimit")
-                        .HasColumnType("numeric")
-                        .HasColumnName("Send_Min_Limit");
 
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
@@ -1736,7 +1723,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 8, 7, 11, 25, 5, 345, DateTimeKind.Utc).AddTicks(3781),
+                            CreatedAt = new DateTime(2024, 8, 7, 11, 18, 52, 374, DateTimeKind.Utc).AddTicks(6824),
                             Email = "carl.unni@fincompare.com",
                             FirstName = "Carl",
                             IsDeleted = false,
@@ -1748,7 +1735,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 8, 7, 11, 25, 5, 345, DateTimeKind.Utc).AddTicks(3796),
+                            CreatedAt = new DateTime(2024, 8, 7, 11, 18, 52, 374, DateTimeKind.Utc).AddTicks(6841),
                             Email = "sailesh.pillai@fincompare.com",
                             FirstName = "Sailesh",
                             IsDeleted = false,

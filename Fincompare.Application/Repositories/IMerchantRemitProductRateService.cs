@@ -17,8 +17,8 @@ namespace Fincompare.Application.Repositories
             int? merchantProductId,
             int? serviceCategoryId,
             int? instrumentId,
-            double? sendMinLimit,
-            double? receiveMinLimit,
+            decimal? sendMinLimit,
+            decimal? receiveMinLimit,
             bool? status);
 
         Task<ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>> GetAllMerchantRemitProductRateByCurrencyPairAndMerchant(string sendCurrency,
@@ -28,8 +28,8 @@ namespace Fincompare.Application.Repositories
             int? merchantProductId,
             int? serviceCategoryId,
             int? instrumentId,
-            double? sendMinLimit,
-            double? receiveMinLimit,
+            decimal? sendMinLimit,
+            decimal? receiveMinLimit,
             bool? status);
 
         Task<ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>> GetAllMerchantRemitProductRateByMerchant(int merchantId);

@@ -20,13 +20,13 @@ namespace Fincompare.Domain.Entities
 
         public string ReceiveCur { get; set; }
 
-        public int SendMinLimit { get; set; }
+        public decimal SendMinLimit { get; set; }
 
-        public int SendMaxLimit { get; set; }
+        public decimal SendMaxLimit { get; set; }
 
-        public int ReceiveMinLimit { get; set; }
+        public decimal ReceiveMinLimit { get; set; }
 
-        public int ReceiveMaxLimit { get; set; }
+        public decimal ReceiveMaxLimit { get; set; }
 
         public double Rate { get; set; }
 

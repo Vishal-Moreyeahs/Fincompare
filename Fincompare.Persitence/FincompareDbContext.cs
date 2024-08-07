@@ -816,8 +816,8 @@ namespace Fincompare.Persitence
                     .HasColumnType("character varying")
                     .HasColumnName("Receive_Country_3_iso");
                 entity.Property(e => e.ReceiveCur).HasColumnName("Receive_Cur");
-                entity.Property(e => e.ReceiveMaxLimit).HasColumnName("Receive_Max_Limit");
-                entity.Property(e => e.ReceiveMinLimit).HasColumnName("Receive_Min_Limit");
+                entity.Property(e => e.ReceiveMaxLimit).HasColumnName("receive_max_limit");
+                entity.Property(e => e.ReceiveMinLimit).HasColumnName("receive_min_limit");
                 entity.Property(e => e.SendCountry3Iso)
                     .HasColumnType("character varying")
                     .HasColumnName("Send_Country_3_iso");

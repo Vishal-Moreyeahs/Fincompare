@@ -69,7 +69,7 @@ namespace Fincompare.Application.Services
                // }
 
                 var requestData = _mapper.Map<MerchantRemitProductFee>(model);
-
+                requestData.MerchantProductId = merchantProductIdCheck.Id;
                 await _unitOfWork.GetRepository<MerchantRemitProductFee>().Add(requestData);
                 await _unitOfWork.SaveChangesAsync();
 

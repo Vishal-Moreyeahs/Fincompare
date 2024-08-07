@@ -227,7 +227,14 @@ namespace Fincompare.Application.Services
                     return response;
                 }
                 var checkPhone = merchants.FirstOrDefault(x => x.MerchantPh1 == model.MerchantPh1);
+                var checkPhone2 = merchants.FirstOrDefault(x => x.MerchantPh2 == model.MerchantPh2);
                 if (checkPhone != null)
+                {
+                    response.Success = false;
+                    response.Message = "Merchant phone number already exists.";
+                    return response;
+                }
+                if (checkPhone2 != null)
                 {
                     response.Success = false;
                     response.Message = "Merchant phone number already exists.";

@@ -36,10 +36,12 @@ namespace Fincompare.Application.Request.MerchantRequests
 
         [Required]
         [MinLength(3, ErrorMessage = "The Phone field minimnum 3 characters long.")]
+        [RegularExpression(@"^(\+[0-9]{2}|\+[0-9]{2}\(0\)|\(\+[0-9]{2}\)\(0\)|00[0-9]{2}|0)?([0-9]{9}|[0-9\-]{9,18})$", ErrorMessage = "Not a valid phone number")]
         [Phone]
         public string MerchantPh1 { get; set; } = null!;
 
         [Phone]
+        [RegularExpression(@"^(\+[0-9]{2}|\+[0-9]{2}\(0\)|\(\+[0-9]{2}\)\(0\)|00[0-9]{2}|0)?([0-9]{9}|[0-9\-]{9,18})$", ErrorMessage = "Not a valid phone number")]
         [MinLength(3, ErrorMessage = "The Phone field minimnum 3 characters long.")]
         public string? MerchantPh2 { get; set; }
 

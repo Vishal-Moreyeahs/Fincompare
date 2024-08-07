@@ -90,7 +90,7 @@ namespace Fincompare.Application.Services
             }
         }
 
-        public async Task<ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>> GetAllMerchantRemitProductRate(string sendCountry, string receiveCountry, string sendCurrency, string receiveCurrency, int? merchantId, int? remittanceRateId, int? merchantProductId, int? serviceCategoryId, int? instrumentId, double? sendMinLimit, double? receiveMinLimit, bool? status)
+        public async Task<ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>> GetAllMerchantRemitProductRate(string sendCountry, string receiveCountry, string sendCurrency, string receiveCurrency, int? merchantId, int? remittanceRateId, int? merchantProductId, int? serviceCategoryId, int? instrumentId, decimal? sendMinLimit, decimal? receiveMinLimit, bool? status)
         {
             try
             {
@@ -223,7 +223,7 @@ namespace Fincompare.Application.Services
 
         }
 
-        public async Task<ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>> GetAllMerchantRemitProductRateByCurrencyPairAndMerchant(string sendCurrency, string receiveCurrency, int merchantId, int? remittanceRateId, int? merchantProductId, int? serviceCategoryId, int? instrumentId, double? sendMinLimit, double? receiveMinLimit, bool? status)
+        public async Task<ApiResponse<IEnumerable<MerchantRemitProductRateViewModel>>> GetAllMerchantRemitProductRateByCurrencyPairAndMerchant(string sendCurrency, string receiveCurrency, int merchantId, int? remittanceRateId, int? merchantProductId, int? serviceCategoryId, int? instrumentId, decimal? sendMinLimit, decimal? receiveMinLimit, bool? status)
         {
             try
             {
