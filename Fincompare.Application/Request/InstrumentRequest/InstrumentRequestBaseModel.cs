@@ -11,9 +11,6 @@ namespace Fincompare.Application.Request.InstrumentRequest
             [Required]
             public string InstrumentName { get; set; } = null!;
 
-            [Required]
-            [StringLength(3, MinimumLength = 3, ErrorMessage = "The CountryIso3 field must be exactly 3 characters long.")]
-            public string Country3Iso { get; set; } = null!;
 
             [Required]
             [RegularExpression("^(?i)(Payin|Payout)$", ErrorMessage = "InstrumentType must be either 'Payin' or 'Payout'.")]

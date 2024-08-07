@@ -3,6 +3,7 @@ using System;
 using Fincompare.Persitence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Fincompare.Persitence.Migrations
 {
     [DbContext(typeof(FincompareDbContext))]
-    partial class FincompareDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240807064514_UAT-RemoveCountryField")]
+    partial class UATRemoveCountryField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -718,6 +721,10 @@ namespace Fincompare.Persitence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Country3IsoNavigationCountry3Iso")
+                        .IsRequired()
+                        .HasColumnType("character varying");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Created_Date");
@@ -745,6 +752,8 @@ namespace Fincompare.Persitence.Migrations
 
                     b.HasKey("Id")
                         .HasName("Instrument_pkey");
+
+                    b.HasIndex("Country3IsoNavigationCountry3Iso");
 
                     b.ToTable("Instrument", (string)null);
                 });
@@ -1360,6 +1369,10 @@ namespace Fincompare.Persitence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Country3IsoNavigationCountry3Iso")
+                        .IsRequired()
+                        .HasColumnType("character varying");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Created_Date");
@@ -1392,6 +1405,8 @@ namespace Fincompare.Persitence.Migrations
 
                     b.HasKey("Id")
                         .HasName("Product_pkey");
+
+                    b.HasIndex("Country3IsoNavigationCountry3Iso");
 
                     b.HasIndex("ServiceCategoryId");
 
@@ -1439,6 +1454,10 @@ namespace Fincompare.Persitence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Country3IsoNavigationCountry3Iso")
+                        .IsRequired()
+                        .HasColumnType("character varying");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("Created_Date");
@@ -1461,6 +1480,8 @@ namespace Fincompare.Persitence.Migrations
 
                     b.HasKey("Id")
                         .HasName("ServiceCategory_pkey");
+
+                    b.HasIndex("Country3IsoNavigationCountry3Iso");
 
                     b.ToTable("ServiceCategory", (string)null);
                 });
@@ -1736,7 +1757,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 8, 7, 7, 9, 24, 282, DateTimeKind.Utc).AddTicks(5979),
+                            CreatedAt = new DateTime(2024, 8, 7, 6, 45, 14, 65, DateTimeKind.Utc).AddTicks(2046),
                             Email = "carl.unni@fincompare.com",
                             FirstName = "Carl",
                             IsDeleted = false,
@@ -1748,7 +1769,7 @@ namespace Fincompare.Persitence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 8, 7, 7, 9, 24, 282, DateTimeKind.Utc).AddTicks(5994),
+                            CreatedAt = new DateTime(2024, 8, 7, 6, 45, 14, 65, DateTimeKind.Utc).AddTicks(2061),
                             Email = "sailesh.pillai@fincompare.com",
                             FirstName = "Sailesh",
                             IsDeleted = false,
@@ -2021,6 +2042,17 @@ namespace Fincompare.Persitence.Migrations
                         .HasForeignKey("Country3Iso")
                         .IsRequired()
                         .HasConstraintName("GroupMerchant_Country_3_iso_fkey");
+
+                    b.Navigation("Country3IsoNavigation");
+                });
+
+            modelBuilder.Entity("Fincompare.Domain.Entities.Instrument", b =>
+                {
+                    b.HasOne("Fincompare.Domain.Entities.Country", "Country3IsoNavigation")
+                        .WithMany("Instruments")
+                        .HasForeignKey("Country3IsoNavigationCountry3Iso")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Country3IsoNavigation");
                 });
@@ -2319,11 +2351,19 @@ namespace Fincompare.Persitence.Migrations
 
             modelBuilder.Entity("Fincompare.Domain.Entities.Product", b =>
                 {
+                    b.HasOne("Fincompare.Domain.Entities.Country", "Country3IsoNavigation")
+                        .WithMany("Products")
+                        .HasForeignKey("Country3IsoNavigationCountry3Iso")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Fincompare.Domain.Entities.ServiceCategory", "ServiceCategory")
                         .WithMany("Products")
                         .HasForeignKey("ServiceCategoryId")
                         .IsRequired()
                         .HasConstraintName("Product_ServiceCategory_Id_fkey");
+
+                    b.Navigation("Country3IsoNavigation");
 
                     b.Navigation("ServiceCategory");
                 });
@@ -2335,6 +2375,17 @@ namespace Fincompare.Persitence.Migrations
                         .HasForeignKey("Country3Iso")
                         .IsRequired()
                         .HasConstraintName("RateCard_Country_3_iso_fkey");
+
+                    b.Navigation("Country3IsoNavigation");
+                });
+
+            modelBuilder.Entity("Fincompare.Domain.Entities.ServiceCategory", b =>
+                {
+                    b.HasOne("Fincompare.Domain.Entities.Country", "Country3IsoNavigation")
+                        .WithMany("ServiceCategories")
+                        .HasForeignKey("Country3IsoNavigationCountry3Iso")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Country3IsoNavigation");
                 });
@@ -2425,6 +2476,8 @@ namespace Fincompare.Persitence.Migrations
 
                     b.Navigation("GroupMerchants");
 
+                    b.Navigation("Instruments");
+
                     b.Navigation("MerchantCampaignReceiveCountry3IsoNavigations");
 
                     b.Navigation("MerchantCampaignSendCountry3IsoNavigations");
@@ -2443,7 +2496,11 @@ namespace Fincompare.Persitence.Migrations
 
                     b.Navigation("Merchants");
 
+                    b.Navigation("Products");
+
                     b.Navigation("RateCards");
+
+                    b.Navigation("ServiceCategories");
 
                     b.Navigation("States");
                 });

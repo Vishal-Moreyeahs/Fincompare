@@ -40,9 +40,9 @@ namespace Fincompare.Api.Controllers
 
         [HttpGet]
         [Route("fetch-product")]
-        public async Task<IActionResult> GetAllProduct(string? countryIso3, int? idProduct, int? idServCategory, bool? status)
+        public async Task<IActionResult> GetAllProduct(/*string? countryIso3,*/ int? idProduct, int? idServCategory, bool? status)
         {
-            var response = await _productService.GetAllProduct(countryIso3, idProduct, idServCategory, status);
+            var response = await _productService.GetAllProduct(/*countryIso3,*/ idProduct, idServCategory, status);
             return Ok(response);
         }
 

@@ -28,7 +28,7 @@ namespace Fincompare.Application.Services
 
                 var getAllServiceCategories = await _unitOfWork.GetRepository<ServiceCategory>().GetAll();
 
-                if (getAllServiceCategories.Any(x => x.ServCategoryName == model.ServiceCategoryName && x.Country3Iso == model.Country3Iso))
+                if (getAllServiceCategories.Any(x => x.ServCategoryName == model.ServiceCategoryName))
                 {
                     return new ApiResponse<CreateServiceCategoriesRequest>() { Success = false, Message = "Service category with the same name and country already exists", Data = model };
                 }
@@ -45,7 +45,7 @@ namespace Fincompare.Application.Services
             }
         }
 
-        public async Task<ApiResponse<IEnumerable<GetAllServiceCategoriesResponse>>> FetchAllServiceCategories(int? idServCategory, string? countryIso3, bool? status)
+        public async Task<ApiResponse<IEnumerable<GetAllServiceCategoriesResponse>>> FetchAllServiceCategories(int? idServCategory/*, string? countryIso3*/, bool? status)
         {
             try
             {
@@ -54,10 +54,10 @@ namespace Fincompare.Application.Services
                 {
                     getAllServiceCategories = getAllServiceCategories.Where(x => x.Id == idServCategory.Value).ToList();
                 }
-                if (!string.IsNullOrEmpty(countryIso3))
-                {
-                    getAllServiceCategories = getAllServiceCategories.Where(x => x.Country3Iso == countryIso3).ToList();
-                }
+                //if (!string.IsNullOrEmpty(countryIso3))
+                //{
+                //    getAllServiceCategories = getAllServiceCategories.Where(x => x.Country3Iso == countryIso3).ToList();
+                //}
                 if (status.HasValue)
                 {
                     getAllServiceCategories = getAllServiceCategories.Where(x => x.Status == status.Value).ToList();

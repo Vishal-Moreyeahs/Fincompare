@@ -155,6 +155,12 @@ namespace Fincompare.Application.Services
                     }
                 }
                 var data = merchantProducts.OrderByDescending(x => x.RecipientGet).ToList();
+
+                if (data.Count == 0 && data == null)
+                {
+                    return null;
+                }
+
                 var bestPriceMerchant = data.FirstOrDefault().RecipientGet;
                 //data = data.Select(x => bestPriceMerchant - x.RecipientGet / x.MarketRate).ToList();
 

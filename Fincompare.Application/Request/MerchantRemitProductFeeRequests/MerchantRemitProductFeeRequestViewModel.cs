@@ -14,12 +14,22 @@ namespace Fincompare.Application.Request.MerchantRemitProductFeeRequests
 
             [Required]
             [StringLength(3, MinimumLength = 3, ErrorMessage = "The Fees Currency field must be exactly 3 characters long.")]
+            [Compare("SendCountry3Iso", ErrorMessage = "The Fees Currency must match the SendCountry3Iso.")]
             public string FeesCur { get; set; }
 
             [Required]
             public double Fees { get; set; }
             public double? PromoFees { get; set; }
-            public int? MerchantProductId { get; set; }
+            //public int? MerchantProductId { get; set; }
+
+            [Required]
+            public int ServiceCategoryId { get; set; }
+
+            [Required]
+            public int ProductId { get; set; }
+
+            [Required]
+            public int InstrumentId { get; set; }
 
             [Required]
             [StringLength(3, MinimumLength = 3, ErrorMessage = "The SendCountry3Iso field must be exactly 3 characters long.")]

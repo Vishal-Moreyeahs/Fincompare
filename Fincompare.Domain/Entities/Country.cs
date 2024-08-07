@@ -26,7 +26,7 @@ namespace Fincompare.Domain.Entities
 
         public virtual ICollection<GroupMerchant> GroupMerchants { get; set; } = new List<GroupMerchant>();
 
-        public virtual ICollection<Instrument> Instruments { get; set; } = new List<Instrument>();
+        //public virtual ICollection<Instrument> Instruments { get; set; } = new List<Instrument>();
 
         public virtual ICollection<MerchantCampaign> MerchantCampaignReceiveCountry3IsoNavigations { get; set; } = new List<MerchantCampaign>();
 
@@ -46,11 +46,11 @@ namespace Fincompare.Domain.Entities
 
         public virtual ICollection<Merchant> Merchants { get; set; } = new List<Merchant>();
 
-        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+        //public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 
         public virtual ICollection<RateCard> RateCards { get; set; } = new List<RateCard>();
 
-        public virtual ICollection<ServiceCategory> ServiceCategories { get; set; } = new List<ServiceCategory>();
+        //public virtual ICollection<ServiceCategory> ServiceCategories { get; set; } = new List<ServiceCategory>();
 
         public virtual ICollection<State> States { get; set; } = new List<State>();
     }

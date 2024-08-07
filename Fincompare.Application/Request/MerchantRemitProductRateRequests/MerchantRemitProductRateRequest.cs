@@ -5,12 +5,22 @@ namespace Fincompare.Application.Request.MerchantRemitProductRateRequests
     public class MerchantRemitProductRateRequest
     {
         [Required]
+        [MinLength(3)]
+        [MaxLength(50)]
         public string MerchantRateRef { get; set; } = null!;
 
         [Required]
         public int MerchantId { get; set; }
 
-        public int? MerchantProductId { get; set; }
+        //public int? MerchantProductId { get; set; }
+        [Required]
+        public int ServiceCategoryId { get; set; }
+
+        [Required]
+        public int ProductId { get; set; }
+
+        [Required]
+        public int InstrumentId { get; set; }
 
         [Required]
         [StringLength(3, MinimumLength = 3, ErrorMessage = "The SendCountry3Iso field must be exactly 3 characters long.")]
@@ -44,7 +54,7 @@ namespace Fincompare.Application.Request.MerchantRemitProductRateRequests
         public double Rate { get; set; }
 
 
-        public double PromoRate { get; set; } = 0;
+        public double? PromoRate { get; set; } = 0;
 
         [Required]
         public DateTime ValidityExpiry { get; set; }

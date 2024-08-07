@@ -26,7 +26,7 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<CreateInstrumentRequest>() { Success = false, Message = "instrument creation failed" };
                 var checkDuplication = (await _unitOfWork.GetRepository<Instrument>().GetAll())
-                    .Where(x => x.Country3Iso == model.Country3Iso && x.InstrumentName.ToUpper().Trim() == model.InstrumentName.ToUpper().Trim())
+                    .Where(x => x.InstrumentName.ToUpper().Trim() == model.InstrumentName.ToUpper().Trim())
                     .ToList();
                 if (checkDuplication.Count > 0)
                     return new ApiResponse<CreateInstrumentRequest>() { Success = false, Message = model.InstrumentName + " +  record already exits", };
@@ -63,7 +63,7 @@ namespace Fincompare.Application.Services
         }
 
 
-        public async Task<ApiResponse<IEnumerable<GetAllInstrumentResponse>>> GetAllInstrument(int? idInstrument, bool? status, string? instrumentType, string? countryIso3)
+        public async Task<ApiResponse<IEnumerable<GetAllInstrumentResponse>>> GetAllInstrument(int? idInstrument, bool? status, string? instrumentType/*, string? countryIso3*/)
         {
             try
             {
@@ -89,10 +89,10 @@ namespace Fincompare.Application.Services
                 {
                     getInstrument = getInstrument.Where(x => x.Status == status.Value);
                 }
-                if (!string.IsNullOrEmpty(countryIso3))
-                {
-                    getInstrument = getInstrument.Where(x => x.Country3Iso == countryIso3);
-                }
+                //if (!string.IsNullOrEmpty(countryIso3))
+                //{
+                //    getInstrument = getInstrument.Where(x => x.Country3Iso == countryIso3);
+                //}
                 if (!string.IsNullOrEmpty(instrumentType))
                 {
                     getInstrument = getInstrument.Where(x => x.InstrumentType == instrumentType);
@@ -103,7 +103,6 @@ namespace Fincompare.Application.Services
                         Id = x.Id,
                         InstrumentName = x.InstrumentName,
                         InstrumentType = x.InstrumentType,
-                        Country3Iso = x.Country3Iso,
                         Status = x.Status
                     }).ToList();
 

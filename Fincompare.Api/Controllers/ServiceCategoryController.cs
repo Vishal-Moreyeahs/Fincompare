@@ -30,9 +30,9 @@ namespace Fincompare.Api.Controllers
 
         [HttpGet]
         [Route("fetch-service-categories")]
-        public async Task<IActionResult> FetchAllServiceCategories(int? idServCategory, string? countryIso3, bool? status)
+        public async Task<IActionResult> FetchAllServiceCategories(int? idServCategory,/* string? countryIso3, */bool? status)
         {
-            var response = await _serviceCategory.FetchAllServiceCategories(idServCategory, countryIso3, status);
+            var response = await _serviceCategory.FetchAllServiceCategories(idServCategory, /*countryIso3, */status);
             return Ok(response);
         }
 

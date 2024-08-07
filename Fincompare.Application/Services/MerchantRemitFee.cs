@@ -12,10 +12,12 @@ namespace Fincompare.Application.Services
     public class MerchantRemitFee : IMerchantRemitFee
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMerchantProductService _merchantProductService;
         private readonly IMapper _mapper;
-        public MerchantRemitFee(IUnitOfWork unitOfWork, IMapper mapper)
+        public MerchantRemitFee(IUnitOfWork unitOfWork, IMapper mapper, IMerchantProductService merchantProductService)
         {
             _unitOfWork = unitOfWork;
+            _merchantProductService = merchantProductService;
             _mapper = mapper;
         }
         public async Task<ApiResponse<MerchantRemittanceFee>> AddMerchantRemitFee(CreateMerchantRemitProductFeeRequest model)
@@ -25,38 +27,46 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "merchant product remit fee creation failed" };
 
-                var merchantProductIdCheck = (await _unitOfWork.GetRepository<MerchantProduct>().GetById(model.MerchantProductId.Value));
+                var merchantProductResponse = await _merchantProductService.GetMerchantProducts(model.SendCountry3Iso,model.ReceiveCountry3Iso,model.SendCurrency,model.ReceiveCurrency,model.MerchantId,null,model.ProductId,model.ServiceCategoryId,model.InstrumentId, true);
+
+
+                if (!merchantProductResponse.Success && merchantProductResponse.Data == null)
+                {
+                    return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "merchant product not found for specified service category, instrument and product." };
+                }
+                var merchantProductIdCheck = merchantProductResponse.Data.ToList().FirstOrDefault();
+
                 if (merchantProductIdCheck == null)
-                    return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "merchant product not found" };
-
-
-                if
-               (merchantProductIdCheck.SendCountry3Iso.Trim().ToUpper() != model.SendCountry3Iso.Trim().ToUpper())
                 {
-
-                    return new ApiResponse<MerchantRemittanceFee>()
-                    { Success = false, Message = "The specified 'SendCountry3Iso' does not match the merchant product's value." };
-                }
-                if
-                (merchantProductIdCheck.ReceiveCountry3Iso.Trim().ToUpper() != model.ReceiveCountry3Iso.Trim().ToUpper())
-                {
-
-                    return new ApiResponse<MerchantRemittanceFee>()
-                    { Success = false, Message = "The specified 'ReceiveCountry3Iso' does not match the merchant product's value." };
-                }
-                if
-                (merchantProductIdCheck.SendCurrencyId.Trim().ToUpper() != model.SendCurrency.Trim().ToUpper())
-                {
-                    return new ApiResponse<MerchantRemittanceFee>()
-                    { Success = false, Message = "The specified 'SendCurrency' does not match the merchant product's value." };
-                }
-                if
-                (merchantProductIdCheck.ReceiveCurrencyId.Trim().ToUpper() != model.ReceiveCurrency.Trim().ToUpper())
-                {
-                    return new ApiResponse<MerchantRemittanceFee>()
-                    { Success = false, Message = "The specified 'ReceiveCurrency' does not match the merchant product's value." }; ;
+                    return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "merchant product not found for specified service category, instrument and product." };
                 }
 
+               // if
+               //(merchantProductIdCheck.SendCountry3Iso.Trim().ToUpper() != model.SendCountry3Iso.Trim().ToUpper())
+               // {
+
+               //     return new ApiResponse<MerchantRemittanceFee>()
+               //     { Success = false, Message = "The specified 'SendCountry3Iso' does not match the merchant product's value." };
+               // }
+               // if
+               // (merchantProductIdCheck.ReceiveCountry3Iso.Trim().ToUpper() != model.ReceiveCountry3Iso.Trim().ToUpper())
+               // {
+
+               //     return new ApiResponse<MerchantRemittanceFee>()
+               //     { Success = false, Message = "The specified 'ReceiveCountry3Iso' does not match the merchant product's value." };
+               // }
+               // if
+               // (merchantProductIdCheck.SendCurrencyId.Trim().ToUpper() != model.SendCurrency.Trim().ToUpper())
+               // {
+               //     return new ApiResponse<MerchantRemittanceFee>()
+               //     { Success = false, Message = "The specified 'SendCurrency' does not match the merchant product's value." };
+               // }
+               // if
+               // (merchantProductIdCheck.ReceiveCurrencyId.Trim().ToUpper() != model.ReceiveCurrency.Trim().ToUpper())
+               // {
+               //     return new ApiResponse<MerchantRemittanceFee>()
+               //     { Success = false, Message = "The specified 'ReceiveCurrency' does not match the merchant product's value." }; ;
+               // }
 
                 var requestData = _mapper.Map<MerchantRemitProductFee>(model);
 

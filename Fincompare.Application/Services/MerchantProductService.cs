@@ -26,9 +26,38 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<MerchantProductViewModel>()
                     {
-                        Success = true,
+                        Success = false,
                         Message = "merchant product creation failed"
                     };
+                var instrument = await _unitOfWork.GetRepository<Instrument>().GetById(model.InstrumentId);
+                if (instrument == null || instrument.InstrumentType.Trim().ToLower() != "payout")
+                {
+                    return new ApiResponse<MerchantProductViewModel>()
+                    {
+                        Success = false,
+                        Message = "Invalid instrument type. instrument must be payout"
+                    };
+                }
+                var merchant = await _unitOfWork.GetRepository<Merchant>().GetById(model.MerchantId);
+
+                if (merchant == null)
+                {
+                    return new ApiResponse<MerchantProductViewModel>()
+                    {
+                        Success = false,
+                        Message = $"merchant with id {model.MerchantId} not found "
+                    };
+                }
+
+                if (merchant.Country3Iso.Trim().ToLower() != model.SendCountry3Iso.Trim().ToLower())
+                {
+                    return new ApiResponse<MerchantProductViewModel>()
+                    {
+                        Success = false,
+                        Message = $"merchant country not matches with send country."
+                    };
+                }
+
                 //var checkMerchantExist = await _unitOfWork.GetRepository<Merchant>().GetById(model.MerchantId);
                 var createdData = _mapper.Map<MerchantProduct>(model);
                 await _unitOfWork.GetRepository<MerchantProduct>().Add(createdData);
@@ -189,6 +218,35 @@ namespace Fincompare.Application.Services
                         Success = false,
                         Message = "Merchant Product Update Failed"
                     };
+                var instrument = await _unitOfWork.GetRepository<Instrument>().GetById(model.InstrumentId);
+                if (instrument == null || instrument.InstrumentType.Trim().ToLower() != "payout")
+                {
+                    return new ApiResponse<MerchantProductViewModel>()
+                    {
+                        Success = false,
+                        Message = "Invalid instrument type. instrument must be payout"
+                    };
+                }
+                var merchant = await _unitOfWork.GetRepository<Merchant>().GetById(model.MerchantId);
+
+                if (merchant == null)
+                {
+                    return new ApiResponse<MerchantProductViewModel>()
+                    {
+                        Success = false,
+                        Message = $"merchant with id {model.MerchantId} not found "
+                    };
+                }
+
+                if (merchant.Country3Iso.Trim().ToLower() != model.SendCountry3Iso.Trim().ToLower())
+                {
+                    return new ApiResponse<MerchantProductViewModel>()
+                    {
+                        Success = false,
+                        Message = $"merchant country not matches with send country."
+                    };
+                }
+
                 var checkMerchantProductExist = await _unitOfWork.GetRepository<Merchant>().GetById(model.Id);
                 if (checkMerchantProductExist == null)
                 {

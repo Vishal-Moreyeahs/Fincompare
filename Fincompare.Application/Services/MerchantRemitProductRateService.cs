@@ -5,17 +5,20 @@ using Fincompare.Application.Request.MerchantRemitProductRateRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.MerchantRemitProductRateResponse;
 using Fincompare.Domain.Entities;
+using static Fincompare.Application.Response.MerchantRemitFeeResponse.MerchantRemitFeeBaseResponse;
 namespace Fincompare.Application.Services
 {
     public class MerchantRemitProductRateService : IMerchantRemitProductRateService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMerchantProductService _merchantProductService;
         private readonly IMapper _mapper;
 
-        public MerchantRemitProductRateService(IUnitOfWork unitOfWork, IMapper mapper)
+        public MerchantRemitProductRateService(IUnitOfWork unitOfWork, IMapper mapper, IMerchantProductService merchantProductService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _merchantProductService = merchantProductService;
         }
         public async Task<ApiResponse<MerchantRemitProductRateViewModel>> AddMerchantRemitProductRate(AddMerchantRemitProductRateRequest model)
         {
@@ -24,39 +27,18 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<MerchantRemitProductRateViewModel>() { Success = false, Message = "merchant product remmitance rate creation failed" };
 
-                var merchantProductIdCheck = (await _unitOfWork.GetRepository<MerchantProduct>().GetById(model.MerchantProductId.Value));
+                var merchantProductResponse = await _merchantProductService.GetMerchantProducts(model.SendCountry3Iso, model.ReceiveCountry3Iso, model.SendCur, model.ReceiveCur, model.MerchantId, null, model.ProductId, model.ServiceCategoryId, model.InstrumentId, true);
+
+                if (merchantProductResponse.Success == false || merchantProductResponse.Data == null)
+                {
+                    return new ApiResponse<MerchantRemitProductRateViewModel>() { Success = false, Message = "merchant product not found for specified service category, instrument, product and merchant." };
+                }
+                var merchantProductIdCheck = merchantProductResponse.Data.ToList().FirstOrDefault();
+
                 if (merchantProductIdCheck == null)
-                    return new ApiResponse<MerchantRemitProductRateViewModel>() { Success = false, Message = "merchant product remmitance rate not found" };
-
-
-                if
-               (merchantProductIdCheck.SendCountry3Iso.Trim().ToUpper() != model.SendCountry3Iso.Trim().ToUpper())
                 {
-
-                    return new ApiResponse<MerchantRemitProductRateViewModel>()
-                    { Success = false, Message = "The specified 'SendCountry3Iso' does not match the merchant product's value." };
+                    return new ApiResponse<MerchantRemitProductRateViewModel>() { Success = false, Message = "merchant product not found for specified service category, instrument, product and merchant." };
                 }
-                if
-                (merchantProductIdCheck.ReceiveCountry3Iso.Trim().ToUpper() != model.ReceiveCountry3Iso.Trim().ToUpper())
-                {
-
-                    return new ApiResponse<MerchantRemitProductRateViewModel>()
-                    { Success = false, Message = "The specified 'ReceiveCountry3Iso' does not match the merchant product's value." };
-                }
-                if
-                (merchantProductIdCheck.SendCurrencyId.Trim().ToUpper() != model.SendCur.Trim().ToUpper())
-                {
-                    return new ApiResponse<MerchantRemitProductRateViewModel>()
-                    { Success = false, Message = "The specified 'SendCurrency' does not match the merchant product's value." };
-                }
-                if
-                (merchantProductIdCheck.ReceiveCurrencyId.Trim().ToUpper() != model.ReceiveCur.Trim().ToUpper())
-                {
-                    return new ApiResponse<MerchantRemitProductRateViewModel>()
-                    { Success = false, Message = "The specified 'ReceiveCurrency' does not match the merchant product's value." }; ;
-                }
-
-
 
                 var requestData = _mapper.Map<MerchantRemitProductRate>(model);
 
@@ -100,7 +82,7 @@ namespace Fincompare.Application.Services
             }
             catch (Exception ex)
             {
-                throw new NotImplementedException($"merchant product remmitance rate creation failed {ex.Message}");
+                throw ex;
             }
         }
 

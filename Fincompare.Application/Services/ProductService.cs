@@ -26,7 +26,7 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<GetAllProductResponse>() { Success = false, Message = "product creation failed" };
                 var getProductDuplication = (await _unitOfWork.GetRepository<Product>().GetAll())
-                    .Where(x => x.Country3Iso == model.Country3Iso && x.ProductName.ToUpper().Trim() == model.ProductName.ToUpper().Trim()).ToList();
+                    .Where(x => x.ProductName.ToUpper().Trim() == model.ProductName.ToUpper().Trim()).ToList();
                 if (getProductDuplication.Count > 0)
                     return new ApiResponse<GetAllProductResponse>() { Success = false, Message = model.ProductName + "" + "Is Already Exits" };
 
@@ -65,13 +65,13 @@ namespace Fincompare.Application.Services
             }
         }
 
-        public async Task<ApiResponse<IEnumerable<GetAllProductResponse>>> GetAllProduct(string? countryIso3, int? idProduct, int? idServCategory, bool? status)
+        public async Task<ApiResponse<IEnumerable<GetAllProductResponse>>> GetAllProduct(/*string? countryIso3,*/ int? idProduct, int? idServCategory, bool? status)
         {
             var getData = await _unitOfWork.GetRepository<Product>().GetAll();
-            if (!string.IsNullOrEmpty(countryIso3))
-            {
-                getData = getData.Where(x => x.Country3Iso == countryIso3).ToList();
-            }
+            //if (!string.IsNullOrEmpty(countryIso3))
+            //{
+            //    getData = getData.Where(x => x.Country3Iso == countryIso3).ToList();
+            //}
             if (idProduct.HasValue)
             {
                 getData = getData.Where(x => x.Id == idProduct.Value).ToList();

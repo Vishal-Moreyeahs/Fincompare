@@ -8,13 +8,13 @@ namespace Fincompare.Domain.Entities
 
         public string ServCategoryName { get; set; } = null!;
 
-        public string Country3Iso { get; set; } = null!;
+        //public string Country3Iso { get; set; } = null!;
 
         public bool Status { get; set; }
 
         public virtual ICollection<ActiveAsset> ActiveAssets { get; set; } = new List<ActiveAsset>();
 
-        public virtual Country Country3IsoNavigation { get; set; } = null!;
+        //public virtual Country Country3IsoNavigation { get; set; } = null!;
 
         public virtual ICollection<MerchantCampaign> MerchantCampaigns { get; set; } = new List<MerchantCampaign>();
 

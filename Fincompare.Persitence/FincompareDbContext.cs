@@ -441,9 +441,9 @@ namespace Fincompare.Persitence
 
                 entity.ToTable("Instrument");
 
-                entity.Property(e => e.Country3Iso)
-                    .HasColumnType("character varying")
-                    .HasColumnName("Country_3_iso");
+                //entity.Property(e => e.Country3Iso)
+                //    .HasColumnType("character varying")
+                //    .HasColumnName("Country_3_iso");
 
                 entity.Property(e => e.InstrumentType)
                     .HasColumnType("character varying")
@@ -459,10 +459,10 @@ namespace Fincompare.Persitence
                     .HasColumnType("timestamp with time zone")
                     .HasColumnName("Updated_Date");
 
-                entity.HasOne(d => d.Country3IsoNavigation).WithMany(p => p.Instruments)
-                    .HasForeignKey(d => d.Country3Iso)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Instrument_Country_3_iso_fkey");
+                //entity.HasOne(d => d.Country3IsoNavigation).WithMany(p => p.Instruments)
+                //    .HasForeignKey(d => d.Country3Iso)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("Instrument_Country_3_iso_fkey");
             });
 
             modelBuilder.Entity<MarketRate>(entity =>
@@ -867,9 +867,9 @@ namespace Fincompare.Persitence
 
                 entity.ToTable("Product");
 
-                entity.Property(e => e.Country3Iso)
-                    .HasColumnType("character varying")
-                    .HasColumnName("Country_3_iso");
+                //entity.Property(e => e.Country3Iso)
+                //    .HasColumnType("character varying")
+                //    .HasColumnName("Country_3_iso");
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("timestamp with time zone")
                     .HasColumnName("Created_Date");
@@ -884,10 +884,10 @@ namespace Fincompare.Persitence
                     .HasColumnType("timestamp with time zone")
                     .HasColumnName("Updated_Date");
 
-                entity.HasOne(d => d.Country3IsoNavigation).WithMany(p => p.Products)
-                    .HasForeignKey(d => d.Country3Iso)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Product_Country_3_iso_fkey");
+                //entity.HasOne(d => d.Country3IsoNavigation).WithMany(p => p.Products)
+                //    .HasForeignKey(d => d.Country3Iso)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("Product_Country_3_iso_fkey");
 
                 entity.HasOne(d => d.ServiceCategory).WithMany(p => p.Products)
                     .HasForeignKey(d => d.ServiceCategoryId)
@@ -920,9 +920,9 @@ namespace Fincompare.Persitence
 
                 entity.ToTable("ServiceCategory");
 
-                entity.Property(e => e.Country3Iso)
-                    .HasColumnType("character varying")
-                    .HasColumnName("Country_3_iso");
+                //entity.Property(e => e.Country3Iso)
+                //    .HasColumnType("character varying")
+                //    .HasColumnName("Country_3_iso");
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("timestamp with time zone")
                     .HasColumnName("Created_Date");
@@ -933,10 +933,10 @@ namespace Fincompare.Persitence
                     .HasColumnType("timestamp with time zone")
                     .HasColumnName("Updated_Date");
 
-                entity.HasOne(d => d.Country3IsoNavigation).WithMany(p => p.ServiceCategories)
-                    .HasForeignKey(d => d.Country3Iso)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("ServiceCategory_Country_3_iso_fkey");
+                //entity.HasOne(d => d.Country3IsoNavigation).WithMany(p => p.ServiceCategories)
+                //    .HasForeignKey(d => d.Country3Iso)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("ServiceCategory_Country_3_iso_fkey");
             });
 
             modelBuilder.Entity<State>(entity =>
