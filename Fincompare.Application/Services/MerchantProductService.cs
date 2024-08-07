@@ -58,6 +58,17 @@ namespace Fincompare.Application.Services
                     };
                 }
 
+                var isRecordExist = await DoesRecordExistAsync(model.ServiceCategoryId,model.InstrumentId,model.ProductId,model.MerchantId,model.SendCountry3Iso,model.ReceiveCountry3Iso,model.SendCurrencyId,model.ReceiveCurrencyId);
+
+                if (isRecordExist)
+                {
+                    return new ApiResponse<MerchantProductViewModel>()
+                    {
+                        Success = false,
+                        Message = $"merchant product already exist with these details."
+                    };
+                }
+
                 //var checkMerchantExist = await _unitOfWork.GetRepository<Merchant>().GetById(model.MerchantId);
                 var createdData = _mapper.Map<MerchantProduct>(model);
                 await _unitOfWork.GetRepository<MerchantProduct>().Add(createdData);
@@ -256,6 +267,18 @@ namespace Fincompare.Application.Services
                         Message = "Merchant Product Update Failed"
                     };
                 }
+
+                var isRecordExist = await DoesRecordExistAsync(model.ServiceCategoryId, model.InstrumentId, model.ProductId, model.MerchantId, model.SendCountry3Iso, model.ReceiveCountry3Iso, model.SendCurrencyId, model.ReceiveCurrencyId);
+
+                if (isRecordExist)
+                {
+                    return new ApiResponse<MerchantProductViewModel>()
+                    {
+                        Success = false,
+                        Message = $"merchant product already exist with these details."
+                    };
+                }
+
                 var updatedData = _mapper.Map<MerchantProduct>(model);
                 await _unitOfWork.GetRepository<MerchantProduct>().Upsert(updatedData);
                 await _unitOfWork.SaveChangesAsync();
@@ -295,6 +318,27 @@ namespace Fincompare.Application.Services
 
                 throw new ApplicationException("merchant product update failed");
             }
+        }
+        private async Task<bool> DoesRecordExistAsync(
+                                        int serviceCategoryId,
+                                        int instrumentId,
+                                        int productId,
+                                        int merchantId,
+                                        string sendCountry3Iso,
+                                        string receiveCountry3Iso,
+                                        string sendCurrencyId,
+                                        string receiveCurrencyId)
+        {
+
+            var merchantProducts = await _unitOfWork.GetRepository<MerchantProduct>().GetAll();
+            return merchantProducts.Any(x => x.ServiceCategoryId == serviceCategoryId &&
+                               x.InstrumentId == instrumentId &&
+                               x.ProductId == productId &&
+                               x.MerchantId == merchantId &&
+                               x.SendCountry3Iso == sendCountry3Iso &&
+                               x.ReceiveCountry3Iso == receiveCountry3Iso &&
+                               x.SendCurrencyId == sendCurrencyId &&
+                               x.ReceiveCurrencyId == receiveCurrencyId);
         }
     }
 }
