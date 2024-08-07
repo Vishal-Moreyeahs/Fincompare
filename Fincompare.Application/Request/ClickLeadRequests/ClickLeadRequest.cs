@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Fincompare.Application.Request.ClickLeadRequests
 {
@@ -14,8 +15,11 @@ namespace Fincompare.Application.Request.ClickLeadRequests
         public int MerchantId { get; set; }
 
         [Required]
+        [MinLength(5)]
+        [MaxLength(200)]
         public string RoutingParamters { get; set; } = null!;
 
+        [JsonIgnore]
         public DateTime Date { get; set; } = DateTime.UtcNow;
     }
 
