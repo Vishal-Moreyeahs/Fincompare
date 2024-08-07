@@ -166,5 +166,21 @@ namespace Fincompare.Persitence.Repositories
             return await query.SingleOrDefaultAsync(e => EF.Property<TKey>(e, primaryKeyProperty.Name).Equals(primaryKey));
         }
 
+        public bool UpdateRange(IEnumerable<T> entities)
+        {
+            try
+            {
+                dbSet.UpdateRange(entities);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception here if needed
+                // For example: _logger.LogError(ex, "An error occurred while updating the entities.");
+                return false;
+            }
+        }
+
+
     }
 }

@@ -258,19 +258,7 @@ namespace Fincompare.Application.Services
                 }
 
 
-                //Create a user in userTable where merchant is created by admin.
-                //var loggedInUser = await _authenticatedUserService.GetLoggedInUser();
-                //var merchantUser = new RegisterUserRequest()
-                //{
-                //    FirstName = model.MerchantName,
-                //    LastName = model.MerchantName + " "+ model.MerchantShortName,
-                //    Password = string.Concat(model.MerchantCsem,"Merchant@123"),
-                //    Role = RoleEnum.Customer.ToString(), 
-                //    Email = model.MerchantCsem.ToString(),
-                //    CreatedBy = loggedInUser !=null ? loggedInUser.Id : null,
-                //    Phone = model.MerchantCsph.ToString()
-                //};
-                //var registerMerchant = await _authService.Register(merchantUser);
+                
 
 
                 //Create a merchant and add this in Merchant Table.

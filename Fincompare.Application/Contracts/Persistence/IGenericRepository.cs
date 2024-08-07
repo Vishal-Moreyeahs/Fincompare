@@ -10,6 +10,7 @@ namespace Fincompare.Application.Contracts.Persistence
         Task<bool> Add(T entity);
         Task<T> GetById(string id);
         Task<bool> AddRange(IEnumerable<T> entities);
+        bool UpdateRange(IEnumerable<T> entities);
         bool RemoveRange(IEnumerable<T> entities);
         Task<bool> Delete(T id);
 

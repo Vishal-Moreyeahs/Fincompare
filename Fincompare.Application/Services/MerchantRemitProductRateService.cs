@@ -40,7 +40,17 @@ namespace Fincompare.Application.Services
                     return new ApiResponse<MerchantRemitProductRateViewModel>() { Success = false, Message = "merchant product not found for specified service category, instrument, product and merchant." };
                 }
 
-
+                var merchantProductRates = await _unitOfWork.GetRepository<MerchantRemitProductRate>().GetAll();
+                merchantProductRates = merchantProductRates.Where(x => x.SendCountry3Iso==model.SendCountry3Iso && x.ReceiveCountry3Iso == model.ReceiveCountry3Iso && x.SendCur == model.SendCur && x.ReceiveCur == model.ReceiveCur && x.MerchantId == model.MerchantId && x.SendMinLimit >= model.SendMinLimit && x.SendMaxLimit <= model.SendMaxLimit && x.Status).ToList();
+                if (merchantProductRates.ToList().Count > 0)
+                {
+                    merchantProductRates.ToList().ForEach(x =>
+                    {
+                        x.Status = false;
+                    });
+                    _unitOfWork.GetRepository<MerchantRemitProductRate>().UpdateRange(merchantProductRates);
+                    await _unitOfWork.SaveChangesAsync();
+                }
 
                 var requestData = _mapper.Map<MerchantRemitProductRate>(model);
 
