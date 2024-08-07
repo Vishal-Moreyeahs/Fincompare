@@ -39,16 +39,16 @@ namespace Fincompare.Application.Request.MerchantRemitProductRateRequests
         public string ReceiveCur { get; set; }
 
         [Required]
-        public int SendMinLimit { get; set; }
+        public decimal SendMinLimit { get; set; }
 
         [Required]
-        public int SendMaxLimit { get; set; }
+        public decimal SendMaxLimit { get; set; }
 
         [Required]
-        public int ReceiveMinLimit { get; set; }
+        public decimal ReceiveMinLimit { get; set; }
 
         [Required]
-        public int ReceiveMaxLimit { get; set; }
+        public decimal ReceiveMaxLimit { get; set; }
 
         [Required]
         public double Rate { get; set; }
