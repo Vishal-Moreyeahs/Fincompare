@@ -10,7 +10,7 @@ namespace Fincompare.Application.Request.GroupMerchantRequest
             [Required]
             [MinLength(5)]
             [RegularExpression("^[a-zA-Z][a-zA-Z0-9]*$",
-        ErrorMessage = "GroupMerchantName is required and must have alpha numeric string.")]
+        ErrorMessage = "GroupMerchantName must have alpha numeric string.")]
             [MaxLength(55)]
             public string GroupMerchantName { get; set; } = null!;
 
