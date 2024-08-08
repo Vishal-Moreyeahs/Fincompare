@@ -3,6 +3,7 @@ using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MerchantRemitProductRateRequests;
 using Fincompare.Application.Response;
+using Fincompare.Application.Response.MerchantProductResponse;
 using Fincompare.Application.Response.MerchantRemitProductRateResponse;
 using Fincompare.Domain.Entities;
 using static Fincompare.Application.Response.MerchantRemitFeeResponse.MerchantRemitFeeBaseResponse;
@@ -13,12 +14,14 @@ namespace Fincompare.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMerchantProductService _merchantProductService;
         private readonly IMapper _mapper;
+        private readonly IMerchantPermissionService _merchantPermissionService;
 
-        public MerchantRemitProductRateService(IUnitOfWork unitOfWork, IMapper mapper, IMerchantProductService merchantProductService)
+        public MerchantRemitProductRateService(IUnitOfWork unitOfWork, IMapper mapper, IMerchantProductService merchantProductService, IMerchantPermissionService merchantPermissionService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _merchantProductService = merchantProductService;
+            _merchantPermissionService = merchantPermissionService;
         }
         public async Task<ApiResponse<MerchantRemitProductRateViewModel>> AddMerchantRemitProductRate(AddMerchantRemitProductRateRequest model)
         {
@@ -26,6 +29,13 @@ namespace Fincompare.Application.Services
             {
                 if (model == null)
                     return new ApiResponse<MerchantRemitProductRateViewModel>() { Success = false, Message = "merchant product remmitance rate creation failed" };
+
+                var isAuthenticatedMerchant = await _merchantPermissionService.CheckMerchantPermission(model.MerchantId);
+                if (!isAuthenticatedMerchant)
+                {
+                    return new ApiResponse<MerchantRemitProductRateViewModel>() { Success = false, Message = "Invalid/Unauthorized merchant" };
+
+                }
 
                 var merchantProductResponse = await _merchantProductService.GetMerchantProducts(model.SendCountry3Iso, model.ReceiveCountry3Iso, model.SendCur, model.ReceiveCur, model.MerchantId, null, model.ProductId, model.ServiceCategoryId, model.InstrumentId, true);
 

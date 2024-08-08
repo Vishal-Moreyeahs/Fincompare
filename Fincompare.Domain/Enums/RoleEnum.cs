@@ -5,6 +5,7 @@
         Admin = 1,
         Merchant = 2,
         Vendor = 3,
-        Customer = 4
+        Customer = 4,
+        BackOfficeInterface = 5
     }
 }

@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Fincompare.Application.Contracts.Infrastructure;
 using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Response;
+using Fincompare.Application.Response.MerchantCompaignResponse;
+using Fincompare.Application.Response.MerchantRemitProductRateResponse;
 using Fincompare.Domain.Entities;
 using static Fincompare.Application.Request.MerchantProductCouponRequest.MerchantProductRequestViewModel;
 using static Fincompare.Application.Response.MerchantProductCouponResponse.MerchantProductCouponViewResponse;
@@ -12,11 +15,13 @@ namespace Fincompare.Application.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IMerchantPermissionService _merchantPermissionService;
 
-        public MerchantProductCouponService(IUnitOfWork iUnitOfWork, IMapper mapper)
+        public MerchantProductCouponService(IUnitOfWork iUnitOfWork, IMapper mapper, IMerchantPermissionService merchantPermissionService)
         {
             _unitOfWork = iUnitOfWork;
             _mapper = mapper;
+            _merchantPermissionService = merchantPermissionService;
         }
 
         public async Task<ApiResponse<IEnumerable<GetAllMerchantProductCouponResponse>>> CreateMerchantProductCoupons(List<CreateMerchantProductCouponRequest> model)
@@ -139,6 +144,12 @@ namespace Fincompare.Application.Services
             try
             {
                 var getAllUpdateMerchan = await _unitOfWork.GetRepository<MerchantProductCoupon>().GetAll();
+                var isAuthenticatedMerchant = await _merchantPermissionService.CheckMerchantPermission(model.MerchantId);
+                if (!isAuthenticatedMerchant)
+                {
+                    return new ApiResponse<string>() { Success = false, Message = "Invalid/Unauthorized merchant" };
+                }
+
                 var checkMerchantProduct = getAllUpdateMerchan.Where(x => (x.MerchantId == model.MerchantId && x.MerchantCouponBatch == model.MerchantCouponBatch) || x.Id == model.MerchantCouponId).FirstOrDefault();
                 if (checkMerchantProduct == null)
                     return new ApiResponse<string>() { Success = false, Message = "Merchant product coupon update failed" };

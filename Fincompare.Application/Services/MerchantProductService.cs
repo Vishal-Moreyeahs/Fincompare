@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Fincompare.Application.Contracts.Infrastructure;
 using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MerchantProductRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.MerchantProductResponse;
 using Fincompare.Domain.Entities;
+using static Fincompare.Application.Response.MerchantRemitFeeResponse.MerchantRemitFeeBaseResponse;
 
 namespace Fincompare.Application.Services
 {
@@ -12,11 +14,13 @@ namespace Fincompare.Application.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IMerchantPermissionService _merchantPermissionService;
 
-        public MerchantProductService(IUnitOfWork unitOfWork, IMapper mapper)
+        public MerchantProductService(IUnitOfWork unitOfWork, IMapper mapper, IMerchantPermissionService merchantPermissionService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _merchantPermissionService = merchantPermissionService;
         }
 
         public async Task<ApiResponse<MerchantProductViewModel>> AddMerchantProduct(AddMerchantProductRequest model)
@@ -29,7 +33,15 @@ namespace Fincompare.Application.Services
                         Success = false,
                         Message = "merchant product creation failed"
                     };
-                var instrument = await _unitOfWork.GetRepository<Instrument>().GetById(model.InstrumentId);
+
+                var isAuthenticatedMerchant = await _merchantPermissionService.CheckMerchantPermission(model.MerchantId);
+                if (!isAuthenticatedMerchant)
+                {
+                    return new ApiResponse<MerchantProductViewModel>() { Success = false, Message = "Invalid/Unauthorized merchant" };
+
+                }
+
+                var instrument = await _unitOfWork.GetRepository<Instrument>().GetById(model.PayoutInstrumentId);
                 if (instrument == null || instrument.InstrumentType.Trim().ToLower() != "payout")
                 {
                     return new ApiResponse<MerchantProductViewModel>()
@@ -58,7 +70,7 @@ namespace Fincompare.Application.Services
                     };
                 }
 
-                var isRecordExist = await DoesRecordExistAsync(model.ServiceCategoryId,model.InstrumentId,model.ProductId,model.MerchantId,model.SendCountry3Iso,model.ReceiveCountry3Iso,model.SendCurrencyId,model.ReceiveCurrencyId);
+                var isRecordExist = await DoesRecordExistAsync(model.ServiceCategoryId,model.PayoutInstrumentId,model.ProductId,model.MerchantId,model.SendCountry3Iso,model.ReceiveCountry3Iso,model.SendCurrencyId,model.ReceiveCurrencyId);
 
                 if (isRecordExist)
                 {
@@ -81,8 +93,8 @@ namespace Fincompare.Application.Services
                     MerchantId = responseData.MerchantId,
                     ServiceCategoryId = responseData.ServiceCategoryId,
                     ServiceCategoryName = responseData.ServiceCategory.ServCategoryName,
-                    InstrumentId = responseData.InstrumentId,
-                    InstrumentName = responseData.Instrument.InstrumentName,
+                    PayoutInstrumentId = responseData.InstrumentId,
+                    PayoutInstrumentName = responseData.Instrument.InstrumentName,
                     ProductId = responseData.ProductId,
                     ProductName = responseData.Product.ProductName,
                     MerchantName = responseData.Merchant.MerchantName,
@@ -126,8 +138,8 @@ namespace Fincompare.Application.Services
                                                     MerchantId = merchantId,
                                                     ServiceCategoryId = x.ServiceCategoryId,
                                                     ServiceCategoryName = x.ServiceCategory.ServCategoryName,
-                                                    InstrumentId = x.InstrumentId,
-                                                    InstrumentName = x.Instrument.InstrumentName,
+                                                    PayoutInstrumentId = x.InstrumentId,
+                                                    PayoutInstrumentName = x.Instrument.InstrumentName,
                                                     ProductId = x.ProductId,
                                                     ProductName = x.Product.ProductName,
                                                     MerchantName = x.Merchant.MerchantName,
@@ -194,8 +206,8 @@ namespace Fincompare.Application.Services
                 MerchantId = x.MerchantId,
                 ServiceCategoryId = x.ServiceCategoryId,
                 ServiceCategoryName = x.ServiceCategory.ServCategoryName,
-                InstrumentId = x.InstrumentId,
-                InstrumentName = x.Instrument.InstrumentName,
+                PayoutInstrumentId = x.InstrumentId,
+                PayoutInstrumentName = x.Instrument.InstrumentName,
                 ProductId = x.ProductId,
                 ProductName = x.Product.ProductName,
                 MerchantName = x.Merchant.MerchantName,
@@ -229,7 +241,15 @@ namespace Fincompare.Application.Services
                         Success = false,
                         Message = "Merchant Product Update Failed"
                     };
-                var instrument = await _unitOfWork.GetRepository<Instrument>().GetById(model.InstrumentId);
+
+                var isAuthenticatedMerchant = await _merchantPermissionService.CheckMerchantPermission(model.MerchantId);
+                if (!isAuthenticatedMerchant)
+                {
+                    return new ApiResponse<MerchantProductViewModel>() { Success = false, Message = "Invalid/Unauthorized merchant" };
+
+                }
+
+                var instrument = await _unitOfWork.GetRepository<Instrument>().GetById(model.PayoutInstrumentId);
                 if (instrument == null || instrument.InstrumentType.Trim().ToLower() != "payout")
                 {
                     return new ApiResponse<MerchantProductViewModel>()
@@ -268,7 +288,7 @@ namespace Fincompare.Application.Services
                     };
                 }
 
-                var isRecordExist = await DoesRecordExistAsync(model.ServiceCategoryId, model.InstrumentId, model.ProductId, model.MerchantId, model.SendCountry3Iso, model.ReceiveCountry3Iso, model.SendCurrencyId, model.ReceiveCurrencyId);
+                var isRecordExist = await DoesRecordExistAsync(model.ServiceCategoryId, model.PayoutInstrumentId, model.ProductId, model.MerchantId, model.SendCountry3Iso, model.ReceiveCountry3Iso, model.SendCurrencyId, model.ReceiveCurrencyId);
 
                 if (isRecordExist)
                 {
@@ -290,8 +310,8 @@ namespace Fincompare.Application.Services
                     MerchantId = responseData.MerchantId,
                     ServiceCategoryId = responseData.ServiceCategoryId,
                     ServiceCategoryName = responseData.ServiceCategory.ServCategoryName,
-                    InstrumentId = responseData.InstrumentId,
-                    InstrumentName = responseData.Instrument.InstrumentName,
+                    PayoutInstrumentId = responseData.InstrumentId,
+                    PayoutInstrumentName = responseData.Instrument.InstrumentName,
                     ProductId = responseData.ProductId,
                     ProductName = responseData.Product.ProductName,
                     MerchantName = responseData.Merchant.MerchantName,

@@ -14,11 +14,13 @@ namespace Fincompare.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMerchantProductService _merchantProductService;
         private readonly IMapper _mapper;
-        public MerchantRemitFee(IUnitOfWork unitOfWork, IMapper mapper, IMerchantProductService merchantProductService)
+        private readonly IMerchantPermissionService _permissionService;
+        public MerchantRemitFee(IUnitOfWork unitOfWork, IMapper mapper, IMerchantProductService merchantProductService, IMerchantPermissionService permissionService)
         {
             _unitOfWork = unitOfWork;
             _merchantProductService = merchantProductService;
             _mapper = mapper;
+            _permissionService = permissionService;
         }
         public async Task<ApiResponse<MerchantRemittanceFee>> AddMerchantRemitFee(CreateMerchantRemitProductFeeRequest model)
         {
@@ -27,7 +29,21 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "merchant product remit fee creation failed" };
 
-                var merchantProductResponse = await _merchantProductService.GetMerchantProducts(model.SendCountry3Iso,model.ReceiveCountry3Iso,model.SendCurrency,model.ReceiveCurrency,model.MerchantId,null,model.ProductId,model.ServiceCategoryId,model.InstrumentId, true);
+                var isAuthenticatedMerchant = await _permissionService.CheckMerchantPermission(model.MerchantId);
+                if (!isAuthenticatedMerchant)
+                {
+                    return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "Invalid/Unauthorized merchant" };
+
+                }
+                var instrumentCheck = await _unitOfWork.GetRepository<Instrument>().GetById(model.PayInInstrumentId.Value);
+
+                if (instrumentCheck.InstrumentType.Trim().ToLower() != "payin")
+                {
+                    return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "PayinInstrumentId not matches with payin instrument type" };
+
+                }
+
+                var merchantProductResponse = await _merchantProductService.GetMerchantProducts(model.SendCountry3Iso,model.ReceiveCountry3Iso,model.SendCurrency,model.ReceiveCurrency,model.MerchantId,null,model.ProductId,model.ServiceCategoryId,model.PayoutInstrumentId, true);
 
 
                 if (!merchantProductResponse.Success && merchantProductResponse.Data == null)
@@ -77,22 +93,22 @@ namespace Fincompare.Application.Services
                 var merchantProduct = await _unitOfWork.GetRepository<MerchantProduct>().GetByPrimaryKeyWithRelatedEntitiesAsync<int>((int)merchantRemitFee.MerchantProductId);
                 var data = new MerchantRemittanceFee
                 {
-                    RemittanceFeeID = merchantRemitFee.Id,
-                    MerchantID = merchantRemitFee.MerchantId,
+                    Id = merchantRemitFee.Id,
+                    MerchantId = merchantRemitFee.MerchantId,
                     MerchantName = merchantRemitFee.Merchant.MerchantName,
                     ServiceCategoryId = merchantRemitFee.MerchantProduct.ServiceCategoryId,
                     ServiceCategoryName = merchantProduct.ServiceCategory.ServCategoryName,
-                    InstrumentId = merchantProduct.Instrument.Id,
-                    InstrumentName = merchantProduct.Instrument.InstrumentName,
+                    PayoutInstrumentId = merchantProduct.Instrument.Id,
+                    PayoutInstrumentName = merchantProduct.Instrument.InstrumentName,
                     ProductId = merchantProduct.ProductId,
                     ProductName = merchantProduct.Product.ProductName,
                     FeesName = merchantRemitFee.FeesName,
                     FeesCurrency = merchantRemitFee.FeesCur,
                     Fees = merchantRemitFee.Fees,
                     PromoFees = merchantRemitFee.PromoFees,
-                    MerchantProductID = merchantRemitFee.MerchantProductId,
-                    SendCountry = merchantRemitFee.SendCountry3Iso,
-                    ReceiveCountry = merchantRemitFee.ReceiveCurrency,
+                    MerchantProductId = merchantRemitFee.MerchantProductId,
+                    SendCountry3Iso = merchantRemitFee.SendCountry3Iso,
+                    ReceiveCountry3Iso = merchantRemitFee.ReceiveCurrency,
                     SendCurrency = merchantRemitFee.SendCurrency,
                     ReceiveCurrency = merchantRemitFee.ReceiveCurrency,
                     SendMinLimit = merchantRemitFee.SendMinLimit,
@@ -102,7 +118,8 @@ namespace Fincompare.Application.Services
                     ValidityExpiry = merchantRemitFee.ValidityExpiry,
                     PayInInstrumentId = merchantRemitFee.PayInInstrumentId,
                     PayInInstrumentName = merchantRemitFee.Instruments.InstrumentName,
-                    VariableFee = merchantRemitFee.VariableFee
+                    VariableFee = merchantRemitFee.VariableFee,
+                    Status = merchantRemitFee.Status
                 };
 
                 return new ApiResponse<MerchantRemittanceFee>() { Success = true, Message = "Merchant Product Remittance Fee record created successfully!", Data = data };
@@ -174,22 +191,22 @@ namespace Fincompare.Application.Services
                         on merchantRemitFee.MerchantProductId equals mp.Id
                         select new MerchantRemittanceFee
                         {
-                            RemittanceFeeID = merchantRemitFee.Id,
-                            MerchantID = merchantRemitFee.MerchantId,
+                            Id = merchantRemitFee.Id,
+                            MerchantId = merchantRemitFee.MerchantId,
                             MerchantName = merchantRemitFee.Merchant.MerchantName,
                             ServiceCategoryId = merchantRemitFee.MerchantProduct.ServiceCategoryId,
                             ServiceCategoryName = mp.ServiceCategory.ServCategoryName,
-                            InstrumentId = mp.Instrument.Id,
-                            InstrumentName = mp.Instrument.InstrumentName,
+                            PayoutInstrumentId = mp.Instrument.Id,
+                            PayoutInstrumentName = mp.Instrument.InstrumentName,
                             ProductId = merchantRemitFee.MerchantProduct.ProductId,
                             ProductName = mp.Product.ProductName,
                             FeesName = merchantRemitFee.FeesName,
                             FeesCurrency = merchantRemitFee.FeesCur,
                             Fees = merchantRemitFee.Fees,
                             PromoFees = merchantRemitFee.PromoFees,
-                            MerchantProductID = merchantRemitFee.MerchantProductId,
-                            SendCountry = merchantRemitFee.SendCountry3Iso,
-                            ReceiveCountry = merchantRemitFee.ReceiveCountry3Iso,
+                            MerchantProductId = merchantRemitFee.MerchantProductId,
+                            SendCountry3Iso = merchantRemitFee.SendCountry3Iso,
+                            ReceiveCountry3Iso = merchantRemitFee.ReceiveCountry3Iso,
                             SendCurrency = merchantRemitFee.SendCurrency,
                             ReceiveCurrency = merchantRemitFee.ReceiveCurrency,
                             SendMinLimit = merchantRemitFee.SendMinLimit,
@@ -199,7 +216,8 @@ namespace Fincompare.Application.Services
                             ValidityExpiry = merchantRemitFee.ValidityExpiry,
                             PayInInstrumentId = merchantRemitFee.PayInInstrumentId,
                             PayInInstrumentName = merchantRemitFee.Instruments.InstrumentName,
-                            VariableFee = merchantRemitFee.VariableFee
+                            VariableFee = merchantRemitFee.VariableFee,
+                            Status = merchantRemitFee.Status
                         }).ToList();
 
             if (data.Count > 0)
@@ -248,29 +266,31 @@ namespace Fincompare.Application.Services
                              on merchantRemitFee.MerchantProductId equals mp.Id
                              select new MerchantRemittanceFee
                              {
-                                 RemittanceFeeID = merchantRemitFee.Id,
-                                 MerchantID = merchantRemitFee.MerchantId,
+                                 Id = merchantRemitFee.Id,
+                                 MerchantId = merchantRemitFee.MerchantId,
                                  MerchantName = merchantRemitFee.Merchant.MerchantName,
                                  ServiceCategoryId = merchantRemitFee.MerchantProduct.ServiceCategoryId,
                                  ServiceCategoryName = mp.ServiceCategory.ServCategoryName,
-                                 InstrumentId = mp.Instrument.Id,
-                                 InstrumentName = mp.Instrument.InstrumentName,
+                                 PayoutInstrumentId = mp.Instrument.Id,
+                                 PayoutInstrumentName = mp.Instrument.InstrumentName,
                                  ProductId = merchantRemitFee.MerchantProduct.ProductId,
                                  ProductName = mp.Product.ProductName,
                                  FeesName = merchantRemitFee.FeesName,
                                  FeesCurrency = merchantRemitFee.FeesCur,
                                  Fees = merchantRemitFee.Fees,
                                  PromoFees = merchantRemitFee.PromoFees,
-                                 MerchantProductID = merchantRemitFee.MerchantProductId,
-                                 SendCountry = merchantRemitFee.SendCountry3Iso,
-                                 ReceiveCountry = merchantRemitFee.ReceiveCountry3Iso,
+                                 MerchantProductId = merchantRemitFee.MerchantProductId,
+                                 SendCountry3Iso = merchantRemitFee.SendCountry3Iso,
+                                 ReceiveCountry3Iso = merchantRemitFee.ReceiveCountry3Iso,
                                  SendCurrency = merchantRemitFee.SendCurrency,
                                  ReceiveCurrency = merchantRemitFee.ReceiveCurrency,
                                  SendMinLimit = merchantRemitFee.SendMinLimit,
                                  SendMaxLimit = merchantRemitFee.SendMaxLimit,
                                  ReceiveMinLimit = merchantRemitFee.ReceiveMinLimit,
                                  ReceiveMaxLimit = merchantRemitFee.ReceiveMaxLimit,
-                                 ValidityExpiry = merchantRemitFee.ValidityExpiry
+                                 ValidityExpiry = merchantRemitFee.ValidityExpiry,
+                                 Status = merchantRemitFee.Status
+
                              }).ToList();
 
 
@@ -288,6 +308,13 @@ namespace Fincompare.Application.Services
             {
                 if (model == null)
                     return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "merchant product remmitance fee update failed" };
+                var isAuthenticatedMerchant = await _permissionService.CheckMerchantPermission(model.MerchantId);
+                if (!isAuthenticatedMerchant)
+                {
+                    return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "Invalid/Unauthorized merchant" };
+
+                }
+
                 var checkData = await _unitOfWork.GetRepository<MerchantRemitProductFee>().GetById(model.Id);
                 if (checkData == null)
                     return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "merchant product remmitance fee update failed" };
@@ -299,22 +326,22 @@ namespace Fincompare.Application.Services
 
                 var data = new MerchantRemittanceFee
                 {
-                    RemittanceFeeID = merchantRemitFee.Id,
-                    MerchantID = merchantRemitFee.MerchantId,
+                    Id = merchantRemitFee.Id,
+                    MerchantId = merchantRemitFee.MerchantId,
                     MerchantName = merchantRemitFee.Merchant.MerchantName,
                     ServiceCategoryId = merchantRemitFee.MerchantProduct.ServiceCategoryId,
                     ServiceCategoryName = merchantRemitFee.MerchantProduct.ServiceCategory.ServCategoryName,
-                    InstrumentId = merchantRemitFee.MerchantProduct.Instrument.Id,
-                    InstrumentName = merchantRemitFee.MerchantProduct.Instrument.InstrumentName,
+                    PayoutInstrumentId = merchantRemitFee.MerchantProduct.Instrument.Id,
+                    PayoutInstrumentName = merchantRemitFee.MerchantProduct.Instrument.InstrumentName,
                     ProductId = merchantRemitFee.MerchantProduct.ProductId,
                     ProductName = merchantRemitFee.MerchantProduct.Product.ProductName,
                     FeesName = merchantRemitFee.FeesName,
                     FeesCurrency = merchantRemitFee.FeesCur,
                     Fees = merchantRemitFee.Fees,
                     PromoFees = merchantRemitFee.PromoFees,
-                    MerchantProductID = merchantRemitFee.MerchantProductId,
-                    SendCountry = merchantRemitFee.SendCountry3Iso,
-                    ReceiveCountry = merchantRemitFee.ReceiveCountry3Iso,
+                    MerchantProductId = merchantRemitFee.MerchantProductId,
+                    SendCountry3Iso = merchantRemitFee.SendCountry3Iso,
+                    ReceiveCountry3Iso = merchantRemitFee.ReceiveCountry3Iso,
                     SendCurrency = merchantRemitFee.SendCurrency,
                     ReceiveCurrency = merchantRemitFee.ReceiveCurrency,
                     SendMinLimit = merchantRemitFee.SendMinLimit,
@@ -324,8 +351,8 @@ namespace Fincompare.Application.Services
                     ValidityExpiry = merchantRemitFee.ValidityExpiry,
                     PayInInstrumentId = merchantRemitFee.PayInInstrumentId,
                     VariableFee = merchantRemitFee.VariableFee,
-                    PayInInstrumentName = merchantRemitFee.Instruments.InstrumentName.ToString()
-
+                    PayInInstrumentName = merchantRemitFee.Instruments.InstrumentName.ToString(),
+                    Status = merchantRemitFee.Status
                 };
 
                 return new ApiResponse<MerchantRemittanceFee>() { Success = true, Message = "Merchant Product Remittance Fee record updated successfully!", Data = data };

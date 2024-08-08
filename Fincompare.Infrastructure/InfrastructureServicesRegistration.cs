@@ -1,5 +1,6 @@
 ﻿using Fincompare.Application.Contracts.Infrastructure;
 using Fincompare.Application.Models;
+using Fincompare.Application.Repositories;
 using Fincompare.Infrastructure.Authentication;
 using Fincompare.Infrastructure.BackgroundServices;
 using Fincompare.Infrastructure.RateServices;
@@ -36,6 +37,7 @@ namespace Fincompare.Infrastructure
             services.AddTransient<ICryptographyService, CryptographyService>();
             services.AddTransient<IPermissionService, PermissionService>();
             services.AddTransient<IUserManagerServices, UserManagerServices>();
+            services.AddTransient<IMerchantPermissionService, MerchantPermissionService>();
 
             services.AddAuthentication(options =>
             {

@@ -76,12 +76,11 @@ namespace Fincompare.Application.Profiles
             CreateMap<UpdateProductRequest, Product>().ReverseMap();
             CreateMap<GetAllProductResponse, Product>().ReverseMap();
             CreateMap<GetAllProductResponse, Product>().ReverseMap();
-            CreateMap<MerchantProductDto, MerchantProduct>().ReverseMap();
-            CreateMap<AddMerchantProductRequest, MerchantProduct>().ReverseMap();
-            CreateMap<UpdateMerchantProductRequest, MerchantProduct>().ReverseMap();
+            CreateMap<AddMerchantProductRequest, MerchantProduct>().ForMember(desc => desc.InstrumentId, (req => req.MapFrom(src => src.PayoutInstrumentId))).ReverseMap();
+            CreateMap<UpdateMerchantProductRequest, MerchantProduct>().ForMember(desc => desc.InstrumentId, (req => req.MapFrom(src => src.PayoutInstrumentId))).ReverseMap();
             CreateMap<MerchantProductViewModel, MerchantProduct>().ReverseMap();
-            CreateMap<CreateMerchantRemitProductFeeRequest, MerchantRemitProductFee>().ReverseMap();
-            CreateMap<UpdateMerchantRemitProductFeeRequest, MerchantRemitProductFee>().ReverseMap();
+            CreateMap<CreateMerchantRemitProductFeeRequest, MerchantRemitProductFee>().ForMember(desc => desc.FeesCur, (req => req.MapFrom(src => src.FeesCurrency))).ReverseMap();
+            CreateMap<UpdateMerchantRemitProductFeeRequest, MerchantRemitProductFee>().ForMember(desc => desc.FeesCur, (req => req.MapFrom(src => src.FeesCurrency))).ReverseMap();
             CreateMap<MerchantRemitProductRateViewModel, MerchantRemitProductRate>().ReverseMap();
             CreateMap<UpdateMerchantRemitProductRateRequest, MerchantRemitProductRate>().ReverseMap();
             CreateMap<AddMerchantRemitProductRateRequest, MerchantRemitProductRate>().ReverseMap();

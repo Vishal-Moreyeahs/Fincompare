@@ -7,8 +7,8 @@
         public int ServiceCategoryId { get; set; }
         public string ServiceCategoryName { get; set; }
 
-        public int InstrumentId { get; set; }
-        public string InstrumentName { get; set; }
+        public int PayoutInstrumentId { get; set; }
+        public string PayoutInstrumentName { get; set; }
 
         public int ProductId { get; set; }
         public string ProductName { get; set; }

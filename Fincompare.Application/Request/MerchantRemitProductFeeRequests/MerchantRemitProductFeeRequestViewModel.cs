@@ -15,7 +15,7 @@ namespace Fincompare.Application.Request.MerchantRemitProductFeeRequests
             [Required]
             [StringLength(3, MinimumLength = 3, ErrorMessage = "The Fees Currency field must be exactly 3 characters long.")]
             [Compare("SendCurrency", ErrorMessage = "The Fees Currency must match the Send Currency.")]
-            public string FeesCur { get; set; }
+            public string FeesCurrency { get; set; }
 
             [Required]
             public double Fees { get; set; }
@@ -29,7 +29,7 @@ namespace Fincompare.Application.Request.MerchantRemitProductFeeRequests
             public int ProductId { get; set; }
 
             [Required]
-            public int InstrumentId { get; set; }
+            public int PayoutInstrumentId { get; set; }
 
             [Required]
             [StringLength(3, MinimumLength = 3, ErrorMessage = "The SendCountry3Iso field must be exactly 3 characters long.")]
@@ -64,7 +64,8 @@ namespace Fincompare.Application.Request.MerchantRemitProductFeeRequests
 
             [Required]
             public int? PayInInstrumentId { get; set; }
-            public double VariableFee { get; set; } = 0;
+            public double? VariableFee { get; set; } = 0;
+            public bool? Status { get; set; } = false;
         }
         public class UpdateMerchantRemitProductFeeRequest : CreateMerchantRemitProductFeeRequest
         {

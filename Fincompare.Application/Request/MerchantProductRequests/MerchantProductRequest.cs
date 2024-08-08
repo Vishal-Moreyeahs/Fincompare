@@ -8,7 +8,7 @@ namespace Fincompare.Application.Request.MerchantProductRequests
         public int ServiceCategoryId { get; set; }
 
         [Required]
-        public int InstrumentId { get; set; }
+        public int PayoutInstrumentId { get; set; }
 
         [Required]
         public int ProductId { get; set; }
@@ -39,7 +39,8 @@ namespace Fincompare.Application.Request.MerchantProductRequests
     }
 
     public class AddMerchantProductRequest : MerchantProductRequest { }
-    public class UpdateMerchantProductRequest : MerchantProductDto {
+    public class UpdateMerchantProductRequest : MerchantProductRequest
+    {
         [Required]
         public int Id { get; set; }
     }

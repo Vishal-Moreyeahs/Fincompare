@@ -5,6 +5,7 @@ using Fincompare.Application.Request.MerchantCompaignRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.MerchantCompaignResponse;
 using Fincompare.Domain.Entities;
+using static Fincompare.Application.Response.MerchantProductCouponResponse.MerchantProductCouponViewResponse;
 
 namespace Fincompare.Application.Services
 {
@@ -12,11 +13,13 @@ namespace Fincompare.Application.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IMerchantPermissionService _permissionService;
 
-        public MerchantCompaignServices(IUnitOfWork unitOfWork, IMapper mapper)
+        public MerchantCompaignServices(IUnitOfWork unitOfWork, IMapper mapper, IMerchantPermissionService permissionService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _permissionService = permissionService;
         }
         public async Task<ApiResponse<MerchantCompaignResponseViewModel>> AddMerchantCompaign(AddMerchantCompaignRequest model)
         {
@@ -28,6 +31,13 @@ namespace Fincompare.Application.Services
                         Success = false,
                         Message = "Merchant Compaign Creation Failed"
                     };
+                var isAuthenticatedMerchant = await _permissionService.CheckMerchantPermission(model.MerchantId);
+                if (!isAuthenticatedMerchant)
+                {
+                    return new ApiResponse<MerchantCompaignResponseViewModel>() { Success = false, Message = "Invalid/Unauthorized merchant" };
+
+                }
+
                 //var checkMerchantExist = await _unitOfWork.GetRepository<Merchant>().GetById(model.MerchantId);
                 var createdData = _mapper.Map<MerchantCampaign>(model);
                 await _unitOfWork.GetRepository<MerchantCampaign>().Add(createdData);
@@ -157,6 +167,13 @@ namespace Fincompare.Application.Services
                         Success = false,
                         Message = "Merchant Compaign Updation Failed"
                     };
+                var isAuthenticatedMerchant = await _permissionService.CheckMerchantPermission(model.MerchantId);
+                if (!isAuthenticatedMerchant)
+                {
+                    return new ApiResponse<MerchantCompaignResponseViewModel>() { Success = false, Message = "Invalid/Unauthorized merchant" };
+
+                }
+
                 var checkData = await _unitOfWork.GetRepository<MerchantCampaign>().GetById(model.Id);
                 if (checkData == null)
                     return new ApiResponse<MerchantCompaignResponseViewModel>() { Success = false, Message = "Merchant compaign Not Found!" };
