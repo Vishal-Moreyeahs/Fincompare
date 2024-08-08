@@ -219,11 +219,11 @@ namespace Fincompare.Application.Services
                 //check if merchant already exist or not
 
                 var merchants = await _unitOfWork.GetRepository<Merchant>().GetAll();
-                var checkMerchant = merchants.FirstOrDefault(x => x.MerchantCsem.ToLower() == model.MerchantCsem.ToLower());
+                var checkMerchant = merchants.FirstOrDefault(x => x.MerchantCsem.Trim().ToUpper() == model.MerchantCsem.Trim().ToUpper());
                 if (checkMerchant != null)
                 {
                     response.Success = false;
-                    response.Message = "Merchant email already exists.";
+                    response.Message = "Merchant email " + model.MerchantCsem + "already exists.";
                     return response;
                 }
                 var checkPhone = merchants.FirstOrDefault(x => x.MerchantPh1 == model.MerchantPh1);
@@ -231,34 +231,48 @@ namespace Fincompare.Application.Services
                 if (checkPhone != null)
                 {
                     response.Success = false;
-                    response.Message = "Merchant phone number already exists.";
+                    response.Message = "Merchant" + model.MerchantPh1 + "number already exists.";
                     return response;
                 }
                 if (checkPhone2 != null)
                 {
                     response.Success = false;
-                    response.Message = "Merchant phone number already exists.";
+                    response.Message = "Merchant" + model.MerchantPh2 + "number already exists.";
                     return response;
                 }
                 var checkAffiliatedId = merchants.FirstOrDefault(x => x.AffiliateId.Trim().ToUpper() == model.AffiliateId.Trim().ToUpper());
                 if (checkAffiliatedId != null)
                 {
                     response.Success = false;
-                    response.Message = "Merchant Affiliated id already exists.";
+                    response.Message = "Merchant Affiliated id" + model.AffiliateId + "already exists.";
                     return response;
                 }
 
+                var checkMerchantCsph = merchants.FirstOrDefault(x => x.MerchantCsph == model.MerchantCsph);
                 //if not then check its group exist or not if not then create.(Assign it to group)
                 var checkGroup = await _unitOfWork.GetRepository<GroupMerchant>().GetById(model.GroupMerchantId);
                 if (checkGroup == null)
                 {
                     response.Success = false;
-                    response.Message = "Invalid Group. Please enter valid group id.";
+                    response.Message = "Merchant" + model.MerchantCsph + " number already exists.";
+                    return response;
+                }
+                var checkMerchanEm1 = merchants.FirstOrDefault(x => x.MerchantEm1.Trim().ToUpper() == model.MerchantEm1.Trim().ToUpper());
+                if (checkMerchanEm1 == null)
+                {
+                    response.Success = false;
+                    response.Message = "Merchant" + model.MerchantEm1 + " email already exists.";
+                    return response;
+                }
+                var checkMerchanEm2 = merchants.FirstOrDefault(x => x.MerchantEm2.Trim().ToUpper() == model.MerchantEm2.Trim().ToUpper());
+                if (checkMerchanEm2 == null)
+                {
+                    response.Success = false;
+                    response.Message = "Merchant" + model.MerchantEm2 + " email already exists.";
                     return response;
                 }
 
 
-                
 
 
                 //Create a merchant and add this in Merchant Table.
