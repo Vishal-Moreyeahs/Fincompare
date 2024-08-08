@@ -285,7 +285,7 @@ namespace Fincompare.Application.Services
                     {
                         Success = false,
                         Message = "Merchant Product Update Failed"
-                    };
+                    };                                                                                                                        
                 }
 
                 var isRecordExist = await DoesRecordExistAsync(model.ServiceCategoryId, model.PayoutInstrumentId, model.ProductId, model.MerchantId, model.SendCountry3Iso, model.ReceiveCountry3Iso, model.SendCurrencyId, model.ReceiveCurrencyId);
