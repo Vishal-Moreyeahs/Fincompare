@@ -57,13 +57,6 @@ namespace Fincompare.Application.Services
                     return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "merchant product not found for specified service category, instrument and product." };
                 }
 
-                var merchantProductRates = await _unitOfWork.GetRepository<MerchantRemitProductFee>().GetAll();
-                merchantProductRates = merchantProductRates.Where(x => x.SendCountry3Iso == model.SendCountry3Iso && x.ReceiveCountry3Iso == model.ReceiveCountry3Iso && x.SendCurrency == model.SendCurrency && x.ReceiveCurrency == model.ReceiveCurrency && x.MerchantId == model.MerchantId && x.SendMinLimit >= model.SendMinLimit && x.SendMaxLimit <= model.SendMaxLimit && x.Status).ToList();
-                if (merchantProductRates.ToList().Count > 0)
-                {
-                    return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "Merchant remit fee record against requet parameters already exist." };
-                }
-
 
                 // if
                 //(merchantProductIdCheck.SendCountry3Iso.Trim().ToUpper() != model.SendCountry3Iso.Trim().ToUpper())
