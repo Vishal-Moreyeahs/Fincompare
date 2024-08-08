@@ -38,13 +38,13 @@ namespace Fincompare.Api.Controllers
         }
 
 
-        [HttpGet]
-        [Route("fetch-market-rate-by-id")]
-        public async Task<IActionResult> GetMarketRatesById(int marketRateId)
-        {
-            var response = await _marketRateServices.GetMarketRateById(marketRateId);
-            return Ok(response);
-        }
+        //[HttpGet]
+        //[Route("fetch-market-rate-by-id")]
+        //public async Task<IActionResult> GetMarketRatesById(int marketRateId)
+        //{
+        //    var response = await _marketRateServices.GetMarketRateById(marketRateId);
+        //    return Ok(response);
+        //}
 
         [HttpGet]
         [Route("fetch-market-rate-by-sendCurr")]
