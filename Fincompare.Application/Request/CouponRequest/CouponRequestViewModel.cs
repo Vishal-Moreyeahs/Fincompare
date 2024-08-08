@@ -7,10 +7,11 @@ namespace Fincompare.Application.Request.CouponRequest
         public class CreateCouponRequest
         {
             [MinLength(3)]
-            [MaxLength(25)]
+            [MaxLength(150)]
             public string CouponName { get; set; } = null!;
 
             [MinLength(3)]
+            [MaxLength(35)]
             [RegularExpression(@"^(Fee|CashBak)_(\d)(_%|_Fix|_First_Free)_(Off|Credit)$", ErrorMessage = "Invalid Coupon Format.")]
             public string? CouponFormat { get; set; }
 

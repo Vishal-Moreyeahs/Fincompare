@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Fincompare.Application.Request.CustomerRequests
 {
@@ -8,17 +9,21 @@ namespace Fincompare.Application.Request.CustomerRequests
         public string CustomerName { get; set; }
 
         [Required]
-        [EmailAddress]
+        [RegularExpression("^[A-Za-z0-9._%+-]*@[A-Za-z0-9.-]*\\.[A-Za-z0-9-]{2,}$",
+        ErrorMessage = "Email is required and must be properly formatted.")]
         public string EmailId { get; set; }
 
 
         public string Address { get; set; } = string.Empty;
 
         [Required]
+        [RegularExpression(@"^(\+[0-9]{2}|\+[0-9]{2}\(0\)|\(\+[0-9]{2}\)\(0\)|00[0-9]{2}|0)?([0-9]{9}|[0-9\-]{9,18})$", ErrorMessage = "Not a valid phone number")]
+        [DefaultValue("1234567890")]
         public string Phone { get; set; }
         public int? StateId { get; set; }
         public int? CityId { get; set; }
 
+        [Required]
         [StringLength(3, MinimumLength = 3, ErrorMessage = "The CountryIso3 field must be exactly 3 characters long.")]
         public string Country3Iso { get; set; }
 

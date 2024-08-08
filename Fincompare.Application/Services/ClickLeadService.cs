@@ -42,7 +42,7 @@ namespace Fincompare.Application.Services
             }
         }
 
-        public async Task<ApiResponse<IEnumerable<ClickLeadResponseViewModel>>> GetAllClickLeadRecords(int? merchantId, int? clickLeadId, int? customerId, string country3iso)
+        public async Task<ApiResponse<IEnumerable<ClickLeadResponseViewModel>>> GetAllClickLeadRecords(int? merchantId, int? clickLeadId, int? customerId, string? country3iso)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace Fincompare.Application.Services
                 if (clickLeadId.HasValue)
                     getAllClickLead = getAllClickLead.Where(mp => mp.Id == clickLeadId.Value);
                 if (customerId.HasValue)
-                    getAllClickLead = getAllClickLead.Where(mp => mp.CustomerUserId == customerId.Value);
+                    getAllClickLead = getAllClickLead.Where(mp => mp.CustomerUserId == customerId.Value); 
 
 
                 var getData = getAllClickLead
