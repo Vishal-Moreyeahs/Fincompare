@@ -5,6 +5,8 @@ using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MerchantRequests;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
+using Fincompare.Domain.Entities.UserManagementEntities;
+using Fincompare.Domain.Enums;
 
 namespace Fincompare.Application.Services
 {
@@ -80,8 +82,32 @@ namespace Fincompare.Application.Services
                     return response;
                 }
 
+                model.UserId = model.UserId.CheckValue(merchant.UserId);
+
+                if (model.UserId != null)
+                {
+                    var cheekUserId = (await _unitOfWork.GetRepository<Merchant>().GetAll()).ToList();
+                    if (cheekUserId.Any(x => x.UserId == model.UserId && x.Id != model.Id))
+                    {
+                        response.Success = false;
+                        response.Message = string.Format(@"user id {0} already assigned to another merchant", model.UserId);
+                        return response;
+                    }
+                }
+
+                var userRole = (_unitOfWork.GetRepository<UserRole>().GetAllRelatedEntity())
+                    .Where(x => x.UserId == model.UserId).ToList();
+                if (!userRole.Any(x => x.RoleId == (int)RoleEnum.Merchant))
+                {
+                    response.Success = false;
+                    response.Message = string.Format(@"User is not {0}", RoleEnum.Merchant.ToString());
+                    return response;
+                }
+
+
                 // Map the updated data and save it in the database
                 _mapper.Map(model, merchant);
+
                 await _unitOfWork.GetRepository<Merchant>().Upsert(merchant);
                 await _unitOfWork.SaveChangesAsync();
 
@@ -100,6 +126,7 @@ namespace Fincompare.Application.Services
 
             return response;
         }
+
 
 
         public async Task<ApiResponse<IEnumerable<MerchantDto>>> GetAllMerchants(int? groupMerchantId, int? merchantId, string? merchantType, string? countryIso3, bool? status)
@@ -271,6 +298,13 @@ namespace Fincompare.Application.Services
                     response.Message = "Merchant" + model.MerchantEm2 + " email already exists.";
                     return response;
                 }
+                var checkwebUrl = merchants.FirstOrDefault(x => x.WebUrl.Trim().ToUpper() == model.WebUrl.Trim().ToUpper());
+                if (checkMerchanEm2 == null)
+                {
+                    response.Success = false;
+                    response.Message = "Merchant" + model.WebUrl + "web url already exists.";
+                    return response;
+                }
 
 
 
@@ -293,6 +327,21 @@ namespace Fincompare.Application.Services
                 throw ex;
             }
 
+        }
+    }
+    public static class CheckNullSetting
+    {
+        public static T CheckValue<T>(this T value, T newValue)
+        {
+            return value ?? newValue;
+        }
+        public static int CheckValue(this int value, int newValue)
+        {
+            return value == 0 ? newValue : value;
+        }
+        public static int CheckValue(this int? value, int newValue)
+        {
+            return (value == 0 || value == null) ? newValue : value.Value;
         }
     }
 }
