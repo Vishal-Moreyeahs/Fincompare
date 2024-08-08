@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Fincompare.Application.Request.MarketRateRequest
 {
@@ -15,6 +16,7 @@ namespace Fincompare.Application.Request.MarketRateRequest
         [Required]
         public double Rate { get; set; }
 
+        [JsonIgnore]
         public DateTime Date { get; set; } = DateTime.UtcNow;
 
         public string RateSource { get; set; } = "Capture";

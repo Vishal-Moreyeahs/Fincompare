@@ -16,13 +16,12 @@ namespace Fincompare.Application.Request.MerchantRequests
         public int GroupMerchantId { get; set; }
 
         [Required]
-        [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^(\+[0-9]{2}|\+[0-9]{2}\(0\)|\(\+[0-9]{2}\)\(0\)|00[0-9]{2}|0)?([0-9]{9}|[0-9\-]{9,18})$", ErrorMessage = "Not a valid phone number")]
         [DefaultValue("1234567890")]
         public string MerchantCsph { get; set; } = null!;
 
         [Required]
-        [DataType(DataType.EmailAddress)]
+        [MinLength(3)]
         [RegularExpression("^[A-Za-z0-9._%+-]*@[A-Za-z0-9.-]*\\.[A-Za-z0-9-]{2,}$",
         ErrorMessage = "Email is required and must be properly formatted.")]
         public string MerchantCsem { get; set; } = null!;
@@ -37,21 +36,19 @@ namespace Fincompare.Application.Request.MerchantRequests
         [Required]
         [MinLength(3, ErrorMessage = "The Phone field minimnum 3 characters long.")]
         [RegularExpression(@"^(\+[0-9]{2}|\+[0-9]{2}\(0\)|\(\+[0-9]{2}\)\(0\)|00[0-9]{2}|0)?([0-9]{9}|[0-9\-]{9,18})$", ErrorMessage = "Not a valid phone number")]
-        [Phone]
         public string MerchantPh1 { get; set; } = null!;
 
-        [Phone]
         [RegularExpression(@"^(\+[0-9]{2}|\+[0-9]{2}\(0\)|\(\+[0-9]{2}\)\(0\)|00[0-9]{2}|0)?([0-9]{9}|[0-9\-]{9,18})$", ErrorMessage = "Not a valid phone number")]
         [MinLength(3, ErrorMessage = "The Phone field minimnum 3 characters long.")]
         public string? MerchantPh2 { get; set; }
 
         [Required]
-        [EmailAddress]
+        [MinLength(3)]
         [RegularExpression("^[A-Za-z0-9._%+-]*@[A-Za-z0-9.-]*\\.[A-Za-z0-9-]{2,}$",
         ErrorMessage = "Email is required and must be properly formatted.")]
         public string MerchantEm1 { get; set; } = null!;
 
-        [EmailAddress]
+        [MinLength(3)]
         [RegularExpression("^[A-Za-z0-9._%+-]*@[A-Za-z0-9.-]*\\.[A-Za-z0-9-]{2,}$",
         ErrorMessage = "Email is required and must be properly formatted.")]
         public string? MerchantEm2 { get; set; }
