@@ -57,32 +57,40 @@ namespace Fincompare.Application.Services
                     return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "merchant product not found for specified service category, instrument and product." };
                 }
 
-               // if
-               //(merchantProductIdCheck.SendCountry3Iso.Trim().ToUpper() != model.SendCountry3Iso.Trim().ToUpper())
-               // {
+                var merchantProductRates = await _unitOfWork.GetRepository<MerchantRemitProductFee>().GetAll();
+                merchantProductRates = merchantProductRates.Where(x => x.SendCountry3Iso == model.SendCountry3Iso && x.ReceiveCountry3Iso == model.ReceiveCountry3Iso && x.SendCurrency == model.SendCurrency && x.ReceiveCurrency == model.ReceiveCurrency && x.MerchantId == model.MerchantId && x.SendMinLimit >= model.SendMinLimit && x.SendMaxLimit <= model.SendMaxLimit && x.Status).ToList();
+                if (merchantProductRates.ToList().Count > 0)
+                {
+                    return new ApiResponse<MerchantRemittanceFee>() { Success = false, Message = "Merchant remit fee record against requet parameters already exist." };
+                }
 
-               //     return new ApiResponse<MerchantRemittanceFee>()
-               //     { Success = false, Message = "The specified 'SendCountry3Iso' does not match the merchant product's value." };
-               // }
-               // if
-               // (merchantProductIdCheck.ReceiveCountry3Iso.Trim().ToUpper() != model.ReceiveCountry3Iso.Trim().ToUpper())
-               // {
 
-               //     return new ApiResponse<MerchantRemittanceFee>()
-               //     { Success = false, Message = "The specified 'ReceiveCountry3Iso' does not match the merchant product's value." };
-               // }
-               // if
-               // (merchantProductIdCheck.SendCurrencyId.Trim().ToUpper() != model.SendCurrency.Trim().ToUpper())
-               // {
-               //     return new ApiResponse<MerchantRemittanceFee>()
-               //     { Success = false, Message = "The specified 'SendCurrency' does not match the merchant product's value." };
-               // }
-               // if
-               // (merchantProductIdCheck.ReceiveCurrencyId.Trim().ToUpper() != model.ReceiveCurrency.Trim().ToUpper())
-               // {
-               //     return new ApiResponse<MerchantRemittanceFee>()
-               //     { Success = false, Message = "The specified 'ReceiveCurrency' does not match the merchant product's value." }; ;
-               // }
+                // if
+                //(merchantProductIdCheck.SendCountry3Iso.Trim().ToUpper() != model.SendCountry3Iso.Trim().ToUpper())
+                // {
+
+                //     return new ApiResponse<MerchantRemittanceFee>()
+                //     { Success = false, Message = "The specified 'SendCountry3Iso' does not match the merchant product's value." };
+                // }
+                // if
+                // (merchantProductIdCheck.ReceiveCountry3Iso.Trim().ToUpper() != model.ReceiveCountry3Iso.Trim().ToUpper())
+                // {
+
+                //     return new ApiResponse<MerchantRemittanceFee>()
+                //     { Success = false, Message = "The specified 'ReceiveCountry3Iso' does not match the merchant product's value." };
+                // }
+                // if
+                // (merchantProductIdCheck.SendCurrencyId.Trim().ToUpper() != model.SendCurrency.Trim().ToUpper())
+                // {
+                //     return new ApiResponse<MerchantRemittanceFee>()
+                //     { Success = false, Message = "The specified 'SendCurrency' does not match the merchant product's value." };
+                // }
+                // if
+                // (merchantProductIdCheck.ReceiveCurrencyId.Trim().ToUpper() != model.ReceiveCurrency.Trim().ToUpper())
+                // {
+                //     return new ApiResponse<MerchantRemittanceFee>()
+                //     { Success = false, Message = "The specified 'ReceiveCurrency' does not match the merchant product's value." }; ;
+                // }
 
                 var requestData = _mapper.Map<MerchantRemitProductFee>(model);
                 requestData.MerchantProductId = merchantProductIdCheck.Id;
