@@ -156,7 +156,7 @@ namespace Fincompare.Application.Services
                 }
                 var data = merchantProducts.OrderByDescending(x => x.RecipientGet).ToList();
 
-                if (data.Count == 0 && data == null)
+                if (data.Count == 0)
                 {
                     return null;
                 }

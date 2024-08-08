@@ -26,7 +26,7 @@ namespace Fincompare.Application.Services
                 if (model == null)
                     return new ApiResponse<CreateInstrumentRequest>() { Success = false, Message = "instrument creation failed" };
                 var checkDuplication = (await _unitOfWork.GetRepository<Instrument>().GetAll())
-                    .Where(x => x.InstrumentName.ToUpper().Trim() == model.InstrumentName.ToUpper().Trim())
+                    .Where(x => x.InstrumentName.ToUpper().Trim() == model.InstrumentName.ToUpper().Trim() && x.InstrumentType.ToLower().Trim() == model.InstrumentType.ToLower().Trim())
                     .ToList();
                 if (checkDuplication.Count > 0)
                     return new ApiResponse<CreateInstrumentRequest>() { Success = false, Message = model.InstrumentName + " +  record already exits", };
