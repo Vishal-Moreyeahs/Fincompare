@@ -9,7 +9,7 @@ namespace Fincompare.Application.Request.MerchantRequests
         public string MerchantName { get; set; } = null!;
 
         [Required]
-        [MinLength(2,  ErrorMessage = "The MerchantShortName field minimnum 2 characters long.")]
+        [MinLength(2, ErrorMessage = "The MerchantShortName field minimnum 2 characters long.")]
         public string MerchantShortName { get; set; } = null!;
 
         [Required]

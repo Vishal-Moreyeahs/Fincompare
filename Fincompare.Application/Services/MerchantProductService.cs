@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using Fincompare.Application.Contracts.Infrastructure;
 using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MerchantProductRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.MerchantProductResponse;
 using Fincompare.Domain.Entities;
-using static Fincompare.Application.Response.MerchantRemitFeeResponse.MerchantRemitFeeBaseResponse;
 
 namespace Fincompare.Application.Services
 {
@@ -70,7 +68,7 @@ namespace Fincompare.Application.Services
                     };
                 }
 
-                var isRecordExist = await DoesRecordExistAsync(model.ServiceCategoryId,model.PayoutInstrumentId,model.ProductId,model.MerchantId,model.SendCountry3Iso,model.ReceiveCountry3Iso,model.SendCurrencyId,model.ReceiveCurrencyId);
+                var isRecordExist = await DoesRecordExistAsync(model.ServiceCategoryId, model.PayoutInstrumentId, model.ProductId, model.MerchantId, model.SendCountry3Iso, model.ReceiveCountry3Iso, model.SendCurrencyId, model.ReceiveCurrencyId);
 
                 if (isRecordExist)
                 {

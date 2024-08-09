@@ -2,7 +2,6 @@
 using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Response;
-using Fincompare.Application.Response.MerchantRemitProductRateResponse;
 using Fincompare.Domain.Entities;
 using static Fincompare.Application.Request.MerchantRemitProductFeeRequests.MerchantRemitProductFeeRequestViewModel;
 using static Fincompare.Application.Response.MerchantRemitFeeResponse.MerchantRemitFeeBaseResponse;
@@ -43,7 +42,7 @@ namespace Fincompare.Application.Services
 
                 }
 
-                var merchantProductResponse = await _merchantProductService.GetMerchantProducts(model.SendCountry3Iso,model.ReceiveCountry3Iso,model.SendCurrency,model.ReceiveCurrency,model.MerchantId,null,model.ProductId,model.ServiceCategoryId,model.PayoutInstrumentId, true);
+                var merchantProductResponse = await _merchantProductService.GetMerchantProducts(model.SendCountry3Iso, model.ReceiveCountry3Iso, model.SendCurrency, model.ReceiveCurrency, model.MerchantId, null, model.ProductId, model.ServiceCategoryId, model.PayoutInstrumentId, true);
 
 
                 if (!merchantProductResponse.Success && merchantProductResponse.Data == null)

@@ -3,11 +3,6 @@ using Fincompare.Application.Repositories;
 using Fincompare.Domain.Entities;
 using Fincompare.Domain.Entities.UserManagementEntities;
 using Fincompare.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fincompare.Infrastructure.Services
 {

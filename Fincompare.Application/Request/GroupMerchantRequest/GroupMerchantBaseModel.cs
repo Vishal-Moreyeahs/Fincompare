@@ -22,33 +22,39 @@ namespace Fincompare.Application.Request.GroupMerchantRequest
 
             [Required]
             [MinLength(3)]
+            [DataType(DataType.PhoneNumber)]
             [RegularExpression(@"^(\+[0-9]{2}|\+[0-9]{2}\(0\)|\(\+[0-9]{2}\)\(0\)|00[0-9]{2}|0)?([0-9]{9}|[0-9\-]{9,18})$", ErrorMessage = "Not a valid phone number")]
             [DefaultValue("1234567890")]
             public string GroupPh1 { get; set; } = null!;
 
 
+            [DataType(DataType.PhoneNumber)]
             [RegularExpression(@"^(\+[0-9]{2}|\+[0-9]{2}\(0\)|\(\+[0-9]{2}\)\(0\)|00[0-9]{2}|0)?([0-9]{9}|[0-9\-]{9,18})$", ErrorMessage = "Not a valid phone number")]
             [DefaultValue("1234567890")]
             public string? GroupPh2 { get; set; }
 
+            [EmailAddress]
             [Required]
             [RegularExpression("^[A-Za-z0-9._%+-]*@[A-Za-z0-9.-]*\\.[A-Za-z0-9-]{2,}$",
         ErrorMessage = "Email is required and must be properly formatted.")]
             public string GroupEm1 { get; set; } = null!;
 
+            [EmailAddress]
             [MinLength(3)]
             [RegularExpression("^[A-Za-z0-9._%+-]*@[A-Za-z0-9.-]*\\.[A-Za-z0-9-]{2,}$",
         ErrorMessage = "Email is required and must be properly formatted.")]
-            public string? GroupEm2 { get; set; } 
+            public string? GroupEm2 { get; set; }
 
             [Phone]
             [Required]
             [MinLength(3)]
+            [DataType(DataType.PhoneNumber)]
             [RegularExpression(@"^(\+[0-9]{2}|\+[0-9]{2}\(0\)|\(\+[0-9]{2}\)\(0\)|00[0-9]{2}|0)?([0-9]{9}|[0-9\-]{9,18})$", ErrorMessage = "Not a valid phone number")]
             [DefaultValue("1234567890")]
             public string GroupCsph { get; set; } = null!;
 
             [Required]
+            [EmailAddress]
             [RegularExpression("^[A-Za-z0-9._%+-]*@[A-Za-z0-9.-]*\\.[A-Za-z0-9-]{2,}$",
         ErrorMessage = "Email is required and must be properly formatted.")]
             public string GroupCsem { get; set; } = null!;

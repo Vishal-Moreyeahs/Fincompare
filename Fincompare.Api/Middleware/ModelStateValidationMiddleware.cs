@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc;
-using Fincompare.Application.Models;
+﻿using Fincompare.Application.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Fincompare.Api.Middleware
 {

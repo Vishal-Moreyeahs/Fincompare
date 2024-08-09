@@ -2,17 +2,9 @@
 using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.ActiveAssetRequests;
-using Fincompare.Application.Request.MerchantRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.ActiveAssetResponse;
 using Fincompare.Domain.Entities;
-using Fincompare.Domain.Entities.UserManagementEntities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Fincompare.Application.Response.MerchantRemitFeeResponse.MerchantRemitFeeBaseResponse;
 
 namespace Fincompare.Application.Services
 {
@@ -22,7 +14,7 @@ namespace Fincompare.Application.Services
         private readonly IMapper _mapper;
 
         public ActiveAssetService(IUnitOfWork unitOfWork, IMapper mapper)
-        { 
+        {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }

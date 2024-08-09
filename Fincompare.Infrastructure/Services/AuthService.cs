@@ -120,7 +120,7 @@ namespace Fincompare.Infrastructure.Services
         {
             var users = await _unitOfWork.GetRepository<User>().GetAll();
             var existingUser = users.Where(x => x.Email.ToLower() == request.Email.ToLower()).ToList();
-            
+
 
             if (existingUser.Count > 0)
             {
@@ -142,7 +142,7 @@ namespace Fincompare.Infrastructure.Services
                     Message = $"{request.Role} Role Not Exits",
                 };
             }
-           
+
 
             var loggedInUser = await _authenticatedUserService.GetLoggedInUser();
 
