@@ -3,10 +3,8 @@ using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MerchantRemitProductRateRequests;
 using Fincompare.Application.Response;
-using Fincompare.Application.Response.MerchantProductResponse;
 using Fincompare.Application.Response.MerchantRemitProductRateResponse;
 using Fincompare.Domain.Entities;
-using static Fincompare.Application.Response.MerchantRemitFeeResponse.MerchantRemitFeeBaseResponse;
 namespace Fincompare.Application.Services
 {
     public class MerchantRemitProductRateService : IMerchantRemitProductRateService
@@ -51,7 +49,7 @@ namespace Fincompare.Application.Services
                 }
 
                 var merchantProductRates = await _unitOfWork.GetRepository<MerchantRemitProductRate>().GetAll();
-                merchantProductRates = merchantProductRates.Where(x => x.SendCountry3Iso==model.SendCountry3Iso && x.ReceiveCountry3Iso == model.ReceiveCountry3Iso && x.SendCur == model.SendCur && x.ReceiveCur == model.ReceiveCur && x.MerchantId == model.MerchantId && x.SendMinLimit >= model.SendMinLimit && x.SendMaxLimit <= model.SendMaxLimit && x.Status).ToList();
+                merchantProductRates = merchantProductRates.Where(x => x.SendCountry3Iso == model.SendCountry3Iso && x.ReceiveCountry3Iso == model.ReceiveCountry3Iso && x.SendCur == model.SendCur && x.ReceiveCur == model.ReceiveCur && x.MerchantId == model.MerchantId && x.SendMinLimit >= model.SendMinLimit && x.SendMaxLimit <= model.SendMaxLimit && x.Status).ToList();
                 if (merchantProductRates.ToList().Count > 0)
                 {
                     merchantProductRates.ToList().ForEach(x =>

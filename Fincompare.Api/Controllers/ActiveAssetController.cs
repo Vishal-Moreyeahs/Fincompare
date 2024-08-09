@@ -1,10 +1,8 @@
 ﻿using Fincompare.Api.Middleware;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.ActiveAssetRequests;
-using Fincompare.Application.Request.ClickLeadRequests;
 using Fincompare.Domain.Enums;
 using Fincompare.Infrastructure.Authentication;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers
@@ -42,9 +40,9 @@ namespace Fincompare.Api.Controllers
 
         [HttpGet]
         [Route("fetch-active-asset-record")]
-        public async Task<IActionResult> FetchActiveAssetRecords( int? assetMasterId, int? merchantId, bool? status )
+        public async Task<IActionResult> FetchActiveAssetRecords(int? assetMasterId, int? merchantId, bool? status)
         {
-            var response = await _activeAssetService.GetAllActiveAssetRecord(assetMasterId,merchantId,status);
+            var response = await _activeAssetService.GetAllActiveAssetRecord(assetMasterId, merchantId, status);
             return Ok(response);
         }
     }

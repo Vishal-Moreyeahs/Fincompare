@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
-using Fincompare.Application.Contracts.Infrastructure;
 using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Response;
-using Fincompare.Application.Response.MerchantCompaignResponse;
-using Fincompare.Application.Response.MerchantRemitProductRateResponse;
 using Fincompare.Domain.Entities;
 using static Fincompare.Application.Request.MerchantProductCouponRequest.MerchantProductRequestViewModel;
 using static Fincompare.Application.Response.MerchantProductCouponResponse.MerchantProductCouponViewResponse;

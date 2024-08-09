@@ -43,7 +43,7 @@ namespace Fincompare.Application.Services
             var response = new ApiResponse<List<MerchantProductComparisonDto>>();
             var data = await GetDataFromPostgreFunction(sendCountry3Iso, receiveCountry3Iso, sendCurrencyId, receiveCurrencyId, sendAmount, productId, serviceCategoryId, instrumentId);
 
-            if (data == null || data.Count ==0)
+            if (data == null || data.Count == 0)
             {
 
                 response.Success = false;
@@ -192,7 +192,7 @@ namespace Fincompare.Application.Services
                     data.ForEach(x =>
                     {
                         if (featuredMerchants.Contains(x.Id))
-                        { 
+                        {
                             x.FeaturedMerchant = true;
                         }
                     });

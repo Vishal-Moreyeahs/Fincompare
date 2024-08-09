@@ -4,7 +4,6 @@ using Fincompare.Application.Request.MerchantProductRequests;
 using Fincompare.Domain.Enums;
 using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Fincompare.Api.Controllers
 {

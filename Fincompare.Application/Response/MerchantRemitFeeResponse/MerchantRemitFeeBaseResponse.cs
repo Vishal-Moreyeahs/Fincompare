@@ -1,6 +1,4 @@
-﻿using Fincompare.Domain.Entities.UserManagementEntities;
-
-namespace Fincompare.Application.Response.MerchantRemitFeeResponse
+﻿namespace Fincompare.Application.Response.MerchantRemitFeeResponse
 {
     public class MerchantRemitFeeBaseResponse
     {

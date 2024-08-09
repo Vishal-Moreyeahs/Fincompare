@@ -5,7 +5,6 @@ using Fincompare.Application.Request.MerchantCompaignRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.MerchantCompaignResponse;
 using Fincompare.Domain.Entities;
-using static Fincompare.Application.Response.MerchantProductCouponResponse.MerchantProductCouponViewResponse;
 
 namespace Fincompare.Application.Services
 {

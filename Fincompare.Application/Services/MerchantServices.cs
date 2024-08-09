@@ -278,28 +278,28 @@ namespace Fincompare.Application.Services
                 var checkMerchantCsph = merchants.FirstOrDefault(x => x.MerchantCsph == model.MerchantCsph);
                 //if not then check its group exist or not if not then create.(Assign it to group)
                 var checkGroup = await _unitOfWork.GetRepository<GroupMerchant>().GetById(model.GroupMerchantId);
-                if (checkGroup == null)
+                if (checkGroup != null)
                 {
                     response.Success = false;
                     response.Message = "Merchant" + model.MerchantCsph + " number already exists.";
                     return response;
                 }
-                var checkMerchanEm1 = merchants.FirstOrDefault(x => x.MerchantEm1.Trim().ToUpper() == model.MerchantEm1.Trim().ToUpper());
-                if (checkMerchanEm1 == null)
+                var checkMerchantEm1 = merchants.FirstOrDefault(x => x.MerchantEm1.Trim().ToUpper() == model.MerchantEm1.Trim().ToUpper());
+                if (checkMerchantEm1 != null)
                 {
                     response.Success = false;
                     response.Message = "Merchant" + model.MerchantEm1 + " email already exists.";
                     return response;
                 }
-                var checkMerchanEm2 = merchants.FirstOrDefault(x => x.MerchantEm2.Trim().ToUpper() == model.MerchantEm2.Trim().ToUpper());
-                if (checkMerchanEm2 == null)
+                var checkMerchantEm2 = merchants.FirstOrDefault(x => x.MerchantEm2.Trim().ToUpper() == model.MerchantEm2.Trim().ToUpper());
+                if (checkMerchantEm2 != null)
                 {
                     response.Success = false;
                     response.Message = "Merchant" + model.MerchantEm2 + " email already exists.";
                     return response;
                 }
                 var checkwebUrl = merchants.FirstOrDefault(x => x.WebUrl.Trim().ToUpper() == model.WebUrl.Trim().ToUpper());
-                if (checkMerchanEm2 == null)
+                if (checkMerchantEm2 != null)
                 {
                     response.Success = false;
                     response.Message = "Merchant" + model.WebUrl + "web url already exists.";

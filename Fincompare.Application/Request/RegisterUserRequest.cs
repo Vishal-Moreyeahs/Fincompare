@@ -1,9 +1,7 @@
 ﻿using Fincompare.Domain.Enums;
-using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
 
 namespace Fincompare.Application.Request
 {

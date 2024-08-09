@@ -12,7 +12,7 @@ namespace Fincompare.Application.Request
         public string Review { get; set; } = null!;
 
         [Required]
-        [Range(0,9)]
+        [Range(0, 9)]
         public int Rating { get; set; }
 
         public bool Status { get; set; } = true;
