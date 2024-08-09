@@ -41,7 +41,6 @@ namespace Fincompare.Application.Request.GroupMerchantRequest
         ErrorMessage = "Email is required and must be properly formatted.")]
             public string? GroupEm2 { get; set; } 
 
-            [Phone]
             [Required]
             [MinLength(3)]
             [RegularExpression(@"^(\+[0-9]{2}|\+[0-9]{2}\(0\)|\(\+[0-9]{2}\)\(0\)|00[0-9]{2}|0)?([0-9]{9}|[0-9\-]{9,18})$", ErrorMessage = "Not a valid phone number")]
