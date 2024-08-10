@@ -12,7 +12,7 @@ namespace Fincompare.Application.Request.MerchantRemitProductFeeRequests
             [Required]
             [MinLength(3)]
             [MaxLength(35)]
-            [RegularExpression("^[a-zA-Z][a-zA-Z0-9]*$",
+            [RegularExpression("^[a-zA-Z][a-zA-Z0-9 ]*$",
         ErrorMessage = "Fee Name must have alpha numeric string.")]
             public string FeesName { get; set; } = null!;
 
