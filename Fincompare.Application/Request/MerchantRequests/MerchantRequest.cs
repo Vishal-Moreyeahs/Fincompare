@@ -94,7 +94,7 @@ namespace Fincompare.Application.Request.MerchantRequests
 
     public class AddMerchantRequest : MerchantRequest { }
 
-    public class UpdateMerchantRequest : MerchantRequest
+    public class UpdateMerchantRequest : AddMerchantRequest
     {
         [Required]
         public int Id { get; set; }

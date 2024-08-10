@@ -58,7 +58,7 @@ namespace Fincompare.Application.Services
                     return new ApiResponse<GetAllGroupMerchantResponse>()
                     {
                         Success = false,
-                        Message = "merchant group record with same email already exist"
+                        Message = "merchant group record with same GroupCsem/GroupEm1/GroupEm2 email already exist"
                     };
                 }
 
@@ -67,7 +67,7 @@ namespace Fincompare.Application.Services
                     return new ApiResponse<GetAllGroupMerchantResponse>()
                     {
                         Success = false,
-                        Message = "merchant group record with same phone already exist"
+                        Message = "merchant group record with same GroupCsph/GroupPh1/GroupPh2 phone already exist"
                     };
                 }
 
