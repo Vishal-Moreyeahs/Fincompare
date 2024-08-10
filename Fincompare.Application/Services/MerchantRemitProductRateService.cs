@@ -171,7 +171,8 @@ namespace Fincompare.Application.Services
                                      SendMaxLimit = merchantRemitRate.SendMaxLimit,
                                      ReceiveMinLimit = merchantRemitRate.ReceiveMinLimit,
                                      ReceiveMaxLimit = merchantRemitRate.ReceiveMaxLimit,
-                                     ValidityExpiry = merchantRemitRate.ValidityExpiry
+                                     ValidityExpiry = merchantRemitRate.ValidityExpiry,
+                                     Status = merchantRemitRate.Status
                                  }).ToList();
 
 
@@ -225,7 +226,8 @@ namespace Fincompare.Application.Services
                                      SendMaxLimit = merchantRemitRate.SendMaxLimit,
                                      ReceiveMinLimit = merchantRemitRate.ReceiveMinLimit,
                                      ReceiveMaxLimit = merchantRemitRate.ReceiveMaxLimit,
-                                     ValidityExpiry = merchantRemitRate.ValidityExpiry
+                                     ValidityExpiry = merchantRemitRate.ValidityExpiry,
+                                     Status = merchantRemitRate.Status
                                  }).ToList();
 
 
@@ -300,7 +302,8 @@ namespace Fincompare.Application.Services
                                      SendMaxLimit = merchantRemitRate.SendMaxLimit,
                                      ReceiveMinLimit = merchantRemitRate.ReceiveMinLimit,
                                      ReceiveMaxLimit = merchantRemitRate.ReceiveMaxLimit,
-                                     ValidityExpiry = merchantRemitRate.ValidityExpiry
+                                     ValidityExpiry = merchantRemitRate.ValidityExpiry,
+                                     Status = merchantRemitRate.Status
                                  }).ToList();
 
 

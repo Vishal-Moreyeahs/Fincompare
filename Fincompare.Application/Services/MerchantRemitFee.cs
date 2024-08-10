@@ -289,6 +289,9 @@ namespace Fincompare.Application.Services
                                  ReceiveMinLimit = merchantRemitFee.ReceiveMinLimit,
                                  ReceiveMaxLimit = merchantRemitFee.ReceiveMaxLimit,
                                  ValidityExpiry = merchantRemitFee.ValidityExpiry,
+                                 PayInInstrumentId = merchantRemitFee.PayInInstrumentId,
+                                 PayInInstrumentName = merchantRemitFee.Instruments.InstrumentName,
+                                 VariableFee = merchantRemitFee.VariableFee,
                                  Status = merchantRemitFee.Status
 
                              }).ToList();
