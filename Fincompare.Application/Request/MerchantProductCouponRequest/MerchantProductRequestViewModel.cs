@@ -11,10 +11,11 @@ namespace Fincompare.Application.Request.MerchantProductCouponRequest
             public int? MerchantProductId { get; set; }
             [Required]
             public string CouponCode { get; set; } = null!;
+            [Required]
             public bool IsMultiple { get; set; } = false;
             public DateTime ValidityFrom { get; set; }
             public DateTime ValidityTo { get; set; }
-            public bool Status { get; set; } = true;
+            public bool Status { get; set; } = false;
             public string? MerchantCouponBatch { get; set; } = null;
 
         }

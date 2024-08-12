@@ -8,6 +8,6 @@ namespace Fincompare.Application.Repositories
     {
         Task<ApiResponse<ActiveAssetResponseViewModel>> AddActiveAssetMerchant(AddActiveAssetRequest model);
         Task<ApiResponse<ActiveAssetResponseViewModel>> UpdateActiveAssetMerchant(UpdateActiveAssetRequest model);
-        Task<ApiResponse<IEnumerable<ActiveAssetResponseViewModel>>> GetAllActiveAssetRecord(int? assetMasterId, int? merchantId, bool? status);
+        Task<ApiResponse<IEnumerable<ActiveAssetResponseViewModel>>> GetAllActiveAssetRecord(int? assetMasterId, int? merchantId, bool? status, string? countryIso3);
     }
 }

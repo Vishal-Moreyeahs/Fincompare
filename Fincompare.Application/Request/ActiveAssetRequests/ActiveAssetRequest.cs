@@ -34,6 +34,8 @@ namespace Fincompare.Application.Request.ActiveAssetRequests
         [Required]
         public DateTime DateValidity { get; set; }
 
+        [Required]
+        [Range(1, 10, ErrorMessage = "The value must be between 1 and 10.")]
         public int? MerchantAssetPriority { get; set; }
 
     }
