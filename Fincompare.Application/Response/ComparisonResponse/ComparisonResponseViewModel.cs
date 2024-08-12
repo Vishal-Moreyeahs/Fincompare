@@ -54,6 +54,7 @@
             public decimal RecipientCommulativeFactor { get; set; }
             public decimal TotalCost { get; set; }
             public bool FeaturedMerchant { get; set; }
+            public int MerchantFeaturedPriority { get; set; }
 
         }
 

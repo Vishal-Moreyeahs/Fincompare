@@ -178,7 +178,7 @@ namespace Fincompare.Application.Services
                 data = data.OrderBy(x => x.RecipientCommulativeFactor).ToList();
 
                 //For FeaturedMerchant
-                var activeAssets = await _activeAssets.GetAllActiveAssetRecord(_configuration.GetValue<int>("AssetMerchantFeaturedId"), null, true);
+                var activeAssets = await _activeAssets.GetAllActiveAssetRecord(_configuration.GetValue<int>("AssetMerchantFeaturedId"), null, true,null);
 
                 if (activeAssets.Data != null)
                 {
@@ -196,7 +196,6 @@ namespace Fincompare.Application.Services
                             x.FeaturedMerchant = true;
                         }
                     });
-
                 }
 
                 return data.OrderByDescending(x => x.FeaturedMerchant).ThenBy(x => x.RecipientCommulativeFactor).ToList();
