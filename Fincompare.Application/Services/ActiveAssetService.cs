@@ -42,7 +42,7 @@ namespace Fincompare.Application.Services
             }
         }
 
-        public async Task<ApiResponse<IEnumerable<ActiveAssetResponseViewModel>>> GetAllActiveAssetRecord(int? assetMasterId, int? merchantId, bool? status)
+        public async Task<ApiResponse<IEnumerable<ActiveAssetResponseViewModel>>> GetAllActiveAssetRecord(int? assetMasterId, int? merchantId, bool? status, string? countryIso3)
         {
             var response = new ApiResponse<IEnumerable<ActiveAssetResponseViewModel>>();
 
@@ -71,6 +71,8 @@ namespace Fincompare.Application.Services
                 //    activeAssets = activeAssets.Where(mp => mp.Country3Iso == countryIso3);
                 if (status.HasValue)
                     activeAssets = activeAssets.Where(mp => mp.Status == status.Value);
+                if (!string.IsNullOrEmpty(countryIso3))
+                    activeAssets = activeAssets.Where(mp => mp.Country3Iso == countryIso3);
                 //if (dateActive.HasValue)
                 //    activeAssets = activeAssets.Where(mp => mp.DateActive >= dateActive.Value);
                 //if (dateValidity.HasValue)

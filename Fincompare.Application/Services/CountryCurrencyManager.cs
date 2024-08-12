@@ -111,7 +111,7 @@ namespace Fincompare.Application.Services
             try
             {
                 // Find the country by ISO code
-                var countries = _unitOfWork.GetRepository<Country>().GetAllRelatedEntity();
+                var countries = await _unitOfWork.GetRepository<Country>().GetAll();
 
                 var country = countries.FirstOrDefault(c => c.Country3Iso.Trim().ToLower() == model.Country3Iso.Trim().ToLower());
 
