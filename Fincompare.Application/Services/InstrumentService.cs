@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using Fincompare.Application.Contracts.Persistence;
+using Fincompare.Application.Models;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
+using System.Collections.Generic;
 using static Fincompare.Application.Request.InstrumentRequest.InstrumentRequestBaseModel;
 using static Fincompare.Application.Response.InstrumentResponse.InstrumentResponseBaseClass;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Fincompare.Application.Services
 {
@@ -12,11 +15,14 @@ namespace Fincompare.Application.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IMerchantProductService _merchantProductService;
+          
 
-        public InstrumentService(IUnitOfWork unitOfWork, IMapper mapper)
+        public InstrumentService(IUnitOfWork unitOfWork, IMapper mapper, IMerchantProductService merchantProductService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _merchantProductService = merchantProductService;
         }
 
         public async Task<ApiResponse<CreateInstrumentRequest>> CreateInstrument(CreateInstrumentRequest model)
@@ -130,6 +136,53 @@ namespace Fincompare.Application.Services
             {
                 throw new ArgumentException(ex.Message);
             }
+        }
+
+        public async Task<ApiResponse<IEnumerable<PayoutInstrumentModel>>> GetAllPayoutInstrument(string sendCountry, string receiveCountry, string sendCurrency, string receiveCurrency, int? serviceCategoryId, int? productId)
+        {
+            try
+            {
+                var response = new ApiResponse<IEnumerable<PayoutInstrumentModel>>();
+                var merchantProducts = await _merchantProductService.GetMerchantProducts(sendCountry,receiveCountry,sendCurrency,receiveCurrency,null,null,serviceCategoryId,productId,null,true);
+                if (!merchantProducts.Success)
+                {
+                    response.Message = "payout instrument fetch failed";
+                    return response;
+                }
+
+                var data = merchantProducts.Data.ToList();
+                if (data == null || data.Count == 0)
+                {
+                    response.Message = "payout instrument fetch failed";
+                    return response;
+                }
+
+                var instrumentData = data.Select(x => new PayoutInstrumentModel
+                                    {
+                                        PayoutInstrumentId = x.PayoutInstrumentId,
+                                        PayoutInstrumentName = x.PayoutInstrumentName
+                                    }).DistinctBy(x => x.PayoutInstrumentId).ToList();
+
+                if (instrumentData.Count > 0)
+                { 
+                    response.Success = true;
+                    response.Message = "payout instrument record fetched successfully";
+                    response.Data = instrumentData;
+                    return response;
+                }
+                response.Message = "payout instrument fetch failed";
+                return response;
+                
+            }
+            catch(Exception ex) {
+                throw ex;
+            }
+        }
+
+        public class PayoutInstrumentModel
+        { 
+            public int PayoutInstrumentId { get; set; }
+            public string PayoutInstrumentName { get; set; }
         }
     }
 }

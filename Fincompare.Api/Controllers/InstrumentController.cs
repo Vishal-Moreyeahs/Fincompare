@@ -46,6 +46,18 @@ namespace Fincompare.Api.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        [Route("fetch-payout-instruments/{sendCountry}/{receiveCountry}/{sendCurrency}/{receiveCurrency}")]
+        public async Task<IActionResult> GetAllPayoutInstrument(string sendCountry,
+                                                            string receiveCountry,
+                                                            string sendCurrency,
+                                                            string receiveCurrency,
+                                                            int? serviceCategoryId,
+                                                            int? productId)
+        {
+            var response = await _instrumentService.GetAllPayoutInstrument(sendCountry,receiveCountry,sendCurrency,receiveCurrency,serviceCategoryId,productId);
+            return Ok(response);
+        }
         //[HttpGet]
         //[Route("getby-id-instrument")]
         //public async Task<IActionResult> GetInstrumentById(int id)
