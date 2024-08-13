@@ -242,7 +242,6 @@ namespace Fincompare.Application.Services
             {
 
 
-
                 //check if merchant already exist or not
 
                 var merchants = await _unitOfWork.GetRepository<Merchant>().GetAll();
@@ -250,7 +249,7 @@ namespace Fincompare.Application.Services
                 if (checkMerchant != null)
                 {
                     response.Success = false;
-                    response.Message = "Merchant email " + model.MerchantCsem + "already exists.";
+                    response.Message = "Merchant email " + " " + model.MerchantCsem + " " + "already exists.";
                     return response;
                 }
                 var checkPhone = merchants.FirstOrDefault(x => x.MerchantPh1 == model.MerchantPh1);
@@ -258,20 +257,20 @@ namespace Fincompare.Application.Services
                 if (checkPhone != null)
                 {
                     response.Success = false;
-                    response.Message = "Merchant" + model.MerchantPh1 + "number already exists.";
+                    response.Message = "Merchant" + " " + model.MerchantPh1 + " " + "number already exists.";
                     return response;
                 }
                 if (checkPhone2 != null)
                 {
                     response.Success = false;
-                    response.Message = "Merchant" + model.MerchantPh2 + "number already exists.";
+                    response.Message = "Merchant" + " " + model.MerchantPh2 + " " + "number already exists.";
                     return response;
                 }
                 var checkAffiliatedId = merchants.FirstOrDefault(x => x.AffiliateId.Trim().ToUpper() == model.AffiliateId.Trim().ToUpper());
                 if (checkAffiliatedId != null)
                 {
                     response.Success = false;
-                    response.Message = "Merchant Affiliated id" + model.AffiliateId + "already exists.";
+                    response.Message = "Merchant Affiliated id" + " " + model.AffiliateId + " " + "already exists.";
                     return response;
                 }
 
@@ -281,32 +280,30 @@ namespace Fincompare.Application.Services
                 if (checkMerchantCsph != null)
                 {
                     response.Success = false;
-                    response.Message = "Merchant" + model.MerchantCsph + " number already exists.";
+                    response.Message = "Merchant" + " " + model.MerchantCsph + " " + " number already exists.";
                     return response;
                 }
                 var checkMerchantEm1 = merchants.FirstOrDefault(x => x.MerchantEm1.Trim().ToUpper() == model.MerchantEm1.Trim().ToUpper());
                 if (checkMerchantEm1 != null)
                 {
                     response.Success = false;
-                    response.Message = "Merchant" + model.MerchantEm1 + " email already exists.";
+                    response.Message = "Merchant" + " " + model.MerchantEm1 + " " + " email already exists.";
                     return response;
                 }
-                var checkMerchantEm2 = merchants.FirstOrDefault(x => x.MerchantEm2.Trim().ToUpper() == model.MerchantEm2.Trim().ToUpper());
+                var checkMerchantEm2 = merchants.FirstOrDefault(x => x.MerchantEm2 != null && x.MerchantEm2.Trim().ToUpper() == model.MerchantEm2.Trim().ToUpper());
                 if (checkMerchantEm2 != null)
                 {
                     response.Success = false;
-                    response.Message = "Merchant" + model.MerchantEm2 + " email already exists.";
+                    response.Message = "Merchant" + " " + model.MerchantEm2 + " " + " email already exists.";
                     return response;
                 }
-                var checkwebUrl = merchants.FirstOrDefault(x => x.WebUrl.Trim().ToUpper() == model.WebUrl.Trim().ToUpper());
+                var checkwebUrl = merchants.FirstOrDefault(x => x.WebUrl != "string" && x.WebUrl != null && x.WebUrl.Trim().ToUpper() == model.WebUrl.Trim().ToUpper());
                 if (checkwebUrl != null)
                 {
                     response.Success = false;
-                    response.Message = "Merchant" + model.WebUrl + "web url already exists.";
+                    response.Message = "Merchant" + " " + model.WebUrl + " " + "web url already exists.";
                     return response;
                 }
-
-
 
 
                 //Create a merchant and add this in Merchant Table.
