@@ -278,7 +278,7 @@ namespace Fincompare.Application.Services
                 var checkMerchantCsph = merchants.FirstOrDefault(x => x.MerchantCsph == model.MerchantCsph);
                 //if not then check its group exist or not if not then create.(Assign it to group)
                 var checkGroup = await _unitOfWork.GetRepository<GroupMerchant>().GetById(model.GroupMerchantId);
-                if (checkGroup != null)
+                if (checkMerchantCsph != null)
                 {
                     response.Success = false;
                     response.Message = "Merchant" + model.MerchantCsph + " number already exists.";
@@ -299,7 +299,7 @@ namespace Fincompare.Application.Services
                     return response;
                 }
                 var checkwebUrl = merchants.FirstOrDefault(x => x.WebUrl.Trim().ToUpper() == model.WebUrl.Trim().ToUpper());
-                if (checkMerchantEm2 != null)
+                if (checkwebUrl != null)
                 {
                     response.Success = false;
                     response.Message = "Merchant" + model.WebUrl + "web url already exists.";
