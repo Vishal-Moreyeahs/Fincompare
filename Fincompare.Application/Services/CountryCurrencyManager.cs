@@ -5,6 +5,7 @@ using Fincompare.Application.Request.CountryCurrencyRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.CountryCurrencyResponse;
 using Fincompare.Domain.Entities;
+using Microsoft.Extensions.Configuration;
 
 namespace Fincompare.Application.Services
 {
@@ -12,11 +13,13 @@ namespace Fincompare.Application.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-        public CountryCurrencyManager(IUnitOfWork unitOfWork, IMapper mapper)
+        public CountryCurrencyManager(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         public async Task<ApiResponse<List<GetCountryCurrencyResponse>>> GetCurrenciesbyCountry3Iso(string? country3Iso, string? categoryId)
@@ -25,16 +28,20 @@ namespace Fincompare.Application.Services
             {
                 var currencyList = _unitOfWork.GetRepository<CountryCurrency>().GetAllRelatedEntity();
 
+                var defaultCountryIso = _configuration.GetValue<string>("DefaultCountryIso3");
+
                 var currencies = new List<GetCountryCurrencyResponse>();
 
                 currencies = currencyList.Select(cc => new GetCountryCurrencyResponse
                 {
                     Id = cc.Id,
                     CurrencyIso = cc.CurrencyIso,
+                    CountryCode = cc.Country3IsoNavigation.Country2Iso,
                     Country3Iso = cc.Country3Iso,
                     IsPrimary = cc.IsPrimaryCur,
                     Category = cc.CountryCurrencyCategoryId,
-                    Status = cc.Status
+                    Status = cc.Status,
+                    IsDefault = cc.Country3Iso.ToLower().Trim() == defaultCountryIso.ToLower().Trim() ? true: false 
                 }).ToList();
 
                 if (!string.IsNullOrEmpty(categoryId))
@@ -45,10 +52,12 @@ namespace Fincompare.Application.Services
                                             {
                                                 Id = cc.Id,
                                                 CurrencyIso = cc.CurrencyIso,
+                                                CountryCode = cc.Country3IsoNavigation.Country2Iso,
                                                 Country3Iso = cc.Country3Iso,
                                                 IsPrimary = cc.IsPrimaryCur,
                                                 Category = cc.CountryCurrencyCategoryId,
-                                                Status = cc.Status
+                                                Status = cc.Status,
+                                                IsDefault = cc.Country3Iso.ToLower().Trim() == defaultCountryIso ? true : false
                                             }).ToList();
                 }
                 if (!string.IsNullOrEmpty(country3Iso))
@@ -59,10 +68,13 @@ namespace Fincompare.Application.Services
                                                 {
                                                     Id = cc.Id,
                                                     CurrencyIso = cc.CurrencyIso,
+                                                    CountryCode = cc.Country3IsoNavigation.Country2Iso,
                                                     Country3Iso = cc.Country3Iso,
                                                     IsPrimary = cc.IsPrimaryCur,
                                                     Category = cc.CountryCurrencyCategoryId,
-                                                    Status = cc.Status
+                                                    Status = cc.Status,
+                                                    IsDefault = cc.Country3Iso.ToLower().Trim() == defaultCountryIso ? true : false
+
                                                 }).ToList();
 
                 }
@@ -75,10 +87,13 @@ namespace Fincompare.Application.Services
                                                 {
                                                     Id = cc.Id,
                                                     CurrencyIso = cc.CurrencyIso,
+                                                    CountryCode = cc.Country3IsoNavigation.Country2Iso,
                                                     Country3Iso = cc.Country3Iso,
                                                     IsPrimary = cc.IsPrimaryCur,
                                                     Category = cc.CountryCurrencyCategoryId,
-                                                    Status = cc.Status
+                                                    Status = cc.Status,
+                                                    IsDefault = cc.Country3Iso.ToLower().Trim() == defaultCountryIso ? true : false
+
                                                 }).ToList();
 
                 }
