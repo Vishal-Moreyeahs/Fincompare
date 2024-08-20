@@ -624,6 +624,7 @@ namespace Fincompare.Persitence
                 entity.Property(e => e.InstrumentId).HasColumnName("Instrument_Id");
                 entity.Property(e => e.MerchantId).HasColumnName("Merchant_Id");
                 entity.Property(e => e.ProductId).HasColumnName("Product_Id");
+                entity.Property(e => e.IsFeeAdded).HasDefaultValue(false);
                 entity.Property(e => e.ReceiveCountry3Iso)
                     .HasColumnType("character varying")
                     .HasColumnName("Receive_Country_3_iso");

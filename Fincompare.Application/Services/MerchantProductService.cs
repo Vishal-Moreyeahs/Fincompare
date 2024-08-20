@@ -101,6 +101,7 @@ namespace Fincompare.Application.Services
                     ReceiveCurrencyId = responseData.ReceiveCurrencyId,
                     SendCurrencyId = responseData.SendCurrencyId,
                     ServiceLevels = responseData.ServiceLevels,
+                    IsFeeAdded = responseData.IsFeeAdded,
                     Status = responseData.Status
                 };
 
@@ -146,6 +147,7 @@ namespace Fincompare.Application.Services
                                                     ReceiveCurrencyId = x.ReceiveCurrencyId,
                                                     SendCurrencyId = x.SendCurrencyId,
                                                     ServiceLevels = x.ServiceLevels,
+                                                    IsFeeAdded = x.IsFeeAdded,
                                                     Status = x.Status
                                                 }).ToList();
 
@@ -214,6 +216,7 @@ namespace Fincompare.Application.Services
                 ReceiveCurrencyId = x.ReceiveCurrencyId,
                 SendCurrencyId = x.SendCurrencyId,
                 ServiceLevels = x.ServiceLevels,
+                IsFeeAdded = x.IsFeeAdded,
                 Status = x.Status
             }).ToList();
 
@@ -318,6 +321,7 @@ namespace Fincompare.Application.Services
                     ReceiveCurrencyId = responseData.ReceiveCurrencyId,
                     SendCurrencyId = responseData.SendCurrencyId,
                     ServiceLevels = responseData.ServiceLevels,
+                    IsFeeAdded = responseData.IsFeeAdded,
                     Status = responseData.Status
                 };
 

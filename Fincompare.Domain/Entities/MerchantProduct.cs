@@ -25,6 +25,7 @@ namespace Fincompare.Domain.Entities
         public bool Status { get; set; }
 
         public string ServiceLevels { get; set; } = null!;
+        public bool IsFeeAdded { get; set; } = false;
 
         public virtual Instrument Instrument { get; set; } = null!;
 

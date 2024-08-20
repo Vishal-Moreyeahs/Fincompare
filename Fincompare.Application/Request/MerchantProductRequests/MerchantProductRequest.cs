@@ -36,6 +36,7 @@ namespace Fincompare.Application.Request.MerchantProductRequests
         [Required]
         [RegularExpression(@"^(?:(\d+D)?(\d+H)?(\d+M)?)$", ErrorMessage = "Invalid format for ServiceLevels.")]
         public string ServiceLevels { get; set; } = null!;
+        public bool IsFeeAdded { get; set; } = false;
     }
 
     public class AddMerchantProductRequest : MerchantProductRequest { }

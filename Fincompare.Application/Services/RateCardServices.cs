@@ -12,12 +12,15 @@ namespace Fincompare.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IMarketRateServices _marketRateServices;
+        private readonly ICountryCurrencyManager _countryCurrencyManager;
+        
 
-        public RateCardServices(IUnitOfWork unitOfWork, IMapper mapper, IMarketRateServices marketRateServices)
+        public RateCardServices(IUnitOfWork unitOfWork, IMapper mapper, IMarketRateServices marketRateServices, ICountryCurrencyManager countryCurrencyManager)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _marketRateServices = marketRateServices;
+            _countryCurrencyManager = countryCurrencyManager;
         }
         public async Task<ApiResponse<IEnumerable<RateCardRequestViewModel>>> GetRateCardByCountry3Iso(string country3iso)
         {
@@ -25,10 +28,8 @@ namespace Fincompare.Application.Services
             {
                 var rateCards = await _unitOfWork.GetRepository<RateCard>().GetAll();
                 rateCards = rateCards.Where(x => x.Country3Iso == country3iso).ToList();
-
                 var rateCardCurrencies = rateCards.Select(x => x.Rate_Card.Substring(0, 3)).Distinct().ToList<string>();
                 var countryRates = new List<MarketRateDto>();
-
                 foreach (var currency in rateCardCurrencies)
                 {
                     var rates = await _marketRateServices.GetMarketRateBySendCurr(currency);
@@ -36,26 +37,48 @@ namespace Fincompare.Application.Services
                         countryRates.AddRange(rates.Data);
                 }
 
+                var countryCurrencies = await _countryCurrencyManager.GetCurrenciesbyCountry3Iso(null, null, null);
+
+                if (!countryCurrencies.Success)
+                {
+                    throw new ApplicationException("Country Currencies not found");
+                }
+
+                var countryWithCurrencies = countryCurrencies.Data.ToList();
 
                 var rateCardRequestModel = rateCards
-                                                .Select(x =>
-                                                {
-                                                    var sendCurrency = x.Rate_Card.Substring(0, 3);
-                                                    var receiveCurrency = x.Rate_Card.Substring(x.Rate_Card.Length - 3, 3);
+                                                 .Select(x =>
+                                                 {
+                                                     var sendCurrency = x.Rate_Card.Substring(0, 3);
+                                                     var receiveCurrency = x.Rate_Card.Substring(x.Rate_Card.Length - 3, 3);
 
-                                                    var countryRate = countryRates
-                                                        .FirstOrDefault(e => e.ReceiveCur == receiveCurrency && e.SendCur == sendCurrency);
+                                                     // Find the matching country for sending and receiving currencies
+                                                     var sendCountry = countryWithCurrencies
+                                                         .FirstOrDefault(curr => curr.CurrencyIso == sendCurrency);
+                                                     var receiveCountry = countryWithCurrencies
+                                                         .FirstOrDefault(curr => curr.CurrencyIso == receiveCurrency);
 
-                                                    return new RateCardRequestViewModel
-                                                    {
-                                                        SendCurrency3Iso = sendCurrency,
-                                                        ReceiveCurrency3Iso = receiveCurrency,
-                                                        Country3Iso = x.Country3Iso,
-                                                        Rate = countryRate?.Rate ?? 0, // If no match found, set Rate to 0 or handle accordingly
-                                                        Status = x.Status
-                                                    };
-                                                })
-                                                .ToList();
+                                                     // Find the rate for the corresponding send and receive currencies
+                                                     var countryRate = countryRates
+                                                         .FirstOrDefault(e => e.ReceiveCur == receiveCurrency && e.SendCur == sendCurrency);
+
+                                                     return new RateCardRequestViewModel
+                                                     {
+                                                         SendCurrency3Iso = sendCurrency,
+                                                         ReceiveCurrency3Iso = receiveCurrency,
+                                                         Country3Iso = x.Country3Iso,
+                                                         Rate = countryRate?.Rate ?? 0, // If no match found, set Rate to 0
+                                                         Status = x.Status,
+                                                         // Get Send and Receive Country name and flag
+                                                         SendCountryName = sendCountry?.CountryName ?? "Unknown",
+                                                         SendCountryFlag = sendCountry?.CountryFlag ?? "Unknown",
+                                                         ReceiveCountryName = receiveCountry?.CountryName ?? "Unknown",
+                                                         ReceiveCountryFlag = receiveCountry?.CountryFlag ?? "Unknown"
+                                                     };
+                                                 })
+                                                 .ToList();
+
+
 
 
                 if (rateCardRequestModel == null || rateCardRequestModel.Count == 0)
@@ -84,9 +107,14 @@ namespace Fincompare.Application.Services
         public class RateCardRequestViewModel
         {
             public string Country3Iso { get; set; }
+            public string SendCountryFlag { get; set; }
+            public string SendCountryName { get; set; }
+            public string ReceiveCountryFlag { get; set; }
+            public string ReceiveCountryName { get; set; }
             public string SendCurrency3Iso { get; set; }
             public string ReceiveCurrency3Iso { get; set; }
             public double Rate { get; set; }
+            public string Type { get; set; } = "locked";
             public bool Status { get; set; }
         }
     }

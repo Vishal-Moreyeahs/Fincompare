@@ -147,8 +147,9 @@ namespace Fincompare.Application.Services
                                     TransferSpeed = ConvertServiceLevel(reader.GetString(reader.GetOrdinal("Service_Levels"))),
                                     MerchantTotalRate = reader.GetDecimal(reader.GetOrdinal("MerchantMarketRate")),
                                     MarketRate = reader.GetDecimal(reader.GetOrdinal("MarketRate")),
-                                    RecipientGet = (Convert.ToDecimal(sendAmount) - reader.GetDecimal(reader.GetOrdinal("TransferFee"))) * reader.GetDecimal(reader.GetOrdinal("Rate")), // receii currenc
+                                    RecipientGet = reader.GetFieldValue<bool>(reader.GetOrdinal("IsFeeAdded")) ? (Convert.ToDecimal(sendAmount)) * reader.GetDecimal(reader.GetOrdinal("Rate")) : (Convert.ToDecimal(sendAmount) - reader.GetDecimal(reader.GetOrdinal("TransferFee"))) * reader.GetDecimal(reader.GetOrdinal("Rate")), // receii currenc
                                     InstrumentName = reader.GetString(reader.GetOrdinal("InstrumentName")),
+                                    IsFeeAdded = reader.GetFieldValue<bool>(reader.GetOrdinal("IsFeeAdded")),
                                     ProductName = reader.GetString(reader.GetOrdinal("ProductName")),
                                     PayInInstrumentName = reader.GetString(reader.GetOrdinal("PayInInstrumentName")),
                                     ServiceCategoryName = reader.GetString(reader.GetOrdinal("ServiceCategoryName"))
@@ -172,7 +173,7 @@ namespace Fincompare.Application.Services
                 data.ForEach(x =>
                 {
                     x.RecipientCommulativeFactor = Math.Round(((bestPriceMerchant - x.RecipientGet) / x.MarketRate), 3);
-                    x.TotalCost = Math.Round(((Convert.ToDecimal(sendAmount) * x.MarketRate) - x.RecipientGet) / x.MarketRate, 3);
+                    x.TotalCost = Math.Round(((Convert.ToDecimal(sendAmount) * x.MarketRate) - x.RecipientGet) / x.MarketRate, 3) + x.TransferFee;
                 });
 
                 data = data.OrderBy(x => x.RecipientCommulativeFactor).ToList();

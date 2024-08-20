@@ -27,5 +27,6 @@
         public bool Status { get; set; }
 
         public string ServiceLevels { get; set; } = null!;
+        public bool IsFeeAdded { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace Fincompare.Application.Services
             _configuration = configuration;
         }
 
-        public async Task<ApiResponse<List<GetCountryCurrencyResponse>>> GetCurrenciesbyCountry3Iso(string? country3Iso, string? categoryId)
+        public async Task<ApiResponse<List<GetCountryCurrencyResponse>>> GetCurrenciesbyCountry3Iso(string? country3Iso, string? categoryId, string? currencyIso)
         {
             try
             {
@@ -50,6 +50,24 @@ namespace Fincompare.Application.Services
                 {
                     currencies = currencyList
                                             .Where(cc => cc.CountryCurrencyCategoryId == categoryId)
+                                            .Select(cc => new GetCountryCurrencyResponse
+                                            {
+                                                Id = cc.Id,
+                                                CurrencyIso = cc.CurrencyIso,
+                                                CountryCode = cc.Country3IsoNavigation.Country2Iso,
+                                                CountryName = cc.Country3IsoNavigation.CountryName,
+                                                CountryFlag = cc.Country3IsoNavigation.WebLink,
+                                                Country3Iso = cc.Country3Iso,
+                                                IsPrimary = cc.IsPrimaryCur,
+                                                Category = cc.CountryCurrencyCategoryId,
+                                                Status = cc.Status,
+                                                IsDefault = cc.Country3Iso.ToLower().Trim() == defaultCountryIso ? true : false
+                                            }).ToList();
+                }
+                if (!string.IsNullOrEmpty(currencyIso))
+                {
+                    currencies = currencyList
+                                            .Where(cc => cc.CurrencyIso == currencyIso)
                                             .Select(cc => new GetCountryCurrencyResponse
                                             {
                                                 Id = cc.Id,
@@ -101,7 +119,6 @@ namespace Fincompare.Application.Services
                                                     Category = cc.CountryCurrencyCategoryId,
                                                     Status = cc.Status,
                                                     IsDefault = cc.Country3Iso.ToLower().Trim() == defaultCountryIso ? true : false
-
                                                 }).ToList();
 
                 }
