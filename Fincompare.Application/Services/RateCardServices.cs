@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Fincompare.Application.Contracts.Persistence;
 using Fincompare.Application.Repositories;
+using Fincompare.Application.Request.MarketRateRequest;
 using Fincompare.Application.Response;
 using Fincompare.Domain.Entities;
 
@@ -23,16 +24,39 @@ namespace Fincompare.Application.Services
             try
             {
                 var rateCards = await _unitOfWork.GetRepository<RateCard>().GetAll();
-                var countryRates = await _marketRateServices.GetMarketRateBySendCurr(country3iso);
-                var rateCardRequestModel = rateCards.Where(x => x.Country3Iso == country3iso)
-                                            .Select(x => new RateCardRequestViewModel
-                                            {
-                                                SendCurrency3Iso = x.Rate_Card.Substring(0, 3),
-                                                ReceiveCurrency3Iso = x.Rate_Card.Substring(x.Rate_Card.Length - 3, 3),
-                                                Country3Iso = x.Country3Iso,
-                                                Rate = countryRates.Data.Where(e => e.ReceiveCur == x.Rate_Card.Substring(x.Rate_Card.Length - 3, 3).ToString()).First().ReceiveCur,
-                                                Status = x.Status
-                                            }).ToList();
+                rateCards = rateCards.Where(x => x.Country3Iso == country3iso).ToList();
+
+                var rateCardCurrencies = rateCards.Select(x => x.Rate_Card.Substring(0, 3)).Distinct().ToList<string>();
+                var countryRates = new List<MarketRateDto>();
+
+                foreach (var currency in rateCardCurrencies)
+                {
+                    var rates = await _marketRateServices.GetMarketRateBySendCurr(currency);
+                    if(rates.Success)
+                        countryRates.AddRange(rates.Data);
+                }
+
+
+                var rateCardRequestModel = rateCards
+                                                .Select(x =>
+                                                {
+                                                    var sendCurrency = x.Rate_Card.Substring(0, 3);
+                                                    var receiveCurrency = x.Rate_Card.Substring(x.Rate_Card.Length - 3, 3);
+
+                                                    var countryRate = countryRates
+                                                        .FirstOrDefault(e => e.ReceiveCur == receiveCurrency && e.SendCur == sendCurrency);
+
+                                                    return new RateCardRequestViewModel
+                                                    {
+                                                        SendCurrency3Iso = sendCurrency,
+                                                        ReceiveCurrency3Iso = receiveCurrency,
+                                                        Country3Iso = x.Country3Iso,
+                                                        Rate = countryRate?.Rate ?? 0, // If no match found, set Rate to 0 or handle accordingly
+                                                        Status = x.Status
+                                                    };
+                                                })
+                                                .ToList();
+
 
                 if (rateCardRequestModel == null || rateCardRequestModel.Count == 0)
                 {
@@ -62,7 +86,7 @@ namespace Fincompare.Application.Services
             public string Country3Iso { get; set; }
             public string SendCurrency3Iso { get; set; }
             public string ReceiveCurrency3Iso { get; set; }
-            public string Rate { get; set; }
+            public double Rate { get; set; }
             public bool Status { get; set; }
         }
     }

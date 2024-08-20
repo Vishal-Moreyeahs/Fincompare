@@ -181,8 +181,9 @@ namespace Fincompare.Application.Services
                                                        .GetAll();
 
                 var marketCurrRates = marketRates.ToList()
-                            .Where(mr => mr.SendCur == sendCurr)
-                            .GroupBy(mr => new { mr.SendCur, mr.ReceiveCur })
+                            .Where(mr => mr.SendCur == sendCurr).ToList();
+
+                var mark = marketCurrRates.GroupBy(mr => new { mr.SendCur, mr.ReceiveCur })
                             .Select(g => g.OrderByDescending(mr => mr.Date).FirstOrDefault())
                             .ToList();
 
@@ -195,7 +196,7 @@ namespace Fincompare.Application.Services
                 }
 
                 // Map the filtered data to the DTO
-                var data = _mapper.Map<List<MarketRateDto>>(marketCurrRates);
+                var data = _mapper.Map<List<MarketRateDto>>(mark);
                 if (data == null || data.ToList().Count == 0)
                 {
                     return new ApiResponse<List<MarketRateDto>>()
