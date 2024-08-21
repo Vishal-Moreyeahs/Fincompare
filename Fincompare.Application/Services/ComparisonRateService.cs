@@ -173,7 +173,19 @@ namespace Fincompare.Application.Services
                 data.ForEach(x =>
                 {
                     x.RecipientCommulativeFactor = Math.Round(((bestPriceMerchant - x.RecipientGet) / x.MarketRate), 3);
-                    x.TotalCost = Math.Round(((Convert.ToDecimal(sendAmount) * x.MarketRate) - x.RecipientGet) / x.MarketRate, 3) + x.TransferFee;
+                    x.TotalCost = Math.Round(((Convert.ToDecimal(sendAmount) * x.MarketRate) - x.RecipientGet) / x.MarketRate, 2) + x.TransferFee;
+                    x.RoutingParameters = ConvertRoutingParameter(new RoutingParameterModel
+                    {
+                        AffId = x.AffiliateId,
+                        Po = x.InstrumentName,
+                        Cta = x.MerchantName,
+                        Amt = sendAmount,
+                        Cto = receiveCountry3Iso,
+                        Cf = sendCountry3Iso,
+                        Sc = sendCurrencyId,
+                        Rc = receiveCurrencyId
+                        
+                    });
                 });
 
                 data = data.OrderBy(x => x.RecipientCommulativeFactor).ToList();
@@ -379,6 +391,35 @@ namespace Fincompare.Application.Services
             }
         }
 
+        private string ConvertRoutingParameter(RoutingParameterModel model)
+        {
+            string urlTemplate = "?affid={0}&src={1}&cta={2}&cf={3}&cto={4}&sc={5}&rc={6}&amt={7}&po={8}&timestamp={9}&device={10}&browser={11}&sessionid={12}";
+
+            // Format the timestamp to "yyyyMMdd" format
+            string formattedTimestamp = model.Timestamp.ToString("yyyyMMdd");
+
+            string url = string.Format(urlTemplate, model.AffId, model.Src, model.Cta, model.Cf, model.Cto, model.Sc, model.Rc, model.Amt, model.Po, formattedTimestamp, model.Device, model.Browser, model.SessionId);
+            return url;
+        }
+
+
+        public class RoutingParameterModel
+        {
+            public string AffId { get; set; }
+            public string Src { get; set; } = "results";
+            public string Cta { get; set; }
+            public string Sc { get; set; }
+            public string Rc { get; set; }
+            public string Cf { get; set; }
+
+            public string Cto { get; set; }
+            public double Amt { get; set; }
+            public string Po { get; set; }
+            public DateTime Timestamp { get; set; } = DateTime.Now;
+            public string Device { get; set; } = "Web";
+            public string Browser { get; set; } = "Chrome";
+            public string SessionId { get; set; } = "SessionId895";
+        }
 
         public class ConversionRateViewModel
         {
