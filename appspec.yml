@@ -1,0 +1,11 @@
+version: 0.0
+os: linux
+files:
+  # Specify the source and destination directories for the application files.
+  - source: /
+    destination: /var/www/backend
+hooks:
+  BeforeInstall:
+    - location: /beforeupate.sh
+      timeout: 300
+      runas: root
