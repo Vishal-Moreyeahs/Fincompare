@@ -38,7 +38,6 @@ namespace Fincompare.Api.Controllers
         }
 
 
-
         //[HttpGet]
         //[Route("fetch-merchant-by-merchantid")]
         //public async Task<IActionResult> GetMerchantByMerchantId(int merchantId)
