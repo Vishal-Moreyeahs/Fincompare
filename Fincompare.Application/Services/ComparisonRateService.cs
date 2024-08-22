@@ -126,6 +126,7 @@ namespace Fincompare.Application.Services
                                     Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                     MerchantName = reader.GetString(reader.GetOrdinal("Merchant_Name")),
                                     AffiliateId = reader.GetString(reader.GetOrdinal("Affiliate_Id")),
+                                    IsPartneredMerchant = reader.GetBoolean(reader.GetOrdinal("IsPartneredMerchant")),
                                     RoutingParameters = reader.GetString(reader.GetOrdinal("Routing_Parameters")),
                                     WebUrl = reader.GetString(reader.GetOrdinal("Web_Url")),
                                     MerchantType = reader.GetString(reader.GetOrdinal("Merchant_Type")),
@@ -200,7 +201,7 @@ namespace Fincompare.Application.Services
                         Sc = sendCurrencyId,
                         Rc = receiveCurrencyId
                         
-                    });
+                    }, x.IsPartneredMerchant);
                 });
 
                 data = data.OrderBy(x => x.RecipientCommulativeFactor).ToList();

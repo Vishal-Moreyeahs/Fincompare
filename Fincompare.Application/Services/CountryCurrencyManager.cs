@@ -55,7 +55,7 @@ namespace Fincompare.Application.Services
                     IsPrimary = cc.IsPrimaryCur,
                     Category = cc.CountryCurrencyCategoryId,
                     Status = cc.Status,
-                    IsDefault = cc.Country3Iso.ToLower().Trim() == defaultCountryIso.ToLower().Trim() ? true: false 
+                    IsDefault = cc.Country3Iso.ToLower().Trim() == defaultCountryIso.ToLower().Trim() ? true : false
                 }).ToList();
 
                 if (!string.IsNullOrEmpty(categoryId))
@@ -73,7 +73,7 @@ namespace Fincompare.Application.Services
                                                 IsPrimary = cc.IsPrimaryCur,
                                                 Category = cc.CountryCurrencyCategoryId,
                                                 Status = cc.Status,
-                                                IsDefault = cc.Country3Iso.ToLower().Trim() == defaultCountryIso ? true : false
+                                                IsDefault = cc.Country3Iso.ToLower().Trim() == defaultCountryIso.ToLower().Trim() ? true : false
                                             }).ToList();
                 }
                 if (!string.IsNullOrEmpty(currencyIso))
@@ -91,7 +91,7 @@ namespace Fincompare.Application.Services
                                                 IsPrimary = cc.IsPrimaryCur,
                                                 Category = cc.CountryCurrencyCategoryId,
                                                 Status = cc.Status,
-                                                IsDefault = cc.Country3Iso.ToLower().Trim() == defaultCountryIso ? true : false
+                                                IsDefault = cc.Country3Iso.ToLower().Trim() == defaultCountryIso.ToLower().Trim() ? true : false
                                             }).ToList();
                 }
                 if (!string.IsNullOrEmpty(country3Iso))
@@ -109,7 +109,7 @@ namespace Fincompare.Application.Services
                                                     IsPrimary = cc.IsPrimaryCur,
                                                     Category = cc.CountryCurrencyCategoryId,
                                                     Status = cc.Status,
-                                                    IsDefault = cc.Country3Iso.ToLower().Trim() == defaultCountryIso ? true : false
+                                                    IsDefault = cc.Country3Iso.ToLower().Trim() == defaultCountryIso.ToLower().Trim() ? true : false
 
                                                 }).ToList();
 
@@ -130,7 +130,7 @@ namespace Fincompare.Application.Services
                                                     IsPrimary = cc.IsPrimaryCur,
                                                     Category = cc.CountryCurrencyCategoryId,
                                                     Status = cc.Status,
-                                                    IsDefault = cc.Country3Iso.ToLower().Trim() == defaultCountryIso ? true : false
+                                                    IsDefault = cc.Country3Iso.ToLower().Trim() == defaultCountryIso.ToLower().Trim() ? true : false
                                                 }).ToList();
 
                 }
