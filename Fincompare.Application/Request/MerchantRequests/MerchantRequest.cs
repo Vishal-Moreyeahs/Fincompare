@@ -83,6 +83,8 @@ namespace Fincompare.Application.Request.MerchantRequests
             }
         }
 
+        [Required]
+        public bool IsPartneredMerchant { get; set; }
 
     }
 

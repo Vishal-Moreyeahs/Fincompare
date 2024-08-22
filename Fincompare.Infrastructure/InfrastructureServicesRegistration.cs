@@ -63,5 +63,17 @@ namespace Fincompare.Infrastructure
             return services;
         }
 
+        public static void EnsureWwwRootFolderExists()
+        {
+            // Ensure the wwwroot folder exists
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string wwwRootPath = Path.Combine(currentDirectory, "wwwroot");
+
+            if (!Directory.Exists(wwwRootPath))
+            {
+                Directory.CreateDirectory(wwwRootPath);
+            }
+        }
+
     }
 }

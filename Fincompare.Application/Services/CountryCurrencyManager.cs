@@ -5,7 +5,9 @@ using Fincompare.Application.Request.CountryCurrencyRequests;
 using Fincompare.Application.Response;
 using Fincompare.Application.Response.CountryCurrencyResponse;
 using Fincompare.Domain.Entities;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace Fincompare.Application.Services
 {
@@ -14,12 +16,14 @@ namespace Fincompare.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public CountryCurrencyManager(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration)
+        public CountryCurrencyManager(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _configuration = configuration;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<ApiResponse<List<GetCountryCurrencyResponse>>> GetCurrenciesbyCountry3Iso(string? country3Iso, string? categoryId, string? currencyIso)
@@ -32,13 +36,21 @@ namespace Fincompare.Application.Services
 
                 var currencies = new List<GetCountryCurrencyResponse>();
 
+                var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "ImageJson", "CountryLogo.json");
+
+                // Read the file content
+                var jsonData = System.IO.File.ReadAllText(filePath);
+
+                // Optionally, deserialize the JSON into a C# object
+                var countries = JsonConvert.DeserializeObject<List<CountryLogoJson>>(jsonData);
+
                 currencies = currencyList.Select(cc => new GetCountryCurrencyResponse
                 {
                     Id = cc.Id,
                     CurrencyIso = cc.CurrencyIso,
                     CountryCode = cc.Country3IsoNavigation.Country2Iso,
                     CountryName = cc.Country3IsoNavigation.CountryName,
-                    CountryFlag = cc.Country3IsoNavigation.WebLink,
+                    CountryFlag = countries.Any(x => x.CountryIso == cc.Country3Iso) ? countries.Where(x => x.CountryIso == cc.Country3Iso).Select(x => x.FlagUrl).FirstOrDefault() : cc.Country3IsoNavigation.WebLink,
                     Country3Iso = cc.Country3Iso,
                     IsPrimary = cc.IsPrimaryCur,
                     Category = cc.CountryCurrencyCategoryId,
@@ -56,7 +68,7 @@ namespace Fincompare.Application.Services
                                                 CurrencyIso = cc.CurrencyIso,
                                                 CountryCode = cc.Country3IsoNavigation.Country2Iso,
                                                 CountryName = cc.Country3IsoNavigation.CountryName,
-                                                CountryFlag = cc.Country3IsoNavigation.WebLink,
+                                                CountryFlag = countries.Any(x => x.CountryIso == cc.Country3Iso) ? countries.Where(x => x.CountryIso == cc.Country3Iso).Select(x => x.FlagUrl).FirstOrDefault() : cc.Country3IsoNavigation.WebLink,
                                                 Country3Iso = cc.Country3Iso,
                                                 IsPrimary = cc.IsPrimaryCur,
                                                 Category = cc.CountryCurrencyCategoryId,
@@ -74,7 +86,7 @@ namespace Fincompare.Application.Services
                                                 CurrencyIso = cc.CurrencyIso,
                                                 CountryCode = cc.Country3IsoNavigation.Country2Iso,
                                                 CountryName = cc.Country3IsoNavigation.CountryName,
-                                                CountryFlag = cc.Country3IsoNavigation.WebLink,
+                                                CountryFlag = countries.Any(x => x.CountryIso == cc.Country3Iso) ? countries.Where(x => x.CountryIso == cc.Country3Iso).Select(x => x.FlagUrl).FirstOrDefault() : cc.Country3IsoNavigation.WebLink,
                                                 Country3Iso = cc.Country3Iso,
                                                 IsPrimary = cc.IsPrimaryCur,
                                                 Category = cc.CountryCurrencyCategoryId,
@@ -92,7 +104,7 @@ namespace Fincompare.Application.Services
                                                     CurrencyIso = cc.CurrencyIso,
                                                     CountryCode = cc.Country3IsoNavigation.Country2Iso,
                                                     CountryName = cc.Country3IsoNavigation.CountryName,
-                                                    CountryFlag = cc.Country3IsoNavigation.WebLink,
+                                                    CountryFlag = countries.Any(x => x.CountryIso == cc.Country3Iso) ? countries.Where(x => x.CountryIso == cc.Country3Iso).Select(x => x.FlagUrl).FirstOrDefault() : cc.Country3IsoNavigation.WebLink,
                                                     Country3Iso = cc.Country3Iso,
                                                     IsPrimary = cc.IsPrimaryCur,
                                                     Category = cc.CountryCurrencyCategoryId,
@@ -113,7 +125,7 @@ namespace Fincompare.Application.Services
                                                     CurrencyIso = cc.CurrencyIso,
                                                     CountryCode = cc.Country3IsoNavigation.Country2Iso,
                                                     CountryName = cc.Country3IsoNavigation.CountryName,
-                                                    CountryFlag = cc.Country3IsoNavigation.WebLink,
+                                                    CountryFlag = countries.Any(x => x.CountryIso == cc.Country3Iso) ? countries.Where(x => x.CountryIso == cc.Country3Iso).Select(x => x.FlagUrl).FirstOrDefault() : cc.Country3IsoNavigation.WebLink,
                                                     Country3Iso = cc.Country3Iso,
                                                     IsPrimary = cc.IsPrimaryCur,
                                                     Category = cc.CountryCurrencyCategoryId,
@@ -260,6 +272,13 @@ namespace Fincompare.Application.Services
             }
 
 
+        }
+
+        // Define your Merchant class
+        public class CountryLogoJson
+        {
+            public string CountryIso { get; set; }
+            public string FlagUrl { get; set; }
         }
     }
 }

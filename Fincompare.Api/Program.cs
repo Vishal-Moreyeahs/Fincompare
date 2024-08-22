@@ -5,7 +5,10 @@ using Fincompare.Application.Repositories;
 using Fincompare.Infrastructure;
 using Fincompare.Persitence;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 
+
+InfrastructureServicesRegistration.EnsureWwwRootFolderExists();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -36,9 +39,12 @@ builder.Services.AddCors(options =>
                           .AllowAnyMethod());
 });
 
+// 
+
 var app = builder.Build();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<ModelStateValidationMiddleware>();
+app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
@@ -46,7 +52,6 @@ app.UseMiddleware<ModelStateValidationMiddleware>();
 app.UseSwagger();
 app.UseSwaggerUI();
 //}
-
 app.UseCors("Fincompare-CorsPolicy");
 
 app.UseHttpsRedirection();
@@ -56,4 +61,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseFileServer(enableDirectoryBrowsing: true);
 app.Run();

@@ -1,6 +1,9 @@
 ﻿using Fincompare.Application.Repositories;
 using Fincompare.Application.Response;
+using Fincompare.Domain.Entities;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Npgsql;
 using System.Text.RegularExpressions;
 using static Fincompare.Application.Response.ComparisonResponse.ComparisonResponseViewModel;
@@ -16,9 +19,11 @@ namespace Fincompare.Application.Services
         private readonly IMerchantServices _merchantServices;
         private readonly IActiveAssetService _activeAssets;
         private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
         public ComparisonRateService(IConfiguration configuration, IActiveAssetService activeAssets, IMarketRateServices marketRateServices,
                                 IMerchantRemitProductRateService merchantRemitProductRateService, IMerchantProductService merchantProductService,
-                                IMerchantRemitFee merchantRemitFee, IMerchantServices merchantServices)
+                                IMerchantRemitFee merchantRemitFee, IMerchantServices merchantServices, IWebHostEnvironment webHostEnvironment)
         {
             _marketRateServices = marketRateServices;
             _merchantProductService = merchantProductService;
@@ -27,6 +32,7 @@ namespace Fincompare.Application.Services
             _merchantServices = merchantServices;
             _activeAssets = activeAssets;
             _configuration = configuration;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<ApiResponse<List<MerchantProductComparisonDto>>> GetMerchantRatesFromTable(
@@ -71,6 +77,14 @@ namespace Fincompare.Application.Services
         {
             try
             {
+                var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "ImageJson", "MerchantLogo.json");
+
+                // Read the file content
+                var jsonData = System.IO.File.ReadAllText(filePath);
+
+                // Optionally, deserialize the JSON into a C# object
+                var merchants = JsonConvert.DeserializeObject<List<MerchantLogoJson>>(jsonData);
+
 
                 var merchantProducts = new List<MerchantProductComparisonDto>();
                 using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("DBConnection")))
@@ -174,6 +188,7 @@ namespace Fincompare.Application.Services
                 {
                     x.RecipientCommulativeFactor = Math.Round(((bestPriceMerchant - x.RecipientGet) / x.MarketRate), 3);
                     x.TotalCost = Math.Round(((Convert.ToDecimal(sendAmount) * x.MarketRate) - x.RecipientGet) / x.MarketRate, 2) + x.TransferFee;
+                    x.MerchantLogo = merchants.Any(m => m.MerchantId == x.Id) ? merchants.Where(z => z.MerchantId == x.Id).Select(z => z.MerchantLogo).FirstOrDefault() : "";
                     x.RoutingParameters = ConvertRoutingParameter(new RoutingParameterModel
                     {
                         AffId = x.AffiliateId,
@@ -429,6 +444,13 @@ namespace Fincompare.Application.Services
 
             public double ReceivedAmount { get; set; }
             public double ReverseReceivedAmount { get; set; }
+        }
+
+        // Define your Merchant class
+        public class MerchantLogoJson
+        {
+            public int MerchantId { get; set; }
+            public string MerchantLogo { get; set; }
         }
 
         public class MarkupCalculationResult

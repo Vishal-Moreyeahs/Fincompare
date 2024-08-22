@@ -21,4 +21,9 @@
     <ProjectReference Include="..\Fincompare.Persitence\Fincompare.Persitence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\CountryLogo\" />
+    <Folder Include="wwwroot\MerchantLogo\" />
+  </ItemGroup>
+
 </Project>

@@ -35,7 +35,7 @@ namespace Fincompare.Domain.Entities
 
         public string WebUrl { get; set; } = null!;
         public string? MerchantType { get; set; }
-
+        public bool IsPartneredMerchant { get; set; }
         public int? UserId { get; set; } = null;
 
         public virtual ICollection<ActiveAsset> ActiveAssets { get; set; } = new List<ActiveAsset>();
