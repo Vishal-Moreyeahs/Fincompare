@@ -10,6 +10,7 @@ using Fincompare.Domain.Enums;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using static Fincompare.Application.Response.UserResponse.UserResponseViewClass;
@@ -120,6 +121,25 @@ namespace Fincompare.Infrastructure.Services
         {
             var users = await _unitOfWork.GetRepository<User>().GetAll();
             var existingUser = users.Where(x => x.Email.ToLower() == request.Email.ToLower()).ToList();
+            var loggedInUser = await _authenticatedUserService.GetLoggedInUser();
+
+            var loggedInUserRole = (await _unitOfWork.GetRepository<UserRole>().GetAll())
+                        .Where(x => x.UserId == loggedInUser.Id).Select(x => x.RoleId).ToList();
+
+
+            //logic for merchant sign up
+            if (request.Role == RoleEnum.Merchant.ToString())
+            {
+
+                if (loggedInUser == null)
+                {
+                    throw new UnauthorizedAccessException("Only administrators can create merchants.");
+                }
+                else if (!(loggedInUser != null && loggedInUserRole.Contains((int)RoleEnum.Admin)))
+                {
+                    throw new UnauthorizedAccessException("Only administrators can create merchants.");
+                }
+            }
 
 
             if (existingUser.Count > 0)
@@ -142,9 +162,6 @@ namespace Fincompare.Infrastructure.Services
                     Message = $"{request.Role} Role Not Exits",
                 };
             }
-
-
-            var loggedInUser = await _authenticatedUserService.GetLoggedInUser();
 
             //AddUser
             var user = _mapper.Map<User>(request);
