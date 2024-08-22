@@ -406,15 +406,27 @@ namespace Fincompare.Application.Services
             }
         }
 
-        private string ConvertRoutingParameter(RoutingParameterModel model)
+        private string ConvertRoutingParameter(RoutingParameterModel model, bool isPartneredMerchant)
         {
-            string urlTemplate = "?affid={0}&src={1}&cta={2}&cf={3}&cto={4}&sc={5}&rc={6}&amt={7}&po={8}&timestamp={9}&device={10}&browser={11}&sessionid={12}";
-
-            // Format the timestamp to "yyyyMMdd" format
+            string urlTemplate = "";
             string formattedTimestamp = model.Timestamp.ToString("yyyyMMdd");
 
-            string url = string.Format(urlTemplate, model.AffId, model.Src, model.Cta, model.Cf, model.Cto, model.Sc, model.Rc, model.Amt, model.Po, formattedTimestamp, model.Device, model.Browser, model.SessionId);
-            return url;
+            if (isPartneredMerchant)
+            {
+                urlTemplate = _configuration.GetValue<string>("PartneredMerchantReferalTemplate");
+
+                string url = string.Format(urlTemplate, model.AffId, model.Src, model.Cta, model.Cf, model.Cto, model.Sc, model.Rc, model.Po, formattedTimestamp, model.Browser, model.SessionId);
+                return url;
+            }
+            else
+            {
+                urlTemplate = _configuration.GetValue<string>("NonPartneredMerchantReferalTemplate");
+
+                string url = string.Format(urlTemplate, model.AffId, model.Src, model.Cta, model.Cf, model.Cto, model.Sc, model.Rc, model.Amt, model.Po, formattedTimestamp, model.Device, model.Browser, model.SessionId);
+                return url;
+            }
+
+          
         }
 
 
