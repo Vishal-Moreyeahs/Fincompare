@@ -10,6 +10,6 @@ hooks:
       timeout: 300
       runas: root
 AfterInstall:
-    - location: /afterinstall.sh
+    - location: scripts/afterinstall.sh
       timeout: 300
       runas: root
