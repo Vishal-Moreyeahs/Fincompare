@@ -52,11 +52,11 @@ namespace Fincompare.Api.Controllers.Admin
             return Ok(await _countryServices.GetAllCountry(countryIso3, status));
         }
 
-        //[HttpGet]
-        //[Route("get-by-country3Iso")]
-        //public async Task<IActionResult> GetCountryById(string country3iso)
-        //{
-        //    return Ok(await _countryServices.GetCountryByCountryName(country3iso));
-        //}
+        [HttpGet]
+        [Route("get-by-country3Iso")]
+        public async Task<IActionResult> GetCountryById(string country3iso)
+        {
+            return Ok(await _countryServices.GetCountryByCountryName(country3iso));
+        }
     }
 }
