@@ -13,6 +13,7 @@ using Fincompare.Application.Request.MerchantRemitProductRateRequests;
 using Fincompare.Application.Request.MerchantRequests;
 using Fincompare.Application.Request.StateRequest;
 using Fincompare.Application.Response.ActiveAssetResponse;
+using Fincompare.Application.Response.AssetMasterResponse;
 using Fincompare.Application.Response.ClickLeadResponse;
 using Fincompare.Application.Response.CustomerReviewResponse;
 using Fincompare.Application.Response.CustomerUserResponse;
@@ -84,6 +85,7 @@ namespace Fincompare.Application.Profiles
             CreateMap<MerchantRemitProductRateViewModel, MerchantRemitProductRate>().ReverseMap();
             CreateMap<UpdateMerchantRemitProductRateRequest, MerchantRemitProductRate>().ReverseMap();
             CreateMap<AddMerchantRemitProductRateRequest, MerchantRemitProductRate>().ReverseMap();
+            CreateMap<AssetMasterViewModel, AssetsMaster>().ReverseMap();
 
 
 

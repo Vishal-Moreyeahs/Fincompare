@@ -30,6 +30,7 @@ namespace Fincompare.Application
             services.AddTransient<ICustomerUsedCouponService, CustomerUsedCouponService>();
             services.AddTransient<IComparisonRateService, ComparisonRateService>();
             services.AddTransient<IConversionService, ConversionService>();
+            services.AddTransient<IAssetMasterService, AssetMasterService>();
 
             services.AddTransient<IMerchantCompaignServices, MerchantCompaignServices>();
             services.AddTransient<IRateCardServices, RateCardServices>();
