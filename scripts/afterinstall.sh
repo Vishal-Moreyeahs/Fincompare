@@ -1,5 +1,9 @@
 #!/bin/bash
-# Delete specific files or directories
-echo "restating service"
-systemctl restart fincompare.serive
-echo "service restarted."
+echo "Restarting service..."
+systemctl restart fincompare.service
+if [ $? -eq 0 ]; then
+    echo "Service restarted successfully."
+else
+    echo "Failed to restart service."
+    exit 1
+fi
