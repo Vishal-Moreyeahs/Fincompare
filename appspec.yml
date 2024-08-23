@@ -9,7 +9,7 @@ hooks:
     - location: /beforeupate.sh
       timeout: 300
       runas: root
-ApplicationStart:
+  ApplicationStart:
     - location: /afterinstall.sh
       timeout: 300
       runas: root
