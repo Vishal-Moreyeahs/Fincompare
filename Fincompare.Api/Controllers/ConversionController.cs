@@ -15,8 +15,7 @@ namespace Fincompare.Api.Controllers
         public ConversionController(IConversionService conversionService)
         { 
             _conversionService = conversionService;
-        }
-        
+        }  
         /// <summary>
         /// This Api for conversion
         /// </summary>
