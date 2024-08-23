@@ -1,6 +1,8 @@
 ﻿using Fincompare.Api.Middleware;
 using Fincompare.Application.Repositories;
 using Fincompare.Application.Request.MerchantRemitProductRateRequests;
+using Fincompare.Domain.Enums;
+using Fincompare.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fincompare.Api.Controllers
@@ -17,6 +19,7 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpPost]
+        [HasPermission(PermissionEnum.CanAccessMerchant)]
         [ValidateModelState]
         [Route("add-merchantremit-rate")]
         public async Task<IActionResult> AddMerchantRemitRate(AddMerchantRemitProductRateRequest model)
