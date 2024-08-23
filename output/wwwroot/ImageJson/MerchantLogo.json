@@ -1,0 +1,42 @@
+[
+  {
+    "merchantId": 1,
+    "merchantLogo": "MerchantLogo/ALA logo.png"
+  },
+  {
+    "merchantId": 2,
+    "merchantLogo": "MerchantLogo/Beyon Money.png"
+  },
+  {
+    "merchantId": 3,
+    "merchantLogo": "MerchantLogo/Botim logo.png"
+  },
+  {
+    "merchantId": 4,
+    "merchantLogo": "MerchantLogo/careem.png"
+  },
+  {
+    "merchantId": 5,
+    "merchantLogo": "MerchantLogo/dupay_blue.png"
+  },
+  {
+    "merchantId": 6,
+    "merchantLogo": "MerchantLogo/etisalat-logo.png"
+  },
+  {
+    "merchantId": 7,
+    "merchantLogo": "MerchantLogo/Lulu money.png"
+  },
+  {
+    "merchantId": 73,
+    "merchantLogo": "MerchantLogo/Remitly.png"
+  },
+  {
+    "merchantId": 9,
+    "merchantLogo": "MerchantLogo/Vance logo.png"
+  },
+  {
+    "merchantId": 10,
+    "merchantLogo": "MerchantLogo/western-union 1.png"
+  }
+]

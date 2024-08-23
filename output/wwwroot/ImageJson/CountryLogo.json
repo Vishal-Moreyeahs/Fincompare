@@ -1,0 +1,118 @@
+[
+  {
+    "CountryIso": "GER",
+    "FlagUrl": "CountryLogo/germany.png"
+  },
+  {
+    "CountryIso": "ARE",
+    "FlagUrl": "CountryLogo/united arab emirates.png"
+  },
+  {
+    "CountryIso": "AUS",
+    "FlagUrl": "CountryLogo/australia.png"
+  },
+  {
+    "CountryIso": "BGD",
+    "FlagUrl": "CountryLogo/bangladesh.png"
+  },
+  {
+    "CountryIso": "BHR",
+    "FlagUrl": "CountryLogo/bahrain.png"
+  },
+  {
+    "CountryIso": "CAN",
+    "FlagUrl": "CountryLogo/canada.png"
+  },
+  {
+    "CountryIso": "CHN",
+    "FlagUrl": "CountryLogo/china.png"
+  },
+  {
+    "CountryIso": "EGY",
+    "FlagUrl": "CountryLogo/egypt.png"
+  },
+  {
+    "CountryIso": "GBR",
+    "FlagUrl": "CountryLogo/united kingdom.png"
+  },
+  {
+    "CountryIso": "IND",
+    "FlagUrl": "CountryLogo/india.png"
+  },
+  {
+    "CountryIso": "SAU",
+    "FlagUrl": "CountryLogo/saudi arabia.png"
+  },
+  {
+    "CountryIso": "USA",
+    "FlagUrl": "CountryLogo/united states.png"
+  },
+  {
+    "CountryIso": "ETH",
+    "FlagUrl": "CountryLogo/ethiopia.png"
+  },
+  {
+    "CountryIso": "GHA",
+    "FlagUrl": "CountryLogo/ghana.png"
+  },
+  {
+    "CountryIso": "IDN",
+    "FlagUrl": "CountryLogo/indonesia.png"
+  },
+  {
+    "CountryIso": "JOR",
+    "FlagUrl": "CountryLogo/jordan.png"
+  },
+  {
+    "CountryIso": "KEN",
+    "FlagUrl": "CountryLogo/kenya.png"
+  },
+  {
+    "CountryIso": "KWT",
+    "FlagUrl": "CountryLogo/kuwait.png"
+  },
+  {
+    "CountryIso": "LKA",
+    "FlagUrl": "CountryLogo/sri lanka.png"
+  },
+  {
+    "CountryIso": "NGA",
+    "FlagUrl": "CountryLogo/nigeria.png"
+  },
+  {
+    "CountryIso": "NPL",
+    "FlagUrl": "CountryLogo/nepal.png"
+  },
+  {
+    "CountryIso": "OMN",
+    "FlagUrl": "CountryLogo/oman.png"
+  },
+  {
+    "CountryIso": "PAK",
+    "FlagUrl": "CountryLogo/pakistan.png"
+  },
+  {
+    "CountryIso": "PHL",
+    "FlagUrl": "CountryLogo/philippines.png"
+  },
+  {
+    "CountryIso": "QAT",
+    "FlagUrl": "CountryLogo/qatar.png"
+  },
+  {
+    "CountryIso": "RWA",
+    "FlagUrl": "CountryLogo/rwanda.png"
+  },
+  {
+    "CountryIso": "SDN",
+    "FlagUrl": "CountryLogo/sudan.png"
+  },
+  {
+    "CountryIso": "THA",
+    "FlagUrl": "CountryLogo/thailand.png"
+  },
+  {
+    "CountryIso": "ZAF",
+    "FlagUrl": "CountryLogo/south africa.png"
+  }
+]
