@@ -44,7 +44,7 @@ namespace Fincompare.Api.Controllers
         }
 
         [HttpPost("verify-token")]
-        public IActionResult VerifyResetToken(string token)
+        private IActionResult VerifyResetToken(string token)
         {
             return Ok(_authenticationService.IsTokenValid(token));
         }

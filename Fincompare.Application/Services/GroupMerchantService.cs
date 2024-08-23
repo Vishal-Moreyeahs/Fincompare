@@ -34,15 +34,73 @@ namespace Fincompare.Application.Services
 
                 var groupMerchants = await _unitOfWork.GetRepository<GroupMerchant>().GetAll();
                 var duplicateName = groupMerchants.Any(e => e.GroupMerchantName.Trim() == model.GroupMerchantName.Trim());
-                var duplicateEmail = groupMerchants.Any(g =>
-                                                    g.GroupCsem == model.GroupCsem ||
-                                                    g.GroupEm1 == model.GroupEm1 ||
-                                                    (model.GroupEm2 != null && g.GroupEm2 == model.GroupEm2));
+                                
+                var csph = groupMerchants.Select(x => x.GroupCsph).ToList();
+                var csph1 = groupMerchants.Select(x => x.GroupPh1).ToList();
+                var csph2 = groupMerchants.Select(x => x.GroupPh2).ToList();
+                csph.AddRange(csph1);
+                csph.AddRange(csph2);
 
-                var duplicatePhone = groupMerchants.Any(g =>
-                                                    g.GroupCsph == model.GroupCsph ||
-                                                    g.GroupPh1 == model.GroupPh1 ||
-                                                    (model.GroupPh2 != null && g.GroupPh2 == model.GroupPh2));
+                var csem = groupMerchants.Select(x => x.GroupCsem).ToList();
+                var csem1 = groupMerchants.Select(x => x.GroupEm1).ToList();
+                var csem2 = groupMerchants.Select(x => x.GroupEm2).ToList();
+                csem.AddRange(csem1);
+                csem.AddRange(csem2);
+
+                if (csph.Contains(model.GroupCsph))
+                {
+                    return new ApiResponse<GetAllGroupMerchantResponse>()
+                    {
+                        Success = false,
+                        Message = "merchant group with same GroupCsph already exist"
+                    };
+                }
+
+                if (csph.Contains(model.GroupPh1))
+                {
+                    return new ApiResponse<GetAllGroupMerchantResponse>()
+                    {
+                        Success = false,
+                        Message = "merchant group with same GroupPh1 already exist"
+                    };
+                }
+                
+                if (csph.Contains(model.GroupPh2))
+                {
+                    return new ApiResponse<GetAllGroupMerchantResponse>()
+                    {
+                        Success = false,
+                        Message = "merchant group with same GroupPh2 already exist"
+                    };
+                }
+
+                if (csem.Contains(model.GroupCsem))
+                {
+                    return new ApiResponse<GetAllGroupMerchantResponse>()
+                    {
+                        Success = false,
+                        Message = "merchant group with same GroupCsem already exist"
+                    };
+                }
+
+                if (csem.Contains(model.GroupEm1))
+                {
+                    return new ApiResponse<GetAllGroupMerchantResponse>()
+                    {
+                        Success = false,
+                        Message = "merchant group with same GroupEm1 already exist"
+                    };
+                }
+                
+                if (csem.Contains(model.GroupEm2))
+                {
+                    return new ApiResponse<GetAllGroupMerchantResponse>()
+                    {
+                        Success = false,
+                        Message = "merchant group with same GroupEm2 already exist"
+                    };
+                }
+
 
                 if (duplicateName)
                 {
@@ -53,23 +111,23 @@ namespace Fincompare.Application.Services
                     };
                 }
 
-                if (duplicateEmail)
-                {
-                    return new ApiResponse<GetAllGroupMerchantResponse>()
-                    {
-                        Success = false,
-                        Message = "merchant group record with same GroupCsem/GroupEm1/GroupEm2 email already exist"
-                    };
-                }
+                //if (duplicateEmail)
+                //{
+                //    return new ApiResponse<GetAllGroupMerchantResponse>()
+                //    {
+                //        Success = false,
+                //        Message = "merchant group record with same GroupCsem/GroupEm1/GroupEm2 email already exist"
+                //    };
+                //}
 
-                if (duplicatePhone)
-                {
-                    return new ApiResponse<GetAllGroupMerchantResponse>()
-                    {
-                        Success = false,
-                        Message = "merchant group record with same GroupCsph/GroupPh1/GroupPh2 phone already exist"
-                    };
-                }
+                //if (duplicatePhone)
+                //{
+                //    return new ApiResponse<GetAllGroupMerchantResponse>()
+                //    {
+                //        Success = false,
+                //        Message = "merchant group record with same GroupCsph/GroupPh1/GroupPh2 phone already exist"
+                //    };
+                //}
 
                 var createdData = _mapper.Map<GroupMerchant>(model);
                 await _unitOfWork.GetRepository<GroupMerchant>().Add(createdData);
@@ -103,16 +161,6 @@ namespace Fincompare.Application.Services
 
                 var duplicateName = groupMerchants.Any(e => e.GroupMerchantName.Trim() == model.GroupMerchantName.Trim());
 
-                var duplicateEmail = groupMerchants.Any(g =>
-                                                    g.GroupCsem == model.GroupCsem ||
-                                                    g.GroupEm1 == model.GroupEm1 ||
-                                                    (model.GroupEm2 != null && g.GroupEm2 == model.GroupEm2));
-
-                var duplicatePhone = groupMerchants.Any(g =>
-                                                    g.GroupCsph == model.GroupCsph ||
-                                                    g.GroupPh1 == model.GroupPh1 ||
-                                                    (model.GroupPh2 != null && g.GroupPh2 == model.GroupPh2));
-
                 if (duplicateName)
                 {
                     return new ApiResponse<UpdateGroupMerchantRequestClass>()
@@ -122,23 +170,72 @@ namespace Fincompare.Application.Services
                     };
                 }
 
-                if (duplicateEmail)
+                var csph = groupMerchants.Select(x => x.GroupCsph).ToList();
+                var csph1 = groupMerchants.Select(x => x.GroupPh1).ToList();
+                var csph2 = groupMerchants.Select(x => x.GroupPh2).ToList();
+                csph.AddRange(csph1);
+                csph.AddRange(csph2);
+
+                var csem = groupMerchants.Select(x => x.GroupCsem).ToList();
+                var csem1 = groupMerchants.Select(x => x.GroupEm1).ToList();
+                var csem2 = groupMerchants.Select(x => x.GroupEm2).ToList();
+                csem.AddRange(csem1);
+                csem.AddRange(csem2);
+
+                if (csph.Contains(model.GroupCsph))
                 {
                     return new ApiResponse<UpdateGroupMerchantRequestClass>()
                     {
                         Success = false,
-                        Message = "merchant group record with same email already exist"
+                        Message = "merchant group with same GroupCsph already exist"
                     };
                 }
 
-                if (duplicatePhone)
+                if (csph.Contains(model.GroupPh1))
                 {
                     return new ApiResponse<UpdateGroupMerchantRequestClass>()
                     {
                         Success = false,
-                        Message = "merchant group record with same phone already exist"
+                        Message = "merchant group with same GroupPh1 already exist"
                     };
                 }
+
+                if (csph.Contains(model.GroupPh2))
+                {
+                    return new ApiResponse<UpdateGroupMerchantRequestClass>()
+                    {
+                        Success = false,
+                        Message = "merchant group with same GroupPh2 already exist"
+                    };
+                }
+
+                if (csem.Contains(model.GroupCsem))
+                {
+                    return new ApiResponse<UpdateGroupMerchantRequestClass>()
+                    {
+                        Success = false,
+                        Message = "merchant group with same GroupCsem already exist"
+                    };
+                }
+
+                if (csem.Contains(model.GroupEm1))
+                {
+                    return new ApiResponse<UpdateGroupMerchantRequestClass>()
+                    {
+                        Success = false,
+                        Message = "merchant group with same GroupEm1 already exist"
+                    };
+                }
+
+                if (csem.Contains(model.GroupEm2))
+                {
+                    return new ApiResponse<UpdateGroupMerchantRequestClass>()
+                    {
+                        Success = false,
+                        Message = "merchant group with same GroupEm2 already exist"
+                    };
+                }
+
                 if (checkGroup == null)
                     return new ApiResponse<UpdateGroupMerchantRequestClass>() { Success = false, Message = "group merchant update failed" };
                 var groupData = _mapper.Map(model, checkGroup);
