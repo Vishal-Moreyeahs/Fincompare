@@ -6,6 +6,7 @@ namespace Fincompare.Application.Request.CouponRequest
     {
         public class CreateCouponRequest
         {
+            [Required]
             [MinLength(3)]
             [MaxLength(150)]
             public string CouponName { get; set; } = null!;
