@@ -12,7 +12,7 @@ namespace Fincompare.Application.Request.CouponRequest
 
             [MinLength(3)]
             [MaxLength(35)]
-            [RegularExpression(@"^(Fee|CashBak)_(\d)(_%|_Fix|_First_Free)_(Off|Credit)$", ErrorMessage = "Invalid Coupon Format.")]
+            [RegularExpression(@"^(Fee|CashBak)_(\d+)(_%|_Fix|_First_Free)_(Off|Credit)$", ErrorMessage = "Invalid Coupon Format.")]
             public string? CouponFormat { get; set; }
 
             public bool Status { get; set; } = true;

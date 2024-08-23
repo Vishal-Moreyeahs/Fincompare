@@ -99,7 +99,10 @@ namespace Fincompare.Application.Services
                 var checkGroup = await _unitOfWork.GetRepository<GroupMerchant>().GetById(model.Id);
 
                 var groupMerchants = await _unitOfWork.GetRepository<GroupMerchant>().GetAll();
+                groupMerchants = groupMerchants.Where(x => x.Id != model.Id).ToList();
+
                 var duplicateName = groupMerchants.Any(e => e.GroupMerchantName.Trim() == model.GroupMerchantName.Trim());
+
                 var duplicateEmail = groupMerchants.Any(g =>
                                                     g.GroupCsem == model.GroupCsem ||
                                                     g.GroupEm1 == model.GroupEm1 ||
