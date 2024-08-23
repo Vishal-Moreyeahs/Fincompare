@@ -16,7 +16,14 @@ namespace Fincompare.Api.Controllers
         { 
             _conversionService = conversionService;
         }
-
+        
+        /// <summary>
+        /// This Api for conversion
+        /// </summary>
+        /// <param name="sendCurrency"></param>
+        /// <param name="receiveCurrency"></param>
+        /// <param name="sendAmount"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("{sendCurrency}/{receiveCurrency}/{sendAmount}")]
         public async Task<IActionResult> GetConversionRate(string sendCurrency, string receiveCurrency, double sendAmount)
