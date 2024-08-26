@@ -29,8 +29,8 @@
   <!-- Target to create directories for publishing -->
   <Target Name="CreateDirectories" AfterTargets="Publish">
 	  <!-- Create directories for Windows -->
-	  <Exec Command="if not exist $(PublishDir)wwwroot\ImageJson (mkdir $(PublishDir)wwwroot\CountryLogo)" Condition=" '$(OS)' == 'Windows_NT' " />
-	  <Exec Command="if not exist $(PublishDir)wwwroot\ImageJson (mkdir $(PublishDir)wwwroot\MerchantLogo)" Condition=" '$(OS)' == 'Windows_NT' " />
+	  <Exec Command="if not exist $(PublishDir)wwwroot\CountryLogo (mkdir $(PublishDir)wwwroot\CountryLogo)" Condition=" '$(OS)' == 'Windows_NT' " />
+	  <Exec Command="if not exist $(PublishDir)wwwroot\MerchantLogo (mkdir $(PublishDir)wwwroot\MerchantLogo)" Condition=" '$(OS)' == 'Windows_NT' " />
 	  <!-- Create directories for Unix-based systems -->
 	  <Exec Command="mkdir -p $(PublishDir)/wwwroot/CountryLogo" Condition=" '$(OS)' != 'Windows_NT' " />
 	  <Exec Command="mkdir -p $(PublishDir)/wwwroot/MerchantLogo" Condition=" '$(OS)' != 'Windows_NT' " />
