@@ -161,7 +161,7 @@ namespace Fincompare.Application.Services
                                     {
                                         PayoutInstrumentId = x.PayoutInstrumentId,
                                         PayoutInstrumentName = x.PayoutInstrumentName
-                                    }).DistinctBy(x => x.PayoutInstrumentId).ToList();
+                                    }).DistinctBy(x => x.PayoutInstrumentId).OrderBy(p=>p.PayoutInstrumentId).ToList();
 
                 if (instrumentData.Count > 0)
                 { 

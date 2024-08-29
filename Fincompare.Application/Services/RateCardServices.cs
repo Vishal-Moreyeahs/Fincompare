@@ -44,28 +44,34 @@ namespace Fincompare.Application.Services
                     throw new ApplicationException("Country Currencies not found");
                 }
 
+                //var receiveCurrency = x.Rate_Card.Substring(x.Rate_Card.Length - 3, 3);
+
+
                 var countryWithCurrencies = countryCurrencies.Data.ToList();
 
                 var rateCardRequestModel = rateCards
                                                  .Select(x =>
                                                  {
-                                                     var sendCurrency = x.Rate_Card.Substring(0, 3);
-                                                     var receiveCurrency = x.Rate_Card.Substring(x.Rate_Card.Length - 3, 3);
+                                                     //var sendCurrency = x.Rate_Card.Substring(0, 3).Trim();
+                                                     //var receiveCurrency = x.Rate_Card.Substring(x.Rate_Card.Length - 3, 3).Trim();
+                                                     var sendCurrency = x.Rate_Card.ToString().Trim().Split("/");
+
+
 
                                                      // Find the matching country for sending and receiving currencies
                                                      var sendCountry = countryWithCurrencies
-                                                         .FirstOrDefault(curr => curr.CurrencyIso == sendCurrency);
+                                                         .FirstOrDefault(curr => curr.CurrencyIso.Trim() == sendCurrency[0]);
                                                      var receiveCountry = countryWithCurrencies
-                                                         .FirstOrDefault(curr => curr.CurrencyIso == receiveCurrency);
+                                                         .FirstOrDefault(curr => curr.CurrencyIso.Trim() == sendCurrency[1]);
 
                                                      // Find the rate for the corresponding send and receive currencies
                                                      var countryRate = countryRates
-                                                         .FirstOrDefault(e => e.ReceiveCur == receiveCurrency && e.SendCur == sendCurrency);
+                                                         .FirstOrDefault(e => e.ReceiveCur.Trim() == sendCurrency[1] && e.SendCur.Trim() == sendCurrency[0]);
 
                                                      return new RateCardRequestViewModel
                                                      {
-                                                         SendCurrency3Iso = sendCurrency,
-                                                         ReceiveCurrency3Iso = receiveCurrency,
+                                                         SendCurrency3Iso = sendCurrency[0],
+                                                         ReceiveCurrency3Iso = sendCurrency[1],
                                                          Country3Iso = x.Country3Iso,
                                                          Rate = countryRate?.Rate ?? 0, // If no match found, set Rate to 0
                                                          Status = x.Status,
