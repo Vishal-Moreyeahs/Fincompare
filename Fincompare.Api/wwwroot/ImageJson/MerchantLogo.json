@@ -1,6 +1,33 @@
 [
+
+  //{
+  //  "merchantId": 3,
+  //  "merchantLogo": "MerchantLogo/Botim logo.png"
+  //},
+
+  //{
+  //  "merchantId": 5,
+  //  "merchantLogo": "MerchantLogo/dupay_blue.png"
+  //},
+  //{ 
+  //  "merchantId": 6,
+  //  "merchantLogo": "MerchantLogo/etisalat-logo.png"
+  //},
+
+  //{
+  //  "merchantId": 73,
+  //  "merchantLogo": "MerchantLogo/Remitly.png"
+  //},
+  //{
+  //  "merchantId": 9,
+  //  "merchantLogo": "MerchantLogo/Vance logo.png"
+  //},
   {
-    "merchantId": 1,
+    "merchantId": 178,
+    "merchantLogo": "MerchantLogo/western-union 1.png"
+  },
+  {
+    "merchantId": 184,
     "merchantLogo": "MerchantLogo/ALA logo.png"
   },
   {
@@ -8,35 +35,11 @@
     "merchantLogo": "MerchantLogo/Beyon Money.png"
   },
   {
-    "merchantId": 3,
-    "merchantLogo": "MerchantLogo/Botim logo.png"
-  },
-  {
-    "merchantId": 179,
-    "merchantLogo": "MerchantLogo/careem.png"
-  },
-  {
-    "merchantId": 5,
-    "merchantLogo": "MerchantLogo/dupay_blue.png"
-  },
-  { 
-    "merchantId": 6,
-    "merchantLogo": "MerchantLogo/etisalat-logo.png"
-  },
-  {
     "merchantId": 181,
     "merchantLogo": "MerchantLogo/Lulu money.png"
   },
   {
-    "merchantId": 73,
-    "merchantLogo": "MerchantLogo/Remitly.png"
-  },
-  {
-    "merchantId": 9,
-    "merchantLogo": "MerchantLogo/Vance logo.png"
-  },
-  {
-    "merchantId": 178,
-    "merchantLogo": "MerchantLogo/western-union 1.png"
+    "merchantId": 179,
+    "merchantLogo": "MerchantLogo/careem.png"
   }
 ]

@@ -7,6 +7,7 @@
             public int Id { get; set; }
             public string MerchantName { get; set; }
             public string MerchantLogo { get; set; }
+            public string MerchantShortName {  get; set; }
             public string AffiliateId { get; set; }
             public bool IsPartneredMerchant { get; set; }
             public string RoutingParameters { get; set; }

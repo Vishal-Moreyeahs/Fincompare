@@ -84,7 +84,7 @@ namespace Fincompare.Application.Services
 
                 // Optionally, deserialize the JSON into a C# object
                 var merchants = JsonConvert.DeserializeObject<List<MerchantLogoJson>>(jsonData);
-
+                var getAllMerchant = await _merchantServices.GetAllMerchants(null, null, null, null, null);
 
                 var merchantProducts = new List<MerchantProductComparisonDto>();
                 using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("DBConnection")))
@@ -125,6 +125,7 @@ namespace Fincompare.Application.Services
                                 {
                                     Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                     MerchantName = reader.GetString(reader.GetOrdinal("Merchant_Name")),
+                                    //MerchantShortName = reader.GetString(reader.GetOrdinal("Merchant_ShortName")),
                                     AffiliateId = reader.GetString(reader.GetOrdinal("Affiliate_Id")),
                                     IsPartneredMerchant = reader.GetBoolean(reader.GetOrdinal("IsPartneredMerchant")),
                                     RoutingParameters = reader.GetString(reader.GetOrdinal("Routing_Parameters")),
@@ -190,6 +191,7 @@ namespace Fincompare.Application.Services
                     x.RecipientCommulativeFactor = Math.Round(((bestPriceMerchant - x.RecipientGet) / x.MarketRate), 3);
                     x.TotalCost = Math.Round(((Convert.ToDecimal(sendAmount) * x.MarketRate) - x.RecipientGet) / x.MarketRate, 2) + x.TransferFee;
                     x.MerchantLogo = merchants.Any(m => m.MerchantId == x.Id) ? merchants.Where(z => z.MerchantId == x.Id).Select(z => z.MerchantLogo).FirstOrDefault() : "";
+                    x.MerchantShortName = getAllMerchant.Data.Where(m=>m.Id == x.Id).Select(m=>m.MerchantShortName).FirstOrDefault();
                     x.RoutingParameters = ConvertRoutingParameter(new RoutingParameterModel
                     {
                         AffId = x.AffiliateId,
